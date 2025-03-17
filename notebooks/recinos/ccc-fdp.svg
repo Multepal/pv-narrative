@@ -1,0 +1,1250 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="1808pt" height="2077pt" viewBox="0.00 0.00 1808.16 2077.32">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 2073.32)">
+<title>G</title>
+<polygon fill="white" stroke="none" points="-4,4 -4,-2073.32 1804.16,-2073.32 1804.16,4 -4,4"/>
+<!-- TULANZUIVA -->
+<g id="node1" class="node">
+<title>TULANZUIVA</title>
+<ellipse fill="none" stroke="black" cx="1536.31" cy="-18" rx="73.79" ry="18"/>
+<text text-anchor="middle" x="1536.31" y="-13.8" font-family="Times,serif" font-size="14.00">TULANZUIVA</text>
+</g>
+<!-- IQUIBALAM -->
+<g id="node2" class="node">
+<title>IQUIBALAM</title>
+<ellipse fill="none" stroke="black" cx="1488.66" cy="-189.68" rx="66.29" ry="18"/>
+<text text-anchor="middle" x="1488.66" y="-185.48" font-family="Times,serif" font-size="14.00">IQUIBALAM</text>
+</g>
+<!-- IQUIBALAM&#45;&#45;TULANZUIVA -->
+<g id="edge148" class="edge">
+<title>IQUIBALAM--TULANZUIVA</title>
+<path fill="none" stroke="black" d="M1493.76,-171.31C1502.93,-138.26 1522.1,-69.19 1531.25,-36.24"/>
+</g>
+<!-- TOHIL -->
+<g id="node13" class="node">
+<title>TOHIL</title>
+<ellipse fill="none" stroke="black" cx="1374.34" cy="-205.95" rx="40" ry="18"/>
+<text text-anchor="middle" x="1374.34" y="-201.75" font-family="Times,serif" font-size="14.00">TOHIL</text>
+</g>
+<!-- IQUIBALAM&#45;&#45;TOHIL -->
+<g id="edge16" class="edge">
+<title>IQUIBALAM--TOHIL</title>
+<path fill="none" stroke="black" d="M1429.49,-198.1C1423.82,-198.91 1418.18,-199.71 1412.79,-200.48"/>
+</g>
+<!-- TULAN -->
+<g id="node17" class="node">
+<title>TULAN</title>
+<ellipse fill="none" stroke="black" cx="1363.81" cy="-18.23" rx="43.76" ry="18"/>
+<text text-anchor="middle" x="1363.81" y="-14.03" font-family="Times,serif" font-size="14.00">TULAN</text>
+</g>
+<!-- IQUIBALAM&#45;&#45;TULAN -->
+<g id="edge149" class="edge">
+<title>IQUIBALAM--TULAN</title>
+<path fill="none" stroke="black" d="M1475.53,-171.66C1451.43,-138.56 1400.4,-68.49 1376.57,-35.76"/>
+</g>
+<!-- ORIENTE -->
+<g id="node20" class="node">
+<title>ORIENTE</title>
+<ellipse fill="none" stroke="black" cx="1602.67" cy="-236.74" rx="52.34" ry="18"/>
+<text text-anchor="middle" x="1602.67" y="-232.54" font-family="Times,serif" font-size="14.00">ORIENTE</text>
+</g>
+<!-- IQUIBALAM&#45;&#45;ORIENTE -->
+<g id="edge70" class="edge">
+<title>IQUIBALAM--ORIENTE</title>
+<path fill="none" stroke="black" d="M1525.68,-204.96C1539.46,-210.65 1555.03,-217.07 1568.55,-222.65"/>
+</g>
+<!-- MAHUCUTAH -->
+<g id="node24" class="node">
+<title>MAHUCUTAH</title>
+<ellipse fill="none" stroke="black" cx="1361.14" cy="-396.24" rx="73.81" ry="18"/>
+<text text-anchor="middle" x="1361.14" y="-392.04" font-family="Times,serif" font-size="14.00">MAHUCUTAH</text>
+</g>
+<!-- IQUIBALAM&#45;&#45;MAHUCUTAH -->
+<g id="edge5" class="edge">
+<title>IQUIBALAM--MAHUCUTAH</title>
+<path fill="none" stroke="black" d="M1477.57,-207.65C1453.45,-246.72 1396.47,-339.01 1372.29,-378.17"/>
+</g>
+<!-- TAMUB -->
+<g id="node40" class="node">
+<title>TAMUB</title>
+<ellipse fill="none" stroke="black" cx="1422.66" cy="-548.51" rx="45.91" ry="18"/>
+<text text-anchor="middle" x="1422.66" y="-544.31" font-family="Times,serif" font-size="14.00">TAMUB</text>
+</g>
+<!-- IQUIBALAM&#45;&#45;TAMUB -->
+<g id="edge73" class="edge">
+<title>IQUIBALAM--TAMUB</title>
+<path fill="none" stroke="black" d="M1485.3,-207.97C1473.97,-269.52 1437.33,-468.76 1426.02,-530.26"/>
+</g>
+<!-- TZIQUINAHA -->
+<g id="node43" class="node">
+<title>TZIQUINAHA</title>
+<ellipse fill="none" stroke="black" cx="1626.26" cy="-413.23" rx="71.11" ry="18"/>
+<text text-anchor="middle" x="1626.26" y="-409.03" font-family="Times,serif" font-size="14.00">TZIQUINAHA</text>
+</g>
+<!-- IQUIBALAM&#45;&#45;TZIQUINAHA -->
+<g id="edge147" class="edge">
+<title>IQUIBALAM--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1499.69,-207.6C1525.45,-249.45 1589.37,-353.29 1615.18,-395.23"/>
+</g>
+<!-- XIBALBA -->
+<g id="node3" class="node">
+<title>XIBALBA</title>
+<ellipse fill="none" stroke="black" cx="589.72" cy="-1255.31" rx="53.96" ry="18"/>
+<text text-anchor="middle" x="589.72" y="-1251.11" font-family="Times,serif" font-size="14.00">XIBALBA</text>
+</g>
+<!-- HUNAHPU -->
+<g id="node4" class="node">
+<title>HUNAHPU</title>
+<ellipse fill="none" stroke="black" cx="834.62" cy="-1367.48" rx="58.25" ry="18"/>
+<text text-anchor="middle" x="834.62" y="-1363.28" font-family="Times,serif" font-size="14.00">HUNAHPU</text>
+</g>
+<!-- HUNAHPU&#45;&#45;XIBALBA -->
+<g id="edge7" class="edge">
+<title>HUNAHPU--XIBALBA</title>
+<path fill="none" stroke="black" d="M801.33,-1352.23C754.25,-1330.67 668.76,-1291.52 622.15,-1270.17"/>
+</g>
+<!-- VUCUBCAME -->
+<g id="node5" class="node">
+<title>VUCUBCAME</title>
+<ellipse fill="none" stroke="black" cx="749.39" cy="-1014.76" rx="72.74" ry="18"/>
+<text text-anchor="middle" x="749.39" y="-1010.56" font-family="Times,serif" font-size="14.00">VUCUBCAME</text>
+</g>
+<!-- HUNAHPU&#45;&#45;VUCUBCAME -->
+<g id="edge29" class="edge">
+<title>HUNAHPU--VUCUBCAME</title>
+<path fill="none" stroke="black" d="M830.27,-1349.5C815.69,-1289.14 768.55,-1094.06 753.83,-1033.13"/>
+</g>
+<!-- HUNHUNAHPU -->
+<g id="node7" class="node">
+<title>HUNHUNAHPU</title>
+<ellipse fill="none" stroke="black" cx="968.2" cy="-1237.14" rx="79.17" ry="18"/>
+<text text-anchor="middle" x="968.2" y="-1232.94" font-family="Times,serif" font-size="14.00">HUNHUNAHPU</text>
+</g>
+<!-- HUNAHPU&#45;&#45;HUNHUNAHPU -->
+<g id="edge45" class="edge">
+<title>HUNAHPU--HUNHUNAHPU</title>
+<path fill="none" stroke="black" d="M852.63,-1349.9C878.13,-1325.02 924.47,-1279.8 950.04,-1254.85"/>
+</g>
+<!-- SENORESDEXIBALBA -->
+<g id="node15" class="node">
+<title>SENORESDEXIBALBA</title>
+<ellipse fill="none" stroke="black" cx="558.83" cy="-994.05" rx="109.76" ry="18"/>
+<text text-anchor="middle" x="558.83" y="-989.85" font-family="Times,serif" font-size="14.00">SENORESDEXIBALBA</text>
+</g>
+<!-- HUNAHPU&#45;&#45;SENORESDEXIBALBA -->
+<g id="edge172" class="edge">
+<title>HUNAHPU--SENORESDEXIBALBA</title>
+<path fill="none" stroke="black" d="M821.32,-1349.47C774.73,-1286.38 619.21,-1075.8 572.32,-1012.32"/>
+</g>
+<!-- IXBALANQUE -->
+<g id="node26" class="node">
+<title>IXBALANQUE</title>
+<ellipse fill="none" stroke="black" cx="700.32" cy="-1344.01" rx="74.33" ry="18"/>
+<text text-anchor="middle" x="700.32" y="-1339.81" font-family="Times,serif" font-size="14.00">IXBALANQUE</text>
+</g>
+<!-- HUNAHPU&#45;&#45;IXBALANQUE -->
+<g id="edge1" class="edge">
+<title>HUNAHPU--IXBALANQUE</title>
+<path fill="none" stroke="black" d="M783.46,-1358.54C776.2,-1357.27 768.67,-1355.95 761.24,-1354.66"/>
+</g>
+<!-- SENORES -->
+<g id="node28" class="node">
+<title>SENORES</title>
+<ellipse fill="none" stroke="black" cx="1111.19" cy="-916.62" rx="53.96" ry="18"/>
+<text text-anchor="middle" x="1111.19" y="-912.42" font-family="Times,serif" font-size="14.00">SENORES</text>
+</g>
+<!-- HUNAHPU&#45;&#45;SENORES -->
+<g id="edge26" class="edge">
+<title>HUNAHPU--SENORES</title>
+<path fill="none" stroke="black" d="M845.63,-1349.53C890.04,-1277.14 1055.69,-1007.11 1100.15,-934.63"/>
+</g>
+<!-- VUCUBHUNAHPU -->
+<g id="node29" class="node">
+<title>VUCUBHUNAHPU</title>
+<ellipse fill="none" stroke="black" cx="789.06" cy="-1263.29" rx="92.05" ry="18"/>
+<text text-anchor="middle" x="789.06" y="-1259.09" font-family="Times,serif" font-size="14.00">VUCUBHUNAHPU</text>
+</g>
+<!-- HUNAHPU&#45;&#45;VUCUBHUNAHPU -->
+<g id="edge52" class="edge">
+<title>HUNAHPU--VUCUBHUNAHPU</title>
+<path fill="none" stroke="black" d="M826.68,-1349.33C818.37,-1330.32 805.39,-1300.64 797.06,-1281.58"/>
+</g>
+<!-- ZIPACNA -->
+<g id="node32" class="node">
+<title>ZIPACNA</title>
+<ellipse fill="none" stroke="black" cx="587.78" cy="-1713.44" rx="52.88" ry="18"/>
+<text text-anchor="middle" x="587.78" y="-1709.24" font-family="Times,serif" font-size="14.00">ZIPACNA</text>
+</g>
+<!-- HUNAHPU&#45;&#45;ZIPACNA -->
+<g id="edge102" class="edge">
+<title>HUNAHPU--ZIPACNA</title>
+<path fill="none" stroke="black" d="M822.04,-1385.11C779.7,-1444.46 642.64,-1636.55 600.34,-1695.85"/>
+</g>
+<!-- HUNCAME -->
+<g id="node34" class="node">
+<title>HUNCAME</title>
+<ellipse fill="none" stroke="black" cx="683.46" cy="-1087.19" rx="59.86" ry="18"/>
+<text text-anchor="middle" x="683.46" y="-1082.99" font-family="Times,serif" font-size="14.00">HUNCAME</text>
+</g>
+<!-- HUNAHPU&#45;&#45;HUNCAME -->
+<g id="edge34" class="edge">
+<title>HUNAHPU--HUNCAME</title>
+<path fill="none" stroke="black" d="M824.93,-1349.52C797.7,-1299.01 720.64,-1156.13 693.26,-1105.36"/>
+</g>
+<!-- SENOR -->
+<g id="node36" class="node">
+<title>SENOR</title>
+<ellipse fill="none" stroke="black" cx="811.79" cy="-1113.16" rx="42.7" ry="18"/>
+<text text-anchor="middle" x="811.79" y="-1108.96" font-family="Times,serif" font-size="14.00">SENOR</text>
+</g>
+<!-- HUNAHPU&#45;&#45;SENOR -->
+<g id="edge47" class="edge">
+<title>HUNAHPU--SENOR</title>
+<path fill="none" stroke="black" d="M832.98,-1349.19C828.77,-1302.38 817.67,-1178.63 813.45,-1131.63"/>
+</g>
+<!-- HURACAN -->
+<g id="node38" class="node">
+<title>HURACAN</title>
+<ellipse fill="none" stroke="black" cx="1195.16" cy="-1518.09" rx="58.79" ry="18"/>
+<text text-anchor="middle" x="1195.16" y="-1513.89" font-family="Times,serif" font-size="14.00">HURACAN</text>
+</g>
+<!-- HUNAHPU&#45;&#45;HURACAN -->
+<g id="edge131" class="edge">
+<title>HUNAHPU--HURACAN</title>
+<path fill="none" stroke="black" d="M869.84,-1382.19C938.77,-1410.99 1090.75,-1474.47 1159.79,-1503.31"/>
+</g>
+<!-- VUCUBCAQUIX -->
+<g id="node41" class="node">
+<title>VUCUBCAQUIX</title>
+<ellipse fill="none" stroke="black" cx="430.61" cy="-1643.42" rx="82.39" ry="18"/>
+<text text-anchor="middle" x="430.61" y="-1639.22" font-family="Times,serif" font-size="14.00">VUCUBCAQUIX</text>
+</g>
+<!-- HUNAHPU&#45;&#45;VUCUBCAQUIX -->
+<g id="edge175" class="edge">
+<title>HUNAHPU--VUCUBCAQUIX</title>
+<path fill="none" stroke="black" d="M810.26,-1384.12C738.69,-1433 529.54,-1575.85 456.3,-1625.88"/>
+</g>
+<!-- VUCUBCAME&#45;&#45;XIBALBA -->
+<g id="edge23" class="edge">
+<title>VUCUBCAME--XIBALBA</title>
+<path fill="none" stroke="black" d="M737.39,-1032.84C707.72,-1077.53 631.22,-1192.79 601.64,-1237.35"/>
+</g>
+<!-- VUCUBCAME&#45;&#45;VUCUBHUNAHPU -->
+<g id="edge125" class="edge">
+<title>VUCUBCAME--VUCUBHUNAHPU</title>
+<path fill="none" stroke="black" d="M752.31,-1033.04C759.64,-1079 778.8,-1199 786.14,-1244.99"/>
+</g>
+<!-- IXMUCANE -->
+<g id="node6" class="node">
+<title>IXMUCANE</title>
+<ellipse fill="none" stroke="black" cx="1009.77" cy="-1550.34" rx="63.07" ry="18"/>
+<text text-anchor="middle" x="1009.77" y="-1546.14" font-family="Times,serif" font-size="14.00">IXMUCANE</text>
+</g>
+<!-- IXMUCANE&#45;&#45;XIBALBA -->
+<g id="edge146" class="edge">
+<title>IXMUCANE--XIBALBA</title>
+<path fill="none" stroke="black" d="M985.67,-1533.42C911.41,-1481.26 686.62,-1323.37 613.19,-1271.8"/>
+</g>
+<!-- IXPIYACOC -->
+<g id="node16" class="node">
+<title>IXPIYACOC</title>
+<ellipse fill="none" stroke="black" cx="1166.45" cy="-1761.56" rx="63.62" ry="18"/>
+<text text-anchor="middle" x="1166.45" y="-1757.36" font-family="Times,serif" font-size="14.00">IXPIYACOC</text>
+</g>
+<!-- IXMUCANE&#45;&#45;IXPIYACOC -->
+<g id="edge77" class="edge">
+<title>IXMUCANE--IXPIYACOC</title>
+<path fill="none" stroke="black" d="M1023.12,-1568.35C1052.73,-1608.25 1123.55,-1703.73 1153.12,-1743.6"/>
+</g>
+<!-- IXMUCANE&#45;&#45;VUCUBHUNAHPU -->
+<g id="edge145" class="edge">
+<title>IXMUCANE--VUCUBHUNAHPU</title>
+<path fill="none" stroke="black" d="M995.96,-1532.38C956.32,-1480.83 842.49,-1332.78 802.86,-1281.24"/>
+</g>
+<!-- TEPEU -->
+<g id="node35" class="node">
+<title>TEPEU</title>
+<ellipse fill="none" stroke="black" cx="1353.72" cy="-1664.17" rx="41.08" ry="18"/>
+<text text-anchor="middle" x="1353.72" y="-1659.97" font-family="Times,serif" font-size="14.00">TEPEU</text>
+</g>
+<!-- IXMUCANE&#45;&#45;TEPEU -->
+<g id="edge81" class="edge">
+<title>IXMUCANE--TEPEU</title>
+<path fill="none" stroke="black" d="M1051.6,-1564.18C1120.7,-1587.06 1257.33,-1632.27 1320.39,-1653.14"/>
+</g>
+<!-- HUNHUNAHPU&#45;&#45;XIBALBA -->
+<g id="edge36" class="edge">
+<title>HUNHUNAHPU--XIBALBA</title>
+<path fill="none" stroke="black" d="M890.24,-1240.88C816.55,-1244.42 707.96,-1249.63 643.48,-1252.73"/>
+</g>
+<!-- HUNHUNAHPU&#45;&#45;VUCUBCAME -->
+<g id="edge109" class="edge">
+<title>HUNHUNAHPU--VUCUBCAME</title>
+<path fill="none" stroke="black" d="M950.67,-1219.32C909.69,-1177.68 808.06,-1074.39 767.01,-1032.67"/>
+</g>
+<!-- HUNHUNAHPU&#45;&#45;IXMUCANE -->
+<g id="edge127" class="edge">
+<title>HUNHUNAHPU--IXMUCANE</title>
+<path fill="none" stroke="black" d="M970.62,-1255.33C977.96,-1310.69 999.99,-1476.67 1007.34,-1532.1"/>
+</g>
+<!-- HUNHUNAHPU&#45;&#45;IXBALANQUE -->
+<g id="edge43" class="edge">
+<title>HUNHUNAHPU--IXBALANQUE</title>
+<path fill="none" stroke="black" d="M928.39,-1253.02C877.52,-1273.32 790.03,-1308.22 739.48,-1328.39"/>
+</g>
+<!-- HUNHUNAHPU&#45;&#45;SENORES -->
+<g id="edge169" class="edge">
+<title>HUNHUNAHPU--SENORES</title>
+<path fill="none" stroke="black" d="M976.3,-1218.99C1001.47,-1162.57 1078.14,-990.72 1103.19,-934.57"/>
+</g>
+<!-- HUNHUNAHPU&#45;&#45;VUCUBHUNAHPU -->
+<g id="edge40" class="edge">
+<title>HUNHUNAHPU--VUCUBHUNAHPU</title>
+<path fill="none" stroke="black" d="M900.99,-1246.95C888.78,-1248.73 875.97,-1250.6 863.57,-1252.41"/>
+</g>
+<!-- CHIPICACULHA -->
+<g id="node8" class="node">
+<title>CHIPICACULHA</title>
+<ellipse fill="none" stroke="black" cx="1321.47" cy="-1798.26" rx="82.93" ry="18"/>
+<text text-anchor="middle" x="1321.47" y="-1794.06" font-family="Times,serif" font-size="14.00">CHIPICACULHA</text>
+</g>
+<!-- CHIPICACULHA&#45;&#45;IXMUCANE -->
+<g id="edge195" class="edge">
+<title>CHIPICACULHA--IXMUCANE</title>
+<path fill="none" stroke="black" d="M1299.55,-1780.83C1242.18,-1735.2 1088.12,-1612.66 1031.25,-1567.42"/>
+</g>
+<!-- GUCUMATZ -->
+<g id="node12" class="node">
+<title>GUCUMATZ</title>
+<ellipse fill="none" stroke="black" cx="1353.7" cy="-1302.75" rx="65.76" ry="18"/>
+<text text-anchor="middle" x="1353.7" y="-1298.55" font-family="Times,serif" font-size="14.00">GUCUMATZ</text>
+</g>
+<!-- CHIPICACULHA&#45;&#45;GUCUMATZ -->
+<g id="edge114" class="edge">
+<title>CHIPICACULHA--GUCUMATZ</title>
+<path fill="none" stroke="black" d="M1322.66,-1780.04C1327.71,-1702.34 1347.43,-1399.15 1352.51,-1321.14"/>
+</g>
+<!-- CHIPICACULHA&#45;&#45;IXPIYACOC -->
+<g id="edge193" class="edge">
+<title>CHIPICACULHA--IXPIYACOC</title>
+<path fill="none" stroke="black" d="M1264.63,-1784.8C1248.64,-1781.02 1231.39,-1776.93 1215.87,-1773.26"/>
+</g>
+<!-- RAXACACULHA -->
+<g id="node18" class="node">
+<title>RAXACACULHA</title>
+<ellipse fill="none" stroke="black" cx="1344.39" cy="-2051.32" rx="85.08" ry="18"/>
+<text text-anchor="middle" x="1344.39" y="-2047.12" font-family="Times,serif" font-size="14.00">RAXACACULHA</text>
+</g>
+<!-- CHIPICACULHA&#45;&#45;RAXACACULHA -->
+<g id="edge64" class="edge">
+<title>CHIPICACULHA--RAXACACULHA</title>
+<path fill="none" stroke="black" d="M1323.12,-1816.46C1327.34,-1863.04 1338.49,-1986.18 1342.72,-2032.95"/>
+</g>
+<!-- CHIPICACULHA&#45;&#45;TEPEU -->
+<g id="edge184" class="edge">
+<title>CHIPICACULHA--TEPEU</title>
+<path fill="none" stroke="black" d="M1325.89,-1779.9C1332.06,-1754.22 1343.21,-1707.87 1349.35,-1682.32"/>
+</g>
+<!-- CHIPICACULHA&#45;&#45;HURACAN -->
+<g id="edge44" class="edge">
+<title>CHIPICACULHA--HURACAN</title>
+<path fill="none" stroke="black" d="M1313.18,-1779.88C1290.24,-1728.99 1226.09,-1586.7 1203.31,-1536.17"/>
+</g>
+<!-- CORAZONDELCIELO -->
+<g id="node44" class="node">
+<title>CORAZONDELCIELO</title>
+<ellipse fill="none" stroke="black" cx="1550.48" cy="-1783.7" rx="104.91" ry="18"/>
+<text text-anchor="middle" x="1550.48" y="-1779.5" font-family="Times,serif" font-size="14.00">CORAZONDELCIELO</text>
+</g>
+<!-- CHIPICACULHA&#45;&#45;CORAZONDELCIELO -->
+<g id="edge80" class="edge">
+<title>CHIPICACULHA--CORAZONDELCIELO</title>
+<path fill="none" stroke="black" d="M1401.57,-1793.17C1417.69,-1792.14 1434.81,-1791.05 1451.49,-1789.99"/>
+</g>
+<!-- BALAMACAB -->
+<g id="node9" class="node">
+<title>BALAMACAB</title>
+<ellipse fill="none" stroke="black" cx="1244.74" cy="-367.16" rx="72.74" ry="18"/>
+<text text-anchor="middle" x="1244.74" y="-362.96" font-family="Times,serif" font-size="14.00">BALAMACAB</text>
+</g>
+<!-- BALAMACAB&#45;&#45;TULANZUIVA -->
+<g id="edge150" class="edge">
+<title>BALAMACAB--TULANZUIVA</title>
+<path fill="none" stroke="black" d="M1259.6,-349.36C1309.62,-289.47 1471.51,-95.6 1521.48,-35.76"/>
+</g>
+<!-- BALAMACAB&#45;&#45;IQUIBALAM -->
+<g id="edge11" class="edge">
+<title>BALAMACAB--IQUIBALAM</title>
+<path fill="none" stroke="black" d="M1268.57,-349.82C1315.33,-315.8 1418.55,-240.69 1465.09,-206.83"/>
+</g>
+<!-- CAVEC -->
+<g id="node11" class="node">
+<title>CAVEC</title>
+<ellipse fill="none" stroke="black" cx="1249.54" cy="-638.32" rx="43.77" ry="18"/>
+<text text-anchor="middle" x="1249.54" y="-634.12" font-family="Times,serif" font-size="14.00">CAVEC</text>
+</g>
+<!-- BALAMACAB&#45;&#45;CAVEC -->
+<g id="edge96" class="edge">
+<title>BALAMACAB--CAVEC</title>
+<path fill="none" stroke="black" d="M1245.06,-385.37C1245.94,-434.65 1248.34,-570.23 1249.21,-619.83"/>
+</g>
+<!-- BALAMACAB&#45;&#45;TOHIL -->
+<g id="edge19" class="edge">
+<title>BALAMACAB--TOHIL</title>
+<path fill="none" stroke="black" d="M1259.11,-349.29C1284.28,-317.97 1336.03,-253.6 1360.69,-222.93"/>
+</g>
+<!-- BALAMACAB&#45;&#45;TULAN -->
+<g id="edge151" class="edge">
+<title>BALAMACAB--TULAN</title>
+<path fill="none" stroke="black" d="M1250.98,-348.89C1271.55,-288.59 1337.15,-96.35 1357.63,-36.32"/>
+</g>
+<!-- BALAMACAB&#45;&#45;ORIENTE -->
+<g id="edge62" class="edge">
+<title>BALAMACAB--ORIENTE</title>
+<path fill="none" stroke="black" d="M1286.15,-352.07C1356.72,-326.35 1499.15,-274.46 1566.2,-250.02"/>
+</g>
+<!-- BALAMACAB&#45;&#45;MAHUCUTAH -->
+<g id="edge3" class="edge">
+<title>BALAMACAB--MAHUCUTAH</title>
+<path fill="none" stroke="black" d="M1296.47,-380.08C1300.6,-381.11 1304.77,-382.16 1308.9,-383.19"/>
+</g>
+<!-- BALAMQUITZE -->
+<g id="node27" class="node">
+<title>BALAMQUITZE</title>
+<ellipse fill="none" stroke="black" cx="1466.59" cy="-434.41" rx="80.77" ry="18"/>
+<text text-anchor="middle" x="1466.59" y="-430.21" font-family="Times,serif" font-size="14.00">BALAMQUITZE</text>
+</g>
+<!-- BALAMACAB&#45;&#45;BALAMQUITZE -->
+<g id="edge4" class="edge">
+<title>BALAMACAB--BALAMQUITZE</title>
+<path fill="none" stroke="black" d="M1291.52,-381.34C1328.64,-392.59 1380.36,-408.27 1417.96,-419.67"/>
+</g>
+<!-- BALAMACAB&#45;&#45;SENORES -->
+<g id="edge126" class="edge">
+<title>BALAMACAB--SENORES</title>
+<path fill="none" stroke="black" d="M1240.3,-385.44C1219.98,-469.05 1136.01,-814.52 1115.65,-898.27"/>
+</g>
+<!-- HACAVITZ -->
+<g id="node31" class="node">
+<title>HACAVITZ</title>
+<ellipse fill="none" stroke="black" cx="1334.57" cy="-478.42" rx="60.39" ry="18"/>
+<text text-anchor="middle" x="1334.57" y="-474.22" font-family="Times,serif" font-size="14.00">HACAVITZ</text>
+</g>
+<!-- BALAMACAB&#45;&#45;HACAVITZ -->
+<g id="edge12" class="edge">
+<title>BALAMACAB--HACAVITZ</title>
+<path fill="none" stroke="black" d="M1259.17,-385.03C1275.94,-405.79 1303.43,-439.84 1320.17,-460.58"/>
+</g>
+<!-- QUICHE -->
+<g id="node39" class="node">
+<title>QUICHE</title>
+<ellipse fill="none" stroke="black" cx="1327.68" cy="-743.77" rx="47.51" ry="18"/>
+<text text-anchor="middle" x="1327.68" y="-739.57" font-family="Times,serif" font-size="14.00">QUICHE</text>
+</g>
+<!-- BALAMACAB&#45;&#45;QUICHE -->
+<g id="edge159" class="edge">
+<title>BALAMACAB--QUICHE</title>
+<path fill="none" stroke="black" d="M1248.8,-385.58C1262.88,-449.52 1309.56,-661.49 1323.63,-725.38"/>
+</g>
+<!-- BALAMACAB&#45;&#45;TAMUB -->
+<g id="edge87" class="edge">
+<title>BALAMACAB--TAMUB</title>
+<path fill="none" stroke="black" d="M1262.13,-384.88C1296.4,-419.81 1372.29,-497.17 1405.99,-531.52"/>
+</g>
+<!-- NIHAIB -->
+<g id="node42" class="node">
+<title>NIHAIB</title>
+<ellipse fill="none" stroke="black" cx="1428.03" cy="-786.26" rx="44.83" ry="18"/>
+<text text-anchor="middle" x="1428.03" y="-782.06" font-family="Times,serif" font-size="14.00">NIHAIB</text>
+</g>
+<!-- BALAMACAB&#45;&#45;NIHAIB -->
+<g id="edge138" class="edge">
+<title>BALAMACAB--NIHAIB</title>
+<path fill="none" stroke="black" d="M1252.74,-385.43C1282.98,-454.6 1390.23,-699.84 1420.2,-768.36"/>
+</g>
+<!-- BALAMACAB&#45;&#45;TZIQUINAHA -->
+<g id="edge75" class="edge">
+<title>BALAMACAB--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1310.76,-375.13C1381.14,-383.63 1491.86,-397 1561.69,-405.43"/>
+</g>
+<!-- AHPOP -->
+<g id="node10" class="node">
+<title>AHPOP</title>
+<ellipse fill="none" stroke="black" cx="1354.55" cy="-898.69" rx="42.7" ry="18"/>
+<text text-anchor="middle" x="1354.55" y="-894.49" font-family="Times,serif" font-size="14.00">AHPOP</text>
+</g>
+<!-- AHPOP&#45;&#45;CAVEC -->
+<g id="edge122" class="edge">
+<title>AHPOP--CAVEC</title>
+<path fill="none" stroke="black" d="M1347.33,-880.79C1328.15,-833.23 1276.05,-704.05 1256.81,-656.34"/>
+</g>
+<!-- AHPOP&#45;&#45;GUCUMATZ -->
+<g id="edge165" class="edge">
+<title>AHPOP--GUCUMATZ</title>
+<path fill="none" stroke="black" d="M1354.51,-917.1C1354.37,-984.57 1353.88,-1217.81 1353.74,-1284.69"/>
+</g>
+<!-- COTUHA -->
+<g id="node14" class="node">
+<title>COTUHA</title>
+<ellipse fill="none" stroke="black" cx="1458.38" cy="-1049.54" rx="51.27" ry="18"/>
+<text text-anchor="middle" x="1458.38" y="-1045.34" font-family="Times,serif" font-size="14.00">COTUHA</text>
+</g>
+<!-- AHPOP&#45;&#45;COTUHA -->
+<g id="edge76" class="edge">
+<title>AHPOP--COTUHA</title>
+<path fill="none" stroke="black" d="M1366.66,-916.29C1386.56,-945.2 1425.96,-1002.44 1446.02,-1031.59"/>
+</g>
+<!-- ILOCAB -->
+<g id="node19" class="node">
+<title>ILOCAB</title>
+<ellipse fill="none" stroke="black" cx="1497.89" cy="-679.54" rx="46.98" ry="18"/>
+<text text-anchor="middle" x="1497.89" y="-675.34" font-family="Times,serif" font-size="14.00">ILOCAB</text>
+</g>
+<!-- AHPOP&#45;&#45;ILOCAB -->
+<g id="edge196" class="edge">
+<title>AHPOP--ILOCAB</title>
+<path fill="none" stroke="black" d="M1366.04,-881.13C1392.88,-840.09 1459.45,-738.3 1486.35,-697.19"/>
+</g>
+<!-- AHPOP&#45;&#45;SENORES -->
+<g id="edge48" class="edge">
+<title>AHPOP--SENORES</title>
+<path fill="none" stroke="black" d="M1312.16,-901.81C1271.03,-904.84 1208.51,-909.45 1164.13,-912.72"/>
+</g>
+<!-- AHPOPCAMHA -->
+<g id="node30" class="node">
+<title>AHPOPCAMHA</title>
+<ellipse fill="none" stroke="black" cx="1599.45" cy="-956.94" rx="78.65" ry="18"/>
+<text text-anchor="middle" x="1599.45" y="-952.74" font-family="Times,serif" font-size="14.00">AHPOPCAMHA</text>
+</g>
+<!-- AHPOP&#45;&#45;AHPOPCAMHA -->
+<g id="edge74" class="edge">
+<title>AHPOP--AHPOPCAMHA</title>
+<path fill="none" stroke="black" d="M1392.28,-907.66C1432.93,-917.33 1498.03,-932.82 1544.39,-943.85"/>
+</g>
+<!-- AHPOP&#45;&#45;QUICHE -->
+<g id="edge85" class="edge">
+<title>AHPOP--QUICHE</title>
+<path fill="none" stroke="black" d="M1351.36,-880.31C1346.19,-850.49 1336.03,-791.92 1330.87,-762.12"/>
+</g>
+<!-- AHPOP&#45;&#45;TAMUB -->
+<g id="edge101" class="edge">
+<title>AHPOP--TAMUB</title>
+<path fill="none" stroke="black" d="M1358.11,-880.36C1369.88,-819.84 1407.41,-626.91 1419.13,-566.67"/>
+</g>
+<!-- AHPOP&#45;&#45;NIHAIB -->
+<g id="edge90" class="edge">
+<title>AHPOP--NIHAIB</title>
+<path fill="none" stroke="black" d="M1366.19,-880.88C1379.95,-859.82 1402.71,-825.01 1416.44,-803.99"/>
+</g>
+<!-- CAVEC&#45;&#45;ILOCAB -->
+<g id="edge176" class="edge">
+<title>CAVEC--ILOCAB</title>
+<path fill="none" stroke="black" d="M1290.55,-645.13C1335.74,-652.63 1408.12,-664.64 1454.31,-672.31"/>
+</g>
+<!-- CAVEC&#45;&#45;MAHUCUTAH -->
+<g id="edge183" class="edge">
+<title>CAVEC--MAHUCUTAH</title>
+<path fill="none" stroke="black" d="M1257.75,-620.52C1278.33,-575.86 1332,-459.44 1352.77,-414.4"/>
+</g>
+<!-- CAVEC&#45;&#45;SENORES -->
+<g id="edge163" class="edge">
+<title>CAVEC--SENORES</title>
+<path fill="none" stroke="black" d="M1240.68,-656.16C1215.75,-706.3 1145.22,-848.18 1120.16,-898.58"/>
+</g>
+<!-- CAVEC&#45;&#45;HACAVITZ -->
+<g id="edge186" class="edge">
+<title>CAVEC--HACAVITZ</title>
+<path fill="none" stroke="black" d="M1259.13,-620.29C1275.46,-589.58 1308.49,-527.46 1324.89,-496.63"/>
+</g>
+<!-- CAVEC&#45;&#45;QUICHE -->
+<g id="edge161" class="edge">
+<title>CAVEC--QUICHE</title>
+<path fill="none" stroke="black" d="M1262.44,-655.74C1276.92,-675.27 1300.27,-706.78 1314.76,-726.33"/>
+</g>
+<!-- CAVEC&#45;&#45;TAMUB -->
+<g id="edge174" class="edge">
+<title>CAVEC--TAMUB</title>
+<path fill="none" stroke="black" d="M1276.97,-624.09C1309.1,-607.42 1362.05,-579.95 1394.5,-563.12"/>
+</g>
+<!-- CAVEC&#45;&#45;NIHAIB -->
+<g id="edge55" class="edge">
+<title>CAVEC--NIHAIB</title>
+<path fill="none" stroke="black" d="M1269.32,-654.72C1303.63,-683.16 1373.79,-741.3 1408.16,-769.79"/>
+</g>
+<!-- GUCUMATZ&#45;&#45;IXMUCANE -->
+<g id="edge91" class="edge">
+<title>GUCUMATZ--IXMUCANE</title>
+<path fill="none" stroke="black" d="M1329.79,-1319.96C1266.72,-1365.36 1096.41,-1487.97 1033.52,-1533.24"/>
+</g>
+<!-- GUCUMATZ&#45;&#45;IXPIYACOC -->
+<g id="edge120" class="edge">
+<title>GUCUMATZ--IXPIYACOC</title>
+<path fill="none" stroke="black" d="M1346.25,-1321.02C1316.18,-1394.68 1204.03,-1669.48 1173.93,-1743.24"/>
+</g>
+<!-- GUCUMATZ&#45;&#45;SENORES -->
+<g id="edge144" class="edge">
+<title>GUCUMATZ--SENORES</title>
+<path fill="none" stroke="black" d="M1342.33,-1284.64C1301.6,-1219.78 1163.24,-999.48 1122.54,-934.69"/>
+</g>
+<!-- GUCUMATZ&#45;&#45;TEPEU -->
+<g id="edge59" class="edge">
+<title>GUCUMATZ--TEPEU</title>
+<path fill="none" stroke="black" d="M1353.7,-1321.17C1353.71,-1383.17 1353.71,-1583.85 1353.72,-1645.79"/>
+</g>
+<!-- GUCUMATZ&#45;&#45;HURACAN -->
+<g id="edge95" class="edge">
+<title>GUCUMATZ--HURACAN</title>
+<path fill="none" stroke="black" d="M1340.46,-1320.74C1310.54,-1361.37 1238.03,-1459.86 1208.25,-1500.3"/>
+</g>
+<!-- GUCUMATZ&#45;&#45;QUICHE -->
+<g id="edge94" class="edge">
+<title>GUCUMATZ--QUICHE</title>
+<path fill="none" stroke="black" d="M1352.85,-1284.47C1348.92,-1199.89 1332.49,-847.07 1328.54,-762.19"/>
+</g>
+<!-- GUCUMATZ&#45;&#45;NIHAIB -->
+<g id="edge128" class="edge">
+<title>GUCUMATZ--NIHAIB</title>
+<path fill="none" stroke="black" d="M1356.35,-1284.37C1367.9,-1204.13 1413.82,-885.03 1425.38,-804.69"/>
+</g>
+<!-- TOHIL&#45;&#45;TULANZUIVA -->
+<g id="edge132" class="edge">
+<title>TOHIL--TULANZUIVA</title>
+<path fill="none" stroke="black" d="M1389,-188.94C1419.52,-153.52 1489.66,-72.13 1520.86,-35.93"/>
+</g>
+<!-- TOHIL&#45;&#45;TULAN -->
+<g id="edge134" class="edge">
+<title>TOHIL--TULAN</title>
+<path fill="none" stroke="black" d="M1373.31,-187.61C1371.29,-151.72 1366.86,-72.6 1364.84,-36.65"/>
+</g>
+<!-- TOHIL&#45;&#45;TZIQUINAHA -->
+<g id="edge68" class="edge">
+<title>TOHIL--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1393.69,-221.87C1440,-259.98 1556.97,-356.21 1605.08,-395.8"/>
+</g>
+<!-- COTUHA&#45;&#45;GUCUMATZ -->
+<g id="edge97" class="edge">
+<title>COTUHA--GUCUMATZ</title>
+<path fill="none" stroke="black" d="M1450.85,-1067.75C1431.54,-1114.47 1380.4,-1238.17 1361.16,-1284.7"/>
+</g>
+<!-- COTUHA&#45;&#45;SENORES -->
+<g id="edge88" class="edge">
+<title>COTUHA--SENORES</title>
+<path fill="none" stroke="black" d="M1423.18,-1036.07C1356.89,-1010.69 1214.22,-956.06 1147.27,-930.43"/>
+</g>
+<!-- COTUHA&#45;&#45;QUICHE -->
+<g id="edge153" class="edge">
+<title>COTUHA--QUICHE</title>
+<path fill="none" stroke="black" d="M1450.59,-1031.33C1427.35,-976.94 1358.62,-816.14 1335.43,-761.88"/>
+</g>
+<!-- COTUHA&#45;&#45;NIHAIB -->
+<g id="edge142" class="edge">
+<title>COTUHA--NIHAIB</title>
+<path fill="none" stroke="black" d="M1456.29,-1031.45C1450.75,-983.35 1435.69,-852.73 1430.13,-804.49"/>
+</g>
+<!-- SENORESDEXIBALBA&#45;&#45;XIBALBA -->
+<g id="edge158" class="edge">
+<title>SENORESDEXIBALBA--XIBALBA</title>
+<path fill="none" stroke="black" d="M561,-1012.42C566.68,-1060.39 581.88,-1189.02 587.55,-1236.96"/>
+</g>
+<!-- IXPIYACOC&#45;&#45;TEPEU -->
+<g id="edge130" class="edge">
+<title>IXPIYACOC--TEPEU</title>
+<path fill="none" stroke="black" d="M1197.37,-1745.48C1233.42,-1726.73 1292.42,-1696.05 1326.7,-1678.22"/>
+</g>
+<!-- ILOCAB&#45;&#45;MAHUCUTAH -->
+<g id="edge155" class="edge">
+<title>ILOCAB--MAHUCUTAH</title>
+<path fill="none" stroke="black" d="M1489.13,-661.39C1464.43,-610.22 1394.44,-465.23 1369.83,-414.24"/>
+</g>
+<!-- ILOCAB&#45;&#45;SENORES -->
+<g id="edge135" class="edge">
+<title>ILOCAB--SENORES</title>
+<path fill="none" stroke="black" d="M1472.52,-695.1C1402.7,-737.9 1208.24,-857.12 1137.42,-900.54"/>
+</g>
+<!-- ILOCAB&#45;&#45;QUICHE -->
+<g id="edge89" class="edge">
+<title>ILOCAB--QUICHE</title>
+<path fill="none" stroke="black" d="M1463.85,-692.38C1434.27,-703.55 1391.61,-719.65 1361.95,-730.84"/>
+</g>
+<!-- ILOCAB&#45;&#45;TAMUB -->
+<g id="edge39" class="edge">
+<title>ILOCAB--TAMUB</title>
+<path fill="none" stroke="black" d="M1487.59,-661.6C1473.18,-636.51 1447.18,-591.22 1432.84,-566.24"/>
+</g>
+<!-- ILOCAB&#45;&#45;NIHAIB -->
+<g id="edge119" class="edge">
+<title>ILOCAB--NIHAIB</title>
+<path fill="none" stroke="black" d="M1486.35,-697.16C1473.41,-716.94 1452.53,-748.83 1439.58,-768.61"/>
+</g>
+<!-- ILOCAB&#45;&#45;TZIQUINAHA -->
+<g id="edge140" class="edge">
+<title>ILOCAB--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1506.51,-661.65C1529.84,-613.26 1594.03,-480.1 1617.51,-431.39"/>
+</g>
+<!-- ORIENTE&#45;&#45;TULANZUIVA -->
+<g id="edge168" class="edge">
+<title>ORIENTE--TULANZUIVA</title>
+<path fill="none" stroke="black" d="M1597.13,-218.46C1584.64,-177.29 1554.41,-77.64 1541.89,-36.37"/>
+</g>
+<!-- ORIENTE&#45;&#45;TOHIL -->
+<g id="edge192" class="edge">
+<title>ORIENTE--TOHIL</title>
+<path fill="none" stroke="black" d="M1553.41,-230.09C1511.32,-224.42 1451.62,-216.37 1412.93,-211.16"/>
+</g>
+<!-- ORIENTE&#45;&#45;TAMUB -->
+<g id="edge83" class="edge">
+<title>ORIENTE--TAMUB</title>
+<path fill="none" stroke="black" d="M1592.22,-254.85C1560.33,-310.08 1464.55,-475.96 1432.92,-530.74"/>
+</g>
+<!-- ORIENTE&#45;&#45;TZIQUINAHA -->
+<g id="edge164" class="edge">
+<title>ORIENTE--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1605.11,-254.96C1609.63,-288.78 1619.27,-360.9 1623.81,-394.84"/>
+</g>
+<!-- CORAZONDELATIERRA -->
+<g id="node21" class="node">
+<title>CORAZONDELATIERRA</title>
+<ellipse fill="none" stroke="black" cx="1681.83" cy="-1653.5" rx="118.33" ry="18"/>
+<text text-anchor="middle" x="1681.83" y="-1649.3" font-family="Times,serif" font-size="14.00">CORAZONDELATIERRA</text>
+</g>
+<!-- CORAZONDELATIERRA&#45;&#45;GUCUMATZ -->
+<g id="edge108" class="edge">
+<title>CORAZONDELATIERRA--GUCUMATZ</title>
+<path fill="none" stroke="black" d="M1665.11,-1635.63C1608.82,-1575.46 1426.63,-1380.7 1370.39,-1320.59"/>
+</g>
+<!-- CORAZONDELATIERRA&#45;&#45;HURACAN -->
+<g id="edge103" class="edge">
+<title>CORAZONDELATIERRA--HURACAN</title>
+<path fill="none" stroke="black" d="M1624.09,-1637.44C1525.65,-1610.04 1327.41,-1554.88 1239.21,-1530.34"/>
+</g>
+<!-- CORAZONDELATIERRA&#45;&#45;CORAZONDELCIELO -->
+<g id="edge98" class="edge">
+<title>CORAZONDELATIERRA--CORAZONDELCIELO</title>
+<path fill="none" stroke="black" d="M1663.57,-1671.61C1638.47,-1696.48 1593.6,-1740.96 1568.59,-1765.75"/>
+</g>
+<!-- HUNBATZ -->
+<g id="node22" class="node">
+<title>HUNBATZ</title>
+<ellipse fill="none" stroke="black" cx="128.73" cy="-1440.97" rx="57.17" ry="18"/>
+<text text-anchor="middle" x="128.73" y="-1436.77" font-family="Times,serif" font-size="14.00">HUNBATZ</text>
+</g>
+<!-- HUNBATZ&#45;&#45;XIBALBA -->
+<g id="edge141" class="edge">
+<title>HUNBATZ--XIBALBA</title>
+<path fill="none" stroke="black" d="M164.52,-1426.55C250.83,-1391.79 469.59,-1303.69 554.9,-1269.34"/>
+</g>
+<!-- HUNCHOUEN -->
+<g id="node25" class="node">
+<title>HUNCHOUEN</title>
+<ellipse fill="none" stroke="black" cx="72.19" cy="-1251.03" rx="72.19" ry="18"/>
+<text text-anchor="middle" x="72.19" y="-1246.83" font-family="Times,serif" font-size="14.00">HUNCHOUEN</text>
+</g>
+<!-- HUNBATZ&#45;&#45;HUNCHOUEN -->
+<g id="edge156" class="edge">
+<title>HUNBATZ--HUNCHOUEN</title>
+<path fill="none" stroke="black" d="M123.31,-1422.76C112.53,-1386.54 88.51,-1305.86 77.68,-1269.47"/>
+</g>
+<!-- AHAUQUICHE -->
+<g id="node23" class="node">
+<title>AHAUQUICHE</title>
+<ellipse fill="none" stroke="black" cx="1052.48" cy="-679.42" rx="75.41" ry="18"/>
+<text text-anchor="middle" x="1052.48" y="-675.22" font-family="Times,serif" font-size="14.00">AHAUQUICHE</text>
+</g>
+<!-- AHAUQUICHE&#45;&#45;AHPOP -->
+<g id="edge124" class="edge">
+<title>AHAUQUICHE--AHPOP</title>
+<path fill="none" stroke="black" d="M1076.43,-696.81C1133.65,-738.34 1277.57,-842.81 1332.65,-882.79"/>
+</g>
+<!-- AHAUQUICHE&#45;&#45;CAVEC -->
+<g id="edge136" class="edge">
+<title>AHAUQUICHE--CAVEC</title>
+<path fill="none" stroke="black" d="M1110.01,-667.42C1142.16,-660.72 1181.4,-652.53 1210.06,-646.56"/>
+</g>
+<!-- AHAUQUICHE&#45;&#45;NIHAIB -->
+<g id="edge84" class="edge">
+<title>AHAUQUICHE--NIHAIB</title>
+<path fill="none" stroke="black" d="M1101.57,-693.39C1177.82,-715.08 1323,-756.38 1391.07,-775.75"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;TULANZUIVA -->
+<g id="edge112" class="edge">
+<title>MAHUCUTAH--TULANZUIVA</title>
+<path fill="none" stroke="black" d="M1369.58,-378C1399.25,-313.95 1498.42,-99.82 1527.95,-36.06"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;TOHIL -->
+<g id="edge15" class="edge">
+<title>MAHUCUTAH--TOHIL</title>
+<path fill="none" stroke="black" d="M1362.4,-378C1364.92,-341.72 1370.53,-260.89 1373.05,-224.42"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;TULAN -->
+<g id="edge113" class="edge">
+<title>MAHUCUTAH--TULAN</title>
+<path fill="none" stroke="black" d="M1361.27,-377.75C1361.72,-313.57 1363.22,-100.81 1363.68,-36.69"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;ORIENTE -->
+<g id="edge53" class="edge">
+<title>MAHUCUTAH--ORIENTE</title>
+<path fill="none" stroke="black" d="M1386.98,-379.17C1433.84,-348.23 1532.19,-283.28 1578.09,-252.97"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;SENORES -->
+<g id="edge106" class="edge">
+<title>MAHUCUTAH--SENORES</title>
+<path fill="none" stroke="black" d="M1352.39,-414.46C1313.72,-494.96 1158.39,-818.35 1119.87,-898.55"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;QUICHE -->
+<g id="edge171" class="edge">
+<title>MAHUCUTAH--QUICHE</title>
+<path fill="none" stroke="black" d="M1359.38,-414.44C1353.62,-474.35 1335.26,-665.07 1329.46,-725.33"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;TAMUB -->
+<g id="edge65" class="edge">
+<title>MAHUCUTAH--TAMUB</title>
+<path fill="none" stroke="black" d="M1368.56,-414.61C1380.45,-444.03 1403.62,-501.39 1415.4,-530.55"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;NIHAIB -->
+<g id="edge187" class="edge">
+<title>MAHUCUTAH--NIHAIB</title>
+<path fill="none" stroke="black" d="M1364.27,-414.53C1375.51,-480.04 1413.68,-702.57 1424.9,-768.01"/>
+</g>
+<!-- MAHUCUTAH&#45;&#45;TZIQUINAHA -->
+<g id="edge61" class="edge">
+<title>MAHUCUTAH--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1432.88,-400.84C1471.53,-403.31 1518.98,-406.35 1557.21,-408.8"/>
+</g>
+<!-- HUNCHOUEN&#45;&#45;XIBALBA -->
+<g id="edge139" class="edge">
+<title>HUNCHOUEN--XIBALBA</title>
+<path fill="none" stroke="black" d="M144.7,-1251.63C249.71,-1252.5 441.79,-1254.09 535.46,-1254.86"/>
+</g>
+<!-- IXBALANQUE&#45;&#45;XIBALBA -->
+<g id="edge8" class="edge">
+<title>IXBALANQUE--XIBALBA</title>
+<path fill="none" stroke="black" d="M678.47,-1326.49C658.82,-1310.74 630.17,-1287.75 610.77,-1272.2"/>
+</g>
+<!-- IXBALANQUE&#45;&#45;VUCUBCAME -->
+<g id="edge25" class="edge">
+<title>IXBALANQUE--VUCUBCAME</title>
+<path fill="none" stroke="black" d="M703.03,-1325.84C711.6,-1268.28 738.12,-1090.36 746.69,-1032.88"/>
+</g>
+<!-- IXBALANQUE&#45;&#45;SENORESDEXIBALBA -->
+<g id="edge189" class="edge">
+<title>IXBALANQUE--SENORESDEXIBALBA</title>
+<path fill="none" stroke="black" d="M692.91,-1325.69C668.46,-1265.21 590.51,-1072.4 566.17,-1012.19"/>
+</g>
+<!-- IXBALANQUE&#45;&#45;SENORES -->
+<g id="edge35" class="edge">
+<title>IXBALANQUE--SENORES</title>
+<path fill="none" stroke="black" d="M717.45,-1326.19C784.43,-1256.52 1028.14,-1003.02 1094.44,-934.05"/>
+</g>
+<!-- IXBALANQUE&#45;&#45;VUCUBHUNAHPU -->
+<g id="edge60" class="edge">
+<title>IXBALANQUE--VUCUBHUNAHPU</title>
+<path fill="none" stroke="black" d="M719.57,-1326.5C734.26,-1313.14 754.41,-1294.81 769.23,-1281.33"/>
+</g>
+<!-- IXBALANQUE&#45;&#45;ZIPACNA -->
+<g id="edge182" class="edge">
+<title>IXBALANQUE--ZIPACNA</title>
+<path fill="none" stroke="black" d="M694.74,-1362.33C675.53,-1425.37 612.32,-1632.91 593.27,-1695.45"/>
+</g>
+<!-- IXBALANQUE&#45;&#45;SENOR -->
+<g id="edge56" class="edge">
+<title>IXBALANQUE--SENOR</title>
+<path fill="none" stroke="black" d="M709.06,-1325.9C729.9,-1282.74 782.29,-1174.26 803.08,-1131.19"/>
+</g>
+<!-- IXBALANQUE&#45;&#45;VUCUBCAQUIX -->
+<g id="edge160" class="edge">
+<title>IXBALANQUE--VUCUBCAQUIX</title>
+<path fill="none" stroke="black" d="M684.25,-1361.84C636.4,-1414.97 495.12,-1571.81 446.93,-1625.3"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;TULANZUIVA -->
+<g id="edge111" class="edge">
+<title>BALAMQUITZE--TULANZUIVA</title>
+<path fill="none" stroke="black" d="M1469.68,-415.98C1481.22,-347.04 1521.78,-104.8 1533.26,-36.22"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;IQUIBALAM -->
+<g id="edge6" class="edge">
+<title>BALAMQUITZE--IQUIBALAM</title>
+<path fill="none" stroke="black" d="M1468.25,-416.02C1472.35,-370.55 1482.92,-253.29 1487.01,-207.96"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;CAVEC -->
+<g id="edge121" class="edge">
+<title>BALAMQUITZE--CAVEC</title>
+<path fill="none" stroke="black" d="M1447.71,-452.15C1406.25,-491.1 1307.73,-583.66 1267.31,-621.63"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;TOHIL -->
+<g id="edge14" class="edge">
+<title>BALAMQUITZE--TOHIL</title>
+<path fill="none" stroke="black" d="M1459.2,-416.1C1441.88,-373.22 1398.86,-266.69 1381.64,-224.03"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;TULAN -->
+<g id="edge110" class="edge">
+<title>BALAMQUITZE--TULAN</title>
+<path fill="none" stroke="black" d="M1462.04,-415.99C1445.02,-347.09 1385.23,-104.98 1368.3,-36.44"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;ILOCAB -->
+<g id="edge129" class="edge">
+<title>BALAMQUITZE--ILOCAB</title>
+<path fill="none" stroke="black" d="M1468.94,-452.84C1474.76,-498.38 1489.75,-615.83 1495.55,-661.24"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;ORIENTE -->
+<g id="edge54" class="edge">
+<title>BALAMQUITZE--ORIENTE</title>
+<path fill="none" stroke="black" d="M1479.15,-416.17C1505.14,-378.42 1564.55,-292.12 1590.34,-254.65"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;MAHUCUTAH -->
+<g id="edge2" class="edge">
+<title>BALAMQUITZE--MAHUCUTAH</title>
+<path fill="none" stroke="black" d="M1423.39,-418.78C1416.68,-416.35 1409.76,-413.84 1403.07,-411.42"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;SENORES -->
+<g id="edge118" class="edge">
+<title>BALAMQUITZE--SENORES</title>
+<path fill="none" stroke="black" d="M1453.31,-452.44C1397.23,-528.52 1180.2,-823 1124.36,-898.77"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;HACAVITZ -->
+<g id="edge10" class="edge">
+<title>BALAMQUITZE--HACAVITZ</title>
+<path fill="none" stroke="black" d="M1420.79,-449.68C1406.04,-454.59 1389.81,-460.01 1375.44,-464.79"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;QUICHE -->
+<g id="edge143" class="edge">
+<title>BALAMQUITZE--QUICHE</title>
+<path fill="none" stroke="black" d="M1458.52,-452.38C1433.97,-507.06 1360.35,-671.01 1335.77,-725.75"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;TAMUB -->
+<g id="edge58" class="edge">
+<title>BALAMQUITZE--TAMUB</title>
+<path fill="none" stroke="black" d="M1459.53,-452.75C1451.29,-474.16 1437.73,-509.37 1429.56,-530.6"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;NIHAIB -->
+<g id="edge137" class="edge">
+<title>BALAMQUITZE--NIHAIB</title>
+<path fill="none" stroke="black" d="M1464.57,-452.84C1457.91,-513.64 1436.66,-707.49 1430.03,-768.02"/>
+</g>
+<!-- BALAMQUITZE&#45;&#45;TZIQUINAHA -->
+<g id="edge46" class="edge">
+<title>BALAMQUITZE--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1536.63,-425.12C1545.34,-423.96 1554.21,-422.79 1562.82,-421.65"/>
+</g>
+<!-- SENORES&#45;&#45;XIBALBA -->
+<g id="edge18" class="edge">
+<title>SENORES--XIBALBA</title>
+<path fill="none" stroke="black" d="M1086.04,-932.96C997.85,-990.24 703.2,-1181.61 614.92,-1238.94"/>
+</g>
+<!-- SENORES&#45;&#45;VUCUBCAME -->
+<g id="edge33" class="edge">
+<title>SENORES--VUCUBCAME</title>
+<path fill="none" stroke="black" d="M1068.98,-928.07C1001.78,-946.3 870.77,-981.84 799.12,-1001.27"/>
+</g>
+<!-- SENORES&#45;&#45;SENORESDEXIBALBA -->
+<g id="edge115" class="edge">
+<title>SENORES--SENORESDEXIBALBA</title>
+<path fill="none" stroke="black" d="M1061.2,-923.63C966.4,-936.92 759.56,-965.91 643.01,-982.25"/>
+</g>
+<!-- SENORES&#45;&#45;VUCUBHUNAHPU -->
+<g id="edge133" class="edge">
+<title>SENORES--VUCUBHUNAHPU</title>
+<path fill="none" stroke="black" d="M1095.22,-933.81C1040.63,-992.56 861.79,-1185.02 805.91,-1245.17"/>
+</g>
+<!-- SENORES&#45;&#45;TAMUB -->
+<g id="edge100" class="edge">
+<title>SENORES--TAMUB</title>
+<path fill="none" stroke="black" d="M1126.22,-898.87C1179.08,-836.4 1356.1,-627.18 1408.15,-565.66"/>
+</g>
+<!-- VUCUBHUNAHPU&#45;&#45;XIBALBA -->
+<g id="edge41" class="edge">
+<title>VUCUBHUNAHPU--XIBALBA</title>
+<path fill="none" stroke="black" d="M698.43,-1259.66C679.71,-1258.92 660.57,-1258.15 643.66,-1257.47"/>
+</g>
+<!-- AHPOPCAMHA&#45;&#45;COTUHA -->
+<g id="edge179" class="edge">
+<title>AHPOPCAMHA--COTUHA</title>
+<path fill="none" stroke="black" d="M1572.92,-974.36C1547.06,-991.33 1508.06,-1016.93 1482.91,-1033.44"/>
+</g>
+<!-- AHPOPCAMHA&#45;&#45;SENORES -->
+<g id="edge78" class="edge">
+<title>AHPOPCAMHA--SENORES</title>
+<path fill="none" stroke="black" d="M1525.03,-950.8C1425.32,-942.56 1250.86,-928.16 1163.77,-920.96"/>
+</g>
+<!-- AHPOPCAMHA&#45;&#45;QUICHE -->
+<g id="edge107" class="edge">
+<title>AHPOPCAMHA--QUICHE</title>
+<path fill="none" stroke="black" d="M1577.21,-939.5C1525.74,-899.12 1399,-799.7 1348.72,-760.27"/>
+</g>
+<!-- AHPOPCAMHA&#45;&#45;NIHAIB -->
+<g id="edge181" class="edge">
+<title>AHPOPCAMHA--NIHAIB</title>
+<path fill="none" stroke="black" d="M1581.43,-939C1548.16,-905.88 1477.55,-835.56 1445.05,-803.21"/>
+</g>
+<!-- HACAVITZ&#45;&#45;IQUIBALAM -->
+<g id="edge13" class="edge">
+<title>HACAVITZ--IQUIBALAM</title>
+<path fill="none" stroke="black" d="M1344.21,-460.35C1371.88,-408.5 1451.36,-259.58 1479.03,-207.74"/>
+</g>
+<!-- HACAVITZ&#45;&#45;TOHIL -->
+<g id="edge17" class="edge">
+<title>HACAVITZ--TOHIL</title>
+<path fill="none" stroke="black" d="M1337.24,-460.12C1344.49,-410.48 1364.45,-273.72 1371.68,-224.17"/>
+</g>
+<!-- HACAVITZ&#45;&#45;ILOCAB -->
+<g id="edge191" class="edge">
+<title>HACAVITZ--ILOCAB</title>
+<path fill="none" stroke="black" d="M1349.06,-496.26C1380.14,-534.53 1452.83,-624.05 1483.66,-662.02"/>
+</g>
+<!-- HACAVITZ&#45;&#45;ORIENTE -->
+<g id="edge116" class="edge">
+<title>HACAVITZ--ORIENTE</title>
+<path fill="none" stroke="black" d="M1353.85,-461.03C1403.32,-416.44 1534.29,-298.38 1583.57,-253.96"/>
+</g>
+<!-- HACAVITZ&#45;&#45;MAHUCUTAH -->
+<g id="edge9" class="edge">
+<title>HACAVITZ--MAHUCUTAH</title>
+<path fill="none" stroke="black" d="M1340.47,-460.18C1344.87,-446.56 1350.86,-428.03 1355.26,-414.43"/>
+</g>
+<!-- HACAVITZ&#45;&#45;SENORES -->
+<g id="edge82" class="edge">
+<title>HACAVITZ--SENORES</title>
+<path fill="none" stroke="black" d="M1325.26,-496.69C1288.84,-568.12 1156.35,-828.04 1120.3,-898.76"/>
+</g>
+<!-- HACAVITZ&#45;&#45;QUICHE -->
+<g id="edge104" class="edge">
+<title>HACAVITZ--QUICHE</title>
+<path fill="none" stroke="black" d="M1334.1,-496.65C1332.84,-545.13 1329.42,-676.78 1328.16,-725.4"/>
+</g>
+<!-- HACAVITZ&#45;&#45;TAMUB -->
+<g id="edge57" class="edge">
+<title>HACAVITZ--TAMUB</title>
+<path fill="none" stroke="black" d="M1355.9,-495.38C1369.95,-506.57 1388.25,-521.13 1402.14,-532.18"/>
+</g>
+<!-- HACAVITZ&#45;&#45;NIHAIB -->
+<g id="edge167" class="edge">
+<title>HACAVITZ--NIHAIB</title>
+<path fill="none" stroke="black" d="M1340.14,-496.75C1356.76,-551.5 1405.91,-713.4 1422.49,-768.02"/>
+</g>
+<!-- HACAVITZ&#45;&#45;TZIQUINAHA -->
+<g id="edge38" class="edge">
+<title>HACAVITZ--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1383.39,-467.5C1435.62,-455.83 1518.21,-437.37 1572.32,-425.28"/>
+</g>
+<!-- BALAM -->
+<g id="node33" class="node">
+<title>BALAM</title>
+<ellipse fill="none" stroke="black" cx="1208.17" cy="-111.7" rx="45.91" ry="18"/>
+<text text-anchor="middle" x="1208.17" y="-107.5" font-family="Times,serif" font-size="14.00">BALAM</text>
+</g>
+<!-- BALAM&#45;&#45;BALAMACAB -->
+<g id="edge194" class="edge">
+<title>BALAM--BALAMACAB</title>
+<path fill="none" stroke="black" d="M1210.8,-130.07C1217.55,-177.2 1235.41,-302 1242.14,-348.95"/>
+</g>
+<!-- BALAM&#45;&#45;MAHUCUTAH -->
+<g id="edge99" class="edge">
+<title>BALAM--MAHUCUTAH</title>
+<path fill="none" stroke="black" d="M1217.74,-129.5C1245.14,-180.48 1323.73,-326.66 1351.37,-378.08"/>
+</g>
+<!-- BALAM&#45;&#45;BALAMQUITZE -->
+<g id="edge188" class="edge">
+<title>BALAM--BALAMQUITZE</title>
+<path fill="none" stroke="black" d="M1222.06,-129.05C1266.83,-184.95 1407,-360 1452.31,-416.58"/>
+</g>
+<!-- BALAM&#45;&#45;HACAVITZ -->
+<g id="edge178" class="edge">
+<title>BALAM--HACAVITZ</title>
+<path fill="none" stroke="black" d="M1214.44,-129.88C1235.96,-192.32 1306.69,-397.52 1328.27,-460.12"/>
+</g>
+<!-- HUNCAME&#45;&#45;XIBALBA -->
+<g id="edge20" class="edge">
+<title>HUNCAME--XIBALBA</title>
+<path fill="none" stroke="black" d="M673.43,-1105.18C655.43,-1137.46 617.87,-1204.83 599.82,-1237.2"/>
+</g>
+<!-- HUNCAME&#45;&#45;VUCUBCAME -->
+<g id="edge24" class="edge">
+<title>HUNCAME--VUCUBCAME</title>
+<path fill="none" stroke="black" d="M699.42,-1069.66C709.63,-1058.44 722.85,-1043.92 733.12,-1032.64"/>
+</g>
+<!-- HUNCAME&#45;&#45;HUNHUNAHPU -->
+<g id="edge105" class="edge">
+<title>HUNCAME--HUNHUNAHPU</title>
+<path fill="none" stroke="black" d="M713.66,-1103.09C767.77,-1131.58 880.72,-1191.07 936.14,-1220.25"/>
+</g>
+<!-- HUNCAME&#45;&#45;IXBALANQUE -->
+<g id="edge27" class="edge">
+<title>HUNCAME--IXBALANQUE</title>
+<path fill="none" stroke="black" d="M684.67,-1105.66C687.78,-1153.04 696.02,-1278.51 699.12,-1325.71"/>
+</g>
+<!-- HUNCAME&#45;&#45;SENORES -->
+<g id="edge30" class="edge">
+<title>HUNCAME--SENORES</title>
+<path fill="none" stroke="black" d="M719.93,-1072.65C801.14,-1040.26 996.03,-962.55 1076.02,-930.65"/>
+</g>
+<!-- HUNCAME&#45;&#45;VUCUBHUNAHPU -->
+<g id="edge173" class="edge">
+<title>HUNCAME--VUCUBHUNAHPU</title>
+<path fill="none" stroke="black" d="M694.37,-1105.37C714.6,-1139.12 757.75,-1211.07 778.06,-1244.94"/>
+</g>
+<!-- HUNCAME&#45;&#45;SENOR -->
+<g id="edge79" class="edge">
+<title>HUNCAME--SENOR</title>
+<path fill="none" stroke="black" d="M733.81,-1097.38C746.87,-1100.02 760.73,-1102.83 773.09,-1105.33"/>
+</g>
+<!-- SENOR&#45;&#45;XIBALBA -->
+<g id="edge93" class="edge">
+<title>SENOR--XIBALBA</title>
+<path fill="none" stroke="black" d="M788.02,-1128.38C745.84,-1155.38 658.26,-1211.44 615.01,-1239.12"/>
+</g>
+<!-- SENOR&#45;&#45;VUCUBCAME -->
+<g id="edge67" class="edge">
+<title>SENOR--VUCUBCAME</title>
+<path fill="none" stroke="black" d="M800.63,-1095.57C789.42,-1077.88 772.2,-1050.74 760.87,-1032.87"/>
+</g>
+<!-- SENOR&#45;&#45;SENORES -->
+<g id="edge63" class="edge">
+<title>SENOR--SENORES</title>
+<path fill="none" stroke="black" d="M835.28,-1097.74C890.84,-1061.27 1029.88,-970 1086.56,-932.8"/>
+</g>
+<!-- AVILIX -->
+<g id="node37" class="node">
+<title>AVILIX</title>
+<ellipse fill="none" stroke="black" cx="1221.7" cy="-446.05" rx="44.29" ry="18"/>
+<text text-anchor="middle" x="1221.7" y="-441.85" font-family="Times,serif" font-size="14.00">AVILIX</text>
+</g>
+<!-- AVILIX&#45;&#45;IQUIBALAM -->
+<g id="edge28" class="edge">
+<title>AVILIX--IQUIBALAM</title>
+<path fill="none" stroke="black" d="M1239.22,-429.23C1287.36,-383 1421.34,-254.33 1470.38,-207.24"/>
+</g>
+<!-- AVILIX&#45;&#45;BALAMACAB -->
+<g id="edge37" class="edge">
+<title>AVILIX--BALAMACAB</title>
+<path fill="none" stroke="black" d="M1227.05,-427.75C1230.77,-415 1235.71,-398.08 1239.43,-385.35"/>
+</g>
+<!-- AVILIX&#45;&#45;TOHIL -->
+<g id="edge22" class="edge">
+<title>AVILIX--TOHIL</title>
+<path fill="none" stroke="black" d="M1232.92,-428.39C1261.15,-383.99 1334.85,-268.06 1363.1,-223.63"/>
+</g>
+<!-- AVILIX&#45;&#45;MAHUCUTAH -->
+<g id="edge32" class="edge">
+<title>AVILIX--MAHUCUTAH</title>
+<path fill="none" stroke="black" d="M1255.45,-433.99C1274.48,-427.2 1298.41,-418.65 1318.7,-411.4"/>
+</g>
+<!-- AVILIX&#45;&#45;BALAMQUITZE -->
+<g id="edge31" class="edge">
+<title>AVILIX--BALAMQUITZE</title>
+<path fill="none" stroke="black" d="M1266.05,-443.94C1299.82,-442.34 1347.19,-440.09 1387.41,-438.18"/>
+</g>
+<!-- AVILIX&#45;&#45;SENORES -->
+<g id="edge123" class="edge">
+<title>AVILIX--SENORES</title>
+<path fill="none" stroke="black" d="M1217.44,-464.21C1199.87,-539.03 1133.16,-823.07 1115.51,-898.26"/>
+</g>
+<!-- AVILIX&#45;&#45;HACAVITZ -->
+<g id="edge21" class="edge">
+<title>AVILIX--HACAVITZ</title>
+<path fill="none" stroke="black" d="M1258.35,-456.56C1268.65,-459.51 1279.95,-462.75 1290.63,-465.81"/>
+</g>
+<!-- AVILIX&#45;&#45;TAMUB -->
+<g id="edge86" class="edge">
+<title>AVILIX--TAMUB</title>
+<path fill="none" stroke="black" d="M1249.64,-460.29C1287.82,-479.76 1355.92,-514.48 1394.31,-534.06"/>
+</g>
+<!-- AVILIX&#45;&#45;TZIQUINAHA -->
+<g id="edge71" class="edge">
+<title>AVILIX--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1265.38,-442.5C1335.77,-436.79 1474.82,-425.51 1558.26,-418.74"/>
+</g>
+<!-- HURACAN&#45;&#45;IXMUCANE -->
+<g id="edge117" class="edge">
+<title>HURACAN--IXMUCANE</title>
+<path fill="none" stroke="black" d="M1143.52,-1527.07C1118.77,-1531.38 1089.12,-1536.53 1064.04,-1540.9"/>
+</g>
+<!-- HURACAN&#45;&#45;IXPIYACOC -->
+<g id="edge154" class="edge">
+<title>HURACAN--IXPIYACOC</title>
+<path fill="none" stroke="black" d="M1193,-1536.39C1187.67,-1581.62 1173.91,-1698.28 1168.59,-1743.38"/>
+</g>
+<!-- HURACAN&#45;&#45;RAXACACULHA -->
+<g id="edge51" class="edge">
+<title>HURACAN--RAXACACULHA</title>
+<path fill="none" stroke="black" d="M1200.29,-1536.44C1223.25,-1618.48 1316.35,-1951.16 1339.27,-2033.04"/>
+</g>
+<!-- HURACAN&#45;&#45;IXBALANQUE -->
+<g id="edge157" class="edge">
+<title>HURACAN--IXBALANQUE</title>
+<path fill="none" stroke="black" d="M1155.91,-1504.28C1064.48,-1472.12 837.84,-1392.39 743.06,-1359.05"/>
+</g>
+<!-- HURACAN&#45;&#45;SENORES -->
+<g id="edge180" class="edge">
+<title>HURACAN--SENORES</title>
+<path fill="none" stroke="black" d="M1192.6,-1499.76C1180.16,-1410.67 1126.12,-1023.58 1113.73,-934.81"/>
+</g>
+<!-- HURACAN&#45;&#45;TEPEU -->
+<g id="edge177" class="edge">
+<title>HURACAN--TEPEU</title>
+<path fill="none" stroke="black" d="M1213.97,-1535.42C1244.81,-1563.84 1305.72,-1619.95 1335.9,-1647.76"/>
+</g>
+<!-- QUICHE&#45;&#45;SENORES -->
+<g id="edge50" class="edge">
+<title>QUICHE--SENORES</title>
+<path fill="none" stroke="black" d="M1306.92,-760.34C1265.65,-793.3 1173.69,-866.72 1132.21,-899.84"/>
+</g>
+<!-- QUICHE&#45;&#45;TAMUB -->
+<g id="edge66" class="edge">
+<title>QUICHE--TAMUB</title>
+<path fill="none" stroke="black" d="M1336.45,-725.75C1354.54,-688.55 1395.84,-603.65 1413.92,-566.49"/>
+</g>
+<!-- QUICHE&#45;&#45;TZIQUINAHA -->
+<g id="edge166" class="edge">
+<title>QUICHE--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1343.32,-726.46C1394.67,-669.61 1557.89,-488.92 1610.06,-431.16"/>
+</g>
+<!-- TAMUB&#45;&#45;TOHIL -->
+<g id="edge92" class="edge">
+<title>TAMUB--TOHIL</title>
+<path fill="none" stroke="black" d="M1420.06,-530.1C1411.65,-470.48 1385.23,-283.2 1376.89,-224.05"/>
+</g>
+<!-- TAMUB&#45;&#45;TZIQUINAHA -->
+<g id="edge49" class="edge">
+<title>TAMUB--TZIQUINAHA</title>
+<path fill="none" stroke="black" d="M1446.41,-532.73C1484.91,-507.15 1560.63,-456.84 1600.42,-430.4"/>
+</g>
+<!-- VUCUBCAQUIX&#45;&#45;ZIPACNA -->
+<g id="edge152" class="edge">
+<title>VUCUBCAQUIX--ZIPACNA</title>
+<path fill="none" stroke="black" d="M467.46,-1659.84C494.04,-1671.68 529.61,-1687.53 555.17,-1698.91"/>
+</g>
+<!-- NIHAIB&#45;&#45;SENORES -->
+<g id="edge69" class="edge">
+<title>NIHAIB--SENORES</title>
+<path fill="none" stroke="black" d="M1396.2,-799.36C1336.26,-824.02 1207.11,-877.16 1145.39,-902.55"/>
+</g>
+<!-- NIHAIB&#45;&#45;QUICHE -->
+<g id="edge185" class="edge">
+<title>NIHAIB--QUICHE</title>
+<path fill="none" stroke="black" d="M1396.83,-773.05C1385.09,-768.08 1371.73,-762.42 1359.9,-757.41"/>
+</g>
+<!-- NIHAIB&#45;&#45;TAMUB -->
+<g id="edge162" class="edge">
+<title>NIHAIB--TAMUB</title>
+<path fill="none" stroke="black" d="M1427.62,-768C1426.62,-723.75 1424.07,-611.16 1423.07,-566.84"/>
+</g>
+<!-- CORAZONDELCIELO&#45;&#45;GUCUMATZ -->
+<g id="edge72" class="edge">
+<title>CORAZONDELCIELO--GUCUMATZ</title>
+<path fill="none" stroke="black" d="M1543,-1765.43C1511.83,-1689.25 1392.37,-1397.25 1361.19,-1321.03"/>
+</g>
+<!-- CORAZONDELCIELO&#45;&#45;RAXACACULHA -->
+<g id="edge190" class="edge">
+<title>CORAZONDELCIELO--RAXACACULHA</title>
+<path fill="none" stroke="black" d="M1536.63,-1801.67C1499.09,-1850.43 1395.64,-1984.76 1358.17,-2033.42"/>
+</g>
+<!-- CORAZONDELCIELO&#45;&#45;TEPEU -->
+<g id="edge170" class="edge">
+<title>CORAZONDELCIELO--TEPEU</title>
+<path fill="none" stroke="black" d="M1521.44,-1766.06C1482.64,-1742.49 1414.55,-1701.13 1378.2,-1679.05"/>
+</g>
+<!-- CORAZONDELCIELO&#45;&#45;HURACAN -->
+<g id="edge42" class="edge">
+<title>CORAZONDELCIELO--HURACAN</title>
+<path fill="none" stroke="black" d="M1526.61,-1765.86C1461.57,-1717.24 1281.81,-1582.86 1217.99,-1535.16"/>
+</g>
+</g>
+</svg>
