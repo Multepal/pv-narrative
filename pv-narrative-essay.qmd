@@ -1,0 +1,12 @@
+---
+title: "The Narrative Structure of the Popol Wuj"
+author: "Rafael C. Alvarado"
+format: pdf
+editor: visual
+---
+
+```{r}
+
+tema_seq <- read_csv("notebooks/ximenez/recinos-TEMA_SEQ.csv", show_col_types = F)
+
+```
