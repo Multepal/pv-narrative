@@ -67,5 +67,5 @@ class HAC:
     def plot(self):
         self.get_sims()
         self.get_tree()
-        self.plot_tree()
+        self.plot_tree();
         # self.get_cluster_labels()

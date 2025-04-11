@@ -1,0 +1,66 @@
+{
+    "CHRQ1": {
+        "src_file": "christenson-LINE_LITERAL.csv",
+        "author": "Christenson",
+        "lang": "quc",
+        "sep": ",",
+        "str_col": "quc_str",
+        "title": "Christenson Literal Quiche"
+    },
+    "CHRE" : {
+        "src_file": "christenson-LINE_LITERAL.csv",
+        "author": "Christenson",
+        "lang": "eng",
+        "sep": ",",
+        "str_col": "spa_str",
+        "title": "Christenson Literal English"
+    },
+    "RECS": {
+        "src_file": "recinos-DOC.csv",
+        "author": "Recinos",
+        "lang": "spa",
+        "sep": ",",
+        "str_col": "doc_str",
+        "title": "Recinos Spanish"
+    },
+    "CHRQ2": {
+        "src_file": "christenson-quiche-LINES.csv",
+        "author": "Christenson",
+        "lang": "quc",
+        "sep": ",",
+        "str_col": "line_str",
+        "title": "Christenson Raw Quiche"
+    },
+    "XIMQ": {
+        "src_file": "ximenez-quc-LINE.csv",
+        "author": "Ximenez",
+        "lang": "quc",
+        "sep": "|",
+        "str_col": "lb_str_plain",
+        "title": "Ximenez Quiche"
+    },
+    "XIMS": {
+        "src_file": "ximenez-spa-LINE.csv",
+        "author": "Ximenez",
+        "lang": "spa",
+        "sep": "|",
+        "str_col": "lb_str_plain",
+        "title": "Ximenez Spanish"
+    },
+    "COLQ": {
+        "src_file": "colop-DOC.csv",
+        "author": "Colop",
+        "lang": "quc",
+        "sep": ",",
+        "str_col": "doc_str",
+        "title": "Colop Quiche"
+    },
+    "TEDE": {
+        "src_file": "tedlock-LINE.csv",
+        "author": "Tedlock",
+        "lang": "eng",
+        "sep": ",",
+        "str_col": "doc_str",
+        "title": "Tedlock English"
+    }
+}

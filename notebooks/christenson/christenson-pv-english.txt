@@ -2809,7 +2809,7 @@ found in the original manuscript rather than the modern K'iche'.
       
 POPOL VUH
 
-PREAMBLE1
+CHAPTER: PREAMBLE1
 
           THIS IS THE BEGINNING2 OF THE ANCIENT TRADITIONS3 of this place
 
@@ -3316,7 +3316,7 @@ Thus surely there is the sky. There is also Heart of Sky,56 which is said to be 
 
 the god.57 
 
-THE CREATION OF THE EARTH58
+CHAPTER: THE CREATION OF THE EARTH58
 
           THEN came his word. Heart of Sky arrived here with Sovereign and Quetzal
 
@@ -3526,7 +3526,7 @@ versus valleys, but also the notion of wilderness versus cultivated land (Cook 2
 
 successful completion of the work when they thought and when they pondered.
 
-THE CREATION OF THE ANIMALS73
+CHAPTER: THE CREATION OF THE ANIMALS73
 
 THEN were conceived the animals of the mountains, the guardians of the forest,74
 
@@ -3596,7 +3596,7 @@ Borne Children and He Who Has Begotten Sons. Thus all was completed for the deer
 
 the birds.
 
-THE FALL OF THE ANIMALS82
+CHAPTER: THE FALL OF THE ANIMALS82
 
           THEN it was said to the deer and the birds by the Framer and the Shaper, She
 
@@ -3689,7 +3689,7 @@ made, they were not successful.88 Therefore their flesh was brought low. They we
 
 to serve. The animals that were on the face of the earth were eaten and killed.
 
-THE CREATION OF THE MUD PERSON89
+CHAPTER: THE CREATION OF THE MUD PERSON89
 
           THUS there was another attempt to frame and shape man by the Framer and the
 
@@ -3787,7 +3787,7 @@ addressed by the Framer and the Shaper, for these are the names of Xpiyacoc and
 
 Xmucane.
 
-THE CREATION OF THE EFFIGIES OF CARVED WOOD97
+CHAPTER: THE CREATION OF THE EFFIGIES OF CARVED WOOD97
 
           HURACAN, along with Sovereign and Quetzal Serpent, then spoke to the Master
 
@@ -4041,7 +4041,7 @@ conventions of Chimalteco morality (Ibid., 100). Thus, the effigies of wood lack
 
 who have lived here upon the face of the earth.
 
-THE FALL OF THE EFFIGIES OF CARVED WOOD121
+CHAPTER: THE FALL OF THE EFFIGIES OF CARVED WOOD121
 
           THEN came the end of the effigies carved of wood, for they were ruined,
 
@@ -4443,7 +4443,7 @@ when the flood was made because of the effigies of carved wood.
 
 people were made by the Framer and the Shaper.
 
-THE FALL OF SEVEN MACAW AND HIS SONS160
+CHAPTER: THE FALL OF SEVEN MACAW AND HIS SONS160
 
           THIS is the beginning of his defeat. This is the shaking161 of the day of Seven
 
@@ -4642,7 +4642,7 @@ creation of our first mother and our first father. Thus the boys planned their d
 
 their loss.
 
-THE DEFEAT OF SEVEN MACAW177
+CHAPTER: THE DEFEAT OF SEVEN MACAW177
 
           THIS, then, is the blowgun shooting of Seven Macaw178 by the twins.179 We shall
 
@@ -5091,7 +5091,7 @@ perhaps this is merely a fable.199
 
 Xbalanque.
 
-THE DEFEAT OF ZIPACNA200
+CHAPTER: THE DEFEAT OF ZIPACNA200
 
          THIS now is the overthrow and death of Zipacna. He was defeated by the twins,
 
@@ -5239,7 +5239,7 @@ was merely enchantment by which this second prideful one was defeated.
 
           Now we shall tell the tale of another.
 
-THE DEFEAT OF CABRACAN207
+CHAPTER: THE DEFEAT OF CABRACAN207
 
           THE third prideful one was the second son of Seven Macaw, Cabracan by name.
 
@@ -5434,7 +5434,7 @@ account of the defeat of Seven Macaw along with Zipacna and Cabracan here upon t
 
 earth.
 
-THE TALE OF THE FATHER OF HUNAHPU AND XBALANQUE220
+CHAPTER: THE TALE OF THE FATHER OF HUNAHPU AND XBALANQUE220
 
           WE shall now name the name of the father of Hunahpu and Xbalanque. We shall
 
@@ -5460,7 +5460,7 @@ when there are strong earthquakes” (Bunzel 1952, 428).
 
 father.
 
-THE DEEDS OF ONE HUNAHPU AND SEVEN HUNAHPU ABOVE XIBALBA222
+CHAPTER: THE DEEDS OF ONE HUNAHPU AND SEVEN HUNAHPU ABOVE XIBALBA222
 
           THIS, therefore, is the account of they whose names are One Hunahpu223 and
 
@@ -5717,7 +5717,7 @@ of One Hunahpu, remained behind. Their mother had died. Later One Batz and One
 
 Chouen will be defeated by Hunahpu and Xbalanque.
 
-THE SUMMONS OF ONE HUNAHPU AND SEVEN HUNAHPU TO XIBALBA246
+CHAPTER: THE SUMMONS OF ONE HUNAHPU AND SEVEN HUNAHPU TO XIBALBA246
 
           THEN was the arrival of the messengers of One Death and Seven Death:
 
@@ -5847,9 +5847,7 @@ with great pain.”
 108
 
                                                   
-THE DESCENT OF ONE HUNAHPU AND SEVEN HUNAHPU INTO
-
-XIBALBA256
+THE DESCENT OF ONE HUNAHPU AND SEVEN HUNAHPU INTO XIBALBA256
 
           THEN went One Hunahpu and Seven Hunahpu, guided by the messengers as they
 
@@ -6159,7 +6157,7 @@ tree whose name is the calabash. Great is the account of it.
 
           Now a maiden heard of it. Thus we shall now tell of her arrival there.
 
-THE MAIDEN LADY BLOOD AND THE TREE OF ONE HUNAHPU273
+CHAPTER: THE MAIDEN LADY BLOOD AND THE TREE OF ONE HUNAHPU273
 
             THIS, therefore, is the account of a maiden, the daughter of the lord named
 
@@ -6307,7 +6305,7 @@ Thus was the creation of Hunahpu and Xbalanque.
 
 she was noticed by her father, Gathered Blood by name.
 
-THE ASCENT OF LADY BLOOD FROM XIBALBA279
+CHAPTER: THE ASCENT OF LADY BLOOD FROM XIBALBA279
 
           THEN the maiden was discovered280 by her father, for he saw that she was now
 
@@ -6514,7 +6512,7 @@ leading above the earth. Then the guides returned back down again.
 
           Thus the lords of Xibalba were defeated, for the maiden had tricked them all.294
 
-LADY BLOOD AND THE MIRACLE OF THE MAIZE295
+CHAPTER: LADY BLOOD AND THE MIRACLE OF THE MAIZE295
 
           THIS, therefore, is the mother296 of One Batz and One Chouen.
 
@@ -6779,7 +6777,7 @@ your deeds, for they that are to be my grandchildren are enchanted already,” t
 
 was told.
 
-HUNAHPU AND XBALANQUE IN THE HOUSE OF THE GRANDMOTHER319
+CHAPTER: HUNAHPU AND XBALANQUE IN THE HOUSE OF THE GRANDMOTHER319
 
           NOW we shall relate the tale of the birth of Hunahpu and Xbalanque.
 
@@ -7455,7 +7453,7 @@ the rafters of the house, reflected in our sauce.”357
 
 night. And when it was truly midday,358 they arrived.
 
-HUNAHPU AND XBALANQUE DISCOVER THE GAMING THINGS359
+CHAPTER: HUNAHPU AND XBALANQUE DISCOVER THE GAMING THINGS359
 
           THE rat they carried could not be seen clearly when they arrived. While one went
 
@@ -7547,7 +7545,7 @@ way before their grandmother.
 
           Thus was the discovery of this rubber ball.
 
-THE SUMMONS OF HUNAHPU AND XBALANQUE TO XIBALBA362
+CHAPTER: THE SUMMONS OF HUNAHPU AND XBALANQUE TO XIBALBA362
 
           AND so they went rejoicing as ballplayers to the ballcourt. For a long time they
 
@@ -7699,7 +7697,7 @@ Then the falcon cried out:
 
           “What is that which is crying out? To our blowguns!” they said.
 
-HUNAHPU AND XBALANQUE RECEIVE THE SUMMONS TO XIBALBA368
+CHAPTER: HUNAHPU AND XBALANQUE RECEIVE THE SUMMONS TO XIBALBA368
 
           SO then they shot the falcon. The pellet from the blowgun buried itself straight
 
@@ -7795,7 +7793,7 @@ the Grandmother truly says. Your grandmother weeps. She calls out that you must 
 
 they returned to advise their grandmother.
 
-THE DESCENT OF HUNAHPU AND XBALANQUE INTO XIBALBA373
+CHAPTER: THE DESCENT OF HUNAHPU AND XBALANQUE INTO XIBALBA373
 
           “SURELY we must go, our grandmother. But first we will advise you. This is the
 
@@ -8348,7 +8346,7 @@ Instead they were just fine when the dawn came.
 
           And again they marveled at the deeds of the boys, Hunahpu and Xbalanque.
 
-HUNAHPU AND XBALANQUE IN THE HOUSE OF JAGUARS389
+CHAPTER: HUNAHPU AND XBALANQUE IN THE HOUSE OF JAGUARS389
 
           NEXT they entered into Jaguar House, which was crowded inside with jaguars:
 
@@ -8383,7 +8381,7 @@ House.
 
 Xibalbans.
 
-HUNAHPU AND XBALANQUE IN THE HOUSE OF FIRE391
+CHAPTER: HUNAHPU AND XBALANQUE IN THE HOUSE OF FIRE391
 
           NEXT they went into the fire, for there was a House of Fire. There was nothing
 
@@ -8395,7 +8393,7 @@ straightaway die when they passed through there, but it was not so. Thus all the
 
 Xibalbans lost heart as a result.
 
-HUNAHPU AND XBALANQUE IN THE HOUSE OF BATS392
+CHAPTER: HUNAHPU AND XBALANQUE IN THE HOUSE OF BATS392
 
           NEXT they were put inside Bat House, which had only bats inside. It was a house
 
@@ -8574,7 +8572,7 @@ pix (tomatoes, or tomato patch), a reading given by most translators. The confus
                                                                                                                                                       
           And when it dawned, the both of them were well.400
 
-THE HEAD OF HUNAHPU IS RESTORED401
+CHAPTER: THE HEAD OF HUNAHPU IS RESTORED401
 
           SO the ball was again dropped into play. The head of Hunahpu was first placed
 
@@ -8653,7 +8651,7 @@ passed through great affliction, but despite everything that had been done to th
 
 did not die.
 
-THE DEATHS OF HUNAHPU AND XBALANQUE407
+CHAPTER: THE DEATHS OF HUNAHPU AND XBALANQUE407
 
           THIS, then, is the memorial to the deaths of Hunahpu and Xbalanque. We shall
 
@@ -8907,7 +8905,7 @@ well.
 
 messengers who brought them led the way to the lords.
 
-HUNAHPU AND XBALANQUE DANCE BEFORE THE LORDS OF XIBALBA420
+CHAPTER: HUNAHPU AND XBALANQUE DANCE BEFORE THE LORDS OF XIBALBA420
 
 AT length they arrived before the lords. They pretended to be humble,421
 
@@ -9036,7 +9034,7 @@ lords rejoiced greatly. One Death and Seven Death rejoiced as if they were the o
 
 it. They were so involved that it was as if they themselves were dancing.
 
-THE DEFEAT OF THE LORDS OF XIBALBA426
+CHAPTER: THE DEFEAT OF THE LORDS OF XIBALBA426
 
           FOR it was the desire of the lords to abandon their hearts to the dances of
 
@@ -9104,7 +9102,7 @@ used frequently in the text for vassals and servants.
                                                   
 And then they declared their names. They revealed their names before all Xibalba.
 
-THE MIRACULOUS MAIZE OF HUNAHPU AND XBALANQUE429
+CHAPTER: THE MIRACULOUS MAIZE OF HUNAHPU AND XBALANQUE429
 
          “HEAR our names!430 We shall now declare them. We shall also declare the
 
@@ -9374,7 +9372,7 @@ the flesh of humanity. This took place just a little before the appearance of th
 
 and stars above the heads of the Framer and the Shaper.
 
-THE DISCOVERY OF MAIZE453
+CHAPTER: THE DISCOVERY OF MAIZE453
 
           IT was from within the places called Paxil454 and Cayala455 that the yellow ears of
 
@@ -9675,7 +9673,7 @@ Truly they were very esteemed people, these Balam Quitze, Balam Acab, Mahucutah,
 
 and Iqui Balam.
 
-THE GRATITUDE OF THE FIRST MEN485
+CHAPTER: THE GRATITUDE OF THE FIRST MEN485
 
           THEN the Framer and the Shaper asked them: “What is the nature of your
 
@@ -9733,7 +9731,7 @@ the four sides, that which is within the sky and that which is within the earth.
 
 said, ‘We have learned everything, great and small.’”
 
-THE DISPLEASURE OF THE GODS489
+CHAPTER: THE DISPLEASURE OF THE GODS489
 
           THUS their knowledge was taken back by She Who Has Borne Children and He
 
@@ -10347,7 +10345,7 @@ Third, then, were the Ilocab: Tohil was also the name of the god received by the
 
 grandfathers and fathers of the Ilocab, as these lords are known today.
 
-THE PROGENITORS LEAVE TULAN555
+CHAPTER: THE PROGENITORS LEAVE TULAN555
 
 THUS was the naming of the three Quichés. But in this they freed themselves
 
@@ -10415,7 +10413,7 @@ This therefore was the glory556 of the nations, and they rejoiced because of the
 
 fire.
 
-THE NATIONS ASK FOR THEIR FIRE557
+CHAPTER: THE NATIONS ASK FOR THEIR FIRE557
 
 THEN it began to rain while the fire of the nations558 burned brightly. Hail fell
 
@@ -10701,7 +10699,7 @@ truly united574 as they made their journey here, passing through Honor and Respe
 
 it is said today.
 
-THE PEOPLE GATHER ON THE MOUNTAIN CHI PIXAB576
+CHAPTER: THE PEOPLE GATHER ON THE MOUNTAIN CHI PIXAB576
 
 THEN they arrived atop a mountain. All the Quiché people gathered together,
 
@@ -10737,7 +10735,7 @@ Then the Ilocab were addressed:
 
 Quichés, will not be lost, for our word is one,” they said when their names were given.
 
-THEIR SUFFERING ON THE MOUNTAIN CHI PIXAB578
+CHAPTER: THEIR SUFFERING ON THE MOUNTAIN CHI PIXAB578
 
 Then the Cakchiquels were given their name. Cakchiquels came to be their name.
 
@@ -10829,7 +10827,7 @@ Chi Pixab today.
 
 Then spoke the gods there.
 
-THE PROGENITORS AWAIT THE FIRST DAWN580
+CHAPTER: THE PROGENITORS AWAIT THE FIRST DAWN580
 
 THEN spoke Tohil, Auilix, and Hacavitz to Balam Quitze, Balam Acab,
 
@@ -11051,7 +11049,7 @@ were sown, when they dawned.
 
 Now we shall tell of the dawning and the appearance of the sun, moon, and stars.
 
-THE APPEARANCE OF THE FIRST DAWN598
+CHAPTER: THE APPEARANCE OF THE FIRST DAWN598
 
 THIS therefore is the dawn,599 the appearance of the sun, moon, and stars.
 
@@ -11302,7 +11300,7 @@ and Iqui Balam. Their hearts cried out to Tohil, Auilix, and Hacavitz, who were 
 
 the bromelia flowers and the hanging moss.
 
-OFFERINGS ARE MADE TO THE GODS614
+CHAPTER: OFFERINGS ARE MADE TO THE GODS614
 
 THESE, then, are the burnings and the offerings placed beneath Tohil when they
 
@@ -11527,7 +11525,7 @@ Then was given the breast627 at the place called Pa Zilizib.628 And behind629 it
 
 came blood, a rain of their blood as an offering for Tohil, along with Auilix and Hacavitz.
 
-THE SACRIFICIAL KILLINGS BEGIN630
+CHAPTER: THE SACRIFICIAL KILLINGS BEGIN630
 
 THIS is the beginning of the abduction of people from the nations by Balam
 
@@ -11725,7 +11723,7 @@ there to the river, to the Bath of Tohil, Auilix, and Hacavitz. This was the pla
 
 these nations.
 
-THE SEDUCTION OF LADY LUST AND LADY WAILING643
+CHAPTER: THE SEDUCTION OF LADY LUST AND LADY WAILING643
 
 THEN they went. They were adorned in finery, and truly they appeared beautiful
 
@@ -12271,7 +12269,7 @@ Now we shall tell of this also, of the deaths of they who are called Balam Quitz
 
 Balam Acab, Mahucutah, and Iqui Balam.
 
-THE DEATHS OF THE FOUR PROGENITORS672
+CHAPTER: THE DEATHS OF THE FOUR PROGENITORS672
 
 THEY sensed their impending death and disappearance.673 Thus they gave
 
@@ -12444,7 +12442,7 @@ Balam, the first people who came from across the sea in the East. Anciently they
 
 here. They died in their old age, they who were called bloodletters and sacrificers.
 
-THE SONS OF THE PROGENITORS JOURNEY TO TULAN685
+CHAPTER: THE SONS OF THE PROGENITORS JOURNEY TO TULAN685
 
 THEN they remembered in their hearts the journey they were to make there to the
 
@@ -12487,7 +12485,7 @@ receive their lordship.
 
 This, then, is the name of the lord, the lord of the East, when they arrived:
 
-THE SONS RECEIVE AUTHORITY TO RULE687
+CHAPTER: THE SONS RECEIVE AUTHORITY TO RULE687
 
 THEN they arrived before the face of the lord, whose name was Nacxit.688 He was
 
@@ -12732,7 +12730,7 @@ the fathers.
 
 This therefore was the name of the citadel that they came to:
 
-THE FOUNDATION OF CHI IZMACHI713
+CHAPTER: THE FOUNDATION OF CHI IZMACHI713
 
 CHI IZMACHI,714 then, was the name of the mountain on which they dwelt as
 
@@ -12943,7 +12941,7 @@ Izmachi. But then they looked for and found another citadel. And so they abandon
 
 peak of Chi Izmachi.
 
-THE FOUNDATION OF CUMARCAH731
+CHAPTER: THE FOUNDATION OF CUMARCAH731
 
 THUS they rose up again and came to the citadel that the Quichés would call
 
@@ -13073,7 +13071,7 @@ power).
                                                   
 We shall now give the titles of each of the lords and of each of their great houses:
 
-THE TITLES OF THE CAVEC LORDS738
+CHAPTER: THE TITLES OF THE CAVEC LORDS738
 
 THESE, then, are the titles of the lords over the Cavecs.739 The first lords are:
 
@@ -13134,7 +13132,7 @@ THESE, then, are the lords over the Cavecs.
 
 There are nine lords for each of the great houses and these shall now be shown:
 
-THE TITLES OF THE NIHAIB LORDS748
+CHAPTER: THE TITLES OF THE NIHAIB LORDS748
 
 THESE, then, are the lords over the Nihaibs. The first lords are:
 
@@ -13232,7 +13230,7 @@ Lord Hacavitz.762
 
 These are the four lords over the Ahau Quichés. These are the great houses.
 
-THE TITLES OF THE ZAQUIC LORDS763
+CHAPTER: THE TITLES OF THE ZAQUIC LORDS763
 
 THERE are also two lineages of Zaquic lords:
 
@@ -13242,7 +13240,7 @@ Magistrate of the Zaquics.765
 
 There is only one house for the two lords.
 
-THE GLORY OF THE LORDS OF CUMARCAH766
+CHAPTER: THE GLORY OF THE LORDS OF CUMARCAH766
 
 THUS were established the twenty-four lords as well as the twenty-four great
 
@@ -13754,7 +13752,7 @@ THE names of the mountain where they were ennobled were Xe Balax812 and Xe
 
 Camac.813 This was the edict that was given. There at Chulimal814 it was done.
 
-THE TITLES GIVEN TO THOSE WHO WERE ENNOBLED815
+CHAPTER: THE TITLES GIVEN TO THOSE WHO WERE ENNOBLED815
 
 THESE, then, were their titles, their nobility, and the tokens of their office:
 
@@ -13965,7 +13963,7 @@ This, then, is their pleading before the faces of their gods. This is the crying
 
 their hearts:
 
-THE PRAYER OF THE LORDS TO THEIR GODS829
+CHAPTER: THE PRAYER OF THE LORDS TO THEIR GODS829
 
 “YEA, pleasing830 is the day, you, Huracan, and you, Heart of Sky and Earth, you
 
@@ -14565,7 +14563,7 @@ name (see p. 229).
 282
 
                                                                                                                                                       
-THE DYNASTY OF NIHAIB LORDS869
+CHAPTER: THE DYNASTY OF NIHAIB LORDS869
 
 THESE, then, are the nine highest of the great houses of the Nihaib. We shall first
 
@@ -14618,7 +14616,7 @@ Don Christoval, as he is called, exercised lordship under the Castilian people.
                                                   
 Don Pedro de Robles is the Lord Magistrate today.
 
-THE GREAT HOUSES OF THE NIHAIB LORDS877
+CHAPTER: THE GREAT HOUSES OF THE NIHAIB LORDS877
 
 THESE, then, are all the lords who follow behind the Lord Magistrate. We shall
 
@@ -14721,7 +14719,7 @@ Hacavitz, then, is the fourth lord. He has one great house.
 
 Thus there are four great houses over the Ahau Quichés.
 
-THE THREE GREAT STEWARDS AS MOTHERS OF THE WORD888
+CHAPTER: THE THREE GREAT STEWARDS AS MOTHERS OF THE WORD888
 
 THESE, then, are the three Great Stewards. They are like the fathers of all the
 

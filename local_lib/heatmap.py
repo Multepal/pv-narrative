@@ -4,10 +4,10 @@ plotly_template = 'plotly_white'
 
 def plot_grid(X, title=None):
     fig = px.imshow(X, 
-        color_continuous_scale=px.colors.qualitative.Alphabet,
+        color_continuous_scale=px.colors.qualitative.Light24,
         x = X.columns.to_list(),
         y = X.index.to_list(),
-        text_auto=True,
+        text_auto=False,
         title=title, 
         template=plotly_template)
     fig.update_traces(hoverongaps=False)
