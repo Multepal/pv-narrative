@@ -1,0 +1,62 @@
+myth:
+  title: "Oedipus"
+  culture: "Greek"
+  source: "Lévi-Strauss, 1955"
+  structural_units:
+    - id: bundle_1
+      theme: "Overrating of blood relations"
+      relations:
+        - id: r1
+          subject: "Kadmos"
+          predicate: "seeks"
+          object: "his sister Europa"
+        - id: r2
+          subject: "Oedipus"
+          predicate: "marries"
+          object: "his mother Jocasta"
+    - id: bundle_2
+      theme: "Underrating of blood relations"
+      relations:
+        - id: r3
+          subject: "Eteocles"
+          predicate: "kills"
+          object: "his brother Polynices"
+        - id: r4
+          subject: "Antigone"
+          predicate: "buries"
+          object: "Polynices"
+          note: "in defiance of the state"
+    - id: bundle_3
+      theme: "Denial of autochthonous origin"
+      relations:
+        - id: r5
+          subject: "Kadmos"
+          predicate: "kills"
+          object: "the dragon"
+        - id: r6
+          subject: "Oedipus"
+          predicate: "kills"
+          object: "the Sphinx"
+    - id: bundle_4
+      theme: "Persistence of autochthonous origin"
+      relations:
+        - id: r7
+          subject: "Labdacos"
+          predicate: "is"
+          object: "lame"
+        - id: r8
+          subject: "Oedipus"
+          predicate: "has"
+          object: "swollen foot"
+  structure_matrix:
+    rows:
+      - [r1, r3, r5, r7]
+      - [r2, r4, r6, r8]
+  oppositions:
+    - left: "Overrating of kinship"
+      right: "Underrating of kinship"
+    - left: "Denial of autochthony"
+      right: "Persistence of autochthony"
+  transformations:
+    formula: "fx(a) : fy(b) :: fx(b) : a⁻¹(y)"
+    note: "Structural transformation through opposition and mediation"

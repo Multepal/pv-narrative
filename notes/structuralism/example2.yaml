@@ -1,0 +1,9 @@
+CGU_14:
+  subject: Hun-Hunahpu
+  predicate: defeats
+  object: Seven Macaw
+  tags:
+    - ACTANT: hero
+    - ACTANT: adversary
+    - ACTION: combat
+    - ONTOLOGICAL: celestial

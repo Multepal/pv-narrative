@@ -1,0 +1,14 @@
+CGU_42:
+  text: "Hunahpu and Xbalanque trick Seven Macaw into pulling out his jeweled teeth."
+  structure:
+    subject: "Hunahpu and Xbalanque"
+    predicate: "trick"
+    object: "Seven Macaw"
+  tags:
+    - ACTANT: hero
+    - ACTANT: false god
+    - ACTION: deception
+    - ONTOLOGICAL: celestial
+    - THEME: "false divinity disempowered through wit"
+    - THEME: "cosmic hierarchy restored"
+    - LOCATION: Popol Wuj, Part II, Episode 3

@@ -1,3 +1,2 @@
-# PV Narrative
+# The Narrative Structure of the Popol Wuj
 
-Note for essay on the narrative structure of the Popol Wuj

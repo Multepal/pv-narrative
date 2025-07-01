@@ -1,0 +1,9 @@
+# Taller Princeton University
+
+2025-06-23 / Monday
+
+-   The process of creating of dictionaries and grammars
+    -   Created **after** the creation of corpus of practical texts
+    -   In other words, **models** – dictionaries and grammars – were extracted from the organical generated **corpus** data.
+    -   BUT, once created, the models must have been used to generate text, that is, to guide and constrain the production of new texts.
+-   The value of including other texts, in other languages (e.g. Cakchiquel), to better understand the PV.

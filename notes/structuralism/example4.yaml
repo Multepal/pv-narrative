@@ -1,0 +1,143 @@
+PopolVuh_Structure:
+  GCUs:
+    - id: GCU_01
+      title: "Creation of the World"
+      proposition:
+        subject: "Creator Deities"
+        predicate: "establish"
+        object: "Earth and Sky"
+      theme: "Cosmic Order"
+      column: "Creation vs. Chaos"
+
+    - id: GCU_02
+      title: "Creation of Animals"
+      proposition:
+        subject: "Deities"
+        predicate: "create"
+        object: "Animals"
+      theme: "Failed Creation"
+      column: "Success vs. Failure"
+
+    - id: GCU_03
+      title: "Creation of Mud People"
+      proposition:
+        subject: "Deities"
+        predicate: "form"
+        object: "Humans from Mud"
+      theme: "Impermanence"
+      column: "Success vs. Failure"
+
+    - id: GCU_04
+      title: "Creation of Wood People"
+      proposition:
+        subject: "Deities"
+        predicate: "form"
+        object: "Humans from Wood"
+      theme: "Lack of Soul"
+      column: "Success vs. Failure"
+
+    - id: GCU_05
+      title: "Destruction of Wood People"
+      proposition:
+        subject: "Animals and Objects"
+        predicate: "destroy"
+        object: "Wood People"
+      theme: "Retribution"
+      column: "Justice vs. Injustice"
+
+    - id: GCU_06
+      title: "The Hero Twins' Birth"
+      proposition:
+        subject: "Xquic"
+        predicate: "gives birth to"
+        object: "Hunahpu and Xbalanque"
+      theme: "Divine Intervention"
+      column: "Life vs. Death"
+
+    - id: GCU_07
+      title: "Defeat of Seven Macaw"
+      proposition:
+        subject: "Hero Twins"
+        predicate: "defeat"
+        object: "Seven Macaw"
+      theme: "Humility"
+      column: "Pride vs. Humility"
+
+    - id: GCU_08
+      title: "Journey to Xibalba"
+      proposition:
+        subject: "Hero Twins"
+        predicate: "descend into"
+        object: "Xibalba"
+      theme: "Underworld Trial"
+      column: "Life vs. Death"
+
+    - id: GCU_09
+      title: "Defeat of Xibalba Lords"
+      proposition:
+        subject: "Hero Twins"
+        predicate: "defeat"
+        object: "Lords of Xibalba"
+      theme: "Triumph over Evil"
+      column: "Good vs. Evil"
+
+    - id: GCU_10
+      title: "Creation of Maize People"
+      proposition:
+        subject: "Deities"
+        predicate: "create"
+        object: "Humans from Maize"
+      theme: "Successful Creation"
+      column: "Success vs. Failure"
+
+    - id: GCU_11
+      title: "Migration to Tulan"
+      proposition:
+        subject: "First Humans"
+        predicate: "migrate to"
+        object: "Tulan"
+      theme: "Pilgrimage"
+      column: "Order vs. Chaos"
+
+    - id: GCU_12
+      title: "Establishment of Lineages"
+      proposition:
+        subject: "Founding Fathers"
+        predicate: "establish"
+        object: "Quiché Lineages"
+      theme: "Social Order"
+      column: "Order vs. Chaos"
+
+  Columns:
+    - name: "Creation vs. Chaos"
+      themes:
+        - "Cosmic Order"
+
+    - name: "Success vs. Failure"
+      themes:
+        - "Failed Creation"
+        - "Impermanence"
+        - "Lack of Soul"
+        - "Successful Creation"
+
+    - name: "Justice vs. Injustice"
+      themes:
+        - "Retribution"
+
+    - name: "Life vs. Death"
+      themes:
+        - "Divine Intervention"
+        - "Underworld Trial"
+
+    - name: "Pride vs. Humility"
+      themes:
+        - "Humility"
+
+    - name: "Good vs. Evil"
+      themes:
+        - "Triumph over Evil"
+
+    - name: "Order vs. Chaos"
+      themes:
+        - "Pilgrimage"
+        - "Social Order"

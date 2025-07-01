@@ -1,0 +1,4 @@
+CGU_ID,Text,Subject,Predicate,Object,Actants,Action,Ontology,Themes,Location
+CGU_001,Hunahpu and Xbalanque defeat Seven Macaw by tricking him into removing his own jeweled teeth.,Hunahpu and Xbalanque,defeat,Seven Macaw,"['hero', 'false god']",deception,celestial,"['false divinity disempowered through wit', 'cosmic hierarchy restored']","Popol Wuj, Part II, Episode 3"
+CGU_002,The twins descend into Xibalba to confront the Lords of Death.,The twins,descend,Xibalba,"['hero', 'underworld lords']",descent,chthonic,"['initiation through ordeal', 'encounter with death']","Popol Wuj, Part II, Episode 5"
+CGU_003,Blood Moon conceives the hero twins after receiving the spit of Hun Hunahpu.,Blood Moon,conceives,hero twins,"['donor', 'hero']",miraculous conception,liminal,"['divine birth', 'maternal mediation', 'sacred transmission of life']","Popol Wuj, Part II, Episode 1"
