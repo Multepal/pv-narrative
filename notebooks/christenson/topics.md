@@ -1,7 +1,8 @@
-|   topic_id | top_terms                                                                                         |
-|-----------:|:--------------------------------------------------------------------------------------------------|
-|          0 | b'alam, amaq, tojil, kitze, b'alam kitze, b'alam aq'ab, majukutaj, kitze b'alam, k'ab'awil, aq'ab |
-|          1 | xib'alb'a, kame, junajpu, xcha, k'ate, kik, la, b'a, mi, xb'alanke                                |
-|          2 | ajaw, nim ja, ajawab, k'iche, aj, tinamit, aj pop, pop, nim, amaq                                 |
-|          3 | kaj, aj, winaq, b'it, ulew, tz'aq, b'itol, tz'aqol, tz'aqol b'itol, qa                            |
-|          4 | k'ajolab, wuqub kaqix, kaqix, sipakna, jul, ri sipakna, wuqub, kab'raqan, xcha, nu                |
+|   topic_id | top_terms                                                                    |
+|-----------:|:-----------------------------------------------------------------------------|
+|          0 | b'alam, amaq, tojil, kitze, majukutaj, k'ab'awil, aq'ab, aj, ik'i, jaq'awitz |
+|          1 | kame, xib'alb'a, junajpu, kik, xcha, b'a, wuqub, ajawab, k'ate, samajel      |
+|          2 | ajaw, ajawab, pop, tinamit, aj, nim, k'iche, q'alel, le, k'am                |
+|          3 | kaj, b'it, winaq, tz'aq, ulew, aj, k'ajolom, alom, b'itol, tz'aqol           |
+|          4 | kaqix, k'ajolab, sipakna, wuqub, jul, kab'raqan, xcha, junajpu, juyub, much  |
+|          5 | kati't, chowen, ati't, b'atz, junajpu, qati't, ch'o, aj, xb'alanke, che      |
