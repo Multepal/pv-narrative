@@ -1,6 +1,6 @@
 |   topic_id | top_terms                                                                       |
 |-----------:|:--------------------------------------------------------------------------------|
-|          0 | xib'alb'a, kame, ajpu, wuqub, te, xcha, k'ajolab, b'a, la, naqi                 |
+|          0 | xib'alb'a, kame, ajpu, te, wuqub, xcha, b'a, la, k'ajolab, naqi                 |
 |          1 | b'alam, tojil, amaq, k'itze, majukutaj, aq'ab, q'ij, jaqawitz, iq'ib'alam, ub'i |
 |          2 | ajaw, ajpop, ajawab, k'iche, unim, q'alel, tinamit, ja, q'amja, kikab           |
 |          3 | kaj, ulew, winaq, k'ajolom, alom, b'itol, tz'aqol, uk'u'x, tepew, q'ij          |
