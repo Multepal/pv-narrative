@@ -1,0 +1,146 @@
+chunk_id,chap_ord,chap_num,chap_title,chap_label
+1,0,1,Preamble,1: Preamble
+1,1,2,The Primordial World,2: The Primordial World
+1,2,3,The Creation of the Earth,3: The Creation of the Earth
+2,0,3,The Creation of the Earth,3: The Creation of the Earth
+2,1,4,The Creation of the Animals,4: The Creation of the Animals
+2,2,5,The Fall of the Animals,5: The Fall of the Animals
+3,0,5,The Fall of the Animals,5: The Fall of the Animals
+3,1,6,The Creation of the Mud Person,6: The Creation of the Mud Person
+3,2,7,The Creation of the Effigies of Carved Wood,7: The Creation of the Effigies of Carved Wood
+4,0,7,The Creation of the Effigies of Carved Wood,7: The Creation of the Effigies of Carved Wood
+4,1,8,The Fall of the Effigies of Carved Wood,8: The Fall of the Effigies of Carved Wood
+5,0,8,The Fall of the Effigies of Carved Wood,8: The Fall of the Effigies of Carved Wood
+5,1,9,The Pride of Seven Macaw Before the Dawn,9: The Pride of Seven Macaw Before the Dawn
+6,0,9,The Pride of Seven Macaw Before the Dawn,9: The Pride of Seven Macaw Before the Dawn
+6,1,10,The Fall of Seven Macaw and His Sons,10: The Fall of Seven Macaw and His Sons
+6,2,11,The Defeat of Seven Macaw,11: The Defeat of Seven Macaw
+7,0,11,The Defeat of Seven Macaw,11: The Defeat of Seven Macaw
+8,0,11,The Defeat of Seven Macaw,11: The Defeat of Seven Macaw
+8,1,12,The Deeds of Zipacna and the Four Hundred Boys,12: The Deeds of Zipacna and the Four Hundred Boys
+9,0,12,The Deeds of Zipacna and the Four Hundred Boys,12: The Deeds of Zipacna and the Four Hundred Boys
+9,1,13,The Defeat of Zipacna,13: The Defeat of Zipacna
+10,0,13,The Defeat of Zipacna,13: The Defeat of Zipacna
+10,1,14,The Defeat of Cabracan,14: The Defeat of Cabracan
+11,0,14,The Defeat of Cabracan,14: The Defeat of Cabracan
+11,1,15,The Tale of the Father of Hunahpu and Xbalanque,15: The Tale of the Father of Hunahpu and Xbalanque
+12,0,15,The Tale of the Father of Hunahpu and Xbalanque,15: The Tale of the Father of Hunahpu and Xbalanque
+12,1,16,The Deeds of One Hunahpu and Seven Hunahpu Above Xibalba,16: The Deeds of One Hunahpu and Seven Hunahpu Above Xibalba
+13,0,16,The Deeds of One Hunahpu and Seven Hunahpu Above Xibalba,16: The Deeds of One Hunahpu and Seven Hunahpu Above Xibalba
+13,1,17,The Summons of One Hunahpu and Seven Hunahpu to Xibalba,17: The Summons of One Hunahpu and Seven Hunahpu to Xibalba
+14,0,17,The Summons of One Hunahpu and Seven Hunahpu to Xibalba,17: The Summons of One Hunahpu and Seven Hunahpu to Xibalba
+14,1,18,The Descent of One Hunahpu and Seven Hunahpu into Xibalba,18: The Descent of One Hunahpu and Seven Hunahpu into Xibalba
+15,0,18,The Descent of One Hunahpu and Seven Hunahpu into Xibalba,18: The Descent of One Hunahpu and Seven Hunahpu into Xibalba
+15,1,19,The Maiden Lady Blood and the Tree of One Hunahpu,19: The Maiden Lady Blood and the Tree of One Hunahpu
+16,0,19,The Maiden Lady Blood and the Tree of One Hunahpu,19: The Maiden Lady Blood and the Tree of One Hunahpu
+16,1,20,The Ascent of Lady Blood from Xibalba,20: The Ascent of Lady Blood from Xibalba
+17,0,20,The Ascent of Lady Blood from Xibalba,20: The Ascent of Lady Blood from Xibalba
+17,1,21,Lady Blood and the Miracle of the Maize,21: Lady Blood and the Miracle of the Maize
+18,0,21,Lady Blood and the Miracle of the Maize,21: Lady Blood and the Miracle of the Maize
+18,1,22,Hunahpu and Xbalanque in the House of the Grandmother,22: Hunahpu and Xbalanque in the House of the Grandmother
+19,0,22,Hunahpu and Xbalanque in the House of the Grandmother,22: Hunahpu and Xbalanque in the House of the Grandmother
+20,0,22,Hunahpu and Xbalanque in the House of the Grandmother,22: Hunahpu and Xbalanque in the House of the Grandmother
+20,1,23,The Fall of One Batz and One Chouen,23: The Fall of One Batz and One Chouen
+21,0,23,The Fall of One Batz and One Chouen,23: The Fall of One Batz and One Chouen
+21,1,24,Hunahpu and Xbalanque in the Maizefield,24: Hunahpu and Xbalanque in the Maizefield
+22,0,24,Hunahpu and Xbalanque in the Maizefield,24: Hunahpu and Xbalanque in the Maizefield
+23,0,24,Hunahpu and Xbalanque in the Maizefield,24: Hunahpu and Xbalanque in the Maizefield
+23,1,25,Hunahpu and Xbalanque Discover the Gaming Things,25: Hunahpu and Xbalanque Discover the Gaming Things
+23,2,26,The Summons of Hunahpu and Xbalanque to Xibalba,26: The Summons of Hunahpu and Xbalanque to Xibalba
+24,0,26,The Summons of Hunahpu and Xbalanque to Xibalba,26: The Summons of Hunahpu and Xbalanque to Xibalba
+24,1,27,Hunahpu and Xbalanque Receive the Summons to Xibalba,27: Hunahpu and Xbalanque Receive the Summons to Xibalba
+25,0,27,Hunahpu and Xbalanque Receive the Summons to Xibalba,27: Hunahpu and Xbalanque Receive the Summons to Xibalba
+25,1,28,The Descent of Hunahpu and Xbalanque into Xibalba,28: The Descent of Hunahpu and Xbalanque into Xibalba
+26,0,28,The Descent of Hunahpu and Xbalanque into Xibalba,28: The Descent of Hunahpu and Xbalanque into Xibalba
+27,0,28,The Descent of Hunahpu and Xbalanque into Xibalba,28: The Descent of Hunahpu and Xbalanque into Xibalba
+28,0,28,The Descent of Hunahpu and Xbalanque into Xibalba,28: The Descent of Hunahpu and Xbalanque into Xibalba
+28,1,29,Hunahpu and Xbalanque in the House of Cold,29: Hunahpu and Xbalanque in the House of Cold
+28,2,30,Hunahpu and Xbalanque in the House of Jaguars,30: Hunahpu and Xbalanque in the House of Jaguars
+29,0,30,Hunahpu and Xbalanque in the House of Jaguars,30: Hunahpu and Xbalanque in the House of Jaguars
+29,1,31,Hunahpu and Xbalanque in the House of Fire,31: Hunahpu and Xbalanque in the House of Fire
+29,2,32,Hunahpu and Xbalanque in the House of Bats,32: Hunahpu and Xbalanque in the House of Bats
+30,0,32,Hunahpu and Xbalanque in the House of Bats,32: Hunahpu and Xbalanque in the House of Bats
+30,1,33,The Head of Hunahpu is Restored,33: The Head of Hunahpu is Restored
+30,2,34,The Deaths of Hunahpu and Xbalanque,34: The Deaths of Hunahpu and Xbalanque
+31,0,34,The Deaths of Hunahpu and Xbalanque,34: The Deaths of Hunahpu and Xbalanque
+31,1,35,The Resurrection of Hunahpu and Xbalanque,35: The Resurrection of Hunahpu and Xbalanque
+31,2,36,The Summons of Hunahpu and Xbalanque Before the Lords,36: The Summons of Hunahpu and Xbalanque Before the Lords
+32,0,36,The Summons of Hunahpu and Xbalanque Before the Lords,36: The Summons of Hunahpu and Xbalanque Before the Lords
+32,1,37,Hunahpu and Xbalanque Dance Before the Lords of Xibalba,37: Hunahpu and Xbalanque Dance Before the Lords of Xibalba
+33,0,37,Hunahpu and Xbalanque Dance Before the Lords of Xibalba,37: Hunahpu and Xbalanque Dance Before the Lords of Xibalba
+33,1,38,The Defeat of the Lords of Xibalba,38: The Defeat of the Lords of Xibalba
+33,2,39,The Miraculous Maize of Hunahpu and Xbalanque,39: The Miraculous Maize of Hunahpu and Xbalanque
+34,0,39,The Miraculous Maize of Hunahpu and Xbalanque,39: The Miraculous Maize of Hunahpu and Xbalanque
+34,1,40,"The Apotheosis of the Sun, Moon, and Stars","40: The Apotheosis of the Sun, Moon, and Stars"
+34,2,41,The Creation of Humanity,41: The Creation of Humanity
+35,0,41,The Creation of Humanity,41: The Creation of Humanity
+35,1,42,The Discovery of Maize,42: The Discovery of Maize
+35,2,43,The First Four Men,43: The First Four Men
+35,3,44,The Miraculous Vision of the First Men,44: The Miraculous Vision of the First Men
+35,4,45,The Gratitude of the First Men,45: The Gratitude of the First Men
+36,0,45,The Gratitude of the First Men,45: The Gratitude of the First Men
+36,1,46,The Displeasure of the Gods,46: The Displeasure of the Gods
+36,2,47,The Creation of the Mothers of the Quiché Nation,47: The Creation of the Mothers of the Quiché Nation
+37,0,47,The Creation of the Mothers of the Quiché Nation,47: The Creation of the Mothers of the Quiché Nation
+38,0,47,The Creation of the Mothers of the Quiché Nation,47: The Creation of the Mothers of the Quiché Nation
+38,1,48,The Arrival at Tulan,48: The Arrival at Tulan
+38,2,49,The Progenitors Receive their Gods,49: The Progenitors Receive their Gods
+38,3,50,The Progenitors Leave Tulan,50: The Progenitors Leave Tulan
+38,4,51,The Nations Ask for their Fire,51: The Nations Ask for their Fire
+39,0,51,The Nations Ask for their Fire,51: The Nations Ask for their Fire
+39,1,52,The Nations Are Deceived into Offering Themselves,52: The Nations Are Deceived into Offering Themselves
+40,0,52,The Nations Are Deceived into Offering Themselves,52: The Nations Are Deceived into Offering Themselves
+40,1,53,The People Gather on the Mountain Chi Pixab,53: The People Gather on the Mountain Chi Pixab
+41,0,53,The People Gather on the Mountain Chi Pixab,53: The People Gather on the Mountain Chi Pixab
+41,1,54,Their Suffering on the Mountain Chi Pixab,54: Their Suffering on the Mountain Chi Pixab
+41,2,55,The Progenitors Await the First Dawn,55: The Progenitors Await the First Dawn
+42,0,55,The Progenitors Await the First Dawn,55: The Progenitors Await the First Dawn
+42,1,56,The Appearance of the First Dawn,56: The Appearance of the First Dawn
+43,0,56,The Appearance of the First Dawn,56: The Appearance of the First Dawn
+44,0,56,The Appearance of the First Dawn,56: The Appearance of the First Dawn
+44,1,57,Offerings Are Made to the Gods,57: Offerings Are Made to the Gods
+45,0,57,Offerings Are Made to the Gods,57: Offerings Are Made to the Gods
+45,1,58,The Sacrificial Killings Begin,58: The Sacrificial Killings Begin
+46,0,58,The Sacrificial Killings Begin,58: The Sacrificial Killings Begin
+46,1,59,The Nations Plot to Seduce the Gods,59: The Nations Plot to Seduce the Gods
+47,0,59,The Nations Plot to Seduce the Gods,59: The Nations Plot to Seduce the Gods
+47,1,60,The Seduction of Lady Lust and Lady Wailing,60: The Seduction of Lady Lust and Lady Wailing
+47,2,61,The Nations Are Defeated by the Painted Robes,61: The Nations Are Defeated by the Painted Robes
+48,0,61,The Nations Are Defeated by the Painted Robes,61: The Nations Are Defeated by the Painted Robes
+48,1,62,The Nations Are Humiliated,62: The Nations Are Humiliated
+49,0,62,The Nations Are Humiliated,62: The Nations Are Humiliated
+50,0,62,The Nations Are Humiliated,62: The Nations Are Humiliated
+50,1,63,The Nations Are Defeated,63: The Nations Are Defeated
+50,2,64,The Deaths of the Four Progenitors,64: The Deaths of the Four Progenitors
+51,0,64,The Deaths of the Four Progenitors,64: The Deaths of the Four Progenitors
+51,1,65,The Sons of the Progenitors Journey to Tulan,65: The Sons of the Progenitors Journey to Tulan
+52,0,65,The Sons of the Progenitors Journey to Tulan,65: The Sons of the Progenitors Journey to Tulan
+52,1,66,The Sons Receive Authority to Rule,66: The Sons Receive Authority to Rule
+52,2,67,The Migrations of the Quichés,67: The Migrations of the Quichés
+53,0,67,The Migrations of the Quichés,67: The Migrations of the Quichés
+53,1,68,The Foundation of Chi Izmachi,68: The Foundation of Chi Izmachi
+54,0,68,The Foundation of Chi Izmachi,68: The Foundation of Chi Izmachi
+54,1,69,The Foundation of Cumarcah,69: The Foundation of Cumarcah
+54,2,70,The Titles of the Cavec Lords,70: The Titles of the Cavec Lords
+54,3,71,The Titles of the Nihaib Lords,71: The Titles of the Nihaib Lords
+55,0,71,The Titles of the Nihaib Lords,71: The Titles of the Nihaib Lords
+55,1,72,The Titles of the Ahau Quiché Lords,72: The Titles of the Ahau Quiché Lords
+55,2,73,The Titles of the Zaquic Lords,73: The Titles of the Zaquic Lords
+55,3,74,The Glory of the Lords of Cumarcah,74: The Glory of the Lords of Cumarcah
+56,0,75,The Victories of Lord Quicab,75: The Victories of Lord Quicab
+56,1,76,The Quichés Garrison the Conquered Regions,76: The Quichés Garrison the Conquered Regions
+57,0,76,The Quichés Garrison the Conquered Regions,76: The Quichés Garrison the Conquered Regions
+57,1,77,The Titles Given to Those Who Were Ennobled,77: The Titles Given to Those Who Were Ennobled
+57,2,78,The Names of the Gods’ Houses,78: The Names of the Gods’ Houses
+58,0,78,The Names of the Gods’ Houses,78: The Names of the Gods’ Houses
+58,1,79,The Prayer of the Lords to their Gods,79: The Prayer of the Lords to their Gods
+59,0,79,The Prayer of the Lords to their Gods,79: The Prayer of the Lords to their Gods
+59,1,80,The Generations of Quiché Lords,80: The Generations of Quiché Lords
+59,2,81,The Dynasty of Cavec Quiché Lords,81: The Dynasty of Cavec Quiché Lords
+59,3,82,The Great Houses of the Cavec Lords,82: The Great Houses of the Cavec Lords
+60,0,82,The Great Houses of the Cavec Lords,82: The Great Houses of the Cavec Lords
+60,1,83,The Dynasty of Nihaib Lords,83: The Dynasty of Nihaib Lords
+60,2,84,The Great Houses of the Nihaib Lords,84: The Great Houses of the Nihaib Lords
+60,3,85,The Dynasty of Ahau Quiché Lords,85: The Dynasty of Ahau Quiché Lords
+60,4,86,The Great Houses of the Ahau Quiché Lords,86: The Great Houses of the Ahau Quiché Lords
+60,5,87,The Three Great Stewards as Mothers of the Word,87: The Three Great Stewards as Mothers of the Word

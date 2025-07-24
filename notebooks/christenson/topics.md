@@ -1,8 +1,8 @@
 |   topic_id | top_terms                                                                    |
 |-----------:|:-----------------------------------------------------------------------------|
-|          0 | b'alam, amaq, tojil, kitze, majukutaj, k'ab'awil, aq'ab, aj, ik'i, jaq'awitz |
-|          1 | kame, xib'alb'a, junajpu, xcha, kik, b'a, ajawab, wuqub, k'ate, samajel      |
-|          2 | ajaw, ajawab, pop, tinamit, aj, nim, k'iche, q'alel, le, k'am                |
-|          3 | kaj, b'it, winaq, tz'aq, ulew, aj, k'ajolom, alom, b'itol, tz'aqol           |
-|          4 | kaqix, k'ajolab, sipakna, wuqub, jul, kab'raqan, xcha, junajpu, juyub, much  |
-|          5 | kati't, chowen, ati't, junajpu, b'atz, qati't, ch'o, aj, xb'alanke, che      |
+|          0 | b'alam, amaq, tojil, kitze, majukutaj, k'ab'awil, jaq'awitz, aq'ab, aj, q'ij |
+|          1 | xib'alb'a, kame, junajpu, kik, xcha, b'a, wuqub, ajawab, jolom, la           |
+|          2 | ajaw, ajawab, aj, pop, ja, tinamit, nim, k'iche, le, k'am                    |
+|          3 | kaj, aj, b'it, winaq, ulew, tz'aq, k'ajolom, alom, tz'aqol, b'itol           |
+|          4 | kaqix, k'ajolab, sipakna, wuqub, jul, kab'raqan, xcha, in, nu, junajpu       |
+|          5 | kati't, qati't, ch'o, ati't, chowen, b'atz, junajpu, che, ix, tz'ikin        |

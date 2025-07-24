@@ -1,6 +1,6 @@
-label,n,color,top_words
-3,19,lightblue,"ri, k'ut, ta, k'u, jun, xa, junajpu, wi, xcha, kame, xib'alb'a, wuqub, chik, are, pa, k'ajolab, la, k'ate, xecha, xb'alanke"
-1,13,lightgray,"ta, ri, xa, k'ut, wi, puch, kaj, chik, winaq, k'iche, rumal, pa, ulew, are, ronojel, ajaw, q'ukumatz, pu, ajawab, k'u"
-4,10,lightgreen,"ta, ri, b'alam, amaq, k'ut, wi, tojil, xa, k'u, kitze, are, q'ij, majukutaj, jakawitz, aq'ab, chik, chiri, awilix, xecha, ub'i"
-2,7,pink,"ajaw, unim, q'amja, ja, ajpop, ajawab, nim, lolmet, are, jun, b'elejeb, nija'ib'ab, wa, chokoj, winaq, chinamit, chuwach, ajtzik, kawiqib, q'alel"
-5,2,lightyellow,"le, ajawarem, ajawab, k'otuja, b'alam, ajaw, uxe, b'elejeb, k'ute, chik, q'alel, kej, wa'e, kitze, k'ut, are, ukaj, chuwach, winaq, nab'e"
+label,n,color
+3,19,lightblue
+1,12,lightgray
+4,11,lightgreen
+2,7,pink
+5,2,lightyellow
