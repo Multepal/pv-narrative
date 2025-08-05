@@ -46,22 +46,13 @@ class DocTablle(self):
 
         """
         self.DOC = doc_df
+        
+class ExtractDoc(self, ohco_level):
+    self.
 
 
 
 
-DOC = pd.DataFrame(data, columns=['chap_num','verse_num','line_str']).set_index(['chap_num', 'verse_num'])
-
-
-# In[329]:
-
-
-DOC
-
-
-# # CHAP
-
-# In[330]:
 
 
 CHAP = DOC.groupby(['chap_num']).line_str.apply(lambda x: ' '.join(map(str, x))).to_frame('book_str')
@@ -90,7 +81,7 @@ TOKEN = DOC.line_str.str.split(expand=True).stack().to_frame('token_str')
 # In[334]:
 
 
-TOKEN.index.names = list(DOC.index.names[:2]) + ['token_num']
+TOKEN.index.names = list(DOC.index.names[:-1]) + ['token_num']
 
 
 # In[335]:

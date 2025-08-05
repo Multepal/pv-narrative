@@ -31,7 +31,7 @@ class HAC:
     dist_metric:str = 'euclidean' 
     linkage_method:str = 'ward' 
     norm_type:str = 'l2' 
-    color_thresh:float = 0
+    color_thresh:float = None
     
     def __init__(self, X, labels=None):
         self.X = X
@@ -45,11 +45,15 @@ class HAC:
         self.SIMS = pdist(normalize(self.X, norm=self.norm_type), metric=self.dist_metric)
 
     def get_tree(self):
-        self.TREE = sch.linkage(self.SIMS, method=self.linkage_method)        
+        self.TREE = sch.linkage(self.SIMS, method=self.linkage_method)   
+        
+        if not self.color_thresh: # This is used to choose number of clusters
+            TREE_df = df(self.TREE, columns=['i','j','d','n'])
+            # self.color_thresh = df(self.TREE)[2].median()
+            # Black magic ...
+            self.color_thresh = TREE_df[(TREE_df.d - TREE_df.shift().d) > .1].d.min()
         
     def plot_tree(self):
-        if not self.color_thresh:
-            self.color_thresh = df(self.TREE)[2].median()
         plt.figure()
         plt.subplots(figsize=(self.w, self.h / 3))
         sch.dendrogram(self.TREE, 
@@ -62,7 +66,10 @@ class HAC:
         plt.tick_params(axis='both', which='major', labelsize=self.label_size)
 
     def get_cluster_labels(self):
-        self.CLUSTER_LABELS = sch.fcluster(self.TREE, t=self.color_thresh, criterion='distance')
+        # Hack to truncate without rounding
+        a, b = str(float(self.color_thresh)).split(".")
+        x = float(a + "." + b[:2])
+        self.CLUSTER_LABELS = sch.fcluster(self.TREE, t=x, criterion='distance')
         
     def plot(self):
         self.get_sims()
