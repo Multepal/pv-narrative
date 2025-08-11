@@ -28,7 +28,7 @@ doc_id,cluster_label,cluster_letter
 26,2,F
 27,2,F
 28,5,E
-29,4,D
+29,2,F
 30,4,D
 31,4,D
 32,4,D
@@ -43,7 +43,7 @@ doc_id,cluster_label,cluster_letter
 41,5,E
 42,5,E
 43,5,E
-44,9,A
+44,5,E
 45,9,A
 46,9,A
 47,9,A
@@ -52,7 +52,7 @@ doc_id,cluster_label,cluster_letter
 50,6,G
 51,6,G
 52,6,G
-53,8,H
+53,6,G
 54,6,G
 55,6,G
 56,6,G

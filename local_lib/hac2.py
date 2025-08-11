@@ -56,7 +56,7 @@ class HAC:
     def plot_tree(self):
         plt.figure()
         plt.subplots(figsize=(self.w, self.h / 3))
-        sch.dendrogram(self.TREE, 
+        self.dendro = sch.dendrogram(self.TREE,
             labels=self.labels, 
             orientation=self.orientation,
             count_sort=True,

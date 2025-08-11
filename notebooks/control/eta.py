@@ -69,8 +69,8 @@ class Doc:
     def compute_term_significance(self):
         self.VOCAB = pd.DataFrame(index=self.corpus.VOCAB.index)
         self.VOCAB['df'] = self.CTM.astype(bool).sum()
-        self.VOCAB['dp'] = self.VOCAB.df / len(self.CTM)
-        self.VOCAB['dh'] = self.VOCAB.dp * np.log2(1/self.VOCAB.dp)
+        self.VOCAB['dp'] = (self.VOCAB.df / len(self.CTM)) + .001
+        self.VOCAB['dh'] = self.VOCAB.dp * np.log2(1/(self.VOCAB.dp))
 
     def define_sig_terms(self, max_dh=None, agg_func='mean'):
         if max_dh:
@@ -81,8 +81,10 @@ class Doc:
 
     def make_tfidf_df(self):
         CTMX = self.CTM[self.VOCAB[self.VOCAB.sig].index]
-        tfidf_engine = TfidfTransformer(norm='l2', 
-                            use_idf=True, smooth_idf=True)
+        tfidf_engine = TfidfTransformer(
+            norm='l2', 
+            use_idf=True, 
+            smooth_idf=True)
         self.TFIDF = pd.DataFrame(
             tfidf_engine.fit_transform(CTMX).toarray(), 
             columns=CTMX.columns, index=CTMX.index)    
@@ -112,21 +114,26 @@ class Cluster:
     
     def __init__(self, doc:Doc):
         self.doc = doc
-        self.TFIDF = self.doc.TFIDF
+        # self.TFIDF = self.doc.TFIDF
         self.metric = 'euclidean'
         self.DOC_CLUSTER = pd.DataFrame(index=self.doc.TFIDF.index)
 
     def make_tfidf_dist_df(self):
         self.X = pd.DataFrame(
-            pairwise_distances(self.TFIDF, metric=self.metric), 
-            index=self.TFIDF.index, 
-            columns=self.TFIDF.index)
+            pairwise_distances(self.doc.TFIDF, metric=self.metric), 
+            index=self.doc.TFIDF.index, 
+            columns=self.doc.TFIDF.index)
         
     def cluster_tfidf(self):
-        self.tfidf_hac = HAC(self.X)
+        self.tfidf_hac = HAC(self.doc.TFIDF)
         self.tfidf_hac.get_sims()
         self.tfidf_hac.get_tree()
 
+    def cluster_tfidf_dist(self):
+        self.tfidf_dist_hac = HAC(self.X)
+        self.tfidf_dist_hac.get_sims()
+        self.tfidf_dist_hac.get_tree()
+    
     def show_tree(self, color_thresh=None):
         if color_thresh:
             self.tfidf_hac.color_thresh = color_thresh
@@ -147,9 +154,32 @@ class Cluster:
         self.DOC_CLUSTER['cluster_letter'] = self.DOC_CLUSTER.cluster_label.map(self.CLUSTER.cluster_letter)
         self.CLUSTER = self.CLUSTER.reset_index().set_index('cluster_letter')
 
+    def get_tfidf_by_cluster(self):
+        CTM = (
+            self.DOC_CLUSTER[['cluster_letter']]
+            .join(self.doc.CTM)
+            .groupby('cluster_letter')
+            .sum()
+        )                
+        DP = CTM.astype(bool).sum() / len(CTM)
+        DH = DP * np.log2(1/DP)
+        SIG = DH[DH > DH.mean()].index.tolist()
+        CTMX = CTM[SIG]
+        tfidf_engine = TfidfTransformer(
+            norm='l2', use_idf=True, smooth_idf=True)
+        self.TFIDF = pd.DataFrame(
+            tfidf_engine.fit_transform(CTMX).toarray(), 
+            columns=CTMX.columns, index=CTMX.index) 
+        
+        self.doc.VOCAB['max_cluster2'] = self.TFIDF.idxmax()
+        self.CLUSTER['gloss2'] = self.TFIDF.idxmax(1)
+        self.CLUSTER['top_terms2'] = self.TFIDF\
+            .apply(lambda x: ', '.join(x.sort_values(ascending=False).head(7).index), axis=1)
+        
+
     def assign_cluster_tfidf_values(self):
         self.CLUSTER_TFIDF = (
-            self.TFIDF
+            self.doc.TFIDF
             .join(self.DOC_CLUSTER["cluster_letter"])
             .groupby("cluster_letter")
             .mean()
