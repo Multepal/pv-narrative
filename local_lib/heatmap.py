@@ -1,4 +1,4 @@
-import plotly_express as px
+import plotly.express as px
 
 plotly_template = 'plotly_white'
 
