@@ -54,7 +54,7 @@ class HAC:
             self.color_thresh = TREE_df[(TREE_df.d - TREE_df.shift().d) > .1].d.min()
         
     def plot_tree(self):
-        # fig, ax = plt.subplots(figsize=(self.w, self.h / 3))
+        fig, ax = plt.subplots(figsize=(self.w, self.h / 3))
         self.dendro = sch.dendrogram(
             self.TREE,
             labels=self.labels, 
@@ -64,7 +64,7 @@ class HAC:
             above_threshold_color='.75',
             color_threshold=self.color_thresh
         )
-        # ax.set_tick_params(axis='both', which='major', labelsize=self.label_size)
+        
         plt.tick_params(axis='both', which='major', labelsize=self.label_size)
 
     def get_cluster_labels(self):
