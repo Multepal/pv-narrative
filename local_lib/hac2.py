@@ -64,7 +64,7 @@ class HAC:
             above_threshold_color='.75',
             color_threshold=self.color_thresh
         )
-        
+        ax.axvline(self.color_thresh, ls='--', c='lightgray')
         plt.tick_params(axis='both', which='major', labelsize=self.label_size)
 
     def get_cluster_labels(self):
