@@ -7,8 +7,16 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    permissions:
+      pages: write
+      id-token: write
     steps:
       - uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
       - uses: actions/setup-node@v4
         with:
           node-version: '18'
@@ -17,19 +25,10 @@ jobs:
           python-version: '3.11'
       - run: pip install jupyter-book
       - run: npm install -g mystmd
-      - run: jupyter book build --html --baseurl /pv-narrative
+      - run: jupyter book build --html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: _build/html
-
-  deploy-pages:
-    needs: deploy
-    permissions:
-      pages: write
-      id-token: write
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/deploy-pages@v4
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
