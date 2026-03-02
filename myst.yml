@@ -1,15 +1,46 @@
 # See docs at: https://mystmd.org/guide/frontmatter
 version: 1
+
 project:
   id: cba1d5da-07d7-4af1-8a2b-9b0b7ab6256a
+  jupyter: false
   title: Narrative Structure of the Popol Wuj
   description: A Computational Approach
-  # keywords: []
-  # authors: []
+  keywords: ['Maya','narratology']
+  authors: ['R.C. Alvarado']
   github: https://github.com/Multepal/pv-narrative
-  # To autogenerate a Table of Contents, run "jupyter book init --write-toc"
+  # exclude:
+  #   - notebooks/**/_HIDE
+  #   - local_lib/*
+  #   - data/*
+  #   - output/*
+  #   - textos/*
+  #   - notes/*
+  #   - writing/*
+  #   - pv-narrative-essay_files/*
+  #   - notebooks/control/*
+  #   - notebooks/edmonson/*
+  #   - notebooks/play/*
+  #   - notebooks/recinos/*
+  #   - notebooks/tedlock/*
+  #   - notebooks/topics-over-chunks/*
+  #   - README.md
+
+  toc:
+    - file: writing/pv-narrative-essay
+    # - file: chapter1
+    - title: Ajtzibab
+      children:
+        - file: notebooks/ajtzibab/01-ajtzibab-parse-xml
+        - file: notebooks/ajtzibab/02-ajtzibab-model
+
 site:
-  template: book-theme
+  template: article-theme
+  title: Narrative Structure of the <i>Popol Wuj</i>
+  subtitle: A Computational Approach
+  site:
+  url: https://multepal.github.io
+  baseurl: /pv-narrative
   # options:
   #   favicon: favicon.ico
   #   logo: site_logo.png
