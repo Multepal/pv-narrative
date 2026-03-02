@@ -1,3 +1,5 @@
+------------------------------------------------------------------------
+
 ---
 title: "The Narrative Structure of the Popol Wuj"
 author: "Rafael C. Alvarado"
@@ -100,7 +102,7 @@ Calendars are not simply time-keeping devices, they organize space, time, and ac
 
 ## Problem Statement
 
-Current editions of the PW have emphasize the poetic structure of the text. Drawing on ethnopoetics. See Tedlock, Colop, Christenson, Anonymo, etc. Against the tyranny of the paragraph. Also, a focus on orthographic normalization and linguistic alignment.
+Current editions of the PW have emphasize the poetic structure of the text. Drawing on ethopoetics. See Tedlock, Colop, Christenson, Anonymo, etc. Against the tyranny of the paragraph. Also, a focus on orthographic normalization and linguistic alignment.
 
 Discursively, this work addresses the level of the sentence and paragraph, i.e. the micro-level of discourse. There remains an issue at the macro-level -- the text as a whole. Earlier work on the narrative structure of the text – see Edmonson and Gosson.
 

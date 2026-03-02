@@ -9,38 +9,28 @@ project:
   keywords: ['Maya','narratology']
   authors: ['R.C. Alvarado']
   github: https://github.com/Multepal/pv-narrative
-  # exclude:
-  #   - notebooks/**/_HIDE
-  #   - local_lib/*
-  #   - data/*
-  #   - output/*
-  #   - textos/*
-  #   - notes/*
-  #   - writing/*
-  #   - pv-narrative-essay_files/*
-  #   - notebooks/control/*
-  #   - notebooks/edmonson/*
-  #   - notebooks/play/*
-  #   - notebooks/recinos/*
-  #   - notebooks/tedlock/*
-  #   - notebooks/topics-over-chunks/*
-  #   - README.md
-
   toc:
-    - file: writing/pv-narrative-essay
-    # - file: chapter1
-    - title: Ajtzibab
-      children:
-        - file: notebooks/ajtzibab/01-ajtzibab-parse-xml
-        - file: notebooks/ajtzibab/02-ajtzibab-model
+    - file: writing/pv-narrative-essay.md
+    - file: notebooks/ajtzibab/01-ajtzibab-parse-xml.ipynb
+    - file: notebooks/ajtzibab/02-ajtzibab-model.ipynb
+    - file: notebooks/christenson/01-christenson-extract-titles.ipynb
+    - file: notebooks/christenson/03-christenson-grab-literal-lines.ipynb
+    - file: notebooks/christenson/05-christenson-merge.ipynb
+    - file: notebooks/christenson/06-christenson-model.ipynb
+    - file: notebooks/colop/01-colop-import.ipynb
+    - file: notebooks/colop/02-colop-model.ipynb
+    - file: notebooks/ximenez/01-ximenez-parse.ipynb
+    - file: notebooks/ximenez/02-ximenez-model.ipynb
+    - file: notebooks/christenson_ximenez/01-christenson_ximenez-parse.ipynb
+    - file: notebooks/christenson_ximenez/02-christenson_ximenez-model.ipynb
 
 site:
   template: article-theme
   title: Narrative Structure of the <i>Popol Wuj</i>
   subtitle: A Computational Approach
-  site:
-  url: https://multepal.github.io
-  baseurl: /pv-narrative
-  # options:
+  options:
+    site:
+      url: https://multepal.github.io
+      baseurl: /pv-narrative
   #   favicon: favicon.ico
   #   logo: site_logo.png
