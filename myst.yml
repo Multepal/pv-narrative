@@ -27,8 +27,8 @@ site:
   template: article-theme
   title: Narrative Structure of the <i>Popol Wuj</i>
   subtitle: A Computational Approach
-  url: https://multepal.github.io
-  baseurl: /pv-narrative
-  # options:
+  options:
+    url: https://multepal.github.io
+    baseurl: /pv-narrative
   #   favicon: favicon.ico
   #   logo: site_logo.png
