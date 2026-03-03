@@ -20,10 +20,12 @@ project:
     - file: notebooks/colop/01-colop-import.ipynb
     - file: notebooks/colop/02-colop-model.ipynb
     - file: notebooks/ximenez/01-ximenez-parse.ipynb
-    - file: notebooks/ximenez/02-ximenez-model.ipynb
+    # - file: notebooks/ximenez/01-ximenez-parse-NEW.ipynb
+    - file: notebooks/ximenez/02-ximenez-model-OLD.ipynb
+    # - file: notebooks/ximenez/02-ximenez-model.ipynb
     - file: notebooks/christenson_ximenez/01-christenson_ximenez-parse.ipynb
     - file: notebooks/christenson_ximenez/02-christenson_ximenez-model.ipynb
-    - file: notebooks/play/ensemble.ipynb
+    - file: notebooks/ensemble/ensemble.ipynb
 site:
   template: article-theme
   title: Narrative Structure of the <i>Popol Wuj</i>
