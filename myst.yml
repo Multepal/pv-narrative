@@ -23,6 +23,7 @@ project:
     - file: notebooks/ximenez/02-ximenez-model.ipynb
     - file: notebooks/christenson_ximenez/01-christenson_ximenez-parse.ipynb
     - file: notebooks/christenson_ximenez/02-christenson_ximenez-model.ipynb
+    - file: notebooks/play/ensemble.ipynb
 site:
   template: article-theme
   title: Narrative Structure of the <i>Popol Wuj</i>
