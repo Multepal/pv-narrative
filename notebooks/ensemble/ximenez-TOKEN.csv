@@ -377,7 +377,6 @@ para_num,token_num,token_str,term_str,chunk_num
 5,37,ta,ta,0
 5,38,xquiquxlaah,xquiquxlaah,0
 5,39,quib,quib,0
-5,40,.+,,0
 5,41,zac,zac,0
 5,42,taxevi,taxevi,0
 5,43,xcalah,xcalah,0
@@ -432,7 +431,7 @@ para_num,token_num,token_str,term_str,chunk_num
 5,92,ta,ta,0
 5,93,xnaohixic,xnaohixic,0
 5,94,zac,zac,0
-5,95,"qazlem,",qazlem,1
+5,95,"qazlem,",qazlem,0
 5,96,hupacha,hupacha,1
 5,97,ta,ta,1
 5,98,cha,cha,1
@@ -778,7 +777,6 @@ para_num,token_num,token_str,term_str,chunk_num
 7,9,"alom,",alom,1
 7,10,qaholom:,qaholom,1
 7,11,quixqhauoc,quixqhauoc,1
-7,12,",",,1
 7,13,quixziquinoc,quixziquinoc,1
 7,14,mi,mi,1
 7,15,"xyonoliquinic,",xyonoliquinic,1
@@ -864,8 +862,8 @@ para_num,token_num,token_str,term_str,chunk_num
 7,95,mi,mi,1
 7,96,"xutzinic,",xutzinic,1
 7,97,mi,mi,1
-7,98,"xeqhauic,",xeqhauic,2
-7,99,xeqha,xeqha,2
+7,98,"xeqhauic,",xeqhauic,1
+7,99,xeqha,xeqha,1
 7,100,chic,chic,2
 7,101,qui,qui,2
 7,102,bil,bil,2
@@ -1296,8 +1294,8 @@ para_num,token_num,token_str,term_str,chunk_num
 8,73,"vuch,",vuch,2
 8,74,hunahpu,hunahpu,2
 8,75,vtiu,vtiu,2
-8,76,camul,camul,3
-8,77,"alom,",alom,3
+8,76,camul,camul,2
+8,77,"alom,",alom,2
 8,78,camul,camul,3
 8,79,qaholom,qaholom,3
 8,80,nimac,nimac,3
@@ -1728,8 +1726,8 @@ para_num,token_num,token_str,term_str,chunk_num
 9,141,chicop,chicop,3
 9,142,xcut,xcut,3
 9,143,qui,qui,3
-9,144,vach,vach,4
-9,145,rumal,rumal,4
+9,144,vach,vach,3
+9,145,rumal,rumal,3
 9,146,che,che,4
 9,147,abah.,abah,4
 9,148,xqhauic,xqhauic,4
@@ -2160,8 +2158,8 @@ para_num,token_num,token_str,term_str,chunk_num
 10,141,caquix,caquix,4
 10,142,xere,xere,4
 10,143,cunimarizah,cunimarizah,4
-10,144,rib,rib,5
-10,145,rivxic,rivxic,5
+10,144,rib,rib,4
+10,145,rivxic,rivxic,4
 10,146,vpuvaC,vpuvac,5
 10,147,xere,xere,5
 10,148,cut,cut,5
@@ -2593,7 +2591,7 @@ para_num,token_num,token_str,term_str,chunk_num
 12,111,xbec,xbec,5
 12,112,quitzih,quitzih,5
 12,113,vi,vi,5
-12,114,xbe,xbe,6
+12,114,xbe,xbe,5
 12,115,"vqhapa,",vqhapa,6
 12,116,cate,cate,6
 12,117,cut,cut,6
@@ -3025,7 +3023,7 @@ para_num,token_num,token_str,term_str,chunk_num
 12,543,xere,xere,6
 12,544,in,in,6
 12,545,ahau,ahau,6
-12,546,vi,vi,7
+12,546,vi,vi,6
 12,547,nu,nu,7
 12,548,caubal,caubal,7
 12,549,ri,ri,7
@@ -3457,7 +3455,7 @@ para_num,token_num,token_str,term_str,chunk_num
 13,188,ta,ta,7
 13,189,xquicot,xquicot,7
 13,190,cut,cut,7
-13,191,hun,hun,8
+13,191,hun,hun,7
 13,192,nima,nima,8
 13,193,hul,hul,8
 13,194,naht,naht,8
@@ -3889,7 +3887,7 @@ para_num,token_num,token_str,term_str,chunk_num
 13,620,caib,caib,8
 13,621,xcolotah,xcolotah,8
 13,622,chiquech,chiquech,8
-13,623,ri,ri,9
+13,623,ri,ri,8
 13,624,omuch,omuch,9
 13,625,chiqaholab,chiqaholab,9
 13,626,xecamizaxic,xecamizaxic,9
@@ -4321,7 +4319,7 @@ para_num,token_num,token_str,term_str,chunk_num
 14,382,mi,mi,9
 14,383,xnurico.,xnurico,9
 14,384,cate,cate,9
-14,385,vtz,vtz,10
+14,385,vtz,vtz,9
 14,386,lo,lo,10
 14,387,qui,qui,10
 14,388,paqueic,paqueic,10
@@ -4753,7 +4751,7 @@ para_num,token_num,token_str,term_str,chunk_num
 15,346,chicaya,chicaya,10
 15,347,chire,chire,10
 15,348,ta,ta,10
-15,349,hiconoc,hiconoc,11
+15,349,hiconoc,hiconoc,10
 15,350,ta,ta,11
 15,351,chutzica,chutzica,11
 15,352,puch,puch,11
@@ -6482,7 +6480,7 @@ para_num,token_num,token_str,term_str,chunk_num
 19,586,quixpuzic,quixpuzic,14
 19,587,xqhahun,xqhahun,14
 19,588,came,came,14
-19,589,vvcub,vvcub,15
+19,589,vvcub,vvcub,14
 19,590,came.,came,15
 19,591,ta,ta,15
 19,592,xepuz,xepuz,15
@@ -6914,7 +6912,7 @@ para_num,token_num,token_str,term_str,chunk_num
 21,250,vleu,vleu,15
 21,251,mavi,mavi,15
 21,252,cacamic,cacamic,15
-21,253,catoc,catoc,16
+21,253,catoc,catoc,15
 21,254,patzih,patzih,16
 21,255,ta,ta,16
 21,256,chuxoc,chuxoc,16
@@ -7346,7 +7344,7 @@ para_num,token_num,token_str,term_str,chunk_num
 22,362,apanoc,apanoc,16
 22,363,oh,oh,16
 22,364,nacaya,nacaya,16
-22,365,ixtah,ixtah,17
+22,365,ixtah,ixtah,16
 22,366,v,v,17
 22,367,va,va,17
 22,368,vquexevachaqux,vquexevachaqux,17
@@ -10371,7 +10369,7 @@ para_num,token_num,token_str,term_str,chunk_num
 29,373,ri,ri,23
 29,374,xic,xic,23
 29,375,quetiou,quetiou,23
-29,376,cumatz,cumatz,23
+29,376,cumatz,cumatz,24
 29,377,patachuyub.ta,patachuyubta,24
 29,378,xopon,xopon,24
 29,379,puch,puch,24
@@ -10803,7 +10801,7 @@ para_num,token_num,token_str,term_str,chunk_num
 31,124,chiqui,chiqui,24
 31,125,qux,qux,24
 31,126,xibalba,xibalba,24
-31,127,maui,maui,24
+31,127,maui,maui,25
 31,128,xquiyicou,xquiyicou,25
 31,129,xa,xa,25
 31,130,chirihvvb,chirihvvb,25
@@ -11235,7 +11233,7 @@ para_num,token_num,token_str,term_str,chunk_num
 31,556,cala,cala,25
 31,557,ta,ta,25
 31,558,chamia,chamia,25
-31,559,"baca,",baca,25
+31,559,"baca,",baca,26
 31,560,calata,calata,26
 31,561,chamia,chamia,26
 31,562,"holom,",holom,26
@@ -11667,7 +11665,7 @@ para_num,token_num,token_str,term_str,chunk_num
 31,988,xcah,xcah,26
 31,989,cuchaah.,cuchaah,26
 31,990,cate,cate,26
-31,991,cut,cut,26
+31,991,cut,cut,27
 31,992,ta,ta,27
 31,993,xquichoí,xquicho,27
 31,994,quichacon;,quichacon,27
@@ -12099,7 +12097,7 @@ para_num,token_num,token_str,term_str,chunk_num
 31,1420,que,que,27
 31,1421,he,he,27
 31,1422,cut,cut,27
-31,1423,xezac,xezac,27
+31,1423,xezac,xezac,28
 31,1424,cahe,cahe,28
 31,1425,riconohel,riconohel,28
 31,1426,xibalba,xibalba,28
@@ -12531,7 +12529,7 @@ para_num,token_num,token_str,term_str,chunk_num
 35,134,cupul,cupul,28
 35,135,chi,chi,28
 35,136,canoc,canoc,28
-35,137,vnimal,vnimal,28
+35,137,vnimal,vnimal,29
 35,138,ri,ri,29
 35,139,hun,hun,29
 35,140,ahpu,ahpu,29
@@ -12964,7 +12962,7 @@ para_num,token_num,token_str,term_str,chunk_num
 36,117,qui,qui,29
 36,118,cabichal.,cabichal,29
 36,119,are,are,29
-36,120,cut,cut,29
+36,120,cut,cut,30
 36,121,quebe,quebe,30
 36,122,tzucuna,tzucuna,30
 36,123,quic,quic,30
@@ -13396,7 +13394,7 @@ para_num,token_num,token_str,term_str,chunk_num
 37,329,xqui,xqui,30
 37,330,rip,rip,30
 37,331,qui,qui,30
-37,332,cab,cab,30
+37,332,cab,cab,31
 37,333,qui,qui,31
 37,334,cabichal,cabichal,31
 37,335,epu,epu,31
@@ -13828,7 +13826,7 @@ para_num,token_num,token_str,term_str,chunk_num
 40,54,oh,oh,31
 40,55,chutic,chutic,31
 40,56,oc,oc,31
-40,57,ta,ta,31
+40,57,ta,ta,32
 40,58,xecamic,xecamic,32
 40,59,xa,xa,32
 40,60,xeqha,xeqha,32
@@ -14260,7 +14258,7 @@ para_num,token_num,token_str,term_str,chunk_num
 41,128,vach,vach,32
 41,129,xqha,xqha,32
 41,130,ta,ta,32
-41,131,xuna,xuna,32
+41,131,xuna,xuna,33
 41,132,rib,rib,33
 41,133,xequiz,xequiz,33
 41,134,cubec,cubec,33
@@ -14692,7 +14690,7 @@ para_num,token_num,token_str,term_str,chunk_num
 42,355,xquitic,xquitic,33
 42,356,can,can,33
 42,357,oc,oc,33
-42,358,hunahpu,hunahpu,33
+42,358,hunahpu,hunahpu,34
 42,359,xbalanque,xbalanque,34
 42,360,xanatabal,xanatabal,34
 42,361,que,que,34
@@ -14877,7 +14875,6 @@ para_num,token_num,token_str,term_str,chunk_num
 43,149,looks,looks,34
 43,150,like,like,34
 43,151,a,a,34
-43,152,ꜭ,,34
 43,153,to,to,34
 43,154,me,me,34
 43,155,heui,heui,34
@@ -15557,7 +15554,7 @@ para_num,token_num,token_str,term_str,chunk_num
 51,1,xvabax,xvabax,35
 51,2,vbac,vbac,35
 51,3,qui,qui,35
-51,4,vach,vach,35
+51,4,vach,vach,36
 51,5,rumal,rumal,36
 51,6,ri,ri,36
 51,7,vqux,vqux,36
@@ -15989,7 +15986,7 @@ para_num,token_num,token_str,term_str,chunk_num
 51,433,vqux,vqux,36
 51,434,vleu,vleu,36
 51,435,xeqha,xeqha,36
-51,436,xere,xere,36
+51,436,xere,xere,37
 51,437,qui,qui,37
 51,438,quxlaan,quxlaan,37
 51,439,ri,ri,37
@@ -16288,7 +16285,6 @@ para_num,token_num,token_str,term_str,chunk_num
 53,39,ri,ri,37
 53,40,tohil,tohil,37
 53,41,vbicabauil,vbicabauil,37
-53,42,.,,37
 53,43,xequel,xequel,37
 53,44,vcoc,vcoc,37
 53,45,ri,ri,37
@@ -18150,7 +18146,7 @@ para_num,token_num,token_str,term_str,chunk_num
 59,333,echicarinac,echicarinac,41
 59,334,rumal,rumal,41
 59,335,vqaxcol.,vqaxcol,41
-59,336,xa,xa,41
+59,336,xa,xa,42
 59,337,e,e,42
 59,338,qovi,qovi,42
 59,339,vloc,vloc,42
@@ -18582,7 +18578,7 @@ para_num,token_num,token_str,term_str,chunk_num
 61,257,xachi,xachi,42
 61,258,cu,cu,42
 61,259,vlemo,vlemo,42
-61,260,ri,ri,42
+61,260,ri,ri,43
 61,261,xcanahic,xcanahic,43
 61,262,maui,maui,43
 61,263,quitzih,quitzih,43
@@ -19014,7 +19010,7 @@ para_num,token_num,token_str,term_str,chunk_num
 61,689,areqochic,areqochic,43
 61,690,pa,pa,43
 61,691,ec,ec,43
-61,692,pa,pa,43
+61,692,pa,pa,44
 61,693,tziyac,tziyac,44
 61,694,cumal.,cumal,44
 62,0,Vacute,vacute,44
@@ -20743,7 +20739,7 @@ para_num,token_num,token_str,term_str,chunk_num
 67,195,chirih,chirih,47
 67,196,ahau,ahau,47
 67,197,ta,ta,47
-67,198,xucoh,xucoh,47
+67,198,xucoh,xucoh,48
 67,199,chicut,chicut,48
 67,200,ahau,ahau,48
 67,201,ri,ri,48
@@ -21175,7 +21171,7 @@ para_num,token_num,token_str,term_str,chunk_num
 68,179,qui,qui,48
 68,180,i,i,48
 68,181,ach,ach,48
-68,182,vach,vach,48
+68,182,vach,vach,49
 68,183,ruq,ruq,49
 68,184,cu,cu,49
 68,185,ruq,ruq,49
@@ -21607,7 +21603,7 @@ para_num,token_num,token_str,term_str,chunk_num
 69,88,amac,amac,49
 69,89,ta,ta,49
 69,90,xe,xe,49
-69,91,acan,acan,49
+69,91,acan,acan,50
 69,92,cut,cut,50
 69,93,chuvach,chuvach,50
 69,94,huyub,huyub,50
@@ -22039,7 +22035,7 @@ para_num,token_num,token_str,term_str,chunk_num
 70,120,qux,qux,50
 70,121,chupan,chupan,50
 70,122,quibixic,quibixic,50
-70,123,camu,camu,50
+70,123,camu,camu,51
 70,124,cu,cu,51
 70,125,vbi,vbi,51
 70,126,quibix,quibix,51
@@ -22228,7 +22224,6 @@ para_num,token_num,token_str,term_str,chunk_num
 70,309,rech,rech,51
 70,310,qui,qui,51
 70,311,cahau,cahau,51
-70,312,.,,51
 70,313,areta,areta,51
 70,314,xvinaquir,xvinaquir,51
 70,315,vi,vi,51
@@ -22316,7 +22311,6 @@ para_num,token_num,token_str,term_str,chunk_num
 70,397,chiquiquicrol,chiquiquicrol,51
 70,398,xaui,xaui,51
 70,399,pizlic,pizlic,51
-70,400,2,,51
 70,401,chiri,chiri,51
 70,402,cuq.,cuq,51
 70,403,pizom,pizom,51
@@ -22472,7 +22466,7 @@ para_num,token_num,token_str,term_str,chunk_num
 71,102,ia,ia,51
 71,103,taxebec,taxebec,51
 71,104,eoxib,eoxib,51
-71,105,xaui,xaui,52
+71,105,xaui,xaui,51
 71,106,xere,xere,52
 71,107,xeicouic,xeicouic,52
 71,108,chuvi,chuvi,52
@@ -22904,7 +22898,7 @@ para_num,token_num,token_str,term_str,chunk_num
 74,66,nimha,nimha,52
 74,67,chu,chu,52
 74,68,vach,vach,52
-74,69,nihaibab,nihaibab,53
+74,69,nihaibab,nihaibab,52
 74,70,xanaipu,xanaipu,53
 74,71,hun,hun,53
 74,72,rech,rech,53

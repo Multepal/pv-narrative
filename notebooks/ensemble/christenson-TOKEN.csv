@@ -4405,7 +4405,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 13,169,la',la',8
 13,170,tap,tap,8
 13,171,k'o,k'o,8
-13,172,ula,ula,8
+13,172,ula,ula,9
 13,173,xe',xe',9
 13,174,siwan.,siwan,9
 13,175,Qitzij,qitzij,9
@@ -5384,7 +5384,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 15,5,U,u,10
 15,6,b'i',b'i',10
 15,7,ki,ki,10
-15,8,qajaw,qajaw,10
+15,8,qajaw,qajaw,11
 15,9,Ri,ri,11
 15,10,"Junajpu,",junajpu,11
 15,11,Xb'alanke.,xb'alanke,11
@@ -6363,7 +6363,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 17,338,Xe'uchax,xe'uchax,12
 17,339,k'ut,k'ut,12
 17,340,Jun,jun,12
-17,341,"B'atz',",b'atz',12
+17,341,"B'atz',",b'atz',13
 17,342,Jun,jun,13
 17,343,Chowen,chowen,13
 17,344,ta,ta,13
@@ -7832,7 +7832,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 20,175,u,u,15
 20,176,jolom,jolom,15
 20,177,Jun,jun,15
-20,178,"Junajpu,",junajpu,15
+20,178,"Junajpu,",junajpu,16
 20,179,K'o,k'o,16
 20,180,chi,chi,16
 20,181,Puk'b'al,puk'b'al,16
@@ -8811,7 +8811,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 22,72,ki,ki,17
 22,73,waram,waram,17
 22,74,chiri'.,chiri',17
-22,75,Xe'el,xe'el,17
+22,75,Xe'el,xe'el,18
 22,76,chi,chi,18
 22,77,k'u,k'u,18
 22,78,"chiri',",chiri',18
@@ -9790,7 +9790,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 23,269,Xecha',xecha',19
 23,270,k'ut,k'ut,19
 23,271,chire,chire,19
-23,272,kati't:,kati't,19
+23,272,kati't:,kati't,20
 23,273,“Mi,mi,20
 23,274,k'u,k'u,20
 23,275,xqatijo,xqatijo,20
@@ -10769,7 +10769,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 24,849,xikin,xikin,21
 24,850,"ja,",ja,21
 24,851,Ta,ta,21
-24,852,k'u,k'u,21
+24,852,k'u,k'u,22
 24,853,joko,joko,22
 24,854,"apanoq,",apanoq,22
 24,855,Ju,ju,22
@@ -11259,7 +11259,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 26,178,xchiwuchaj,xchiwuchaj,22
 26,179,Ki,ki,22
 26,180,taqik,taqik,22
-26,181,ri,ri,22
+26,181,ri,ri,23
 26,182,wi'y?,wi'y,23
 26,183,Mawi,mawi,23
 26,184,qitzij,qitzij,23
@@ -11748,7 +11748,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 27,163,Xutij,xutij,23
 27,164,chi,chi,23
 27,165,"k'ut,",k'ut,23
-27,166,Xa,xa,23
+27,166,Xa,xa,24
 27,167,keje',keje',24
 27,168,chuchub',chuchub',24
 27,169,u,u,24
@@ -12238,7 +12238,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 28,340,“Mi,mi,24
 28,341,xiti'owik!”,xiti'owik,24
 28,342,xcha',xcha',24
-28,343,chik.,chik,24
+28,343,chik.,chik,25
 28,344,Ta,ta,25
 28,345,xti',xti',25
 28,346,u,u,25
@@ -12727,7 +12727,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 28,829,b'i,b'i,25
 28,830,xk'is,xk'is,25
 28,831,ri,ri,25
-28,832,"chaj,",chaj,25
+28,832,"chaj,",chaj,26
 28,833,Xa,xa,26
 28,834,wi,wi,26
 28,835,xere,xere,26
@@ -13217,7 +13217,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 28,1319,Chiri',chiri',26
 28,1320,pa,pa,26
 28,1321,Chaim,chaim,26
-28,1322,Ja,ja,26
+28,1322,Ja,ja,27
 28,1323,chaq'ab'.,chaq'ab',27
 28,1324,Ta,ta,27
 28,1325,xkisik'ij,xkisik'ij,27
@@ -13706,7 +13706,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 30,30,b'aq.,b'aq,27
 30,31,“Mi,mi,27
 30,32,k'u,k'u,27
-30,33,"xe'utzinik,",xe'utzinik,27
+30,33,"xe'utzinik,",xe'utzinik,28
 30,34,Mi,mi,28
 30,35,xutij,xutij,28
 30,36,ki,ki,28
@@ -13893,7 +13893,6 @@ chap_num,token_num,token_str,term_str,chunk_num
 32,80,keb'ujujik:,keb'ujujik,28
 32,81,“Kilitz!,kilitz,28
 32,82,Kilitz,kilitz,28
-32,83,!”,,28
 32,84,"Kecha',",kecha',28
 32,85,Kecha',kecha',28
 32,86,jun,jun,28
@@ -16709,7 +16708,6 @@ chap_num,token_num,token_str,term_str,chunk_num
 42,3,K'ayala',k'ayala',34
 42,4,u,u,34
 42,5,b'i',b'i',34
-42,6,",",,34
 42,7,Xpe,xpe,34
 42,8,wi,wi,34
 42,9,q'ana,q'ana,34
@@ -17134,7 +17132,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 45,16,kixta'onik?,kixta'onik,34
 45,17,Ma,ma,34
 45,18,utz,utz,34
-45,19,i,i,35
+45,19,i,i,34
 45,20,"ch'ab'al,",ch'ab'al,35
 45,21,Ruk',ruk',35
 45,22,i,i,35
@@ -17624,7 +17622,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 47,242,u,u,35
 47,243,"mam,",mam,35
 47,244,U,u,35
-47,245,"qajaw,",qajaw,36
+47,245,"qajaw,",qajaw,35
 47,246,B'elejeb',b'elejeb',36
 47,247,nim,nim,36
 47,248,ja,ja,36
@@ -18113,7 +18111,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 47,731,pu,pu,36
 47,732,qila',qila',36
 47,733,We,we,36
-47,734,k'o,k'o,37
+47,734,k'o,k'o,36
 47,735,chichajin,chichajin,37
 47,736,qe,qe,37
 47,737,ta,ta,37
@@ -18603,7 +18601,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 51,31,xuxik.,xuxik,37
 51,32,Ta,ta,37
 51,33,xkitz'onoj,xkitz'onoj,37
-51,34,chi,chi,38
+51,34,chi,chi,37
 51,35,k'ut,k'ut,38
 51,36,ki,ki,38
 51,37,q'aq',q'aq',38
@@ -19582,7 +19580,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 53,31,b'i',b'i',39
 53,32,juyub',juyub',39
 53,33,Xekuchu,xekuchu,39
-53,34,wi,wi,40
+53,34,wi,wi,39
 53,35,kib'.,kib',40
 53,36,Chiri',chiri',40
 53,37,k'ut,k'ut,40
@@ -20561,7 +20559,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 56,88,xesaqb'isani,xesaqb'isani,41
 56,89,aponoq,aponoq,41
 56,90,"Chila',",chila',41
-56,91,Releb'al,releb'al,42
+56,91,Releb'al,releb'al,41
 56,92,q'ij.,q'ij,42
 56,93,Quz,quz,42
 56,94,keoq'ik,keoq'ik,42
@@ -21540,7 +21538,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 57,254,Jaq'awitz.,jaq'awitz,43
 57,255,K'ajolal,k'ajolal,43
 57,256,wach,wach,43
-57,257,Chikiwachib'ej,chikiwachib'ej,44
+57,257,Chikiwachib'ej,chikiwachib'ej,43
 57,258,Ta,ta,44
 57,259,"ke'ilik,",ke'ilik,44
 57,260,Ta,ta,44
@@ -22030,7 +22028,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 58,13,Ik'i,ik'i,44
 58,14,B'alam.,b'alam,44
 58,15,K'ATE,k'ate,44
-58,16,puch,puch,45
+58,16,puch,puch,44
 58,17,u,u,45
 58,18,kamisaxik,kamisaxik,45
 58,19,amaq',amaq',45
@@ -23009,7 +23007,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 61,24,chik,chik,46
 61,25,u,u,46
 61,26,wachib'al,wachib'al,46
-61,27,Xutz'ib'aj,xutz'ib'aj,47
+61,27,Xutz'ib'aj,xutz'ib'aj,46
 61,28,chuwach,chuwach,47
 61,29,k'ul.,k'ul,47
 61,30,Ta,ta,47
@@ -23988,7 +23986,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 62,504,ri,ri,48
 62,505,amaq',amaq',48
 62,506,chu,chu,48
-62,507,k'oje'ik.,k'oje'ik,49
+62,507,k'oje'ik.,k'oje'ik,48
 62,508,Mawi,mawi,49
 62,509,ajilan,ajilan,49
 62,510,chi,chi,49
@@ -24967,7 +24965,7 @@ chap_num,token_num,token_str,term_str,chunk_num
 65,7,Releb'al,releb'al,50
 65,8,q'ij.,q'ij,50
 65,9,Are',are',50
-65,10,ki,ki,51
+65,10,ki,ki,50
 65,11,k'u'xlan,k'u'xlan,51
 65,12,Ri,ri,51
 65,13,u,u,51

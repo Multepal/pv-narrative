@@ -22,12 +22,13 @@ class NarrativeParser:
             .str.lower()
             .str.replace(r"[^a-z']", "", regex=True)
         )
+        TOKEN = TOKEN[TOKEN.term_str != ""].copy()
         self.TOKEN = TOKEN
 
     def compute_vocab(self):
         """TOKEN → VOCAB: term frequencies and information content."""
         VOCAB = self.TOKEN.term_str.value_counts().to_frame('n').sort_index()
-        VOCAB = VOCAB[VOCAB.index != ""].copy()
+        # VOCAB = VOCAB[VOCAB.index != ""].copy()
         VOCAB['p'] = VOCAB.n / VOCAB.n.sum()
         VOCAB['i'] = np.log2(1 / VOCAB.p)
         VOCAB['h'] = VOCAB.p * VOCAB.i
@@ -71,18 +72,27 @@ class NarrativeParser:
         """Choose SIGS: top terms by distributional entropy across chunks."""
         DP = self.CTM / self.CTM.sum()
         DI = np.log2(1 / DP).replace(np.inf, 0)
-        DH = DP * DI
-        self.VOCAB['dh'] = DH.sum()
+        self.DH = DP * DI
+        self.VOCAB['dh'] = self.DH.sum()
         self.SIGS = self.VOCAB.sort_values('dh').tail(self.n_top_sigs).index
+
+    def l2_norm(self, X):
+        return np.sqrt((X ** 2).sum(1))
 
     def compute_tfidf(self):
         """CTM → TFIDF: TF-IDF weighted and L2-normalized."""
-        TF = self.CTM[self.SIGS]
-        DF = TF[TF > 0].sum()
-        IDF = np.log((self.n_chunks + 1) / (DF + 1) + 1)
+        X = self.CTM[self.SIGS]
+        TF = X
+        # TF = (X.T / X.T.sum()).T # NOT GOOD -- just as bad as used boolean DF
+        DF = TF.sum() # THIS PRODUCES BETTER RESULTS ...
+        # DF = (TF > 0).sum()
+        IDF = np.log2((self.n_chunks + 1) / (DF + 1) + 1)
         TFIDF = TF * IDF
-        L2_norm = np.sqrt((TFIDF ** 2).sum(1))
-        self.TFIDF = TFIDF.div(L2_norm, axis=0)
+        self.TFIDF = TFIDF.div(self.l2_norm(TFIDF), axis=0)
+        # from sklearn.feature_extraction.text import TfidfTransformer
+        # tfidf_transformer = TfidfTransformer(smooth_idf=False)
+        # X_tfidf = tfidf_transformer.fit_transform(X)
+        # self.TFIDF = pd.DataFrame(X_tfidf.toarray(), index=X.index, columns=X.columns)
 
     def save(self):
         """Save TOKEN, VOCAB, CHUNK, and TFIDF to CSV."""

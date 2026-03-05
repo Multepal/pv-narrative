@@ -10,6 +10,11 @@ from hac2 import HAC
 class NarrativeModel:
     """Models narrative structure from chunked text using TFIDF, HAC, PCA, and NMF."""
 
+    # General
+    use_sim = True
+    linkage_method='ward'
+    distance_metric='euclidean'
+
     # HAC settings
     hac_color_thresh = 1
 
@@ -21,6 +26,7 @@ class NarrativeModel:
     nmf_random_state = 42
     n_topic_terms = 5
 
+
     def __init__(self, src_id: str, CHUNK: pd.DataFrame, TFIDF: pd.DataFrame):
         self.src_id = src_id
         self.CHUNK = CHUNK.copy()
@@ -30,26 +36,33 @@ class NarrativeModel:
         self.TFIDF_SIM = pd.DataFrame(cosine_similarity(self.TFIDF), index=self.TFIDF.index)
 
     def plot_tfidf_clustermap(self):
-        fig = sns.clustermap(self.TFIDF_SIM,
-                             method='ward', metric='euclidean',
-                             cmap='Spectral', center=0, cbar_pos=None,
-                             col_cluster=False, robust=True,
-                             xticklabels=True, yticklabels=True, figsize=(20, 20))
+        X = self.TFIDF_SIM if self.use_sim else self.TFIDF
+        fig = sns.clustermap(X,
+            method=self.linkage_method, 
+            metric=self.distance_metric,
+            cmap='Spectral', center=0, cbar_pos=None,
+            col_cluster=False, robust=True,
+            xticklabels=True, yticklabels=True, figsize=(20, 20))
         plt.setp(fig.ax_heatmap.get_xticklabels(), rotation=0, ha="right")
         fig.ax_col_dendrogram.set_visible(False)
         plt.title("Clustermap of Document Similarity", fontsize=24, y=1.01)
         plt.savefig(f"{self.src_id}-tfidf-sims-clustermap.svg", bbox_inches='tight')
         plt.savefig(f"{self.src_id}-tfidf-sims-clustermap.png", bbox_inches='tight')
 
-    def cluster(self):
-        tfidf_hac = HAC(self.TFIDF_SIM)
+    def cluster(self, plot=True):
+        X = self.TFIDF_SIM if self.use_sim else self.TFIDF
+        tfidf_hac = HAC(X)
+        tfidf_hac.dist_metric = self.distance_metric
+        tfidf_hac.linkage_method = self.linkage_method
         tfidf_hac.color_thresh = self.hac_color_thresh
-        tfidf_hac.plot()
-        sns.despine(left=True, bottom=True)
-        plt.title("Dendrogram of Documents in TFIDF Space", fontsize=14, y=1.01)
-        plt.savefig(f"{self.src_id}-tfidf-sims-hac.svg", bbox_inches='tight')
-        plt.savefig(f"{self.src_id}-tfidf-sims-hac.png", bbox_inches='tight')
-        plt.show()
+        
+        if plot:
+            tfidf_hac.plot()
+            sns.despine(left=True, bottom=True)
+            plt.title("Dendrogram of Documents in TFIDF Space", fontsize=14, y=1.01)
+            plt.savefig(f"{self.src_id}-tfidf-sims-hac.svg", bbox_inches='tight')
+            plt.savefig(f"{self.src_id}-tfidf-sims-hac.png", bbox_inches='tight')
+            plt.show()
 
         tfidf_hac.get_cluster_labels()
         label_col = 'hac_label'
