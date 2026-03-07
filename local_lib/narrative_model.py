@@ -30,7 +30,7 @@ class NarrativeModel:
     def __init__(self, src_id: str, CHUNK: pd.DataFrame, TFIDF: pd.DataFrame):
         self.src_id = src_id
         self.CHUNK = CHUNK.copy()
-        self.TFIDF = TFIDF
+        self.TFIDF = TFIDF.copy()
 
     def compute_tfidf_sim(self):
         self.TFIDF_SIM = pd.DataFrame(cosine_similarity(self.TFIDF), index=self.TFIDF.index)

@@ -5,7 +5,7 @@ import pandas as pd
 import numpy as np
 
 import matplotlib.pyplot as plt
-import plotly_express as px
+import plotly.express as px
 import seaborn as sns
 
 from sklearn.feature_extraction.text import TfidfTransformer
@@ -105,20 +105,28 @@ def extract_vocab_df():
 def add_stopwords():
     global VOCAB
     from stopwords import ENGLISH_STOP_WORDS as swlist
-    SW = pd.(1, index=swlist)
+    SW = pd.Series(1, index=swlist)
     SW.index.name = 'term_str'
     SW.name = 'sw'
     VOCAB = VOCAB.join(SW)
 
 def compute_term_significance(agg_func='mean'):
-    global VOCAB, CTM, max_dh
+    global VOCAB, CTM, max_dh, SIGS
     VOCAB.sw = VOCAB.sw.fillna(0).astype(bool)
-    VOCAB['df'] = CTM.astype(bool).sum()
-    VOCAB['dp'] = VOCAB.df / config['n_chunks']
-    VOCAB['dh'] = VOCAB.dp * np.log2(1/VOCAB.dp)
-    max_dh = VOCAB.dh.agg(agg_func)
-    VOCAB['sig'] = (VOCAB.dh >= max_dh) & (VOCAB.sw == False)
-    VOCAB[VOCAB.sig == True].sample(10, weights='dh')
+    
+    # VOCAB['df'] = CTM.astype(bool).sum()
+    # VOCAB['dp'] = VOCAB.df / config['n_chunks']
+    # VOCAB['df'] = CTM / CTM.sum()
+    # VOCAB['dh'] = VOCAB.dp * np.log2(1/VOCAB.dp)
+    # max_dh = VOCAB.dh.agg(agg_func)
+    # VOCAB['sig'] = (VOCAB.dh >= max_dh) & (VOCAB.sw == False)
+    # VOCAB[VOCAB.sig == True].sample(10, weights='dh') # What is this?
+    
+    DP = CTM / CTM.sum()
+    DI = np.log2(1/DP)
+    VOCAB['dh'] = (DP * DI).sum()
+    SIGS = VOCAB[VOCAB.sw == False].sort_values('dh', ascending=False).head(1000).index
+
     VOCAB['gloss'] = None
 
 #### ONLY DEPENDS ON TOKEN and CTM ###################################
@@ -133,12 +141,22 @@ def define_doc_df(src_df, copy=False):
     else:
         DOC = src_df
 
+def l2_norm(X):
+    return np.sqrt((X ** 2).sum(1))
+
 # TFIDF
 def create_tfidf_df():
     global TFIDF, CTM
-    CTMX = CTM[VOCAB[VOCAB.sig].index]
-    tfidf_engine = TfidfTransformer(norm='l2', use_idf=True, smooth_idf=True)
-    TFIDF = pd.DataFrame(tfidf_engine.fit_transform(CTMX).toarray(), columns=CTMX.columns, index=CTMX.index)    
+    # n_chunks = len(CTM)
+    # X = CTM[VOCAB[VOCAB.sig].index]
+    X = CTM[SIGS]
+    TF = X
+    CF = TF.sum()
+    IDF = np.log2((n_chunks + 1) / (CF + 1) + 1)
+    TFIDF = TF * IDF
+    TFIDF = TFIDF.div(l2_norm(TFIDF), axis=0)
+    # tfidf_engine = TfidfTransformer(norm='l2', use_idf=True, smooth_idf=True)
+    # TFIDF = pd.DataFrame(tfidf_engine.fit_transform(CTMX).toarray(), columns=CTMX.columns, index=CTMX.index)    
 
 # HAC
 def cluster_by_docsim():

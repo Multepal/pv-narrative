@@ -7,6 +7,7 @@ class NarrativeParser:
 
     n_chunks = 60
     n_top_sigs = 500
+    n_sw = 20
 
     def __init__(self, src_id: str, DOC: pd.DataFrame):
         self.src_id = src_id
@@ -28,7 +29,6 @@ class NarrativeParser:
     def compute_vocab(self):
         """TOKEN → VOCAB: term frequencies and information content."""
         VOCAB = self.TOKEN.term_str.value_counts().to_frame('n').sort_index()
-        # VOCAB = VOCAB[VOCAB.index != ""].copy()
         VOCAB['p'] = VOCAB.n / VOCAB.n.sum()
         VOCAB['i'] = np.log2(1 / VOCAB.p)
         VOCAB['h'] = VOCAB.p * VOCAB.i
@@ -69,37 +69,54 @@ class NarrativeParser:
         )
 
     def select_sigs(self):
-        """Choose SIGS: top terms by distributional entropy across chunks."""
+        """
+        Choose SIGS: top terms by distributional entropy across chunks.
+        We also remove top n words by frequency (stopwords).
+        """
+
+        # Remove 20 stopwords
+        non_sw = self.VOCAB.sort_values('n', ascending=False).iloc[self.n_sw:,:].index
+
+        # Word Document Entropy
         DP = self.CTM / self.CTM.sum()
         DI = np.log2(1 / DP).replace(np.inf, 0)
         self.DH = DP * DI
         self.VOCAB['dh'] = self.DH.sum()
-        self.SIGS = self.VOCAB.sort_values('dh').tail(self.n_top_sigs).index
+
+        # Keep highest entropy words (without stopwords)
+        self.SIGS = self.VOCAB.loc[non_sw].sort_values('dh').tail(self.n_top_sigs).index
 
     def l2_norm(self, X):
         return np.sqrt((X ** 2).sum(1))
 
     def compute_tfidf(self):
-        """CTM → TFIDF: TF-IDF weighted and L2-normalized."""
+        """
+        CTM → TFIDF: TF-IDF weighted and L2-normalized.
+        We also compute TFICF, which produces better results that TFIDF unless stopwords are removed.
+        """
+
         X = self.CTM[self.SIGS]
         TF = X
         # TF = (X.T / X.T.sum()).T # NOT GOOD -- just as bad as used boolean DF
-        DF = TF.sum() # THIS PRODUCES BETTER RESULTS ...
-        # DF = (TF > 0).sum()
+        
+        DF = (TF > 0).sum()
         IDF = np.log2((self.n_chunks + 1) / (DF + 1) + 1)
         TFIDF = TF * IDF
+        
+        CF = TF.sum() # THIS PRODUCES BETTER RESULTS
+        ICF = np.log2((self.n_chunks + 1) / (CF + 1) + 1)
+        TFICF = TF * ICF
+        
+        self.TFICF = TFICF.div(self.l2_norm(TFICF), axis=0)
         self.TFIDF = TFIDF.div(self.l2_norm(TFIDF), axis=0)
-        # from sklearn.feature_extraction.text import TfidfTransformer
-        # tfidf_transformer = TfidfTransformer(smooth_idf=False)
-        # X_tfidf = tfidf_transformer.fit_transform(X)
-        # self.TFIDF = pd.DataFrame(X_tfidf.toarray(), index=X.index, columns=X.columns)
-
+        
     def save(self):
         """Save TOKEN, VOCAB, CHUNK, and TFIDF to CSV."""
         self.TOKEN.to_csv(f"{self.src_id}-TOKEN.csv", index=True)
         self.VOCAB.to_csv(f"{self.src_id}-VOCAB.csv", index=True)
         self.CHUNK.to_csv(f"{self.src_id}-CHUNK-{self.n_chunks}.csv", index=True)
         self.TFIDF.to_csv(f"{self.src_id}-TFIDF-{self.n_chunks}.csv", index=True)
+        self.TFICF.to_csv(f"{self.src_id}-TFICF-{self.n_chunks}.csv", index=True)
 
     def run(self):
         self.tokenize()
