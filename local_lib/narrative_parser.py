@@ -1,18 +1,17 @@
 import pandas as pd
 import numpy as np
 
-
 class NarrativeParser:
     """Parses a DOC dataframe into TOKEN, VOCAB, CHUNK, CTM, and TFIDF."""
 
-    n_chunks = 60
-    n_top_sigs = 500
-    n_sw = 20
-
-    def __init__(self, src_id: str, DOC: pd.DataFrame):
+    def __init__(self, src_id: str, DOC: pd.DataFrame, n_chunks=60, no_above=0.4):
         self.src_id = src_id
         self.DOC = DOC.copy()
         self._doc_key = DOC.index.names[0]
+        self.n_chunks = 60
+        # n_top_sigs = 500
+        # n_sw = 20
+        self.no_above = .4 # max DF threshold 
 
     def tokenize(self):
         """DOC → TOKEN: split each doc string into individual tokens."""
@@ -59,6 +58,15 @@ class NarrativeParser:
         )
         self.CHUNK = CHUNK
 
+    def overlap_chunk(self, text, chunk_size=150, overlap=20):
+        """Split text into overlapping word-level chunks."""
+        words = text.split()
+        chunks = []
+        for i in range(0, len(words), chunk_size - overlap):
+            chunk = " ".join(words[i:i + chunk_size])
+            if len(chunk.split()) >= 50:  # drop tiny tail chunks
+                chunks.append(chunk)
+
     def compute_ctm(self):
         """TOKEN → CTM: chunk-term matrix (raw counts)."""
         self.CTM = (
@@ -67,24 +75,16 @@ class NarrativeParser:
             .term_str.count()
             .unstack(fill_value=0)
         )
+        self.VOCAB['df'] = (self.CTM > 0).sum()
+        self.VOCAB['idf'] = np.log2(self.n_chunks/self.VOCAB.df)
 
     def select_sigs(self):
         """
         Choose SIGS: top terms by distributional entropy across chunks.
-        We also remove top n words by frequency (stopwords).
         """
-
-        # Remove 20 stopwords
-        non_sw = self.VOCAB.sort_values('n', ascending=False).iloc[self.n_sw:,:].index
-
-        # Word Document Entropy
-        DP = self.CTM / self.CTM.sum()
-        DI = np.log2(1 / DP).replace(np.inf, 0)
-        self.DH = DP * DI
-        self.VOCAB['dh'] = self.DH.sum()
-
-        # Keep highest entropy words (without stopwords)
-        self.SIGS = self.VOCAB.loc[non_sw].sort_values('dh').tail(self.n_top_sigs).index
+        max_df = round(self.no_above * self.n_chunks)
+        non_sw = self.VOCAB[self.VOCAB.df <= max_df].index
+        self.SIGS = self.VOCAB.loc[non_sw].index #.sort_values('dh').index
 
     def l2_norm(self, X):
         return np.sqrt((X ** 2).sum(1))
@@ -92,31 +92,12 @@ class NarrativeParser:
     def compute_tfidf(self):
         """
         CTM → TFIDF: TF-IDF weighted and L2-normalized.
-        We also compute TFICF, which produces better results that TFIDF unless stopwords are removed.
         """
-
-        X = self.CTM[self.SIGS]
-        TF = X
-        # TF = (X.T / X.T.sum()).T # NOT GOOD -- just as bad as used boolean DF
-        
+        TF = self.CTM[self.SIGS]
         DF = (TF > 0).sum()
         IDF = np.log2((self.n_chunks + 1) / (DF + 1) + 1)
-        TFIDF = TF * IDF
-        
-        CF = TF.sum() # THIS PRODUCES BETTER RESULTS
-        ICF = np.log2((self.n_chunks + 1) / (CF + 1) + 1)
-        TFICF = TF * ICF
-        
-        self.TFICF = TFICF.div(self.l2_norm(TFICF), axis=0)
+        TFIDF = TF * IDF        
         self.TFIDF = TFIDF.div(self.l2_norm(TFIDF), axis=0)
-        
-    def save(self):
-        """Save TOKEN, VOCAB, CHUNK, and TFIDF to CSV."""
-        self.TOKEN.to_csv(f"{self.src_id}-TOKEN.csv", index=True)
-        self.VOCAB.to_csv(f"{self.src_id}-VOCAB.csv", index=True)
-        self.CHUNK.to_csv(f"{self.src_id}-CHUNK-{self.n_chunks}.csv", index=True)
-        self.TFIDF.to_csv(f"{self.src_id}-TFIDF-{self.n_chunks}.csv", index=True)
-        self.TFICF.to_csv(f"{self.src_id}-TFICF-{self.n_chunks}.csv", index=True)
 
     def run(self):
         self.tokenize()
@@ -126,3 +107,51 @@ class NarrativeParser:
         self.select_sigs()
         self.compute_tfidf()
         self.save()
+
+    def save(self):
+        """Save TOKEN, VOCAB, CHUNK, and TFIDF to CSV."""
+        self.TOKEN.to_csv(f"{self.src_id}-TOKEN.csv", index=True)
+        self.VOCAB.to_csv(f"{self.src_id}-VOCAB.csv", index=True)
+        self.CHUNK.to_csv(f"{self.src_id}-CHUNK-{self.n_chunks}.csv", index=True)
+        self.TFIDF.to_csv(f"{self.src_id}-TFIDF-{self.n_chunks}.csv", index=True)
+
+
+from sklearn.base  import BaseEstimator, TransformerMixin
+
+class NarrativeParserStep(BaseEstimator, TransformerMixin):
+    """
+    sklearn transformer wrapping NarrativeParser.
+
+    fit(DOC)       → runs the full parse pipeline; stores fitted parser.
+    transform(DOC) → returns the fitted parser object so the next step
+                     has access to TOKEN, CHUNK, TFIDF, and VOCAB.
+
+    Passing the parser object (rather than just TFIDF) is intentional:
+    NarrativeModel needs CHUNK as well as TFIDF, and TestModel needs TOKEN.
+    """
+
+    def __init__(self, src_id, n_chunks=60, no_above=0.4):
+        self.src_id = src_id
+        self.n_chunks = n_chunks
+        self.no_above = no_above
+
+    def fit(self, DOC:pd.DataFrame, y=None):
+
+        # Initialize and run parser
+        parser = NarrativeParser(self.src_id, DOC)
+        parser.n_chunks = self.n_chunks
+        parser.no_above = self.no_above
+        parser.run()                     # Check if this does more than you want!
+        # parser.tokenize()              # Else replace with individual method calls
+        # parser.compute_vocab()
+        # parser.chunk()
+        # parser.compute_ctm()
+        # parser.select_sigs()
+        # parser.compute_tfidf()
+
+        self.parser_ = parser
+        return self
+
+    def transform(self, DOC, y=None):
+        # Return the fitted parser; NarrativeModelStep unpacks what it needs.
+        return self.parser_
