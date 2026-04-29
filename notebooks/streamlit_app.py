@@ -174,18 +174,30 @@ st.caption(
 # ── Heatmap ───────────────────────────────────────────────────────────────────
 margin = dict(l=80, r=150, t=20, b=75)
 
+def _wrap(text, width=60):
+    words, lines, line = text.split(), [], []
+    for word in words:
+        if sum(len(w) for w in line) + len(line) + len(word) > width:
+            lines.append(" ".join(line))
+            line = [word]
+        else:
+            line.append(word)
+    if line:
+        lines.append(" ".join(line))
+    return "<br>".join(lines)
+
+_preview_len = 300
+_chunk_previews = [
+    _wrap((c[:_preview_len] + "…") if len(c) > _preview_len else c)
+    for c in chunks_list
+]
+
 fig1 = px.imshow(
     THETA.T,
     aspect="auto",
     color_continuous_scale="YlGnBu",
     labels=dict(x="Syntagm / Event", y="Paradigm / Structure"),
 )
-
-_preview_len = 300
-_chunk_previews = [
-    (c[:_preview_len] + "…") if len(c) > _preview_len else c
-    for c in chunks_list
-]
 _customdata = np.tile(_chunk_previews, (THETA.shape[1], 1))  # (n_topics, n_chunks)
 fig1.update_traces(
     customdata=_customdata,
@@ -202,6 +214,16 @@ st.plotly_chart(fig1, use_container_width=True)
 fig2 = px.bar(
     D["scaled"],
     labels={"value": "Scaled cosine distance", "index": "Chunk"},
+)
+_bar_previews = [_wrap((chunks_list[i][:_preview_len] + "…") if len(chunks_list[i]) > _preview_len else chunks_list[i])
+                 for i in D.index]
+fig2.update_traces(
+    customdata=_bar_previews,
+    hovertemplate=(
+        "<b>Chunk %{x}</b><br>"
+        "Distance: %{y:.3f}<br><br>"
+        "%{customdata}<extra></extra>"
+    ),
 )
 fig2.update_layout(height=400, margin=margin, showlegend=False)
 st.plotly_chart(fig2, use_container_width=True)
