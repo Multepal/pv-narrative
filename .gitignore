@@ -1,9 +1,8 @@
 # Added
 **/_HIDE/
-**/.DS_Store
 *.pickle
 *.spacy
-**/.DS_Store
+**.DS_Store
 
 
 # Byte-compiled / optimized / DLL files
