@@ -102,6 +102,14 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+# ── Sidebar ───────────────────────────────────────────────────────────────────
+_about_path = os.path.join(APP_DIR, "about.md")
+if os.path.exists(_about_path):
+    with open(_about_path, encoding="utf-8") as _f:
+        _about_text = _f.read()
+    with st.sidebar:
+        st.markdown(_about_text)
+
 st.title("The Narrative Structure of the Popol Wuj")
 
 # ── Controls ──────────────────────────────────────────────────────────────────
