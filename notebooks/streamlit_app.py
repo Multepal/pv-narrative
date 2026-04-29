@@ -16,9 +16,9 @@ from scipy.spatial import distance
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
 SOURCES_META = {
-    "ajtzibab":            {"lang": "quc", "label": "Ajtzibab"},
-    "christenson":         {"lang": "quc", "label": "Christenson"},
-    "colop":               {"lang": "quc", "label": "Colop"},
+    "ajtzibab":            {"lang": "quc", "label": "Ajtzibab 2025"},
+    "christenson":         {"lang": "quc", "label": "Christenson 2007"},
+    "colop":               {"lang": "quc", "label": "Colop 2012"},
     "christenson_ximenez": {"lang": "quc", "label": "Christenson's Ximénez"},
     "ximenez":             {"lang": "quc", "label": "Ximénez"},
     "recinos":             {"lang": "spa", "label": "Recinos 1947"},
