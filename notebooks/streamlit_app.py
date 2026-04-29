@@ -180,6 +180,21 @@ fig1 = px.imshow(
     color_continuous_scale="YlGnBu",
     labels=dict(x="Syntagm / Event", y="Paradigm / Structure"),
 )
+
+_preview_len = 300
+_chunk_previews = [
+    (c[:_preview_len] + "…") if len(c) > _preview_len else c
+    for c in chunks_list
+]
+_customdata = np.tile(_chunk_previews, (THETA.shape[1], 1))  # (n_topics, n_chunks)
+fig1.update_traces(
+    customdata=_customdata,
+    hovertemplate=(
+        "<b>Topic %{y} · Chunk %{x}</b><br>"
+        "Weight: %{z:.3f}<br><br>"
+        "%{customdata}<extra></extra>"
+    ),
+)
 fig1.update_layout(height=400, margin=margin, coloraxis_showscale=False)
 st.plotly_chart(fig1, use_container_width=True)
 
