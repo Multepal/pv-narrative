@@ -196,13 +196,29 @@ _chunk_previews = [
     for c in chunks_list
 ]
 
+# Topic order by first dominance: collect topics in the order they first have the highest weight
+_topic_seq = THETA.idxmax(axis=1).tolist()
+_topic_order = []
+for t in _topic_seq:
+    if t not in _topic_order:
+        _topic_order.append(t)
+# Append any topics that never dominated a chunk
+for t in range(THETA.shape[1]):
+    if t not in _topic_order:
+        _topic_order.append(t)
+# Reverse so earliest-appearing topic is at the bottom of the chart
+_topic_order_plot = list(reversed(_topic_order))
+_topic_labels = [f"Topic {i}" for i in _topic_order_plot]
+
 fig1 = px.imshow(
-    THETA.T,
+    THETA.T.loc[_topic_order_plot].values,  # numpy array avoids Plotly treating int index as continuous axis
+    y=_topic_labels,
+    x=list(range(n_chunks)),
     aspect="auto",
     color_continuous_scale="YlGnBu",
     labels=dict(x="Syntagm / Event", y="Paradigm / Structure"),
 )
-_customdata = np.tile(_chunk_previews, (THETA.shape[1], 1))  # (n_topics, n_chunks)
+_customdata = np.tile(_chunk_previews, (len(_topic_order_plot), 1))
 fig1.update_traces(
     customdata=_customdata,
     hovertemplate=(
@@ -211,8 +227,9 @@ fig1.update_traces(
         "%{customdata}<extra></extra>"
     ),
 )
+_chart_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}_{n_topics}"
 fig1.update_layout(height=400, margin=margin, coloraxis_showscale=False)
-st.plotly_chart(fig1, use_container_width=True)
+st.plotly_chart(fig1, width="stretch", key=f"heatmap_{_chart_key}")
 
 # ── Cosine distance bar ───────────────────────────────────────────────────────
 fig2 = px.bar(
@@ -230,14 +247,14 @@ fig2.update_traces(
     ),
 )
 fig2.update_layout(height=400, margin=margin, showlegend=False)
-st.plotly_chart(fig2, use_container_width=True)
+st.plotly_chart(fig2, width="stretch", key=f"bardist_{_chart_key}")
 
 # ── Topic terms ───────────────────────────────────────────────────────────────
 st.divider()
 st.subheader("Top Terms per Topic")
 topic_display = TOPICS.copy()
 topic_display.index = [f"Rank {i + 1}" for i in range(len(TOPICS))]
-st.dataframe(topic_display, use_container_width=True, height=min(40 + 35 * len(TOPICS), 500))
+st.dataframe(topic_display, width="stretch", height=min(40 + 35 * len(TOPICS), 500))
 
 st.download_button(
     "⬇  Download THETA",
