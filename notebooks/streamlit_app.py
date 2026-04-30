@@ -104,6 +104,12 @@ st.set_page_config(
 st.markdown("""
 <style>
 .block-container { padding-top: 1rem; padding-bottom: 1rem; }
+@media (min-width: 768px) {
+    section[data-testid="stSidebar"] {
+        min-width: 280px;
+        width: 25vw;
+    }
+}
 </style>
 """, unsafe_allow_html=True)
 
@@ -125,7 +131,7 @@ st.title("The Narrative Structure of the Popol Wuj")
 
 # ── Controls ──────────────────────────────────────────────────────────────────
 src_ids = list(SOURCES_META.keys())
-cols = st.columns([2, 1.2, 1, 1, 1, 1, 1])
+cols = st.columns([2, 1.5, 1.2, 1.2, 1.2, 1.2, 1.2])
 
 src_id      = cols[0].selectbox(
     "Source", src_ids, index=src_ids.index("colop"),
