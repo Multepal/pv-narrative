@@ -4,7 +4,7 @@
 
 The *Popol Wuj* (also spelled *Popol Vuh*) is the foundational mythological and historical narrative of the K'iche' Maya people of the Guatemalan highlands. It recounts the creation of the world, the exploits of the Hero Twins and a host of other metahuman beings, as well as the origins of the K'iche' nobility. Originally composed in the 1550s, possibly in response to Vico's *Theologia Indorum*, it was transcribed into K'iche' and Spanish using the Latin alphabet in the mid-sixteenth century. Today the text is valued both as a profound symbol of indigenous Maya identity as well as a window into the history and beliefs of the Maya as they existed before arrival of the Spanish.
 
-## Interpretive Issues
+## Narrative Structure
 
 The *Popol Wuj* has been the subject of continuous academic study since it was rediscovered by European scholars in the nineteenth century. For the most part, this scholarship has focused on the linguistic, orthographic, and poetic features of the text, along with the analysis of its rich historical and religious content. This has resulted in a number of reliable and insightful editions in a variety of languages.
 
