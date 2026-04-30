@@ -6,6 +6,7 @@ Streamlit conversion of overlap.ipynb
 import os
 import re
 import streamlit as st
+from wordcloud import WordCloud
 import pandas as pd
 import numpy as np
 import plotly.express as px
@@ -81,17 +82,17 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     THETA.index.name, THETA.columns.name = "chunk_id", "topic_id"
 
     words = vec.get_feature_names_out()
-    TOPICS = pd.DataFrame({
-        f"Topic {i}": [words[j] for j in topic.argsort()[:-n_top_words - 1:-1]]
-        for i, topic in enumerate(nmf.components_)
-    })
+    PHI = [
+        {words[j]: nmf.components_[i][j] for j in nmf.components_[i].argsort()[::-1][:n_top_words]}
+        for i in range(n_topics)
+    ]
 
     scaler = MinMaxScaler((0, 1))
     D = pd.concat([THETA.shift(1), THETA.shift(0)], axis=1, keys=["a", "b"]).dropna() \
         .apply(lambda x: distance.cosine(x.a, x.b), axis=1).to_frame("d")
     D["scaled"] = scaler.fit_transform(D[["d"]])
 
-    return THETA, TOPICS, D, chunks_list, len(TOKEN)
+    return THETA, PHI, D, chunks_list, len(TOKEN)
 
 
 # ── Page config ───────────────────────────────────────────────────────────────
@@ -104,6 +105,7 @@ st.set_page_config(
 st.markdown("""
 <style>
 .block-container { padding-top: 1rem; padding-bottom: 1rem; }
+h3 { margin-bottom: 1rem; }
 @media (min-width: 768px) {
     section[data-testid="stSidebar"] {
         min-width: 280px;
@@ -172,7 +174,7 @@ if token_path is None:
         st.stop()
 
 # ── Run model ─────────────────────────────────────────────────────────────────
-THETA, TOPICS, D, chunks_list, n_tokens = run_model(
+THETA, PHI, D, chunks_list, n_tokens = run_model(
     src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, n_top_words
 )
 
@@ -262,12 +264,22 @@ fig2.update_traces(
 fig2.update_layout(height=400, margin=margin, showlegend=False)
 st.plotly_chart(fig2, width="stretch", key=f"bardist_{_chart_key}")
 
-# ── Topic terms ───────────────────────────────────────────────────────────────
+# ── Topic word clouds ─────────────────────────────────────────────────────────
 st.divider()
-st.subheader("Top Terms per Topic")
-topic_display = TOPICS.copy()
-topic_display.index = [f"Rank {i + 1}" for i in range(len(TOPICS))]
-st.dataframe(topic_display, width="stretch", height=min(40 + 35 * len(TOPICS), 500))
+st.subheader("Topic Word Clouds")
+n_cols = min(4, n_topics)
+topic_indices = list(range(n_topics))
+for row_start in range(0, n_topics, n_cols):
+    row_topics = topic_indices[row_start:row_start + n_cols]
+    grid_cols = st.columns(n_cols)
+    for col_idx, topic_idx in enumerate(row_topics):
+        wc = WordCloud(
+            width=400, height=250,
+            background_color="white",
+            colormap="Blues",
+            prefer_horizontal=0.9,
+        ).generate_from_frequencies(PHI[topic_idx])
+        grid_cols[col_idx].image(wc.to_array(), caption=f"Topic {topic_idx}", use_container_width=True)
 
 st.download_button(
     "⬇  Download THETA",
