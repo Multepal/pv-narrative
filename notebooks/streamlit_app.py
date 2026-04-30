@@ -4,6 +4,7 @@ Streamlit conversion of overlap.ipynb
 """
 
 import os
+import re
 import streamlit as st
 import pandas as pd
 import numpy as np
@@ -112,7 +113,13 @@ if os.path.exists(_about_path):
     with open(_about_path, encoding="utf-8") as _f:
         _about_text = _f.read()
     with st.sidebar:
-        st.markdown(_about_text)
+        st.markdown("# About this App")
+        for _section in re.split(r'\n(?=## )', _about_text)[1:]:
+            _lines = _section.split('\n', 1)
+            _title = _lines[0].lstrip('#').strip()
+            _body = _lines[1].strip() if len(_lines) > 1 else ''
+            with st.expander(_title):
+                st.markdown(_body)
 
 st.title("The Narrative Structure of the Popol Wuj")
 
