@@ -31,7 +31,7 @@ The two main visualizations are:
 |----------------|-----------------------------------------------------|
 | **Source**     | The edition or translation to analyze               |
 | **Chunk size** | Number of tokens per text window                    |
-| **Overlap**    | Fraction of tokens shared between adjacent chunks   |
+| **Overlap**    | Fraction of tokens shared between adjacent chunks   |![alt text](image.png)
 | **min_df**     | Minimum document frequency for vocabulary inclusion |
 | **max_df**     | Maximum document frequency (filters stop-words)     |
 | **Topics**     | Number of NMF topics to extract                     |
@@ -51,7 +51,7 @@ The app supports seven editions spanning K'iche', Spanish, and English:
 
 ## Project
 
-This tool is part of the **Multepal** project, a digital humanities initiative studying the *Popol Wuj* through computational text analysis.
+This tool is part of the [**Multepal** project](https://multepal.github.io/), a digital humanities initiative studying the *Popol Wuj* through computational text analysis.
 
 ------------------------------------------------------------------------
 
