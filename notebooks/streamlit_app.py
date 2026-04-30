@@ -261,14 +261,14 @@ fig2.update_traces(
         "%{customdata}<extra></extra>"
     ),
 )
-fig2.update_layout(height=400, margin=margin, showlegend=False)
+fig2.update_layout(height=200, margin=margin, showlegend=False)
 st.plotly_chart(fig2, width="stretch", key=f"bardist_{_chart_key}")
 
 # ── Topic word clouds ─────────────────────────────────────────────────────────
 st.divider()
 st.subheader("Topic Word Clouds")
 n_cols = min(4, n_topics)
-topic_indices = list(range(n_topics))
+topic_indices = _topic_order
 for row_start in range(0, n_topics, n_cols):
     row_topics = topic_indices[row_start:row_start + n_cols]
     grid_cols = st.columns(n_cols)
