@@ -281,12 +281,6 @@ for row_start in range(0, n_topics, n_cols):
         ).generate_from_frequencies(PHI[topic_idx])
         grid_cols[col_idx].image(wc.to_array(), caption=f"Topic {topic_idx}", use_container_width=True)
 
-st.download_button(
-    "⬇  Download THETA",
-    data=THETA.to_csv().encode(),
-    file_name=f"{src_id}_theta.csv",
-    mime="text/csv",
-)
 
 # ── Chunk viewer ──────────────────────────────────────────────────────────────
 st.divider()
