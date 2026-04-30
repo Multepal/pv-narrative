@@ -1,0 +1,91 @@
+app:
+  page_title: "Narrative Structure of the Popol Wuj"
+  page_icon: "📜"
+  title: "The Narrative Structure of the Popol Wuj"
+  layout: wide
+
+sidebar:
+  min_width_px: 280
+  width_vw: 25
+
+sources:
+  ajtzibab:
+    lang: quc
+    label: "Ajtzibab 2025"
+  christenson:
+    lang: quc
+    label: "Christenson 2007"
+  colop:
+    lang: quc
+    label: "Colop 2012"
+  christenson_ximenez:
+    lang: quc
+    label: "Christenson's Ximénez"
+  ximenez:
+    lang: quc
+    label: "Ximénez"
+  recinos:
+    lang: spa
+    label: "Recinos 1947"
+  tedlock:
+    lang: eng
+    label: "Tedlock 1983"
+
+languages:
+  quc: "K'iche'"
+  spa: Spanish
+  eng: English
+
+controls:
+  default_source: colop
+  chunk_size:
+    min: 100
+    max: 2000
+    default: 1000
+    step: 50
+  overlap:
+    min: 0.0
+    max: 0.9
+    default: 0.9
+    step: 0.05
+  min_df:
+    min: 1
+    max: 20
+    default: 5
+    step: 1
+  max_df:
+    min: 0.1
+    max: 1.0
+    default: 0.35
+    step: 0.05
+  n_topics:
+    min: 2
+    max: 20
+    default: 8
+    step: 1
+  n_top_words:
+    min: 3
+    max: 15
+    default: 7
+    step: 1
+
+layout:
+  column_ratios: [2, 1.5, 1.2, 1.2, 1.2, 1.2, 1.2]
+  heatmap_height: 400
+  bar_height: 200
+  margin:
+    l: 80
+    r: 150
+    t: 20
+    b: 75
+
+visualization:
+  heatmap_color_scale: YlGnBu
+  wordcloud_colormap: Blues
+  wordcloud_width: 400
+  wordcloud_height: 250
+  wordcloud_prefer_horizontal: 0.9
+  wordcloud_cols: 4
+  preview_len: 300
+  wrap_width: 60
+  hover_top_words: 5

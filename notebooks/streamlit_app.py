@@ -5,6 +5,7 @@ Streamlit conversion of overlap.ipynb
 
 import os
 import re
+import yaml
 import streamlit as st
 from wordcloud import WordCloud
 import pandas as pd
@@ -17,16 +18,11 @@ from scipy.spatial import distance
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
-SOURCES_META = {
-    "ajtzibab":            {"lang": "quc", "label": "Ajtzibab 2025"},
-    "christenson":         {"lang": "quc", "label": "Christenson 2007"},
-    "colop":               {"lang": "quc", "label": "Colop 2012"},
-    "christenson_ximenez": {"lang": "quc", "label": "Christenson's Ximénez"},
-    "ximenez":             {"lang": "quc", "label": "Ximénez"},
-    "recinos":             {"lang": "spa", "label": "Recinos 1947"},
-    "tedlock":             {"lang": "eng", "label": "Tedlock 1983"},
-}
-LANG_LABELS = {"quc": "K'iche'", "spa": "Spanish", "eng": "English"}
+with open(os.path.join(APP_DIR, "config.yaml"), encoding="utf-8") as _f:
+    cfg = yaml.safe_load(_f)
+
+SOURCES_META = cfg["sources"]
+LANG_LABELS  = cfg["languages"]
 
 
 def find_token_file(src_id: str) -> str | None:
@@ -97,21 +93,21 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
 
 # ── Page config ───────────────────────────────────────────────────────────────
 st.set_page_config(
-    page_title="Narrative Structure of the Popol Wuj",
-    page_icon="📜",
-    layout="wide",
+    page_title=cfg["app"]["page_title"],
+    page_icon=cfg["app"]["page_icon"],
+    layout=cfg["app"]["layout"],
 )
 
-st.markdown("""
+st.markdown(f"""
 <style>
-.block-container { padding-top: 1rem; padding-bottom: 1rem; }
-h3 { margin-bottom: 1rem; }
-@media (min-width: 768px) {
-    section[data-testid="stSidebar"] {
-        min-width: 280px;
-        width: 25vw;
-    }
-}
+.block-container {{ padding-top: 1rem; padding-bottom: 1rem; }}
+h3 {{ margin-bottom: 1rem; }}
+@media (min-width: 768px) {{
+    section[data-testid="stSidebar"] {{
+        min-width: {cfg['sidebar']['min_width_px']}px;
+        width: {cfg['sidebar']['width_vw']}vw;
+    }}
+}}
 </style>
 """, unsafe_allow_html=True)
 
@@ -129,21 +125,22 @@ if os.path.exists(_about_path):
             with st.expander(_title):
                 st.markdown(_body)
 
-st.title("The Narrative Structure of the Popol Wuj")
+st.title(cfg["app"]["title"])
 
 # ── Controls ──────────────────────────────────────────────────────────────────
 src_ids = list(SOURCES_META.keys())
-cols = st.columns([2, 1.5, 1.2, 1.2, 1.2, 1.2, 1.2])
+cols = st.columns(cfg["layout"]["column_ratios"])
 
+_c = cfg["controls"]
 src_id      = cols[0].selectbox(
-    "Source", src_ids, index=src_ids.index("colop"),
+    "Source", src_ids, index=src_ids.index(_c["default_source"]),
     format_func=lambda x: f"{SOURCES_META[x]['label']} ({LANG_LABELS[SOURCES_META[x]['lang']]})")
-chunk_size  = cols[1].number_input("Chunk size", 100, 2000, 1000, step=50)
-overlap     = cols[2].number_input("Overlap", 0.0, 0.9, 0.9, step=0.05, format="%.2f")
-min_df      = cols[3].number_input("min_df", 1, 20, 5, step=1)
-max_df      = cols[4].number_input("max_df", 0.1, 1.0, 0.35, step=0.05, format="%.2f")
-n_topics    = cols[5].number_input("Topics", 2, 20, 8, step=1)
-n_top_words = cols[6].number_input("Top words", 3, 15, 7, step=1)
+chunk_size  = cols[1].number_input("Chunk size", _c["chunk_size"]["min"], _c["chunk_size"]["max"], _c["chunk_size"]["default"], step=_c["chunk_size"]["step"])
+overlap     = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
+min_df      = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
+max_df      = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
+n_topics    = cols[5].number_input("Topics", _c["n_topics"]["min"], _c["n_topics"]["max"], _c["n_topics"]["default"], step=_c["n_topics"]["step"])
+n_top_words = cols[6].number_input("Top words", _c["n_top_words"]["min"], _c["n_top_words"]["max"], _c["n_top_words"]["default"], step=_c["n_top_words"]["step"])
 
 overlap_int = int(overlap * chunk_size)
 
@@ -191,9 +188,10 @@ st.caption(
 )
 
 # ── Heatmap ───────────────────────────────────────────────────────────────────
-margin = dict(l=80, r=150, t=20, b=75)
+_v = cfg["visualization"]
+margin = dict(**cfg["layout"]["margin"])
 
-def _wrap(text, width=60):
+def _wrap(text, width=_v["wrap_width"]):
     words, lines, line = text.split(), [], []
     for word in words:
         if sum(len(w) for w in line) + len(line) + len(word) > width:
@@ -205,7 +203,7 @@ def _wrap(text, width=60):
         lines.append(" ".join(line))
     return "<br>".join(lines)
 
-_preview_len = 300
+_preview_len = _v["preview_len"]
 _chunk_previews = [
     _wrap((c[:_preview_len] + "…") if len(c) > _preview_len else c)
     for c in chunks_list
@@ -230,26 +228,30 @@ fig1 = px.imshow(
     y=_topic_labels,
     x=list(range(n_chunks)),
     aspect="auto",
-    color_continuous_scale="YlGnBu",
-    labels=dict(x="Syntagm / Event", y="Paradigm / Structure"),
+    color_continuous_scale=_v["heatmap_color_scale"],
+    labels=dict(x="", y="Paradigm / Structure"),
 )
-_customdata = np.tile(_chunk_previews, (len(_topic_order_plot), 1))
+_topic_words = [", ".join(list(PHI[t].keys())[:_v["hover_top_words"]]) for t in _topic_order_plot]
+_customdata = np.empty((len(_topic_order_plot), n_chunks, 2), dtype=object)
+_customdata[:, :, 0] = np.tile(_chunk_previews, (len(_topic_order_plot), 1))
+_customdata[:, :, 1] = np.array(_topic_words)[:, np.newaxis]
 fig1.update_traces(
     customdata=_customdata,
     hovertemplate=(
         "<b>Topic %{y} · Chunk %{x}</b><br>"
-        "Weight: %{z:.3f}<br><br>"
-        "%{customdata}<extra></extra>"
+        "Weight: %{z:.3f}<br>"
+        "<i>%{customdata[1]}</i><br><br>"
+        "%{customdata[0]}<extra></extra>"
     ),
 )
 _chart_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}_{n_topics}"
-fig1.update_layout(height=400, margin=margin, coloraxis_showscale=False)
+fig1.update_layout(height=cfg["layout"]["heatmap_height"], margin=margin, coloraxis_showscale=False)
 st.plotly_chart(fig1, width="stretch", key=f"heatmap_{_chart_key}")
 
 # ── Cosine distance bar ───────────────────────────────────────────────────────
 fig2 = px.bar(
     D["scaled"],
-    labels={"value": "Scaled cosine distance", "index": "Chunk"},
+    labels={"value": "Scaled cosine distance", "chunk_id": "Syntagm / Event (chunk_id)"},
 )
 _bar_previews = [_wrap((chunks_list[i][:_preview_len] + "…") if len(chunks_list[i]) > _preview_len else chunks_list[i])
                  for i in D.index]
@@ -261,26 +263,25 @@ fig2.update_traces(
         "%{customdata}<extra></extra>"
     ),
 )
-fig2.update_layout(height=200, margin=margin, showlegend=False)
+fig2.update_layout(height=cfg["layout"]["bar_height"], margin=margin, showlegend=False)
 st.plotly_chart(fig2, width="stretch", key=f"bardist_{_chart_key}")
 
 # ── Topic word clouds ─────────────────────────────────────────────────────────
 st.divider()
 st.subheader("Topic Word Clouds")
-n_cols = min(4, n_topics)
+n_cols = min(_v["wordcloud_cols"], n_topics)
 topic_indices = _topic_order
 for row_start in range(0, n_topics, n_cols):
     row_topics = topic_indices[row_start:row_start + n_cols]
     grid_cols = st.columns(n_cols)
     for col_idx, topic_idx in enumerate(row_topics):
         wc = WordCloud(
-            width=400, height=250,
+            width=_v["wordcloud_width"], height=_v["wordcloud_height"],
             background_color="white",
-            colormap="Blues",
-            prefer_horizontal=0.9,
+            colormap=_v["wordcloud_colormap"],
+            prefer_horizontal=_v["wordcloud_prefer_horizontal"],
         ).generate_from_frequencies(PHI[topic_idx])
         grid_cols[col_idx].image(wc.to_array(), caption=f"Topic {topic_idx}", use_container_width=True)
-
 
 # ── Chunk viewer ──────────────────────────────────────────────────────────────
 st.divider()
