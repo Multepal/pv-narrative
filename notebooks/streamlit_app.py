@@ -54,12 +54,16 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
 
-    chunks_list = []
     step = max(1, chunk_size - overlap_int)
-    for i in range(0, len(tokens), step):
-        chunk = " ".join(tokens[i : i + chunk_size])
-        if len(chunk.split()) >= 50:
-            chunks_list.append(chunk)
+    token_arr = np.array(tokens)
+    if len(token_arr) < chunk_size:
+        chunks_list = []
+    else:
+        windows = np.lib.stride_tricks.sliding_window_view(token_arr, chunk_size)[::step]
+        chunks_s = pd.Series(
+            np.apply_along_axis(lambda row: " ".join(row), axis=1, arr=windows)
+        ).loc[lambda s: s.str.split().str.len() >= 50]
+        chunks_list = chunks_s.tolist()
 
     if len(chunks_list) < 2:
         return None, None, None, None, len(TOKEN)
