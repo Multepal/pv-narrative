@@ -45,14 +45,14 @@ def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner="Running model…")
-def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type):
+def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type, n_top_words):
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
 
     step = max(1, chunk_size - overlap_int)
     token_arr = np.array(tokens)
     if len(token_arr) < chunk_size:
-        return None, None
+        return None, None, None, None
     windows = np.lib.stride_tricks.sliding_window_view(token_arr, chunk_size)[::step]
     chunks_s = pd.Series(
         np.apply_along_axis(lambda row: " ".join(row), axis=1, arr=windows)
@@ -60,7 +60,7 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     chunks_list = chunks_s.tolist()
 
     if len(chunks_list) < 2:
-        return None, None
+        return None, None, None, None
 
     try:
         if model_type == "NMF":
@@ -74,13 +74,18 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
             X = vec.fit_transform(chunks_list)
             model = LatentDirichletAllocation(n_components=n_topics, random_state=42, max_iter=20)
     except ValueError:
-        return None, None
+        return None, None, None, None
 
     THETA = pd.DataFrame(model.fit_transform(X))
     THETA.index.name, THETA.columns.name = "chunk_id", "topic_id"
     PHI_sim = cosine_similarity(model.components_)
+    words = vec.get_feature_names_out()
+    PHI = [
+        {words[j]: model.components_[i][j] for j in model.components_[i].argsort()[::-1][:n_top_words]}
+        for i in range(n_topics)
+    ]
 
-    return THETA, PHI_sim
+    return THETA, PHI_sim, PHI, chunks_list
 
 
 @st.cache_data(show_spinner="Running elbow analysis…")
@@ -169,12 +174,84 @@ if token_path is None:
     st.stop()
 
 # ── Run models ────────────────────────────────────────────────────────────────
-THETA, PHI_sim = run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type)
+THETA, PHI_sim, PHI, chunks_list = run_model(
+    src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type,
+    _c["n_top_words"]["default"]
+)
 elbow_df = run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, _c["n_topics"]["max"], model_type)
 
 if THETA is None:
     st.warning("Model couldn't run — try adjusting chunk size, min_df, or max_df.")
     st.stop()
+
+# ── Heatmap ───────────────────────────────────────────────────────────────────
+_v = cfg["visualization"]
+n_chunks = len(chunks_list)
+
+def _wrap(text, width=_v["wrap_width"]):
+    words, lines, line = text.split(), [], []
+    for word in words:
+        if sum(len(w) for w in line) + len(line) + len(word) > width:
+            lines.append(" ".join(line))
+            line = [word]
+        else:
+            line.append(word)
+    if line:
+        lines.append(" ".join(line))
+    return "<br>".join(lines)
+
+_preview_len = _v["preview_len"]
+_chunk_previews = [
+    _wrap((c[:_preview_len] + "…") if len(c) > _preview_len else c)
+    for c in chunks_list
+]
+
+_topic_seq = THETA.idxmax(axis=1).tolist()
+_topic_order = []
+for t in _topic_seq:
+    if t not in _topic_order:
+        _topic_order.append(t)
+for t in range(THETA.shape[1]):
+    if t not in _topic_order:
+        _topic_order.append(t)
+_topic_order_plot = list(reversed(_topic_order))
+_topic_labels = [f"Topic {i}" for i in _topic_order_plot]
+
+fig_heat = px.imshow(
+    THETA.T.loc[_topic_order_plot].values,
+    y=_topic_labels,
+    x=list(range(n_chunks)),
+    aspect="auto",
+    color_continuous_scale=_v["heatmap_color_scale"],
+    labels=dict(x="Syntagm / Event (chunk_id)", y="Paradigm / Structure"),
+)
+_topic_words = [", ".join(list(PHI[t].keys())[:_v["hover_top_words"]]) for t in _topic_order_plot]
+_customdata = np.empty((len(_topic_order_plot), n_chunks, 2), dtype=object)
+_customdata[:, :, 0] = np.tile(_chunk_previews, (len(_topic_order_plot), 1))
+_customdata[:, :, 1] = np.array(_topic_words)[:, np.newaxis]
+fig_heat.update_traces(
+    customdata=_customdata,
+    hovertemplate=(
+        "<b>Topic %{y} · Chunk %{x}</b><br>"
+        "Weight: %{z:.3f}<br>"
+        "<i>%{customdata[1]}</i><br><br>"
+        "%{customdata[0]}<extra></extra>"
+    ),
+)
+fig_heat.update_layout(height=cfg["layout"]["heatmap_height"],
+                       margin=dict(**cfg["layout"]["margin"]),
+                       coloraxis_showscale=False)
+st.plotly_chart(fig_heat, use_container_width=True)
+
+# ── Top words ─────────────────────────────────────────────────────────────────
+with st.expander("Top Words per Topic"):
+    _topics_df = pd.DataFrame(
+        {f"Topic {i}": list(PHI[i].keys()) for i in _topic_order}
+    )
+    _topics_df.index = [f"Rank {i+1}" for i in range(_c["n_top_words"]["default"])]
+    st.dataframe(_topics_df, use_container_width=True)
+
+st.divider()
 
 # ── Diagnostics grid ──────────────────────────────────────────────────────────
 col1, col2 = st.columns(2)
