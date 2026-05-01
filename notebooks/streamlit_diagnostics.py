@@ -10,8 +10,6 @@ import numpy as np
 import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
-from sklearn.metrics.pairwise import cosine_similarity
-from scipy.stats import entropy as scipy_entropy
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -44,48 +42,49 @@ def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
     return TOKEN.set_index(ohco)
 
 
-@st.cache_data(show_spinner="Running model…")
-def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type, n_top_words):
+@st.cache_data(show_spinner=False)
+def compute_vocab_growth(src_id: str, token_path: str, n_points: int = 300):
+    """Fit Heaps' Law; return n* (vocabulary saturation point)."""
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
+    n_total = len(tokens)
 
-    step = max(1, chunk_size - overlap_int)
-    token_arr = np.array(tokens)
-    if len(token_arr) < chunk_size:
-        return None, None, None, None
-    windows = np.lib.stride_tricks.sliding_window_view(token_arr, chunk_size)[::step]
-    chunks_s = pd.Series(
-        np.apply_along_axis(lambda row: " ".join(row), axis=1, arr=windows)
-    ).loc[lambda s: s.str.split().str.len() >= 50]
-    chunks_list = chunks_s.tolist()
+    ns = np.unique(np.geomspace(1, n_total, n_points).astype(int))
+    seen, vs, prev = set(), [], 0
+    for n in ns:
+        for tok in tokens[prev:n]:
+            seen.add(tok)
+        vs.append(len(seen))
+        prev = n
+    ns, vs = np.array(ns), np.array(vs)
 
-    if len(chunks_list) < 2:
-        return None, None, None, None
+    beta, log_K = np.polyfit(np.log(ns), np.log(vs), 1)
+    K = np.exp(log_K)
 
-    try:
-        if model_type == "NMF":
-            vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                                  strip_accents=None, norm="l2")
-            X = vec.fit_transform(chunks_list)
-            model = NMF(n_components=n_topics, init="nndsvd", max_iter=500)
-        else:
-            vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                                  strip_accents=None)
-            X = vec.fit_transform(chunks_list)
-            model = LatentDirichletAllocation(n_components=n_topics, random_state=42, max_iter=20)
-    except ValueError:
-        return None, None, None, None
+    if 0.0 < beta < 1.0:
+        n_star = int(0.10 ** (1.0 / (beta - 1.0)))
+        n_star = max(10, min(n_star, n_total // 2))
+    else:
+        n_star = None
 
-    THETA = pd.DataFrame(model.fit_transform(X))
-    THETA.index.name, THETA.columns.name = "chunk_id", "topic_id"
-    PHI_sim = cosine_similarity(model.components_)
-    words = vec.get_feature_names_out()
-    PHI = [
-        {words[j]: model.components_[i][j] for j in model.components_[i].argsort()[::-1][:n_top_words]}
-        for i in range(n_topics)
-    ]
+    return ns, vs, K, float(beta), n_star, n_total
 
-    return THETA, PHI_sim, PHI, chunks_list
+
+def _umass_coherence(X_bin, feature_names, top_words):
+    """UMass coherence for one topic (Mimno et al. 2011)."""
+    name_idx = {w: i for i, w in enumerate(feature_names)}
+    indices = [name_idx[w] for w in top_words if w in name_idx]
+    if len(indices) < 2:
+        return 0.0
+    score, count = 0.0, 0
+    for i in range(1, len(indices)):
+        for j in range(i):
+            co   = X_bin[:, indices[i]].multiply(X_bin[:, indices[j]]).sum()
+            df_j = X_bin[:, indices[j]].sum()
+            if df_j > 0:
+                score += np.log((co + 1.0) / df_j)
+                count += 1
+    return score / count if count > 0 else 0.0
 
 
 @st.cache_data(show_spinner="Running elbow analysis…")
@@ -113,17 +112,123 @@ def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_t
         X = vec.fit_transform(chunks_list)
     except ValueError:
         return None
+
+    X_bin = (X > 0).tocsc()
+    words = vec.get_feature_names_out()
+    n_top = 10
+
     rows = []
     for n in range(2, max_topics + 1):
         if model_type == "NMF":
             m = NMF(n_components=n, init="nndsvd", max_iter=500)
             m.fit(X)
-            rows.append({"n_topics": n, "error": m.reconstruction_err_})
         else:
             m = LatentDirichletAllocation(n_components=n, random_state=42, max_iter=20)
             m.fit(X)
-            rows.append({"n_topics": n, "error": m.perplexity(X)})
+        phi = [
+            {words[j]: m.components_[i][j] for j in m.components_[i].argsort()[::-1][:n_top]}
+            for i in range(n)
+        ]
+        coherence = float(np.mean([_umass_coherence(X_bin, words, list(p.keys())) for p in phi]))
+        rows.append({"n_topics": n, "coherence": coherence})
     return pd.DataFrame(rows)
+
+
+@st.cache_data(show_spinner="Running topic model…")
+def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type, n_top_words):
+    TOKEN = load_tokens(src_id, token_path)
+    tokens = TOKEN["term_str"].dropna().to_list()
+    step = max(1, chunk_size - overlap_int)
+    token_arr = np.array(tokens)
+    if len(token_arr) < chunk_size:
+        return None, None, None
+    windows = np.lib.stride_tricks.sliding_window_view(token_arr, chunk_size)[::step]
+    chunks_s = pd.Series(
+        np.apply_along_axis(lambda row: " ".join(row), axis=1, arr=windows)
+    ).loc[lambda s: s.str.split().str.len() >= 50]
+    chunks_list = chunks_s.tolist()
+    if len(chunks_list) < 2:
+        return None, None, None
+    try:
+        if model_type == "NMF":
+            vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+                                  strip_accents=None, norm="l2")
+            X = vec.fit_transform(chunks_list)
+            model = NMF(n_components=n_topics, init="nndsvd", max_iter=500)
+        else:
+            vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+                                  strip_accents=None)
+            X = vec.fit_transform(chunks_list)
+            model = LatentDirichletAllocation(n_components=n_topics, random_state=42, max_iter=20)
+    except ValueError:
+        return None, None, None
+    THETA = pd.DataFrame(model.fit_transform(X))
+    THETA.index.name, THETA.columns.name = "chunk_id", "topic_id"
+    words = vec.get_feature_names_out()
+    PHI = [
+        {words[j]: model.components_[i][j] for j in model.components_[i].argsort()[::-1][:n_top_words]}
+        for i in range(n_topics)
+    ]
+    return THETA, PHI, chunks_list
+
+
+def render_heatmap(THETA, PHI, chunks_list, height):
+    """Render a topic heatmap into the current Streamlit container."""
+    _v = cfg["visualization"]
+    n_chunks = len(chunks_list)
+    _preview_len = _v["preview_len"]
+
+    def _wrap(text, width=_v["wrap_width"]):
+        words, lines, line = text.split(), [], []
+        for word in words:
+            if sum(len(w) for w in line) + len(line) + len(word) > width:
+                lines.append(" ".join(line))
+                line = [word]
+            else:
+                line.append(word)
+        if line:
+            lines.append(" ".join(line))
+        return "<br>".join(lines)
+
+    _chunk_previews = [
+        _wrap((c[:_preview_len] + "…") if len(c) > _preview_len else c)
+        for c in chunks_list
+    ]
+    _topic_seq = THETA.idxmax(axis=1).tolist()
+    _topic_order = []
+    for t in _topic_seq:
+        if t not in _topic_order:
+            _topic_order.append(t)
+    for t in range(THETA.shape[1]):
+        if t not in _topic_order:
+            _topic_order.append(t)
+    _topic_order_plot = list(reversed(_topic_order))
+    _topic_labels = [f"Topic {i}" for i in _topic_order_plot]
+
+    fig = px.imshow(
+        THETA.T.loc[_topic_order_plot].values,
+        y=_topic_labels,
+        x=list(range(n_chunks)),
+        aspect="auto",
+        color_continuous_scale=_v["heatmap_color_scale"],
+        labels=dict(x="Chunk", y="Topic"),
+    )
+    _topic_words = [", ".join(list(PHI[t].keys())[:_v["hover_top_words"]]) for t in _topic_order_plot]
+    _customdata = np.empty((len(_topic_order_plot), n_chunks, 2), dtype=object)
+    _customdata[:, :, 0] = np.tile(_chunk_previews, (len(_topic_order_plot), 1))
+    _customdata[:, :, 1] = np.array(_topic_words)[:, np.newaxis]
+    fig.update_traces(
+        customdata=_customdata,
+        hovertemplate=(
+            "<b>Topic %{y} · Chunk %{x}</b><br>"
+            "Weight: %{z:.3f}<br>"
+            "<i>%{customdata[1]}</i><br><br>"
+            "%{customdata[0]}<extra></extra>"
+        ),
+    )
+    fig.update_layout(height=height, margin=dict(l=60, r=20, t=20, b=40),
+                      coloraxis_showscale=False)
+    st.plotly_chart(fig, use_container_width=True)
 
 
 # ── Page config ───────────────────────────────────────────────────────────────
@@ -148,9 +253,10 @@ h3 {{ margin-bottom: 1rem; }}
 
 st.title("Model Diagnostics — Popol Wuj")
 
-# ── Controls ──────────────────────────────────────────────────────────────────
+# ── Phase 1 controls (no n_topics — k is chosen by clicking the coherence plot) ──
 src_ids = list(SOURCES_META.keys())
-cols = st.columns(cfg["layout"]["column_ratios"])
+_col_ratios = cfg["layout"]["column_ratios"]
+cols = st.columns(_col_ratios[:-1])  # drop last slot (n_topics not needed here)
 
 _c = cfg["controls"]
 src_id     = cols[0].selectbox(
@@ -160,8 +266,7 @@ chunk_size = cols[1].number_input("Chunk size", _c["chunk_size"]["min"], _c["chu
 overlap    = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
 min_df     = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
 max_df     = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
-n_topics    = cols[5].number_input("Topics", _c["n_topics"]["min"], _c["n_topics"]["max"], _c["n_topics"]["default"], step=_c["n_topics"]["step"])
-model_type  = cols[6].selectbox("Model", ["NMF", "LDA"])
+model_type = cols[5].selectbox("Model", ["NMF", "LDA"])
 
 overlap_int = int(overlap * chunk_size)
 
@@ -173,140 +278,107 @@ if token_path is None:
     st.warning(f"Token file not found for `{src_id}`.")
     st.stop()
 
-# ── Run models ────────────────────────────────────────────────────────────────
-THETA, PHI_sim, PHI, chunks_list = run_model(
-    src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type,
-    _c["n_top_words"]["default"]
-)
-elbow_df = run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, _c["n_topics"]["max"], model_type)
+# ── Session state: clear selected k when Phase 1 parameters change ────────────
+_params_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}_{model_type}"
+if st.session_state.get("_diag_params_key") != _params_key:
+    st.session_state["_diag_params_key"] = _params_key
+    st.session_state["selected_k"] = None
 
-if THETA is None:
-    st.warning("Model couldn't run — try adjusting chunk size, min_df, or max_df.")
-    st.stop()
+# ── Phase 1: vocabulary saturation + coherence curve ─────────────────────────
+_ns, _vs, _K, _beta, _n_star, _n_total = compute_vocab_growth(src_id, token_path)
+elbow_df = run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df,
+                     _c["n_topics"]["max"], model_type)
 
-# ── Heatmap ───────────────────────────────────────────────────────────────────
-_v = cfg["visualization"]
-n_chunks = len(chunks_list)
+_m = dict(l=10, r=120, t=40, b=40)
+col_left, col_right = st.columns(2)
 
-def _wrap(text, width=_v["wrap_width"]):
-    words, lines, line = text.split(), [], []
-    for word in words:
-        if sum(len(w) for w in line) + len(line) + len(word) > width:
-            lines.append(" ".join(line))
-            line = [word]
-        else:
-            line.append(word)
-    if line:
-        lines.append(" ".join(line))
-    return "<br>".join(lines)
-
-_preview_len = _v["preview_len"]
-_chunk_previews = [
-    _wrap((c[:_preview_len] + "…") if len(c) > _preview_len else c)
-    for c in chunks_list
-]
-
-_topic_seq = THETA.idxmax(axis=1).tolist()
-_topic_order = []
-for t in _topic_seq:
-    if t not in _topic_order:
-        _topic_order.append(t)
-for t in range(THETA.shape[1]):
-    if t not in _topic_order:
-        _topic_order.append(t)
-_topic_order_plot = list(reversed(_topic_order))
-_topic_labels = [f"Topic {i}" for i in _topic_order_plot]
-
-fig_heat = px.imshow(
-    THETA.T.loc[_topic_order_plot].values,
-    y=_topic_labels,
-    x=list(range(n_chunks)),
-    aspect="auto",
-    color_continuous_scale=_v["heatmap_color_scale"],
-    labels=dict(x="Syntagm / Event (chunk_id)", y="Paradigm / Structure"),
-)
-_topic_words = [", ".join(list(PHI[t].keys())[:_v["hover_top_words"]]) for t in _topic_order_plot]
-_customdata = np.empty((len(_topic_order_plot), n_chunks, 2), dtype=object)
-_customdata[:, :, 0] = np.tile(_chunk_previews, (len(_topic_order_plot), 1))
-_customdata[:, :, 1] = np.array(_topic_words)[:, np.newaxis]
-fig_heat.update_traces(
-    customdata=_customdata,
-    hovertemplate=(
-        "<b>Topic %{y} · Chunk %{x}</b><br>"
-        "Weight: %{z:.3f}<br>"
-        "<i>%{customdata[1]}</i><br><br>"
-        "%{customdata[0]}<extra></extra>"
-    ),
-)
-fig_heat.update_layout(height=cfg["layout"]["heatmap_height"],
-                       margin=dict(**cfg["layout"]["margin"]),
-                       coloraxis_showscale=False)
-st.plotly_chart(fig_heat, use_container_width=True)
-
-# ── Top words ─────────────────────────────────────────────────────────────────
-with st.expander("Top Words per Topic"):
-    _topics_df = pd.DataFrame(
-        {f"Topic {i}": list(PHI[i].keys()) for i in _topic_order}
+with col_left:
+    st.subheader("Vocabulary Saturation (Heaps' Law)")
+    st.caption(
+        f"V(n) = {_K:.1f} · n^{_beta:.3f} · "
+        f"{_n_total:,} tokens · {_vs[-1]:,} types · "
+        + (f"n* = {_n_star}" if _n_star is not None else "n* unavailable")
     )
-    _topics_df.index = [f"Rank {i+1}" for i in range(_c["n_top_words"]["default"])]
-    st.dataframe(_topics_df, use_container_width=True)
+    _ns_fit = np.geomspace(1, _n_total, 300)
+    _gain_df = pd.DataFrame({
+        "Tokens (n)": _ns_fit,
+        "Marginal vocabulary gain": _ns_fit ** (_beta - 1.0),
+    })
+    fig_gain = px.line(_gain_df, x="Tokens (n)", y="Marginal vocabulary gain")
+    fig_gain.add_hline(y=0.10, line_dash="dash", line_color="green", line_width=1.5,
+                       annotation_text="10% threshold", annotation_position="right")
+    if _n_star is not None:
+        fig_gain.add_vline(x=_n_star, line_dash="dash", line_color="green", line_width=1.5,
+                           annotation_text=f"n* = {_n_star}", annotation_position="top left")
+    fig_gain.add_vline(x=chunk_size, line_dash="dot", line_color="gray", line_width=1.5,
+                       annotation_text=f"chunk = {chunk_size}", annotation_position="bottom right")
+    fig_gain.update_layout(height=380, margin=_m)
+    st.plotly_chart(fig_gain, use_container_width=True)
 
-st.divider()
-
-# ── Diagnostics grid ──────────────────────────────────────────────────────────
-col1, col2 = st.columns(2)
-_m = dict(l=10, r=10, t=30, b=10)
-
-with col1:
-    st.subheader("Topic Overlap")
-    topic_labels = [f"Topic {i}" for i in range(n_topics)]
-    fig_sim = px.imshow(
-        PHI_sim,
-        x=topic_labels, y=topic_labels,
-        color_continuous_scale="RdBu_r",
-        zmin=0, zmax=1,
-        aspect="auto",
+with col_right:
+    st.subheader("Mean Topic Coherence vs. Number of Topics")
+    st.caption(
+        "UMass coherence (Mimno et al. 2011): higher (less negative) = more coherent. "
+        "**Click a point to open the twin heatmap for that k.**"
     )
-    fig_sim.update_layout(height=350, margin=_m, coloraxis_showscale=True)
-    st.plotly_chart(fig_sim, use_container_width=True)
-
-with col2:
-    st.subheader("Chunk Topic Entropy")
-    theta_norm = THETA.div(THETA.sum(axis=1), axis=0).fillna(0)
-    entropy = theta_norm.apply(scipy_entropy, axis=1)
-    fig_ent = px.histogram(
-        entropy, nbins=30,
-        labels={"value": "Entropy", "count": "Chunks"},
-    )
-    fig_ent.update_layout(height=350, margin=_m, showlegend=False)
-    st.plotly_chart(fig_ent, use_container_width=True)
-
-st.divider()
-
-col3, col4 = st.columns(2)
-
-if elbow_df is not None:
-    elbow_df["marginal_gain"] = elbow_df["error"].diff(-1).fillna(0)
-
-    _error_label = "Reconstruction error" if model_type == "NMF" else "Perplexity"
-    with col3:
-        st.subheader(_error_label)
-        fig_elbow = px.line(
-            elbow_df, x="n_topics", y="error", markers=True,
-            labels={"n_topics": "Number of topics", "error": _error_label},
+    if elbow_df is not None:
+        _selected_k = st.session_state.get("selected_k")
+        fig_coh = px.line(
+            elbow_df, x="n_topics", y="coherence", markers=True,
+            labels={"n_topics": "Number of topics (k)", "coherence": "Mean UMass coherence"},
         )
-        fig_elbow.add_vline(x=n_topics, line_dash="dash", line_color="gray",
-                            annotation_text="current", annotation_position="top right")
-        fig_elbow.update_layout(height=350, margin=_m)
-        st.plotly_chart(fig_elbow, use_container_width=True)
+        if _selected_k is not None:
+            fig_coh.add_vline(x=_selected_k, line_dash="dash", line_color="#EF553B", line_width=2,
+                              annotation_text=f"k = {_selected_k}", annotation_position="top right")
+        fig_coh.update_layout(height=380, margin=_m)
+        _coh_event = st.plotly_chart(fig_coh, use_container_width=True,
+                                     key=f"coh_{_params_key}", on_select="rerun")
+        if _coh_event.selection.points:
+            _clicked_k = int(_coh_event.selection.points[0]["x"])
+            if _clicked_k != st.session_state.get("selected_k"):
+                st.session_state["selected_k"] = _clicked_k
+                st.rerun()
+    else:
+        st.warning("Elbow analysis could not run — try adjusting chunk size, min_df, or max_df.")
 
-    with col4:
-        st.subheader("Marginal Gain")
-        fig_gain = px.bar(
-            elbow_df, x="n_topics", y="marginal_gain",
-            labels={"n_topics": "Number of topics", "marginal_gain": f"Drop in {_error_label.lower()} per topic added"},
-        )
-        fig_gain.add_vline(x=n_topics, line_dash="dash", line_color="gray",
-                           annotation_text="current", annotation_position="top right")
-        fig_gain.update_layout(height=350, margin=_m)
-        st.plotly_chart(fig_gain, use_container_width=True)
+# ── Phase 2: twin heatmaps triggered by click ─────────────────────────────────
+_selected_k = st.session_state.get("selected_k")
+if _selected_k is not None:
+    st.divider()
+    st.subheader(f"Twin Heatmaps — k = {_selected_k}")
+    st.caption(
+        "Adjust chunk size, overlap, and vocabulary filters independently for each heatmap. "
+        "Both use the same k and source."
+    )
+
+    _n_top_words = _c["n_top_words"]["default"]
+    _heat_cols = st.columns(2)
+
+    for _label, _pfx, _hcol in [("A", "ha", _heat_cols[0]), ("B", "hb", _heat_cols[1])]:
+        with _hcol:
+            st.markdown(f"**Heatmap {_label}**")
+            _wc = st.columns(4)
+            _h_chunk   = _wc[0].number_input("Chunk", _c["chunk_size"]["min"], _c["chunk_size"]["max"],
+                                              chunk_size, step=_c["chunk_size"]["step"],
+                                              key=f"{_pfx}_chunk")
+            _h_overlap = _wc[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"],
+                                              overlap, step=_c["overlap"]["step"], format="%.2f",
+                                              key=f"{_pfx}_overlap")
+            _h_min_df  = _wc[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"],
+                                              min_df, step=_c["min_df"]["step"],
+                                              key=f"{_pfx}_min_df")
+            _h_max_df  = _wc[3].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"],
+                                              max_df, step=_c["max_df"]["step"], format="%.2f",
+                                              key=f"{_pfx}_max_df")
+            _h_overlap_int = int(_h_overlap * _h_chunk)
+
+            THETA, PHI, chunks_list = run_model(
+                src_id, token_path, _h_chunk, _h_overlap_int,
+                _h_min_df, _h_max_df, _selected_k, model_type, _n_top_words
+            )
+            if THETA is None:
+                st.warning("Model couldn't run — try adjusting parameters.")
+            else:
+                n_chunks = len(chunks_list)
+                st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]}")
+                render_heatmap(THETA, PHI, chunks_list, height=cfg["layout"]["heatmap_height"])
