@@ -8,9 +8,8 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import NMF
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_similarity
 from scipy.stats import entropy as scipy_entropy
 
@@ -46,14 +45,14 @@ def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner="Running model…")
-def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics):
+def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type):
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
 
     step = max(1, chunk_size - overlap_int)
     token_arr = np.array(tokens)
     if len(token_arr) < chunk_size:
-        return None, None, None
+        return None, None
     windows = np.lib.stride_tricks.sliding_window_view(token_arr, chunk_size)[::step]
     chunks_s = pd.Series(
         np.apply_along_axis(lambda row: " ".join(row), axis=1, arr=windows)
@@ -61,25 +60,31 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     chunks_list = chunks_s.tolist()
 
     if len(chunks_list) < 2:
-        return None, None, None
+        return None, None
 
     try:
-        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                              strip_accents=None, norm="l2")
-        X = vec.fit_transform(chunks_list)
+        if model_type == "NMF":
+            vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+                                  strip_accents=None, norm="l2")
+            X = vec.fit_transform(chunks_list)
+            model = NMF(n_components=n_topics, init="nndsvd", max_iter=500)
+        else:
+            vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+                                  strip_accents=None)
+            X = vec.fit_transform(chunks_list)
+            model = LatentDirichletAllocation(n_components=n_topics, random_state=42, max_iter=20)
     except ValueError:
-        return None, None, None
+        return None, None
 
-    nmf = NMF(n_components=n_topics, init="nndsvd", max_iter=500)
-    THETA = pd.DataFrame(nmf.fit_transform(X))
+    THETA = pd.DataFrame(model.fit_transform(X))
     THETA.index.name, THETA.columns.name = "chunk_id", "topic_id"
-    PHI_sim = cosine_similarity(nmf.components_)
+    PHI_sim = cosine_similarity(model.components_)
 
-    return THETA, PHI_sim, X
+    return THETA, PHI_sim
 
 
 @st.cache_data(show_spinner="Running elbow analysis…")
-def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_topics):
+def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_topics, model_type):
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
     step = max(1, chunk_size - overlap_int)
@@ -94,16 +99,25 @@ def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_t
     if len(chunks_list) < 2:
         return None
     try:
-        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                              strip_accents=None, norm="l2")
+        if model_type == "NMF":
+            vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+                                  strip_accents=None, norm="l2")
+        else:
+            vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+                                  strip_accents=None)
         X = vec.fit_transform(chunks_list)
     except ValueError:
         return None
     rows = []
     for n in range(2, max_topics + 1):
-        m = NMF(n_components=n, init="nndsvd", max_iter=500)
-        m.fit(X)
-        rows.append({"n_topics": n, "error": m.reconstruction_err_})
+        if model_type == "NMF":
+            m = NMF(n_components=n, init="nndsvd", max_iter=500)
+            m.fit(X)
+            rows.append({"n_topics": n, "error": m.reconstruction_err_})
+        else:
+            m = LatentDirichletAllocation(n_components=n, random_state=42, max_iter=20)
+            m.fit(X)
+            rows.append({"n_topics": n, "error": m.perplexity(X)})
     return pd.DataFrame(rows)
 
 
@@ -141,7 +155,8 @@ chunk_size = cols[1].number_input("Chunk size", _c["chunk_size"]["min"], _c["chu
 overlap    = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
 min_df     = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
 max_df     = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
-n_topics   = cols[5].number_input("Topics", _c["n_topics"]["min"], _c["n_topics"]["max"], _c["n_topics"]["default"], step=_c["n_topics"]["step"])
+n_topics    = cols[5].number_input("Topics", _c["n_topics"]["min"], _c["n_topics"]["max"], _c["n_topics"]["default"], step=_c["n_topics"]["step"])
+model_type  = cols[6].selectbox("Model", ["NMF", "LDA"])
 
 overlap_int = int(overlap * chunk_size)
 
@@ -154,8 +169,8 @@ if token_path is None:
     st.stop()
 
 # ── Run models ────────────────────────────────────────────────────────────────
-THETA, PHI_sim, _ = run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics)
-elbow_df = run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, _c["n_topics"]["max"])
+THETA, PHI_sim = run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type)
+elbow_df = run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, _c["n_topics"]["max"], model_type)
 
 if THETA is None:
     st.warning("Model couldn't run — try adjusting chunk size, min_df, or max_df.")
@@ -196,11 +211,12 @@ col3, col4 = st.columns(2)
 if elbow_df is not None:
     elbow_df["marginal_gain"] = elbow_df["error"].diff(-1).fillna(0)
 
+    _error_label = "Reconstruction error" if model_type == "NMF" else "Perplexity"
     with col3:
-        st.subheader("Reconstruction Error")
+        st.subheader(_error_label)
         fig_elbow = px.line(
             elbow_df, x="n_topics", y="error", markers=True,
-            labels={"n_topics": "Number of topics", "error": "Reconstruction error"},
+            labels={"n_topics": "Number of topics", "error": _error_label},
         )
         fig_elbow.add_vline(x=n_topics, line_dash="dash", line_color="gray",
                             annotation_text="current", annotation_position="top right")
@@ -211,7 +227,7 @@ if elbow_df is not None:
         st.subheader("Marginal Gain")
         fig_gain = px.bar(
             elbow_df, x="n_topics", y="marginal_gain",
-            labels={"n_topics": "Number of topics", "marginal_gain": "Drop in error per topic added"},
+            labels={"n_topics": "Number of topics", "marginal_gain": f"Drop in {_error_label.lower()} per topic added"},
         )
         fig_gain.add_vline(x=n_topics, line_dash="dash", line_color="gray",
                            annotation_text="current", annotation_position="top right")
