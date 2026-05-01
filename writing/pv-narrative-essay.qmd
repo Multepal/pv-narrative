@@ -33,3 +33,16 @@ Continue to state hypothesis ...
 ## Existing divisions
 
 # Method
+
+## Model Selection
+
+-   Why topic modeling?
+-   Why NMF?
+
+## Parameter Tuning
+
+-   Choice of chunk: Avoid editorial bias, Neutral, use overlap, compare to number of paragraphs in original
+-   Choice of chunk size: Heap's Law? Or, roughly mean paragraph size
+-   Choice of min_df: roughly equal to number of topics
+-   Choice of max_df: .5
+-   Choice of k: Mean UMass Topic Coherence (Mimno), compare to Temas dot plot
