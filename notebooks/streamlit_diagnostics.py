@@ -172,7 +172,7 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     return THETA, PHI, chunks_list
 
 
-def render_heatmap(THETA, PHI, chunks_list, height):
+def render_heatmap(THETA, PHI, chunks_list, height, key="heatmap"):
     """Render a topic heatmap into the current Streamlit container."""
     _v = cfg["visualization"]
     n_chunks = len(chunks_list)
@@ -228,7 +228,7 @@ def render_heatmap(THETA, PHI, chunks_list, height):
     )
     fig.update_layout(height=height, margin=dict(l=60, r=20, t=20, b=40),
                       coloraxis_showscale=False)
-    st.plotly_chart(fig, width='stretch')
+    st.plotly_chart(fig, use_container_width=True, key=key)
 
 
 # ── Page config ───────────────────────────────────────────────────────────────
@@ -313,7 +313,7 @@ with col_left:
     fig_gain.add_vline(x=chunk_size, line_dash="dot", line_color="gray", line_width=1.5,
                        annotation_text=f"chunk = {chunk_size}", annotation_position="bottom right")
     fig_gain.update_layout(height=380, margin=_m)
-    st.plotly_chart(fig_gain, width='stretch')
+    st.plotly_chart(fig_gain, use_container_width=True, key="vocab_gain")
 
 with col_right:
     st.subheader("Mean Topic Coherence vs. Number of Topics")
@@ -331,13 +331,17 @@ with col_right:
             fig_coh.add_vline(x=_selected_k, line_dash="dash", line_color="#EF553B", line_width=2,
                               annotation_text=f"k = {_selected_k}", annotation_position="top right")
         fig_coh.update_layout(height=380, margin=_m)
-        _coh_event = st.plotly_chart(fig_coh, width='stretch',
+        _coh_event = st.plotly_chart(fig_coh, use_container_width=True,
                                      key=f"coh_{_params_key}", on_select="rerun")
         if _coh_event.selection.points:
             _clicked_k = int(_coh_event.selection.points[0]["x"])
             if _clicked_k != st.session_state.get("selected_k"):
                 st.session_state["selected_k"] = _clicked_k
                 st.rerun()
+        if _selected_k is not None:
+            st.success(f"k = {_selected_k} selected — twin heatmaps below ↓")
+        else:
+            st.info("Click a point on the curve to fit the topic model.")
     else:
         st.warning("Elbow analysis could not run — try adjusting chunk size, min_df, or max_df.")
 
@@ -381,4 +385,5 @@ if _selected_k is not None:
             else:
                 n_chunks = len(chunks_list)
                 st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]}")
-                render_heatmap(THETA, PHI, chunks_list, height=cfg["layout"]["heatmap_height"])
+                render_heatmap(THETA, PHI, chunks_list, height=cfg["layout"]["heatmap_height"],
+                               key=f"heat_{_pfx}_{_selected_k}")
