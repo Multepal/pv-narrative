@@ -82,7 +82,6 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
         {words[j]: nmf.components_[i][j] for j in nmf.components_[i].argsort()[::-1][:n_top_words]}
         for i in range(n_topics)
     ]
-
     scaler = MinMaxScaler((0, 1))
     D = pd.concat([THETA.shift(1), THETA.shift(0)], axis=1, keys=["a", "b"]).dropna() \
         .apply(lambda x: distance.cosine(x.a, x.b), axis=1).to_frame("d")
