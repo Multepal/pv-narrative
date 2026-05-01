@@ -3,6 +3,7 @@
 *.pickle
 *.spacy
 **.DS_Store
+**.gslides
 
 
 # Byte-compiled / optimized / DLL files
