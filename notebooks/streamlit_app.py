@@ -190,6 +190,17 @@ st.caption(
 _v = cfg["visualization"]
 margin = dict(**cfg["layout"]["margin"])
 
+# session state for bar→heatmap vlines
+_chart_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}_{n_topics}"
+if st.session_state.get("vline_chart_key") != _chart_key:
+    st.session_state["active_chunks"]    = set()
+    st.session_state["last_bar_sel"]     = None
+    st.session_state["vline_chart_key"]  = _chart_key
+if "active_chunks" not in st.session_state:
+    st.session_state["active_chunks"] = set()
+if "last_bar_sel" not in st.session_state:
+    st.session_state["last_bar_sel"] = None
+
 def _wrap(text, width=_v["wrap_width"]):
     words, lines, line = text.split(), [], []
     for word in words:
@@ -243,11 +254,15 @@ fig1.update_traces(
         "%{customdata[0]}<extra></extra>"
     ),
 )
-_chart_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}_{n_topics}"
 fig1.update_layout(height=cfg["layout"]["heatmap_height"], margin=margin, coloraxis_showscale=False)
-st.plotly_chart(fig1, width="stretch", key=f"heatmap_{_chart_key}")
+_heatmap_slot = st.empty()  # filled after bar click is processed
 
 # ── Cosine distance bar ───────────────────────────────────────────────────────
+_active_chunks = set(st.session_state["active_chunks"])
+_default_color = "#636EFA"
+_active_color  = "#EF553B"
+_bar_colors = [_active_color if i in _active_chunks else _default_color for i in D.index]
+
 fig2 = px.bar(
     D["scaled"],
     labels={"value": "Scaled cosine distance", "chunk_id": "Syntagm / Event (chunk_id)"},
@@ -261,9 +276,31 @@ fig2.update_traces(
         "Distance: %{y:.3f}<br><br>"
         "%{customdata}<extra></extra>"
     ),
+    marker_color=_bar_colors,
+    selected={"marker": {"color": _active_color, "opacity": 1.0}},
+    unselected={"marker": {"opacity": 1.0}},
 )
-fig2.update_layout(height=cfg["layout"]["bar_height"], margin=margin, showlegend=False)
-st.plotly_chart(fig2, width="stretch", key=f"bardist_{_chart_key}")
+fig2.update_layout(height=cfg["layout"]["bar_height"], margin=margin, showlegend=False,
+                   clickmode="event+select")
+_bar_event = st.plotly_chart(fig2, width="stretch", key=f"bardist_{_chart_key}", on_select="rerun")
+
+# Toggle logic — compare current Plotly selection to last known selection
+_cur = _bar_event.selection.points[0]["x"] if _bar_event.selection.points else None
+_last = st.session_state["last_bar_sel"]
+if _cur != _last:
+    if _cur is not None:
+        if _cur in _active_chunks:
+            _active_chunks.discard(_cur)
+        else:
+            _active_chunks.add(_cur)
+        st.session_state["active_chunks"] = _active_chunks
+    st.session_state["last_bar_sel"]  = _cur
+
+# Fill heatmap slot now that active_chunks is current
+for _cid in st.session_state["active_chunks"]:
+    fig1.add_vline(x=_cid, line_dash="dash", line_color="lightgray", line_width=1.5)
+with _heatmap_slot:
+    st.plotly_chart(fig1, use_container_width=True, key=f"heatmap_{_chart_key}")
 
 # ── Topic word clouds ─────────────────────────────────────────────────────────
 st.divider()
