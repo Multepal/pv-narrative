@@ -8,12 +8,15 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
+from plotly.subplots import make_subplots
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
+from sklearn.metrics.pairwise import cosine_distances
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
-with open(os.path.join(APP_DIR, "config.yaml"), encoding="utf-8") as _f:
+with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
     cfg = yaml.safe_load(_f)
 
 SOURCES_META = cfg["sources"]
@@ -22,10 +25,11 @@ LANG_LABELS  = cfg["languages"]
 
 def find_token_file(src_id: str) -> str | None:
     candidates = [
-        os.path.join(APP_DIR, src_id, f"{src_id}-TOKEN.csv"),
-        os.path.join(APP_DIR, "ensemble", f"{src_id}-TOKEN.csv"),
-        os.path.join(APP_DIR, f"{src_id}-TOKEN.csv"),
-        os.path.join(APP_DIR, "..", src_id, f"{src_id}-TOKEN.csv"),
+        # os.path.join(APP_DIR, src_id, f"{src_id}-TOKEN.csv"),
+        # os.path.join(APP_DIR, "ensemble", f"{src_id}-TOKEN.csv"),
+        # os.path.join(APP_DIR, f"{src_id}-TOKEN.csv"),
+        # os.path.join(APP_DIR, "..", src_id, f"{src_id}-TOKEN.csv"),
+        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
     ]
     for p in candidates:
         norm = os.path.normpath(p)
@@ -130,7 +134,10 @@ def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_t
             for i in range(n)
         ]
         coherence = float(np.mean([_umass_coherence(X_bin, words, list(p.keys())) for p in phi]))
-        rows.append({"n_topics": n, "coherence": coherence})
+        dists = cosine_distances(m.components_)
+        idx = np.triu_indices(n, k=1)
+        independence = float(np.mean(dists[idx])) if n > 1 else 0.0
+        rows.append({"n_topics": n, "coherence": coherence, "independence": independence})
     return pd.DataFrame(rows)
 
 
@@ -316,21 +323,35 @@ with col_left:
     st.plotly_chart(fig_gain, use_container_width=True, key="vocab_gain")
 
 with col_right:
-    st.subheader("Mean Topic Coherence vs. Number of Topics")
+    st.subheader("Coherence & Independence vs. Number of Topics")
     st.caption(
-        "UMass coherence (Mimno et al. 2011): higher (less negative) = more coherent. "
+        "UMass coherence (blue, left axis): higher = more coherent. "
+        "Mean pairwise cosine distance (red, right axis): higher = more independent. "
         "**Click a point to open the twin heatmap for that k.**"
     )
     if elbow_df is not None:
         _selected_k = st.session_state.get("selected_k")
-        fig_coh = px.line(
-            elbow_df, x="n_topics", y="coherence", markers=True,
-            labels={"n_topics": "Number of topics (k)", "coherence": "Mean UMass coherence"},
+        fig_coh = make_subplots(specs=[[{"secondary_y": True}]])
+        fig_coh.add_trace(
+            go.Scatter(x=elbow_df["n_topics"], y=elbow_df["coherence"],
+                       mode="lines+markers", name="Coherence",
+                       line=dict(color="#636EFA")),
+            secondary_y=False,
+        )
+        fig_coh.add_trace(
+            go.Scatter(x=elbow_df["n_topics"], y=elbow_df["independence"],
+                       mode="lines+markers", name="Independence",
+                       line=dict(color="#EF553B")),
+            secondary_y=True,
         )
         if _selected_k is not None:
-            fig_coh.add_vline(x=_selected_k, line_dash="dash", line_color="#EF553B", line_width=2,
+            fig_coh.add_vline(x=_selected_k, line_dash="dash", line_color="gray", line_width=2,
                               annotation_text=f"k = {_selected_k}", annotation_position="top right")
-        fig_coh.update_layout(height=380, margin=_m)
+        fig_coh.update_yaxes(title_text="Mean UMass coherence", secondary_y=False)
+        fig_coh.update_yaxes(title_text="Mean pairwise cosine distance", secondary_y=True)
+        fig_coh.update_xaxes(title_text="Number of topics (k)")
+        fig_coh.update_layout(height=380, margin=_m,
+                              legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
         _coh_event = st.plotly_chart(fig_coh, use_container_width=True,
                                      key=f"coh_{_params_key}", on_select="rerun")
         if _coh_event.selection.points:

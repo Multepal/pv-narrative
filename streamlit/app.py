@@ -27,10 +27,8 @@ LANG_LABELS  = cfg["languages"]
 
 def find_token_file(src_id: str) -> str | None:
     candidates = [
-        os.path.join(APP_DIR, src_id, f"{src_id}-TOKEN.csv"),
-        os.path.join(APP_DIR, "ensemble", f"{src_id}-TOKEN.csv"),
-        os.path.join(APP_DIR, f"{src_id}-TOKEN.csv"),
-        os.path.join(APP_DIR, "..", src_id, f"{src_id}-TOKEN.csv"),
+        os.path.join(APP_DIR, f"../notebooks/{src_id}/{src_id}-TOKEN.csv"),
+        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
     ]
     for p in candidates:
         norm = os.path.normpath(p)
@@ -300,7 +298,7 @@ if _cur != _last:
 for _cid in st.session_state["active_chunks"]:
     fig1.add_vline(x=_cid, line_dash="dash", line_color="lightgray", line_width=1.5)
 with _heatmap_slot:
-    st.plotly_chart(fig1, use_container_width=True, key=f"heatmap_{_chart_key}")
+    st.plotly_chart(fig1, width='stretch', key=f"heatmap_{_chart_key}")
 
 # ── Topic word clouds ─────────────────────────────────────────────────────────
 st.divider()
@@ -317,7 +315,7 @@ for row_start in range(0, n_topics, n_cols):
             colormap=_v["wordcloud_colormap"],
             prefer_horizontal=_v["wordcloud_prefer_horizontal"],
         ).generate_from_frequencies(PHI[topic_idx])
-        grid_cols[col_idx].image(wc.to_array(), caption=f"Topic {topic_idx}", use_container_width=True)
+        grid_cols[col_idx].image(wc.to_array(), caption=f"Topic {topic_idx}", width='stretch')
 
 # ── Chunk viewer ──────────────────────────────────────────────────────────────
 st.divider()
