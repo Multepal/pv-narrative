@@ -179,10 +179,13 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     return THETA, PHI, chunks_list
 
 
-def render_heatmap(THETA, PHI, chunks_list, height, key="heatmap"):
+def render_heatmap(THETA, PHI, chunks_list, key="heatmap"):
     """Render a topic heatmap into the current Streamlit container."""
     _v = cfg["visualization"]
     n_chunks = len(chunks_list)
+    n_topics = THETA.shape[1]
+    _row_h = cfg["layout"]["heatmap_row_height_px"]
+    height = n_topics * _row_h + 60  # 60px = top+bottom margin overhead
     _preview_len = _v["preview_len"]
 
     def _wrap(text, width=_v["wrap_width"]):
@@ -212,13 +215,14 @@ def render_heatmap(THETA, PHI, chunks_list, height, key="heatmap"):
     _topic_order_plot = list(reversed(_topic_order))
     _topic_labels = [f"Topic {i}" for i in _topic_order_plot]
 
+    _x_scaled = np.round(np.linspace(1, 100, n_chunks)).astype(int)
     fig = px.imshow(
         THETA.T.loc[_topic_order_plot].values,
         y=_topic_labels,
-        x=list(range(n_chunks)),
+        x=_x_scaled,
         aspect="auto",
         color_continuous_scale=_v["heatmap_color_scale"],
-        labels=dict(x="Chunk", y="Topic"),
+        labels=dict(x="Position (1–100)", y="Topic"),
     )
     _topic_words = [", ".join(list(PHI[t].keys())[:_v["hover_top_words"]]) for t in _topic_order_plot]
     _customdata = np.empty((len(_topic_order_plot), n_chunks, 2), dtype=object)
@@ -227,7 +231,7 @@ def render_heatmap(THETA, PHI, chunks_list, height, key="heatmap"):
     fig.update_traces(
         customdata=_customdata,
         hovertemplate=(
-            "<b>Topic %{y} · Chunk %{x}</b><br>"
+            "<b>Topic %{y} · Position %{x}</b><br>"
             "Weight: %{z:.3f}<br>"
             "<i>%{customdata[1]}</i><br><br>"
             "%{customdata[0]}<extra></extra>"
@@ -406,5 +410,4 @@ if _selected_k is not None:
             else:
                 n_chunks = len(chunks_list)
                 st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]}")
-                render_heatmap(THETA, PHI, chunks_list, height=cfg["layout"]["heatmap_height"],
-                               key=f"heat_{_pfx}_{_selected_k}")
+                render_heatmap(THETA, PHI, chunks_list, key=f"heat_{_pfx}_{_selected_k}")

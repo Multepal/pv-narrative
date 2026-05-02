@@ -72,6 +72,7 @@ controls:
 layout:
   column_ratios: [2, 1.5, 1.2, 1.2, 1.2, 1.2, 1.2]
   heatmap_height: 400
+  heatmap_row_height_px: 30
   bar_height: 200
   margin:
     l: 80
