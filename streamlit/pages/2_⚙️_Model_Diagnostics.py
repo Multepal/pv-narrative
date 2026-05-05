@@ -239,28 +239,8 @@ def render_heatmap(THETA, PHI, chunks_list, key="heatmap"):
     )
     fig.update_layout(height=height, margin=dict(l=60, r=20, t=20, b=40),
                       coloraxis_showscale=False)
-    st.plotly_chart(fig, use_container_width=True, key=key)
+    st.plotly_chart(fig, width='stretch', key=key)
 
-
-# ── Page config ───────────────────────────────────────────────────────────────
-st.set_page_config(
-    page_title="Model Diagnostics — Popol Wuj",
-    page_icon="🔬",
-    layout="wide",
-)
-
-st.markdown(f"""
-<style>
-.block-container {{ padding-top: 1rem; padding-bottom: 1rem; }}
-h3 {{ margin-bottom: 1rem; }}
-@media (min-width: 768px) {{
-    section[data-testid="stSidebar"] {{
-        min-width: {cfg['sidebar']['min_width_px']}px;
-        width: {cfg['sidebar']['width_vw']}vw;
-    }}
-}}
-</style>
-""", unsafe_allow_html=True)
 
 st.title("Model Diagnostics — Popol Wuj")
 
@@ -283,6 +263,8 @@ if _n_tokens_early:
     cols[1].caption(f"{int(chunk_pct * _n_tokens_early):,} tokens")
 chunk_size = max(50, int(chunk_pct * _n_tokens_early)) if _n_tokens_early else 100
 overlap    = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
+if _n_tokens_early:
+    cols[2].caption(f"{int(overlap * chunk_size):,} tokens")
 min_df     = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
 max_df     = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
 model_type = cols[5].selectbox("Model", ["NMF", "LDA"])
@@ -333,7 +315,7 @@ with col_left:
     fig_gain.add_vline(x=chunk_size, line_dash="dot", line_color="gray", line_width=1.5,
                        annotation_text=f"chunk = {chunk_size}", annotation_position="bottom right")
     fig_gain.update_layout(height=380, margin=_m)
-    st.plotly_chart(fig_gain, use_container_width=True, key="vocab_gain")
+    st.plotly_chart(fig_gain, width='stretch', key="vocab_gain")
 
 with col_right:
     st.subheader("Coherence & Independence vs. Number of Topics")
@@ -365,7 +347,7 @@ with col_right:
         fig_coh.update_xaxes(title_text="Number of topics (k)")
         fig_coh.update_layout(height=380, margin=_m,
                               legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
-        _coh_event = st.plotly_chart(fig_coh, use_container_width=True,
+        _coh_event = st.plotly_chart(fig_coh, width='stretch',
                                      key=f"coh_{_params_key}", on_select="rerun")
         if _coh_event.selection.points:
             _clicked_k = int(_coh_event.selection.points[0]["x"])
@@ -404,6 +386,7 @@ if _selected_k is not None:
             _h_overlap = _wc[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"],
                                               overlap, step=_c["overlap"]["step"], format="%.2f",
                                               key=f"{_pfx}_overlap")
+            _wc[1].caption(f"{int(_h_overlap * _h_chunk):,} tokens")
             _h_min_df  = _wc[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"],
                                               min_df, step=_c["min_df"]["step"],
                                               key=f"{_pfx}_min_df")
