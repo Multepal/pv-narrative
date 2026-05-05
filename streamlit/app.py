@@ -13,22 +13,16 @@ st.set_page_config(
     layout=cfg["app"]["layout"],
 )
 
-st.markdown(f"""
-<style>
-.block-container {{ padding-top: 1rem; padding-bottom: 1rem; }}
-h3 {{ margin-bottom: 1rem; }}
-@media (min-width: 768px) {{
-    section[data-testid="stSidebar"] {{
-        min-width: {cfg['sidebar']['min_width_px']}px;
-        width: {cfg['sidebar']['width_vw']}vw;
-    }}
-}}
-</style>
-""", unsafe_allow_html=True)
+st.markdown(
+    f"<style>:root {{ --sidebar-min-width: {cfg['sidebar']['min_width_px']}px; --sidebar-width: {cfg['sidebar']['width_vw']}vw; }}</style>",
+    unsafe_allow_html=True,
+)
+with open(os.path.join(APP_DIR, "style.css")) as _f:
+    st.markdown(f"<style>{_f.read()}</style>", unsafe_allow_html=True)
 
 pg = st.navigation([
     st.Page("pages/explorer.py",               title="Structural Explorer", icon="📜"),
-    st.Page("pages/1_ℹ️_About.py",             title="About",              icon="ℹ️"),
     st.Page("pages/2_⚙️_Model_Diagnostics.py", title="Model Diagnostics",  icon="⚙️"),
+    st.Page("pages/1_ℹ️_About.py",             title="About",              icon="ℹ️"),
 ])
 pg.run()

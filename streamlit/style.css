@@ -1,0 +1,15 @@
+.block-container {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+}
+
+h3 {
+    margin-bottom: 1rem;
+}
+
+@media (min-width: 768px) {
+    section[data-testid="stSidebar"] {
+        min-width: var(--sidebar-min-width);
+        width: var(--sidebar-width);
+    }
+}
