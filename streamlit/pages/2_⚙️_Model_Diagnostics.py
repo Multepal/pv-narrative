@@ -309,6 +309,7 @@ with col_left:
         f"V(n) = {_K:.1f} · n^{_beta:.3f} · "
         f"{_n_total:,} tokens · {_vs[-1]:,} types · "
         + (f"n* = {_n_star}" if _n_star is not None else "n* unavailable")
+        + f" · chunk = {chunk_size / _n_total * 100:.1f}% of text"
     )
     _ns_fit = np.geomspace(1, _n_total, 300)
     _gain_df = pd.DataFrame({
@@ -409,5 +410,5 @@ if _selected_k is not None:
                 st.warning("Model couldn't run — try adjusting parameters.")
             else:
                 n_chunks = len(chunks_list)
-                st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]}")
+                st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]} · chunk = {_h_chunk / _n_total * 100:.1f}% of text")
                 render_heatmap(THETA, PHI, chunks_list, key=f"heat_{_pfx}_{_selected_k}")

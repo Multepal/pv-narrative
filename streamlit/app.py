@@ -181,7 +181,8 @@ n_chunks = len(chunks_list)
 
 st.caption(
     f"**{meta['label']}** ({LANG_LABELS[meta['lang']]}) · "
-    f"{n_tokens:,} tokens · {n_chunks} chunks · {THETA.shape[1]} topics"
+    f"{n_tokens:,} tokens · {n_chunks} chunks · {THETA.shape[1]} topics · "
+    f"chunk = {chunk_size / n_tokens * 100:.1f}% of text"
 )
 
 # ── Heatmap ───────────────────────────────────────────────────────────────────
