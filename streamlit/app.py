@@ -21,8 +21,8 @@ with open(os.path.join(APP_DIR, "style.css")) as _f:
     st.markdown(f"<style>{_f.read()}</style>", unsafe_allow_html=True)
 
 pg = st.navigation([
-    st.Page("pages/explorer.py",               title="Structural Explorer", icon="📜"),
-    st.Page("pages/2_⚙️_Model_Diagnostics.py", title="Model Diagnostics",  icon="⚙️"),
-    st.Page("pages/1_ℹ️_About.py",             title="About",              icon="ℹ️"),
+    st.Page("pages/explorer.py",          title="Structural Explorer", icon="📜"),
+    st.Page("pages/model_diagnostics.py", title="Model Diagnostics",   icon="⚙️"),
+    st.Page("pages/about.py",             title="About",               icon="ℹ️"),
 ])
 pg.run()
