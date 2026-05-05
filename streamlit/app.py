@@ -132,7 +132,15 @@ _c = cfg["controls"]
 src_id      = cols[0].selectbox(
     "Source", src_ids, index=src_ids.index(_c["default_source"]),
     format_func=lambda x: f"{SOURCES_META[x]['label']} ({LANG_LABELS[SOURCES_META[x]['lang']]})")
-chunk_size  = cols[1].number_input("Chunk size", _c["chunk_size"]["min"], _c["chunk_size"]["max"], _c["chunk_size"]["default"], step=_c["chunk_size"]["step"])
+
+_early_token_path = find_token_file(src_id)
+_n_tokens_early = len(load_tokens(src_id, _early_token_path)) if _early_token_path else None
+
+_cp = _c["chunk_pct"]
+chunk_pct   = cols[1].number_input("Chunk %", _cp["min"], _cp["max"], _cp["default"], step=_cp["step"], format="%.3f")
+if _n_tokens_early:
+    cols[1].caption(f"{int(chunk_pct * _n_tokens_early):,} tokens")
+chunk_size  = max(50, int(chunk_pct * _n_tokens_early)) if _n_tokens_early else 100
 overlap     = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
 min_df      = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
 max_df      = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
@@ -182,7 +190,7 @@ n_chunks = len(chunks_list)
 st.caption(
     f"**{meta['label']}** ({LANG_LABELS[meta['lang']]}) · "
     f"{n_tokens:,} tokens · {n_chunks} chunks · {THETA.shape[1]} topics · "
-    f"chunk = {chunk_size / n_tokens * 100:.1f}% of text"
+    f"chunk = {chunk_pct * 100:.1f}% ({chunk_size:,} tokens)"
 )
 
 # ── Heatmap ───────────────────────────────────────────────────────────────────
@@ -232,13 +240,16 @@ for t in range(THETA.shape[1]):
 _topic_order_plot = list(reversed(_topic_order))
 _topic_labels = [f"Topic {i}" for i in _topic_order_plot]
 
+_x_scaled = np.round(np.linspace(0, 100, n_chunks)).astype(int)
+_chunk_to_scaled = dict(enumerate(_x_scaled))
+
 fig1 = px.imshow(
     THETA.T.loc[_topic_order_plot].values,  # numpy array avoids Plotly treating int index as continuous axis
     y=_topic_labels,
-    x=list(range(n_chunks)),
+    x=_x_scaled,
     aspect="auto",
     color_continuous_scale=_v["heatmap_color_scale"],
-    labels=dict(x="", y="Paradigm / Structure"),
+    labels=dict(x="Position (0–100)", y="Paradigm / Structure"),
 )
 _topic_words = [", ".join(list(PHI[t].keys())[:_v["hover_top_words"]]) for t in _topic_order_plot]
 _customdata = np.empty((len(_topic_order_plot), n_chunks, 2), dtype=object)
@@ -247,7 +258,7 @@ _customdata[:, :, 1] = np.array(_topic_words)[:, np.newaxis]
 fig1.update_traces(
     customdata=_customdata,
     hovertemplate=(
-        "<b>Topic %{y} · Chunk %{x}</b><br>"
+        "<b>Topic %{y} · Position %{x}</b><br>"
         "Weight: %{z:.3f}<br>"
         "<i>%{customdata[1]}</i><br><br>"
         "%{customdata[0]}<extra></extra>"
@@ -297,7 +308,7 @@ if _cur != _last:
 
 # Fill heatmap slot now that active_chunks is current
 for _cid in st.session_state["active_chunks"]:
-    fig1.add_vline(x=_cid, line_dash="dash", line_color="lightgray", line_width=1.5)
+    fig1.add_vline(x=_chunk_to_scaled.get(_cid, _cid), line_dash="dash", line_color="lightgray", line_width=1.5)
 with _heatmap_slot:
     st.plotly_chart(fig1, width='stretch', key=f"heatmap_{_chart_key}")
 

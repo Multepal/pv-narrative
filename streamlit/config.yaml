@@ -38,11 +38,11 @@ languages:
 
 controls:
   default_source: colop
-  chunk_size:
-    min: 100
-    max: 2000
-    default: 500
-    step: 10
+  chunk_pct:
+    min: 0.005
+    max: 0.250
+    default: 0.025
+    step: 0.005
   overlap:
     min: 0.0
     max: 0.9

@@ -273,7 +273,15 @@ _c = cfg["controls"]
 src_id     = cols[0].selectbox(
     "Source", src_ids, index=src_ids.index(_c["default_source"]),
     format_func=lambda x: f"{SOURCES_META[x]['label']} ({LANG_LABELS[SOURCES_META[x]['lang']]})")
-chunk_size = cols[1].number_input("Chunk size", _c["chunk_size"]["min"], _c["chunk_size"]["max"], _c["chunk_size"]["default"], step=_c["chunk_size"]["step"])
+
+_early_token_path = find_token_file(src_id)
+_n_tokens_early = len(load_tokens(src_id, _early_token_path)) if _early_token_path else None
+
+_cp = _c["chunk_pct"]
+chunk_pct  = cols[1].number_input("Chunk %", _cp["min"], _cp["max"], _cp["default"], step=_cp["step"], format="%.3f")
+if _n_tokens_early:
+    cols[1].caption(f"{int(chunk_pct * _n_tokens_early):,} tokens")
+chunk_size = max(50, int(chunk_pct * _n_tokens_early)) if _n_tokens_early else 100
 overlap    = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
 min_df     = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
 max_df     = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
@@ -309,7 +317,7 @@ with col_left:
         f"V(n) = {_K:.1f} · n^{_beta:.3f} · "
         f"{_n_total:,} tokens · {_vs[-1]:,} types · "
         + (f"n* = {_n_star}" if _n_star is not None else "n* unavailable")
-        + f" · chunk = {chunk_size / _n_total * 100:.1f}% of text"
+        + f" · chunk = {chunk_pct * 100:.1f}% ({chunk_size:,} tokens)"
     )
     _ns_fit = np.geomspace(1, _n_total, 300)
     _gain_df = pd.DataFrame({
@@ -388,9 +396,11 @@ if _selected_k is not None:
         with _hcol:
             st.markdown(f"**Heatmap {_label}**")
             _wc = st.columns(4)
-            _h_chunk   = _wc[0].number_input("Chunk", _c["chunk_size"]["min"], _c["chunk_size"]["max"],
-                                              chunk_size, step=_c["chunk_size"]["step"],
-                                              key=f"{_pfx}_chunk")
+            _h_chunk_pct = _wc[0].number_input("Chunk %", _cp["min"], _cp["max"],
+                                                chunk_pct, step=_cp["step"], format="%.3f",
+                                                key=f"{_pfx}_chunk")
+            _h_chunk = max(50, int(_h_chunk_pct * _n_total))
+            _wc[0].caption(f"{_h_chunk:,} tokens")
             _h_overlap = _wc[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"],
                                               overlap, step=_c["overlap"]["step"], format="%.2f",
                                               key=f"{_pfx}_overlap")
@@ -410,5 +420,5 @@ if _selected_k is not None:
                 st.warning("Model couldn't run — try adjusting parameters.")
             else:
                 n_chunks = len(chunks_list)
-                st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]} · chunk = {_h_chunk / _n_total * 100:.1f}% of text")
+                st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]} · chunk = {_h_chunk_pct * 100:.1f}% ({_h_chunk:,} tokens)")
                 render_heatmap(THETA, PHI, chunks_list, key=f"heat_{_pfx}_{_selected_k}")
