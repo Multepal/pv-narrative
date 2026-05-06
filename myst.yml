@@ -1,6 +1,12 @@
 # See docs at: https://mystmd.org/guide/frontmatter
 version: 1
 
+parse:
+  myst_enable_extensions:
+    - colon_fence
+nb:
+  render_ipywidgets: true
+
 project:
   id: cba1d5da-07d7-4af1-8a2b-9b0b7ab6256a
   jupyter: false
@@ -10,7 +16,7 @@ project:
   authors: ['R.C. Alvarado']
   github: https://github.com/Multepal/pv-narrative
   toc:
-    - file: writing/pv-narrative-essay.md
+    - file: writing/pv-narrative-essay.qmd
     - file: notebooks/ajtzibab/01-ajtzibab-parse-xml.ipynb
     - file: notebooks/ajtzibab/02-ajtzibab-model.ipynb
     - file: notebooks/christenson/01-christenson-extract-titles.ipynb
@@ -24,6 +30,7 @@ project:
     - file: notebooks/christenson_ximenez/01-christenson_ximenez-parse.ipynb
     - file: notebooks/christenson_ximenez/02-christenson_ximenez-model.ipynb
     - file: notebooks/ensemble/ensemble.ipynb
+    - file: notebooks/ensemble/overlap.ipynb
 site:
   template: article-theme
   title: Narrative Structure of the <i>Popol Wuj</i>
