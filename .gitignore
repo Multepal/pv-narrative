@@ -2,7 +2,7 @@
 **/_HIDE/
 *.pickle
 *.spacy
-**.DS_Store
+**/.DS_Store
 **.gslides
 
 
