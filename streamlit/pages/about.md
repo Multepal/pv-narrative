@@ -37,6 +37,16 @@ The two main visualizations are:
 | **Topics**     | Number of NMF topics to extract                     |
 | **Top words**  | Number of top terms shown per topic                 |
 
+## Choosing Parameters
+
+Parameter tuning here is not optimization toward a fixed target. It is a search for the region where the model is *identifiable* — where different values of k produce meaningfully different topic structures.
+
+The shape of the coherence and independence curves is the diagnostic. A smooth curve with a clear coherence peak indicates the text has enough structure to constrain the model. Flat or erratic curves indicate the model is underidentified: k doesn't matter, which means no real structure is being found.
+
+Once a well-shaped curve is found, k can be chosen where coherence peaks while independence remains high. The logic is analogous to tuning a radio: you first find a region where a signal exists at all, then read what the signal says. The existence of a signal is prior to and independent of interpreting its content.
+
+This approach is grounded in the concept of *simple structure* from factor analysis — the idea that a good solution is one where factors are clearly differentiated, not one that merely maximizes a single criterion.
+
 ## Sources
 
 The app supports seven editions spanning K'iche', Spanish, and English:
