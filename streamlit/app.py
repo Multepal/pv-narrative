@@ -20,10 +20,15 @@ st.markdown(
 with open(os.path.join(APP_DIR, "style.css")) as _f:
     st.markdown(f"<style>{_f.read()}</style>", unsafe_allow_html=True)
 
+st.markdown(
+    f'<div style="background:#111111;color:#ffffff;padding:0.5rem 1.25rem;'
+    f'margin-bottom:1rem;font-size:1.1rem;font-weight:600;letter-spacing:0.03em;">'
+    f'{cfg["app"]["title"]}</div>',
+    unsafe_allow_html=True,
+)
+
 pg = st.navigation([
-    st.Page("pages/explorer.py",          title="Structural Explorer", icon="📜"),
-    st.Page("pages/model_diagnostics.py", title="Model Diagnostics",   icon="⚙️"),
-    st.Page("pages/chunk_clustering.py",  title="Chunk Clustering",    icon="🔗"),
-    st.Page("pages/about.py",             title="About",               icon="ℹ️"),
+    st.Page(p["path"], title=p["title"], icon=p["icon"])
+    for p in cfg["pages"]
 ])
 pg.run()

@@ -4,6 +4,20 @@ app:
   title: "The Narrative Structure of the Popol Wuj"
   layout: wide
 
+pages:
+  - path: pages/chunk_clustering.py
+    title: Hierarchical Clustering
+    icon: "🔗"
+  - path: pages/explorer.py
+    title: Topic Modeling
+    icon: "📜"
+  - path: pages/model_diagnostics.py
+    title: Topic Model Diagnostics
+    icon: "⚙️"
+  - path: pages/about.py
+    title: About
+    icon: "ℹ️"
+
 sidebar:
   min_width_px: 280
   width_vw: 25
@@ -32,7 +46,7 @@ sources:
     label: "Tedlock 1983"
   christenson_english_prose:
     lang: eng
-    label: "Christenson Prose"
+    label: "Christenson's Prose"
 
 languages:
   quc: "K'iche'"
@@ -40,7 +54,7 @@ languages:
   eng: English
 
 controls:
-  default_source: colop
+  default_source: ajtzibab
   chunk_pct:
     min: 0.005
     max: 0.250
