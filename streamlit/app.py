@@ -23,6 +23,7 @@ with open(os.path.join(APP_DIR, "style.css")) as _f:
 pg = st.navigation([
     st.Page("pages/explorer.py",          title="Structural Explorer", icon="📜"),
     st.Page("pages/model_diagnostics.py", title="Model Diagnostics",   icon="⚙️"),
+    st.Page("pages/chunk_clustering.py",  title="Chunk Clustering",    icon="🔗"),
     st.Page("pages/about.py",             title="About",               icon="ℹ️"),
 ])
 pg.run()
