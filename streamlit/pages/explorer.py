@@ -45,6 +45,46 @@ def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
     return TOKEN.set_index(ohco)
 
 
+@st.cache_data(show_spinner=False)
+def compute_vocab_stats(src_id, token_path, chunk_size, overlap_int):
+    """Return (n_chunks, suggested_min_df, suggested_max_df) from a vocab frequency scan."""
+    TOKEN = load_tokens(src_id, token_path)
+    tokens = TOKEN["term_str"].dropna().to_list()
+    token_arr = np.array(tokens)
+    step = max(1, chunk_size - overlap_int)
+    if len(token_arr) < chunk_size:
+        return None
+    windows = np.lib.stride_tricks.sliding_window_view(token_arr, chunk_size)[::step]
+    chunks = [" ".join(row) for row in windows]
+    n_chunks = len(chunks)
+    if n_chunks < 2:
+        return None
+    vec = TfidfVectorizer(lowercase=True, max_df=1.0, min_df=1, strip_accents=None)
+    try:
+        X = vec.fit_transform(chunks)
+    except ValueError:
+        return None
+    doc_freqs = np.asarray((X > 0).sum(axis=0)).flatten() / n_chunks
+    min_df_sug = max(2, round(0.02 * n_chunks))
+    # Restrict knee detection to words appearing in ≥5% of chunks — the range
+    # where function words and common content words live. The full distribution's
+    # long rare-word tail would pull the knee to a meaninglessly low value.
+    high = np.sort(doc_freqs[doc_freqs >= 0.05])[::-1]
+    if len(high) >= 3:
+        x = np.linspace(0, 1, len(high))
+        y_range = high[0] - high[-1]
+        y_norm = (high - high[-1]) / y_range if y_range > 1e-10 else np.ones(len(high))
+        line = np.array([1.0, -1.0])
+        vecs = np.column_stack([x, y_norm]) - np.array([0.0, 1.0])
+        line3 = np.append(line / np.linalg.norm(line), 0)
+        vecs3 = np.hstack([vecs, np.zeros((len(vecs), 1))])
+        dists = np.abs(np.cross(line3, vecs3)[:, 2])
+        max_df_sug = float(np.clip(round(high[np.argmax(dists)], 2), 0.05, 0.95))
+    else:
+        max_df_sug = 0.35
+    return n_chunks, min_df_sug, max_df_sug
+
+
 @st.cache_data(show_spinner="Running model…")
 def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, n_top_words):
     TOKEN = load_tokens(src_id, token_path)
@@ -71,7 +111,7 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     except ValueError:
         return None, None, None, None, len(TOKEN)
 
-    nmf = NMF(n_components=n_topics, init="nndsvd", max_iter=500)
+    nmf = NMF(n_components=n_topics, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"])
     THETA = pd.DataFrame(nmf.fit_transform(X))
     THETA.index.name, THETA.columns.name = "chunk_id", "topic_id"
 
@@ -110,12 +150,18 @@ chunk_size  = max(50, int(chunk_pct * _n_tokens_early)) if _n_tokens_early else 
 overlap     = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
 if _n_tokens_early:
     cols[2].caption(f"{int(overlap * chunk_size):,} tokens")
+overlap_int = int(overlap * chunk_size)
+
+_vstats = compute_vocab_stats(src_id, _early_token_path, chunk_size, overlap_int) if _early_token_path else None
+
 min_df      = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
+if _vstats:
+    cols[3].caption(f"→ {_vstats[1]} (2% of {_vstats[0]} chunks)")
 max_df      = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
+if _vstats:
+    cols[4].caption(f"→ {_vstats[2]:.2f} (vocab knee)")
 n_topics    = cols[5].number_input("Topics", _c["n_topics"]["min"], _c["n_topics"]["max"], _c["n_topics"]["default"], step=_c["n_topics"]["step"])
 n_top_words = cols[6].number_input("Top words", _c["n_top_words"]["min"], _c["n_top_words"]["max"], _c["n_top_words"]["default"], step=_c["n_top_words"]["step"])
-
-overlap_int = int(overlap * chunk_size)
 
 st.divider()
 
