@@ -30,6 +30,9 @@ sources:
   tedlock:
     lang: eng
     label: "Tedlock 1983"
+  christenson_english_prose:
+    lang: eng
+    label: "Christenson Prose"
 
 languages:
   quc: "K'iche'"
@@ -63,11 +66,19 @@ controls:
     max: 20
     default: 8
     step: 1
+  n_clusters:
+    min: 2
+    max: 20
+    default: 6
+    step: 1
   n_top_words:
     min: 3
     max: 15
     default: 7
     step: 1
+
+model:
+  nmf_max_iter: 2000
 
 layout:
   column_ratios: [2, 1.5, 1.2, 1.2, 1.2, 1.2, 1.2]
