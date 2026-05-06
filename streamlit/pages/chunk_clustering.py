@@ -167,6 +167,30 @@ def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
 
     dend = scipy_dendrogram(Z, no_plot=True, link_color_func=link_color_func)
 
+    # For each cluster, find the x of the leftmost vertical line of its root merge.
+    # Strategy: map Z heights → Z index, then match dend icoord entries to find the root merge.
+    _height_to_z = {float(Z[i, 2]): i for i in range(len(Z))}
+    cluster_root_height: dict = {}
+    for i in range(len(Z)):
+        cs = node_clusters[n + i]
+        if len(cs) == 1:
+            c = next(iter(cs))
+            h = float(Z[i, 2])
+            if c not in cluster_root_height or h > cluster_root_height[c]:
+                cluster_root_height[c] = h
+
+    cluster_root_x: dict = {}
+    for xs, ys in zip(dend['icoord'], dend['dcoord']):
+        h = float(ys[1])
+        z_idx = _height_to_z.get(h)
+        if z_idx is None:
+            continue
+        cs = node_clusters.get(n + z_idx, frozenset())
+        if len(cs) == 1:
+            c = next(iter(cs))
+            if cluster_root_height.get(c) == h:
+                cluster_root_x[c] = (float(xs[1]) + float(xs[2])) / 2  # centre of root merge = x of vertical above threshold
+
     fig = go.Figure()
     for xs, ys, color in zip(dend['icoord'], dend['dcoord'], dend['color_list']):
         fig.add_trace(go.Scatter(
@@ -185,7 +209,7 @@ def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
         yaxis=dict(showline=False, showgrid=False, zeroline=False),
         plot_bgcolor='white',
     )
-    return fig
+    return fig, dend['leaves'], cluster_root_x
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
@@ -286,9 +310,23 @@ st.subheader("Chunk Dendrogram")
 st.caption("Ward linkage on Euclidean distances between L2-normalized TF-IDF chunk vectors. Dashed line = cut threshold.")
 _show_labels = n_chunks <= 60
 _chunk_labels = [str(i) for i in range(n_chunks)] if _show_labels else [""] * n_chunks
-fig_dend = build_dendrogram_figure(Z, labels, n_chunks, cluster_to_color, _chunk_labels)
+fig_dend, _dend_leaves, _root_x = build_dendrogram_figure(Z, labels, n_chunks, cluster_to_color, _chunk_labels)
 fig_dend.add_hline(y=threshold, line_dash="dash", line_color="crimson", line_width=1.5)
-fig_dend.update_layout(height=500, margin=dict(l=50, r=30, t=20, b=80))
+for _i, _c in enumerate(unique_labels):
+    _lx = [10 * _j + 5 for _j, _orig in enumerate(_dend_leaves) if labels[_orig] == _c]
+    _x  = _root_x.get(_c, float(min(_lx)) if _lx else 0)
+    fig_dend.add_annotation(
+        x=_x, y=threshold,
+        xshift=-4, yshift=0,        # bottom of letter sits on threshold; 4px left of centre line
+        text=f"<b>{chr(65 + _i)}</b>",
+        showarrow=False, xanchor='right', yanchor='bottom',
+        font=dict(size=14, color='black'),
+    )
+fig_dend.update_layout(
+    height=500,
+    margin=dict(l=50, r=30, t=20, b=80),
+    yaxis_range=[0, _z_max * 1.12],   # headroom so letters aren't clipped
+)
 st.plotly_chart(fig_dend, width='stretch', key=f"dend_{_key_sfx}")
 
 # ── Section 2: Cluster membership ────────────────────────────────────────────
@@ -332,6 +370,18 @@ fig_seq.update_layout(
     xaxis=dict(title="Chunk (narrative order)", showgrid=False, zeroline=False),
     yaxis=dict(showgrid=False, zeroline=False),
 )
+for _i, _c in enumerate(unique_labels):
+    _pos = np.where(labels == _c)[0]
+    if len(_pos) == 0:
+        continue
+    _gaps = np.where(np.diff(_pos) > 1)[0] + 1
+    for _run in np.split(_pos, _gaps):
+        fig_seq.add_annotation(
+            x=float(np.mean(_run)), y=y_labels[_i],
+            text=f"<b>{chr(65 + _i)}</b>",
+            showarrow=False, xanchor='center', yanchor='middle',
+            font=dict(size=13, color='white'),
+        )
 st.plotly_chart(fig_seq, width='stretch', key=f"seq_{_key_sfx}")
 
 # ── Methods note ──────────────────────────────────────────────────────────────
