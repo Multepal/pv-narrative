@@ -9,10 +9,14 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+import plotly.figure_factory as ff
 from plotly.subplots import make_subplots
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_distances
+from sklearn.preprocessing import normalize
+from scipy.spatial.distance import pdist
+from scipy.cluster.hierarchy import linkage as ward_linkage
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -47,31 +51,43 @@ def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
 
 
 @st.cache_data(show_spinner=False)
-def compute_vocab_growth(src_id: str, token_path: str, n_points: int = 300):
-    """Fit Heaps' Law; return n* (vocabulary saturation point)."""
+def compute_vocab_stats(src_id, token_path, chunk_size, overlap_int):
+    """Return (n_chunks, suggested_min_df, suggested_max_df) from a vocab frequency scan."""
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
-    n_total = len(tokens)
-
-    ns = np.unique(np.geomspace(1, n_total, n_points).astype(int))
-    seen, vs, prev = set(), [], 0
-    for n in ns:
-        for tok in tokens[prev:n]:
-            seen.add(tok)
-        vs.append(len(seen))
-        prev = n
-    ns, vs = np.array(ns), np.array(vs)
-
-    beta, log_K = np.polyfit(np.log(ns), np.log(vs), 1)
-    K = np.exp(log_K)
-
-    if 0.0 < beta < 1.0:
-        n_star = int(0.10 ** (1.0 / (beta - 1.0)))
-        n_star = max(10, min(n_star, n_total // 2))
+    token_arr = np.array(tokens)
+    step = max(1, chunk_size - overlap_int)
+    if len(token_arr) < chunk_size:
+        return None
+    windows = np.lib.stride_tricks.sliding_window_view(token_arr, chunk_size)[::step]
+    chunks = [" ".join(row) for row in windows]
+    n_chunks = len(chunks)
+    if n_chunks < 2:
+        return None
+    vec = TfidfVectorizer(lowercase=True, max_df=1.0, min_df=1, strip_accents=None)
+    try:
+        X = vec.fit_transform(chunks)
+    except ValueError:
+        return None
+    doc_freqs = np.asarray((X > 0).sum(axis=0)).flatten() / n_chunks
+    min_df_sug = max(2, round(0.02 * n_chunks))
+    # Restrict knee detection to words appearing in ≥5% of chunks — the range
+    # where function words and common content words live. The full distribution's
+    # long rare-word tail would pull the knee to a meaninglessly low value.
+    high = np.sort(doc_freqs[doc_freqs >= 0.05])[::-1]
+    if len(high) >= 3:
+        x = np.linspace(0, 1, len(high))
+        y_range = high[0] - high[-1]
+        y_norm = (high - high[-1]) / y_range if y_range > 1e-10 else np.ones(len(high))
+        line = np.array([1.0, -1.0])
+        vecs = np.column_stack([x, y_norm]) - np.array([0.0, 1.0])
+        line3 = np.append(line / np.linalg.norm(line), 0)
+        vecs3 = np.hstack([vecs, np.zeros((len(vecs), 1))])
+        dists = np.abs(np.cross(line3, vecs3)[:, 2])
+        max_df_sug = float(np.clip(round(high[np.argmax(dists)], 2), 0.05, 0.95))
     else:
-        n_star = None
-
-    return ns, vs, K, float(beta), n_star, n_total
+        max_df_sug = 0.35
+    return n_chunks, min_df_sug, max_df_sug
 
 
 def _umass_coherence(X_bin, feature_names, top_words):
@@ -124,7 +140,7 @@ def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_t
     rows = []
     for n in range(2, max_topics + 1):
         if model_type == "NMF":
-            m = NMF(n_components=n, init="nndsvd", max_iter=500)
+            m = NMF(n_components=n, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"])
             m.fit(X)
         else:
             m = LatentDirichletAllocation(n_components=n, random_state=42, max_iter=20)
@@ -161,7 +177,7 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
             vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                                   strip_accents=None, norm="l2")
             X = vec.fit_transform(chunks_list)
-            model = NMF(n_components=n_topics, init="nndsvd", max_iter=500)
+            model = NMF(n_components=n_topics, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"])
         else:
             vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                                   strip_accents=None)
@@ -265,11 +281,17 @@ chunk_size = max(50, int(chunk_pct * _n_tokens_early)) if _n_tokens_early else 1
 overlap    = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
 if _n_tokens_early:
     cols[2].caption(f"{int(overlap * chunk_size):,} tokens")
-min_df     = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
-max_df     = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
-model_type = cols[5].selectbox("Model", ["NMF", "LDA"])
-
 overlap_int = int(overlap * chunk_size)
+
+_vstats = compute_vocab_stats(src_id, _early_token_path, chunk_size, overlap_int) if _early_token_path else None
+
+min_df     = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
+if _vstats:
+    cols[3].caption(f"→ {_vstats[1]} (2% of {_vstats[0]} chunks)")
+max_df     = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
+if _vstats:
+    cols[4].caption(f"→ {_vstats[2]:.2f} (vocab knee)")
+model_type = cols[5].selectbox("Model", ["NMF", "LDA"])
 
 st.divider()
 
@@ -285,47 +307,22 @@ if st.session_state.get("_diag_params_key") != _params_key:
     st.session_state["_diag_params_key"] = _params_key
     st.session_state["selected_k"] = None
 
-# ── Phase 1: vocabulary saturation + coherence curve ─────────────────────────
-_ns, _vs, _K, _beta, _n_star, _n_total = compute_vocab_growth(src_id, token_path)
+# ── Phase 1: coherence curve + topic similarity dendrogram ───────────────────
 elbow_df = run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df,
                      _c["n_topics"]["max"], model_type)
 
 _m = dict(l=10, r=120, t=40, b=40)
+_selected_k = st.session_state.get("selected_k")
 col_left, col_right = st.columns(2)
 
 with col_left:
-    st.subheader("Vocabulary Saturation (Heaps' Law)")
-    st.caption(
-        f"V(n) = {_K:.1f} · n^{_beta:.3f} · "
-        f"{_n_total:,} tokens · {_vs[-1]:,} types · "
-        + (f"n* = {_n_star}" if _n_star is not None else "n* unavailable")
-        + f" · chunk = {chunk_pct * 100:.1f}% ({chunk_size:,} tokens)"
-    )
-    _ns_fit = np.geomspace(1, _n_total, 300)
-    _gain_df = pd.DataFrame({
-        "Tokens (n)": _ns_fit,
-        "Marginal vocabulary gain": _ns_fit ** (_beta - 1.0),
-    })
-    fig_gain = px.line(_gain_df, x="Tokens (n)", y="Marginal vocabulary gain")
-    fig_gain.add_hline(y=0.10, line_dash="dash", line_color="green", line_width=1.5,
-                       annotation_text="10% threshold", annotation_position="right")
-    if _n_star is not None:
-        fig_gain.add_vline(x=_n_star, line_dash="dash", line_color="green", line_width=1.5,
-                           annotation_text=f"n* = {_n_star}", annotation_position="top left")
-    fig_gain.add_vline(x=chunk_size, line_dash="dot", line_color="gray", line_width=1.5,
-                       annotation_text=f"chunk = {chunk_size}", annotation_position="bottom right")
-    fig_gain.update_layout(height=380, margin=_m)
-    st.plotly_chart(fig_gain, width='stretch', key="vocab_gain")
-
-with col_right:
     st.subheader("Coherence & Independence vs. Number of Topics")
     st.caption(
         "UMass coherence (blue, left axis): higher = more coherent. "
         "Mean pairwise cosine distance (red, right axis): higher = more independent. "
-        "**Click a point to open the twin heatmap for that k.**"
+        "**Click a point to select k.**"
     )
     if elbow_df is not None:
-        _selected_k = st.session_state.get("selected_k")
         fig_coh = make_subplots(specs=[[{"secondary_y": True}]])
         fig_coh.add_trace(
             go.Scatter(x=elbow_df["n_topics"], y=elbow_df["coherence"],
@@ -354,12 +351,41 @@ with col_right:
             if _clicked_k != st.session_state.get("selected_k"):
                 st.session_state["selected_k"] = _clicked_k
                 st.rerun()
+        if elbow_df is not None:
+            _peak_k = int(elbow_df.loc[elbow_df["coherence"].idxmax(), "n_topics"])
+            st.caption(f"→ k = {_peak_k} (coherence peak)")
         if _selected_k is not None:
             st.success(f"k = {_selected_k} selected — twin heatmaps below ↓")
         else:
-            st.info("Click a point on the curve to fit the topic model.")
+            st.info("Click a point on the curve to select k.")
     else:
         st.warning("Elbow analysis could not run — try adjusting chunk size, min_df, or max_df.")
+
+with col_right:
+    st.subheader("Topic Similarity")
+    if _selected_k is None:
+        st.info("Select k on the coherence curve to show topic similarity.")
+    elif _selected_k < 3:
+        st.caption("Need at least 3 topics for a dendrogram.")
+    else:
+        _THETA_d, _PHI_d, _ = run_model(
+            src_id, token_path, chunk_size, overlap_int,
+            min_df, max_df, _selected_k, model_type, _c["n_top_words"]["default"]
+        )
+        if _PHI_d is not None:
+            _all_words = sorted({w for p in _PHI_d for w in p})
+            _phi_matrix = np.array([[p.get(w, 0.0) for w in _all_words] for p in _PHI_d])
+            _phi_norm = normalize(_phi_matrix, norm='l2')
+            _fig_dend = ff.create_dendrogram(
+                _phi_norm,
+                labels=[f"Topic {i}" for i in range(_selected_k)],
+                distfun=lambda x: pdist(x, metric='euclidean'),
+                linkagefun=lambda x: ward_linkage(x, method='ward'),
+            )
+            _fig_dend.update_layout(height=380, margin=_m)
+            st.plotly_chart(_fig_dend, width='stretch', key=f"dend_{_params_key}_{_selected_k}")
+        else:
+            st.warning("Model couldn't run — try adjusting parameters.")
 
 # ── Phase 2: twin heatmaps triggered by click ─────────────────────────────────
 _selected_k = st.session_state.get("selected_k")
@@ -381,7 +407,7 @@ if _selected_k is not None:
             _h_chunk_pct = _wc[0].number_input("Chunk %", _cp["min"], _cp["max"],
                                                 chunk_pct, step=_cp["step"], format="%.3f",
                                                 key=f"{_pfx}_chunk")
-            _h_chunk = max(50, int(_h_chunk_pct * _n_total))
+            _h_chunk = max(50, int(_h_chunk_pct * _n_tokens_early))
             _wc[0].caption(f"{_h_chunk:,} tokens")
             _h_overlap = _wc[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"],
                                               overlap, step=_c["overlap"]["step"], format="%.2f",
