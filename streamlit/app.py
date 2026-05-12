@@ -20,13 +20,6 @@ st.markdown(
 with open(os.path.join(APP_DIR, "style.css")) as _f:
     st.markdown(f"<style>{_f.read()}</style>", unsafe_allow_html=True)
 
-st.markdown(
-    f'<div style="background:#111111;color:#ffffff;padding:0.5rem 1.25rem;'
-    f'margin-bottom:1rem;font-size:1.1rem;font-weight:600;letter-spacing:0.03em;">'
-    f'{cfg["app"]["title"]}</div>',
-    unsafe_allow_html=True,
-)
-
 pg = st.navigation([
     st.Page(p["path"], title=p["title"], icon=p["icon"])
     for p in cfg["pages"]

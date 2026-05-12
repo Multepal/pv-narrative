@@ -9,14 +9,11 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-import plotly.figure_factory as ff
+from wordcloud import WordCloud
 from plotly.subplots import make_subplots
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_distances
-from sklearn.preprocessing import normalize
-from scipy.spatial.distance import pdist
-from scipy.cluster.hierarchy import linkage as ward_linkage
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -313,121 +310,108 @@ elbow_df = run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df
 
 _m = dict(l=10, r=120, t=40, b=40)
 _selected_k = st.session_state.get("selected_k")
-col_left, col_right = st.columns(2)
 
-with col_left:
-    st.subheader("Coherence & Independence vs. Number of Topics")
-    st.caption(
-        "UMass coherence (blue, left axis): higher = more coherent. "
-        "Mean pairwise cosine distance (red, right axis): higher = more independent. "
-        "**Click a point to select k.**"
+st.subheader("Coherence & Independence vs. Number of Topics")
+st.caption(
+    "UMass coherence (blue, left axis): higher = more coherent. "
+    "Mean pairwise cosine distance (red, right axis): higher = more independent. "
+    "**Click a point to select k.**"
+)
+if elbow_df is not None:
+    fig_coh = make_subplots(specs=[[{"secondary_y": True}]])
+    fig_coh.add_trace(
+        go.Scatter(x=elbow_df["n_topics"], y=elbow_df["coherence"],
+                   mode="lines+markers", name="Coherence",
+                   line=dict(color="#636EFA")),
+        secondary_y=False,
     )
+    fig_coh.add_trace(
+        go.Scatter(x=elbow_df["n_topics"], y=elbow_df["independence"],
+                   mode="lines+markers", name="Independence",
+                   line=dict(color="#EF553B")),
+        secondary_y=True,
+    )
+    if _selected_k is not None:
+        fig_coh.add_vline(x=_selected_k, line_dash="dash", line_color="gray", line_width=2,
+                          annotation_text=f"k = {_selected_k}", annotation_position="top right")
+    fig_coh.update_yaxes(title_text="Mean UMass coherence", secondary_y=False)
+    fig_coh.update_yaxes(title_text="Mean pairwise cosine distance", secondary_y=True)
+    fig_coh.update_xaxes(title_text="Number of topics (k)")
+    fig_coh.update_layout(height=380, margin=_m,
+                          legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
+    _coh_event = st.plotly_chart(fig_coh, width='stretch',
+                                 key=f"coh_{_params_key}", on_select="rerun")
+    if _coh_event.selection.points:
+        _clicked_k = int(_coh_event.selection.points[0]["x"])
+        if _clicked_k != st.session_state.get("selected_k"):
+            st.session_state["selected_k"] = _clicked_k
+            st.rerun()
     if elbow_df is not None:
-        fig_coh = make_subplots(specs=[[{"secondary_y": True}]])
-        fig_coh.add_trace(
-            go.Scatter(x=elbow_df["n_topics"], y=elbow_df["coherence"],
-                       mode="lines+markers", name="Coherence",
-                       line=dict(color="#636EFA")),
-            secondary_y=False,
-        )
-        fig_coh.add_trace(
-            go.Scatter(x=elbow_df["n_topics"], y=elbow_df["independence"],
-                       mode="lines+markers", name="Independence",
-                       line=dict(color="#EF553B")),
-            secondary_y=True,
-        )
-        if _selected_k is not None:
-            fig_coh.add_vline(x=_selected_k, line_dash="dash", line_color="gray", line_width=2,
-                              annotation_text=f"k = {_selected_k}", annotation_position="top right")
-        fig_coh.update_yaxes(title_text="Mean UMass coherence", secondary_y=False)
-        fig_coh.update_yaxes(title_text="Mean pairwise cosine distance", secondary_y=True)
-        fig_coh.update_xaxes(title_text="Number of topics (k)")
-        fig_coh.update_layout(height=380, margin=_m,
-                              legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
-        _coh_event = st.plotly_chart(fig_coh, width='stretch',
-                                     key=f"coh_{_params_key}", on_select="rerun")
-        if _coh_event.selection.points:
-            _clicked_k = int(_coh_event.selection.points[0]["x"])
-            if _clicked_k != st.session_state.get("selected_k"):
-                st.session_state["selected_k"] = _clicked_k
-                st.rerun()
-        if elbow_df is not None:
-            _peak_k = int(elbow_df.loc[elbow_df["coherence"].idxmax(), "n_topics"])
-            st.caption(f"→ k = {_peak_k} (coherence peak)")
-        if _selected_k is not None:
-            st.success(f"k = {_selected_k} selected — twin heatmaps below ↓")
-        else:
-            st.info("Click a point on the curve to select k.")
+        _peak_k = int(elbow_df.loc[elbow_df["coherence"].idxmax(), "n_topics"])
+        st.caption(f"→ k = {_peak_k} (coherence peak)")
+    if _selected_k is not None:
+        st.success(f"k = {_selected_k} selected — heatmap below ↓")
     else:
-        st.warning("Elbow analysis could not run — try adjusting chunk size, min_df, or max_df.")
+        st.info("Click a point on the curve to select k.")
+else:
+    st.warning("Elbow analysis could not run — try adjusting chunk size, min_df, or max_df.")
 
-with col_right:
-    st.subheader("Topic Similarity")
-    if _selected_k is None:
-        st.info("Select k on the coherence curve to show topic similarity.")
-    elif _selected_k < 3:
-        st.caption("Need at least 3 topics for a dendrogram.")
-    else:
-        _THETA_d, _PHI_d, _ = run_model(
-            src_id, token_path, chunk_size, overlap_int,
-            min_df, max_df, _selected_k, model_type, _c["n_top_words"]["default"]
-        )
-        if _PHI_d is not None:
-            _all_words = sorted({w for p in _PHI_d for w in p})
-            _phi_matrix = np.array([[p.get(w, 0.0) for w in _all_words] for p in _PHI_d])
-            _phi_norm = normalize(_phi_matrix, norm='l2')
-            _fig_dend = ff.create_dendrogram(
-                _phi_norm,
-                labels=[f"Topic {i}" for i in range(_selected_k)],
-                distfun=lambda x: pdist(x, metric='euclidean'),
-                linkagefun=lambda x: ward_linkage(x, method='ward'),
-            )
-            _fig_dend.update_layout(height=380, margin=_m)
-            st.plotly_chart(_fig_dend, width='stretch', key=f"dend_{_params_key}_{_selected_k}")
-        else:
-            st.warning("Model couldn't run — try adjusting parameters.")
-
-# ── Phase 2: twin heatmaps triggered by click ─────────────────────────────────
+# ── Phase 2: heatmap + word clouds triggered by click ─────────────────────────
 _selected_k = st.session_state.get("selected_k")
 if _selected_k is not None:
     st.divider()
-    st.subheader(f"Twin Heatmaps — k = {_selected_k}")
-    st.caption(
-        "Adjust chunk size, overlap, and vocabulary filters independently for each heatmap. "
-        "Both use the same k and source."
-    )
+    st.subheader(f"Heatmap — k = {_selected_k}")
 
     _n_top_words = _c["n_top_words"]["default"]
-    _heat_cols = st.columns(2)
+    _v = cfg["visualization"]
+    _ctl_cols = st.columns(4)
+    _h_chunk_pct = _ctl_cols[0].number_input("Chunk %", _cp["min"], _cp["max"],
+                                              chunk_pct, step=_cp["step"], format="%.3f",
+                                              key="ha_chunk")
+    _h_chunk = max(50, int(_h_chunk_pct * _n_tokens_early))
+    _ctl_cols[0].caption(f"{_h_chunk:,} tokens")
+    _h_overlap = _ctl_cols[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"],
+                                           overlap, step=_c["overlap"]["step"], format="%.2f",
+                                           key="ha_overlap")
+    _ctl_cols[1].caption(f"{int(_h_overlap * _h_chunk):,} tokens")
+    _h_min_df = _ctl_cols[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"],
+                                          min_df, step=_c["min_df"]["step"],
+                                          key="ha_min_df")
+    _h_max_df = _ctl_cols[3].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"],
+                                          max_df, step=_c["max_df"]["step"], format="%.2f",
+                                          key="ha_max_df")
+    _h_overlap_int = int(_h_overlap * _h_chunk)
 
-    for _label, _pfx, _hcol in [("A", "ha", _heat_cols[0]), ("B", "hb", _heat_cols[1])]:
-        with _hcol:
-            st.markdown(f"**Heatmap {_label}**")
-            _wc = st.columns(4)
-            _h_chunk_pct = _wc[0].number_input("Chunk %", _cp["min"], _cp["max"],
-                                                chunk_pct, step=_cp["step"], format="%.3f",
-                                                key=f"{_pfx}_chunk")
-            _h_chunk = max(50, int(_h_chunk_pct * _n_tokens_early))
-            _wc[0].caption(f"{_h_chunk:,} tokens")
-            _h_overlap = _wc[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"],
-                                              overlap, step=_c["overlap"]["step"], format="%.2f",
-                                              key=f"{_pfx}_overlap")
-            _wc[1].caption(f"{int(_h_overlap * _h_chunk):,} tokens")
-            _h_min_df  = _wc[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"],
-                                              min_df, step=_c["min_df"]["step"],
-                                              key=f"{_pfx}_min_df")
-            _h_max_df  = _wc[3].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"],
-                                              max_df, step=_c["max_df"]["step"], format="%.2f",
-                                              key=f"{_pfx}_max_df")
-            _h_overlap_int = int(_h_overlap * _h_chunk)
+    THETA, PHI, chunks_list = run_model(
+        src_id, token_path, _h_chunk, _h_overlap_int,
+        _h_min_df, _h_max_df, _selected_k, model_type, _n_top_words
+    )
+    if THETA is None:
+        st.warning("Model couldn't run — try adjusting parameters.")
+    else:
+        n_chunks = len(chunks_list)
+        st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]} · chunk = {_h_chunk_pct * 100:.1f}% ({_h_chunk:,} tokens)")
+        render_heatmap(THETA, PHI, chunks_list, key=f"heat_ha_{_selected_k}")
 
-            THETA, PHI, chunks_list = run_model(
-                src_id, token_path, _h_chunk, _h_overlap_int,
-                _h_min_df, _h_max_df, _selected_k, model_type, _n_top_words
-            )
-            if THETA is None:
-                st.warning("Model couldn't run — try adjusting parameters.")
-            else:
-                n_chunks = len(chunks_list)
-                st.caption(f"{n_chunks} chunks · {THETA.shape[0]} × {THETA.shape[1]} · chunk = {_h_chunk_pct * 100:.1f}% ({_h_chunk:,} tokens)")
-                render_heatmap(THETA, PHI, chunks_list, key=f"heat_{_pfx}_{_selected_k}")
+        st.divider()
+        st.subheader("Topic Word Clouds")
+        _wc_topic_seq = THETA.idxmax(axis=1).tolist()
+        _wc_topic_order = []
+        for t in _wc_topic_seq:
+            if t not in _wc_topic_order:
+                _wc_topic_order.append(t)
+        for t in range(_selected_k):
+            if t not in _wc_topic_order:
+                _wc_topic_order.append(t)
+        n_wc_cols = min(_v["wordcloud_cols"], _selected_k)
+        for row_start in range(0, _selected_k, n_wc_cols):
+            row_topics = _wc_topic_order[row_start:row_start + n_wc_cols]
+            grid_cols = st.columns(n_wc_cols)
+            for col_idx, topic_idx in enumerate(row_topics):
+                wc = WordCloud(
+                    width=_v["wordcloud_width"], height=_v["wordcloud_height"],
+                    background_color="white",
+                    colormap=_v["wordcloud_colormap"],
+                    prefer_horizontal=_v["wordcloud_prefer_horizontal"],
+                ).generate_from_frequencies(PHI[topic_idx])
+                grid_cols[col_idx].image(wc.to_array(), caption=f"Topic {topic_idx}", width='stretch')
