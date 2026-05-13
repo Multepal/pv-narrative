@@ -335,7 +335,7 @@ if elbow_df is not None:
         fig_coh.add_vline(x=_selected_k, line_dash="dash", line_color="gray", line_width=2,
                           annotation_text=f"k = {_selected_k}", annotation_position="top right")
     fig_coh.update_yaxes(title_text="Mean UMass coherence", secondary_y=False)
-    fig_coh.update_yaxes(title_text="Mean pairwise cosine distance", secondary_y=True)
+    fig_coh.update_yaxes(title_text="Mean pairwise cosine distance", secondary_y=True, showgrid=False)
     fig_coh.update_xaxes(title_text="Number of topics (k)")
     fig_coh.update_layout(height=380, margin=_m,
                           legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
