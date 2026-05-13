@@ -100,6 +100,7 @@ model:
   nmf_max_iter: 2000
 
 layout:
+  max_width_px: 1400
   column_ratios: [2, 1.5, 1.2, 1.2, 1.2, 1.2, 1.2]
   heatmap_height: 400
   heatmap_row_height_px: 30

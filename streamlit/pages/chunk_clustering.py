@@ -22,6 +22,11 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 SOURCES_META = cfg["sources"]
 LANG_LABELS  = cfg["languages"]
 
+st.markdown(
+    f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
+    unsafe_allow_html=True,
+)
+
 
 def find_token_file(src_id: str) -> str | None:
     candidates = [
@@ -218,7 +223,7 @@ st.title("Chunk Clustering — Popol Wuj")
 
 src_ids = list(SOURCES_META.keys())
 _col_ratios = cfg["layout"]["column_ratios"]
-cols = st.columns(_col_ratios)  # source + chunk% + overlap + min_df + max_df + ngram min + ngram max
+cols = st.columns(_col_ratios[:4])  # source | chunk%+overlap | min_df+max_df | ngram min+max
 
 _c = cfg["controls"]
 src_id = cols[0].selectbox(
@@ -230,30 +235,31 @@ _n_tokens_early = len(load_tokens(src_id, _early_token_path)) if _early_token_pa
 
 _cp = _c["chunk_pct"]
 chunk_pct  = cols[1].number_input("Chunk %", _cp["min"], _cp["max"], _cp["default"], step=_cp["step"], format="%.3f")
-if _n_tokens_early:
-    cols[1].caption(f"{int(chunk_pct * _n_tokens_early):,} tokens")
 chunk_size = max(50, int(chunk_pct * _n_tokens_early)) if _n_tokens_early else 100
-
-overlap    = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
-if _n_tokens_early:
-    cols[2].caption(f"{int(overlap * chunk_size):,} tokens")
+overlap    = cols[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
 overlap_int = int(overlap * chunk_size)
 
 _vstats = compute_vocab_stats(src_id, _early_token_path, chunk_size, overlap_int) if _early_token_path else None
 
-min_df = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
-if _vstats:
-    cols[3].caption(f"→ {_vstats[1]} (2% of {_vstats[0]} chunks)")
-max_df = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
-if _vstats:
-    cols[4].caption(f"→ {_vstats[2]:.2f} (vocab knee)")
+min_df = cols[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
+max_df = cols[2].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
 
 _ng = _c["ngram_range"]
-ngram_min = cols[5].number_input("ngram min", _ng["min_n"], _ng["max_n"], _ng["default_min"], step=1)
-ngram_max = cols[6].number_input("ngram max", _ng["min_n"], _ng["max_n"], _ng["default_max"], step=1)
-ngram_max = max(ngram_max, ngram_min)  # silently enforce max ≥ min
+ngram_min = cols[3].number_input("ngram min", _ng["min_n"], _ng["max_n"], _ng["default_min"], step=1)
+ngram_max = cols[3].number_input("ngram max", _ng["min_n"], _ng["max_n"], _ng["default_max"], step=1)
+ngram_max = max(ngram_max, ngram_min)
 
 n_top_words = _c["n_top_words"]["default"]
+
+_info_parts = []
+if _n_tokens_early:
+    _info_parts += [f"chunk = {int(chunk_pct * _n_tokens_early):,} tokens",
+                    f"overlap = {int(overlap * chunk_size):,} tokens"]
+if _vstats:
+    _info_parts += [f"min_df → {_vstats[1]} (2% of {_vstats[0]} chunks)",
+                    f"max_df → {_vstats[2]:.2f} (vocab knee)"]
+if _info_parts:
+    st.caption(" · ".join(_info_parts))
 
 st.divider()
 

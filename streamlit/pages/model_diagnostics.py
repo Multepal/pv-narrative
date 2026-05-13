@@ -23,6 +23,11 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 SOURCES_META = cfg["sources"]
 LANG_LABELS  = cfg["languages"]
 
+st.markdown(
+    f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
+    unsafe_allow_html=True,
+)
+
 
 def find_token_file(src_id: str) -> str | None:
     candidates = [
@@ -105,7 +110,7 @@ def _umass_coherence(X_bin, feature_names, top_words):
 
 
 @st.cache_data(show_spinner="Running elbow analysis…")
-def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_topics, model_type):
+def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_topics, model_type, ngram_range=(1, 1)):
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
     step = max(1, chunk_size - overlap_int)
@@ -122,10 +127,10 @@ def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_t
     try:
         if model_type == "NMF":
             vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                                  strip_accents=None, norm="l2")
+                                  strip_accents=None, norm="l2", ngram_range=ngram_range)
         else:
             vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                                  strip_accents=None)
+                                  strip_accents=None, ngram_range=ngram_range)
         X = vec.fit_transform(chunks_list)
     except ValueError:
         return None
@@ -155,7 +160,7 @@ def run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df, max_t
 
 
 @st.cache_data(show_spinner="Running topic model…")
-def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type, n_top_words):
+def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_topics, model_type, n_top_words, ngram_range=(1, 1)):
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
     step = max(1, chunk_size - overlap_int)
@@ -172,12 +177,12 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     try:
         if model_type == "NMF":
             vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                                  strip_accents=None, norm="l2")
+                                  strip_accents=None, norm="l2", ngram_range=ngram_range)
             X = vec.fit_transform(chunks_list)
             model = NMF(n_components=n_topics, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"])
         else:
             vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                                  strip_accents=None)
+                                  strip_accents=None, ngram_range=ngram_range)
             X = vec.fit_transform(chunks_list)
             model = LatentDirichletAllocation(n_components=n_topics, random_state=42, max_iter=20)
     except ValueError:
@@ -260,7 +265,7 @@ st.title("Topic Modeling — Popol Wuj")
 # ── Phase 1 controls (no n_topics — k is chosen by clicking the coherence plot) ──
 src_ids = list(SOURCES_META.keys())
 _col_ratios = cfg["layout"]["column_ratios"]
-cols = st.columns(_col_ratios[:-1])  # drop last slot (n_topics not needed here)
+cols = st.columns(_col_ratios[:5])  # source | chunk%+overlap | min_df+max_df | model | ngram min+max
 
 _c = cfg["controls"]
 src_id     = cols[0].selectbox(
@@ -272,23 +277,29 @@ _n_tokens_early = len(load_tokens(src_id, _early_token_path)) if _early_token_pa
 
 _cp = _c["chunk_pct"]
 chunk_pct  = cols[1].number_input("Chunk %", _cp["min"], _cp["max"], _cp["default"], step=_cp["step"], format="%.3f")
-if _n_tokens_early:
-    cols[1].caption(f"{int(chunk_pct * _n_tokens_early):,} tokens")
 chunk_size = max(50, int(chunk_pct * _n_tokens_early)) if _n_tokens_early else 100
-overlap    = cols[2].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
-if _n_tokens_early:
-    cols[2].caption(f"{int(overlap * chunk_size):,} tokens")
+overlap    = cols[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"], _c["overlap"]["default"], step=_c["overlap"]["step"], format="%.2f")
 overlap_int = int(overlap * chunk_size)
 
 _vstats = compute_vocab_stats(src_id, _early_token_path, chunk_size, overlap_int) if _early_token_path else None
 
-min_df     = cols[3].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
+min_df     = cols[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
+max_df     = cols[2].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
+_ng = _c["ngram_range"]
+ngram_min = cols[3].number_input("ngram min", _ng["min_n"], _ng["max_n"], _ng["default_min"], step=1)
+ngram_max = cols[3].number_input("ngram max", _ng["min_n"], _ng["max_n"], _ng["default_max"], step=1)
+model_type = cols[4].selectbox("Model", ["NMF", "LDA"])
+ngram_max = max(ngram_max, ngram_min)
+
+_info_parts = []
+if _n_tokens_early:
+    _info_parts += [f"chunk = {int(chunk_pct * _n_tokens_early):,} tokens",
+                    f"overlap = {int(overlap * chunk_size):,} tokens"]
 if _vstats:
-    cols[3].caption(f"→ {_vstats[1]} (2% of {_vstats[0]} chunks)")
-max_df     = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
-if _vstats:
-    cols[4].caption(f"→ {_vstats[2]:.2f} (vocab knee)")
-model_type = cols[5].selectbox("Model", ["NMF", "LDA"])
+    _info_parts += [f"min_df → {_vstats[1]} (2% of {_vstats[0]} chunks)",
+                    f"max_df → {_vstats[2]:.2f} (vocab knee)"]
+if _info_parts:
+    st.caption(" · ".join(_info_parts))
 
 st.divider()
 
@@ -299,14 +310,14 @@ if token_path is None:
     st.stop()
 
 # ── Session state: clear selected k when Phase 1 parameters change ────────────
-_params_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}_{model_type}"
+_params_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}_{model_type}_{ngram_min}_{ngram_max}"
 if st.session_state.get("_diag_params_key") != _params_key:
     st.session_state["_diag_params_key"] = _params_key
     st.session_state["selected_k"] = None
 
 # ── Phase 1: coherence curve + topic similarity dendrogram ───────────────────
 elbow_df = run_elbow(src_id, token_path, chunk_size, overlap_int, min_df, max_df,
-                     _c["n_topics"]["max"], model_type)
+                     _c["n_topics"]["max"], model_type, (ngram_min, ngram_max))
 
 _m = dict(l=10, r=120, t=40, b=40)
 _selected_k = st.session_state.get("selected_k")
@@ -364,27 +375,34 @@ if _selected_k is not None:
 
     _n_top_words = _c["n_top_words"]["default"]
     _v = cfg["visualization"]
-    _ctl_cols = st.columns(4)
+    _ctl_cols = st.columns(3)  # chunk%+overlap | min_df+max_df | ngram min+max
     _h_chunk_pct = _ctl_cols[0].number_input("Chunk %", _cp["min"], _cp["max"],
                                               chunk_pct, step=_cp["step"], format="%.3f",
                                               key="ha_chunk")
     _h_chunk = max(50, int(_h_chunk_pct * _n_tokens_early))
-    _ctl_cols[0].caption(f"{_h_chunk:,} tokens")
-    _h_overlap = _ctl_cols[1].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"],
+    _h_overlap = _ctl_cols[0].number_input("Overlap", _c["overlap"]["min"], _c["overlap"]["max"],
                                            overlap, step=_c["overlap"]["step"], format="%.2f",
                                            key="ha_overlap")
-    _ctl_cols[1].caption(f"{int(_h_overlap * _h_chunk):,} tokens")
-    _h_min_df = _ctl_cols[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"],
+    _h_min_df = _ctl_cols[1].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"],
                                           min_df, step=_c["min_df"]["step"],
                                           key="ha_min_df")
-    _h_max_df = _ctl_cols[3].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"],
+    _h_max_df = _ctl_cols[1].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"],
                                           max_df, step=_c["max_df"]["step"], format="%.2f",
                                           key="ha_max_df")
+    _h_ngram_min = _ctl_cols[2].number_input("ngram min", _ng["min_n"], _ng["max_n"],
+                                             ngram_min, step=1, key="ha_ngram_min")
+    _h_ngram_max = _ctl_cols[2].number_input("ngram max", _ng["min_n"], _ng["max_n"],
+                                             ngram_max, step=1, key="ha_ngram_max")
+    _h_ngram_max = max(_h_ngram_max, _h_ngram_min)
     _h_overlap_int = int(_h_overlap * _h_chunk)
+    st.caption(
+        f"chunk = {_h_chunk:,} tokens · overlap = {int(_h_overlap * _h_chunk):,} tokens"
+    )
 
     THETA, PHI, chunks_list = run_model(
         src_id, token_path, _h_chunk, _h_overlap_int,
-        _h_min_df, _h_max_df, _selected_k, model_type, _n_top_words
+        _h_min_df, _h_max_df, _selected_k, model_type, _n_top_words,
+        (int(_h_ngram_min), int(_h_ngram_max))
     )
     if THETA is None:
         st.warning("Model couldn't run — try adjusting parameters.")
