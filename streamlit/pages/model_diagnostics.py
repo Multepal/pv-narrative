@@ -255,7 +255,7 @@ def render_heatmap(THETA, PHI, chunks_list, key="heatmap"):
     st.plotly_chart(fig, width='stretch', key=key)
 
 
-st.title("Model Diagnostics — Popol Wuj")
+st.title("Topic Modeling — Popol Wuj")
 
 # ── Phase 1 controls (no n_topics — k is chosen by clicking the coherence plot) ──
 src_ids = list(SOURCES_META.keys())
