@@ -8,6 +8,12 @@ pages:
   - path: pages/chunk_clustering.py
     title: Hierarchical Clustering
     icon: "🔗"
+  - path: pages/cluster_comparison.py
+    title: Cross-Edition Comparison
+    icon: "📊"
+  - path: pages/grid_search.py
+    title: Parameter Grid Search
+    icon: "🔍"
   # - path: pages/explorer.py
   #   title: Topic Modeling
   #   icon: "📜"

@@ -1,0 +1,15 @@
+Plans
+
+For all plans, you are an expert data scientist and digital humanist.
+
+Plan: Compare Clusters Across Parameters
+
+1. The end goal is to have a page that documents the degree of coherency -- for lack of a better word at this point -- for a given set of parameters, including book edition. The result should be table that has a feature for each parameter and and outcomes as a string of cluster letters, one for each chunk. 
+
+2. Then, for each collecton of paramaters -- except edition -- I want to compute the mean pairwise hamming distance among the clister letter strings for the editions.
+
+Plan: Go Meta
+
+1. Allow the user to pick a hold-out paramater, e.g. k clusters, and run the algorithm for each value of the held-out parameter.
+
+2. Summarize the results in a table where the held-parameter is a feature. 
