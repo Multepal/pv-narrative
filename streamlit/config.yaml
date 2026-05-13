@@ -8,15 +8,15 @@ pages:
   - path: pages/chunk_clustering.py
     title: Hierarchical Clustering
     icon: "🔗"
-  - path: pages/explorer.py
-    title: Topic Modeling
-    icon: "📜"
+  # - path: pages/explorer.py
+  #   title: Topic Modeling
+  #   icon: "📜"
   - path: pages/model_diagnostics.py
-    title: Topic Model Diagnostics
+    title: Topic Modeling
     icon: "⚙️"
-  - path: pages/about.py
-    title: About
-    icon: "ℹ️"
+  # - path: pages/about.py
+  #   title: About
+  #   icon: "ℹ️"
 
 sidebar:
   min_width_px: 280
