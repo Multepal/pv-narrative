@@ -9,6 +9,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
+from wordcloud import WordCloud
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster, leaves_list, dendrogram as scipy_dendrogram
@@ -79,7 +80,7 @@ def compute_vocab_stats(src_id, token_path, chunk_size, overlap_int):
 
 
 @st.cache_data(show_spinner="Running linkage…")
-def run_linkage(src_id, token_path, chunk_size, overlap_int, min_df, max_df):
+def run_linkage(src_id, token_path, chunk_size, overlap_int, min_df, max_df, ngram_range=(1, 1)):
     """Build TF-IDF, cosine similarity, and Ward linkage. Clustering is applied later."""
     TOKEN = load_tokens(src_id, token_path)
     tokens = TOKEN["term_str"].dropna().to_list()
@@ -98,7 +99,7 @@ def run_linkage(src_id, token_path, chunk_size, overlap_int, min_df, max_df):
 
     try:
         vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                              strip_accents=None, norm="l2")
+                              strip_accents=None, norm="l2", ngram_range=ngram_range)
         X = vec.fit_transform(chunks_list)
     except ValueError:
         return None
@@ -217,7 +218,7 @@ st.title("Chunk Clustering — Popol Wuj")
 
 src_ids = list(SOURCES_META.keys())
 _col_ratios = cfg["layout"]["column_ratios"]
-cols = st.columns(_col_ratios[:-2])  # source + chunk% + overlap + min_df + max_df
+cols = st.columns(_col_ratios)  # source + chunk% + overlap + min_df + max_df + ngram min + ngram max
 
 _c = cfg["controls"]
 src_id = cols[0].selectbox(
@@ -247,6 +248,11 @@ max_df = cols[4].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"]
 if _vstats:
     cols[4].caption(f"→ {_vstats[2]:.2f} (vocab knee)")
 
+_ng = _c["ngram_range"]
+ngram_min = cols[5].number_input("ngram min", _ng["min_n"], _ng["max_n"], _ng["default_min"], step=1)
+ngram_max = cols[6].number_input("ngram max", _ng["min_n"], _ng["max_n"], _ng["default_max"], step=1)
+ngram_max = max(ngram_max, ngram_min)  # silently enforce max ≥ min
+
 n_top_words = _c["n_top_words"]["default"]
 
 st.divider()
@@ -258,7 +264,7 @@ if token_path is None:
     st.stop()
 
 # ── Run linkage ───────────────────────────────────────────────────────────────
-result = run_linkage(src_id, token_path, chunk_size, overlap_int, min_df, max_df)
+result = run_linkage(src_id, token_path, chunk_size, overlap_int, min_df, max_df, (ngram_min, ngram_max))
 
 if result is None:
     st.warning("Clustering couldn't run — try adjusting chunk size, min_df, or max_df.")
@@ -271,23 +277,54 @@ Z           = result['Z']
 chunks_list = result['chunks_list']
 meta        = SOURCES_META[src_id]
 
-# ── Threshold slider ──────────────────────────────────────────────────────────
+_linkage_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}_{ngram_min}_{ngram_max}"
 _z_max = float(Z[:, 2].max())
-_z_step = round(_z_max / 200, 4)
-# Default threshold → n_clusters.default clusters
-_z_default = threshold_for_k(Z, _c["n_clusters"]["default"], n_chunks)
-_linkage_key = f"{src_id}_{chunk_size}_{overlap_int}_{min_df}_{max_df}"
 
-threshold = st.slider(
-    "Cut threshold",
-    min_value=0.0,
-    max_value=round(_z_max, 2),
-    value=_z_default,
-    step=_z_step,
-    key=f"thresh_{_linkage_key}",
-    help="Height at which to cut the dendrogram. Lower = more clusters, higher = fewer.",
+# ── Session state: reset k when linkage params change ────────────────────────
+if st.session_state.get("_cluster_linkage_key") != _linkage_key:
+    st.session_state["_cluster_linkage_key"] = _linkage_key
+    st.session_state["cluster_k"] = cfg["controls"]["n_clusters"]["default"]
+_selected_k = st.session_state.get("cluster_k", cfg["controls"]["n_clusters"]["default"])
+
+# ── Section 1: Scree plot (click to select k) ────────────────────────────────
+st.subheader("Merge Height Scree Plot")
+st.caption(
+    "Ward merge distance required to reduce k clusters to k−1. "
+    "Look for the elbow where the line flattens. **Click a point to select k.**"
 )
 
+_max_k_scree = min(cfg["controls"]["n_clusters"]["max"], n_chunks - 1)
+_k_vals = list(range(2, _max_k_scree + 1))
+_heights = [float(Z[n_chunks - k, 2]) for k in _k_vals]
+
+fig_scree = go.Figure(go.Scatter(
+    x=_k_vals, y=_heights,
+    mode="lines+markers",
+    line=dict(color="#636EFA"),
+    marker=dict(size=7),
+    showlegend=False,
+))
+fig_scree.add_vline(
+    x=_selected_k, line_dash="dash", line_color="crimson", line_width=1.5,
+    annotation_text=f"k = {_selected_k}", annotation_position="top right",
+)
+fig_scree.update_layout(
+    height=320,
+    margin=dict(l=60, r=30, t=20, b=50),
+    plot_bgcolor="white",
+    xaxis=dict(title="Number of clusters (k)", dtick=1, showgrid=False, zeroline=False),
+    yaxis=dict(title="Ward merge distance", showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+)
+_scree_event = st.plotly_chart(fig_scree, width='stretch', key=f"scree_{_linkage_key}", on_select="rerun")
+if _scree_event.selection.points:
+    _clicked_k = int(_scree_event.selection.points[0]["x"])
+    if _clicked_k != st.session_state.get("cluster_k"):
+        st.session_state["cluster_k"] = _clicked_k
+        st.rerun()
+st.success(f"k = {_selected_k} selected — dendrogram below ↓")
+
+# ── Section 2: Dendrogram ─────────────────────────────────────────────────────
+threshold  = threshold_for_k(Z, _selected_k, n_chunks)
 labels     = fcluster(Z, threshold, criterion='distance')
 n_clusters = int(len(np.unique(labels)))
 
@@ -296,6 +333,56 @@ unique_labels    = sorted(np.unique(labels), key=lambda c: _first_seen[c])
 _palette         = px.colors.qualitative.Plotly
 cluster_to_color = {c: _palette[i % len(_palette)] for i, c in enumerate(unique_labels)}
 
+_key_sfx = f"{_linkage_key}_{_selected_k}"
+
+st.divider()
+st.subheader("Chunk Dendrogram")
+st.caption("Ward linkage on Euclidean distances between L2-normalized TF-IDF chunk vectors. Dashed line = cut threshold.")
+
+# Build dendrogram in default orientation, then rotate 90° CCW by swapping x↔y
+_show_labels = n_chunks <= 60
+_chunk_labels = [str(i) for i in range(n_chunks)] if _show_labels else [""] * n_chunks
+fig_dend, _dend_leaves, _root_x = build_dendrogram_figure(Z, labels, n_chunks, cluster_to_color, _chunk_labels)
+
+fig_rot = go.Figure()
+for _tr in fig_dend.data:
+    fig_rot.add_trace(go.Scatter(
+        x=list(_tr.y), y=list(_tr.x),  # swap: height → x, leaf position → y
+        mode='lines',
+        line=_tr.line,
+        showlegend=False, hoverinfo='none',
+    ))
+
+fig_rot.add_vline(x=threshold, line_dash="dash", line_color="crimson", line_width=1.5)
+
+for _i, _c in enumerate(unique_labels):
+    _ly = [10 * _j + 5 for _j, _orig in enumerate(_dend_leaves) if labels[_orig] == _c]
+    _y  = _root_x.get(_c, float(np.mean(_ly)) if _ly else 0)
+    fig_rot.add_annotation(
+        x=threshold, y=_y,
+        xshift=6, yshift=8,
+        text=f"<b>{chr(65 + _i)}</b>",
+        showarrow=False, xanchor='left', yanchor='bottom',
+        font=dict(size=14, color='black'),
+    )
+
+_dx = fig_dend.layout.xaxis
+fig_rot.update_layout(
+    height=500,
+    margin=dict(l=50, r=30, t=10, b=50),
+    plot_bgcolor='white',
+    xaxis=dict(
+        range=[0, _z_max * 1.12],
+        showline=False, showgrid=False, zeroline=False,
+    ),
+    yaxis=dict(
+        tickvals=list(_dx.tickvals) if _dx.tickvals is not None else [],
+        ticktext=list(_dx.ticktext) if _dx.ticktext is not None else [],
+        range=list(_dx.range) if _dx.range is not None else [-5, 10 * n_chunks + 5],
+        showline=False, showgrid=False, zeroline=False,
+    ),
+)
+st.plotly_chart(fig_rot, width='stretch', key=f"dend_{_key_sfx}")
 st.caption(
     f"**{meta['label']}** ({LANG_LABELS[meta['lang']]}) · "
     f"{_n_tokens_early:,} tokens · {n_chunks} chunks · "
@@ -303,37 +390,11 @@ st.caption(
     f"chunk = {chunk_pct * 100:.1f}% ({chunk_size:,} tokens)"
 )
 
-_key_sfx = f"{_linkage_key}_{threshold:.4f}"
-
-# ── Section 1: Full-width dendrogram ─────────────────────────────────────────
-st.subheader("Chunk Dendrogram")
-st.caption("Ward linkage on Euclidean distances between L2-normalized TF-IDF chunk vectors. Dashed line = cut threshold.")
-_show_labels = n_chunks <= 60
-_chunk_labels = [str(i) for i in range(n_chunks)] if _show_labels else [""] * n_chunks
-fig_dend, _dend_leaves, _root_x = build_dendrogram_figure(Z, labels, n_chunks, cluster_to_color, _chunk_labels)
-fig_dend.add_hline(y=threshold, line_dash="dash", line_color="crimson", line_width=1.5)
-for _i, _c in enumerate(unique_labels):
-    _lx = [10 * _j + 5 for _j, _orig in enumerate(_dend_leaves) if labels[_orig] == _c]
-    _x  = _root_x.get(_c, float(min(_lx)) if _lx else 0)
-    fig_dend.add_annotation(
-        x=_x, y=threshold,
-        xshift=-4, yshift=0,        # bottom of letter sits on threshold; 4px left of centre line
-        text=f"<b>{chr(65 + _i)}</b>",
-        showarrow=False, xanchor='right', yanchor='bottom',
-        font=dict(size=14, color='black'),
-    )
-fig_dend.update_layout(
-    height=500,
-    margin=dict(l=50, r=30, t=20, b=80),
-    yaxis_range=[0, _z_max * 1.12],   # headroom so letters aren't clipped
-)
-st.plotly_chart(fig_dend, width='stretch', key=f"dend_{_key_sfx}")
-
 # ── Section 2: Cluster membership ────────────────────────────────────────────
 cluster_table = make_cluster_table(tfidf_dense, words, labels, n_top_words)
 
 st.divider()
-st.subheader("Cluster Membership (Narrative Order)")
+st.subheader("Cluster Membership in Narrative Order")
 st.caption(
     "Rows = clusters labeled by top terms, columns = chunks in sequential narrative order. "
     "Colors match the dendrogram branches."
@@ -384,23 +445,57 @@ for _i, _c in enumerate(unique_labels):
         )
 st.plotly_chart(fig_seq, width='stretch', key=f"seq_{_key_sfx}")
 
+# ── Section 4: Cluster word clouds ───────────────────────────────────────────
+st.divider()
+st.subheader("Cluster Word Clouds")
+
+_v = cfg["visualization"]
+_wc_means = (
+    pd.DataFrame(tfidf_dense, columns=words)
+    .groupby(pd.Series(labels, name='cluster'))
+    .mean()
+)
+_n_wc_cols = min(_v["wordcloud_cols"], n_clusters)
+for _row_start in range(0, n_clusters, _n_wc_cols):
+    _row_idxs = range(_row_start, min(_row_start + _n_wc_cols, n_clusters))
+    _grid_cols = st.columns(_n_wc_cols)
+    for _col_idx, _lbl_idx in enumerate(_row_idxs):
+        _clust = unique_labels[_lbl_idx]
+        _wc = WordCloud(
+            width=_v["wordcloud_width"], height=_v["wordcloud_height"],
+            background_color="white",
+            colormap=_v["wordcloud_colormap"],
+            prefer_horizontal=_v["wordcloud_prefer_horizontal"],
+        ).generate_from_frequencies(_wc_means.loc[_clust].to_dict())
+        _grid_cols[_col_idx].image(
+            _wc.to_array(),
+            caption=f"**{chr(65 + _lbl_idx)}** · {cluster_table.loc[_clust, 'top_terms']}",
+            width='stretch',
+        )
+
 # ── Methods note ──────────────────────────────────────────────────────────────
 st.divider()
 st.markdown(
     """
 **Pipeline summary.**
+
 The clustering is derived from the selected edition's token file (`TOKEN.csv`), which records
 every token in the text in narrative order with a normalized term string (`term_str`).
+
 A sliding window of **chunk_size** tokens is stepped across that sequence with stride
 `chunk_size − overlap`, producing a set of overlapping text chunks; windows shorter than
 50 tokens are discarded.
+
 Each chunk is converted to an L2-normalized TF-IDF vector by `TfidfVectorizer`
 (vocabulary filtered by `min_df` and `max_df`), yielding a matrix of shape
 *(n_chunks × vocab_size)* in which every row is a unit vector in term space.
+
 Pairwise Euclidean distances between those unit vectors are computed and passed to
 **Ward's hierarchical agglomerative clustering**, which at each step merges the pair of
 clusters whose union minimizes the increase in total within-cluster variance.
+
 The result is the dendrogram above.
+
 Cutting the dendrogram at the chosen threshold assigns each chunk to exactly one cluster;
 the membership chart shows those assignments in narrative order.
 """

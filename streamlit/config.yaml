@@ -90,6 +90,11 @@ controls:
     max: 15
     default: 7
     step: 1
+  ngram_range:
+    min_n: 1
+    max_n: 4
+    default_min: 1
+    default_max: 1
 
 model:
   nmf_max_iter: 2000
