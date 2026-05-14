@@ -25,6 +25,9 @@ pages:
   - path: pages/cluster_comparison_pca.py
     title: Cross-Edition (LSA)
     icon: "📊"
+  - path: pages/cluster_comparison_nmf.py
+    title: Cross-Edition (NMF)
+    icon: "📊"
   - path: pages/cluster_comparison_sim.py
     title: Cross-Edition (Cosine-Sim)
     icon: "📊"
