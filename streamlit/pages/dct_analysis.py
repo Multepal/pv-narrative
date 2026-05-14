@@ -266,7 +266,7 @@ fig_lp.update_layout(
     margin=dict(l=60, r=30, t=20, b=50),
     plot_bgcolor="white",
     xaxis=dict(title="Narrative position (1–100)", showgrid=False, zeroline=False),
-    yaxis=dict(title="Presence (0–1)", range=[-0.15, 1.15],
+    yaxis=dict(title="Presence (0–1)",
                showgrid=True, gridcolor="#EEEEEE", zeroline=True, zerolinecolor="#CCCCCC"),
     legend=dict(x=0.01, y=0.98),
 )
@@ -340,7 +340,7 @@ if len(all_edition_data) >= 2:
             ), row=row, col=col)
 
     fig_ed.update_xaxes(showgrid=False, zeroline=False)
-    fig_ed.update_yaxes(range=[-0.2, 1.2], showgrid=True, gridcolor="#EEEEEE",
+    fig_ed.update_yaxes(showgrid=True, gridcolor="#EEEEEE",
                         zeroline=True, zerolinecolor="#CCCCCC")
     fig_ed.update_layout(
         height=280 * n_rows_grid,
