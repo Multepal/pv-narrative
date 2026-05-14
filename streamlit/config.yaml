@@ -38,6 +38,9 @@ pages:
   - path: pages/grid_search_pca.py
     title: Grid Search (PCA)
     icon: "🔍"
+  - path: pages/grid_search_nmf.py
+    title: Grid Search (NMF)
+    icon: "🔍"
   # - path: pages/about.py
   #   title: About
   #   icon: "ℹ️"
