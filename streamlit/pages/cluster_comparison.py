@@ -1,9 +1,11 @@
 """
 Cross-Edition Cluster Comparison — run HAC across all editions with fixed
-parameters and compare cluster sequences using pairwise Hamming distance.
+parameters and compare cluster sequences using pairwise Hamming distance and
+Adjusted Rand Index (ARI).
 
 Hold out one parameter to sweep its full valid range and observe how
-cross-edition agreement varies.
+cross-edition agreement varies. Both metrics are shown oriented as
+higher = more agreement: (1 − Hamming) and ARI.
 """
 
 import os
@@ -12,7 +14,9 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.express as px
+import plotly.graph_objects as go
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics import adjusted_rand_score
 from scipy.spatial.distance import pdist, hamming
 from scipy.cluster.hierarchy import linkage, fcluster
 
@@ -29,7 +33,6 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-# Full valid sweep range for each hold-out parameter
 HOLDOUT_DEFS = {
     "k":         {"label": "k (clusters)", "dtype": int,   "vals": list(range(2, 21))},
     "n_chunks":  {"label": "n_chunks",     "dtype": int,   "vals": list(range(10, 55, 5))},
@@ -81,8 +84,7 @@ def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)
     except ValueError:
         return None
     tfidf_dense = X.toarray()
-    dist_condensed = pdist(tfidf_dense, metric="euclidean")
-    Z = linkage(dist_condensed, method="ward")
+    Z = linkage(pdist(tfidf_dense, metric="euclidean"), method="ward")
     return {"Z": Z, "n_chunks": len(chunks_list)}
 
 
@@ -105,11 +107,20 @@ def mean_pairwise_hamming(strings: list[str]) -> float:
     n = len(strings)
     if n < 2:
         return float("nan")
-    dists = [
+    return float(np.mean([
         hamming(list(strings[i]), list(strings[j]))
         for i in range(n) for j in range(i + 1, n)
-    ]
-    return float(np.mean(dists))
+    ]))
+
+
+def mean_pairwise_ari(label_arrays: list) -> float:
+    n = len(label_arrays)
+    if n < 2:
+        return float("nan")
+    return float(np.mean([
+        adjusted_rand_score(label_arrays[i], label_arrays[j])
+        for i in range(n) for j in range(i + 1, n)
+    ]))
 
 
 def pairwise_hamming_matrix(strings: list[str]) -> np.ndarray:
@@ -122,12 +133,23 @@ def pairwise_hamming_matrix(strings: list[str]) -> np.ndarray:
     return mat
 
 
+def pairwise_ari_matrix(label_arrays: list) -> np.ndarray:
+    n = len(label_arrays)
+    mat = np.ones((n, n))
+    for i in range(n):
+        for j in range(i + 1, n):
+            score = adjusted_rand_score(label_arrays[i], label_arrays[j])
+            mat[i, j] = mat[j, i] = score
+    return mat
+
+
 # ── Controls ──────────────────────────────────────────────────────────────────
 st.title("Cross-Edition Cluster Comparison")
 st.caption(
     "Runs HAC across all editions. Each edition is divided into exactly `n_chunks` equal bins "
     "via `pd.cut` (no overlap). Select a parameter to hold out; it will be swept over its full "
-    "valid range while all other parameters stay fixed."
+    "valid range while all other parameters stay fixed. Both **Hamming** (position-by-position "
+    "agreement) and **ARI** (permutation-invariant structural agreement) are reported."
 )
 
 _c = cfg["controls"]
@@ -167,8 +189,10 @@ summary_rows = []
 progress     = st.progress(0, text="Running…")
 
 for step_i, val in enumerate(sweep_vals):
-    progress.progress((step_i + 1) / len(sweep_vals),
-                      text=f"{HOLDOUT_DEFS[holdout_param]['label']} = {val}  ({step_i + 1}/{len(sweep_vals)})")
+    progress.progress(
+        (step_i + 1) / len(sweep_vals),
+        text=f"{HOLDOUT_DEFS[holdout_param]['label']} = {val}  ({step_i + 1}/{len(sweep_vals)})",
+    )
 
     p_n_chunks  = int(val)   if holdout_param == "n_chunks"  else int(n_chunks)
     p_min_df    = int(val)   if holdout_param == "min_df"    else int(min_df)
@@ -176,33 +200,41 @@ for step_i, val in enumerate(sweep_vals):
     p_ngram_max = max(int(ngram_min), int(val)) if holdout_param == "ngram_max" else int(ngram_max)
     p_k         = int(val)   if holdout_param == "k"         else int(k)
 
-    edition_strings = []
+    edition_strings      = []
+    edition_label_arrays = []
+
     for src_id, meta in SOURCES_META.items():
         token_path = find_token_file(src_id)
         if token_path is None:
             continue
-        TOKEN = load_tokens(src_id, token_path)
+        TOKEN  = load_tokens(src_id, token_path)
         result = run_linkage(src_id, token_path, p_n_chunks, p_min_df, p_max_df,
                              (int(ngram_min), p_ngram_max))
         if result is None:
             continue
-        Z       = result["Z"]
-        n_act   = result["n_chunks"]
-        labels  = fcluster(Z, threshold_for_k(Z, p_k, n_act), criterion="distance")
-        cstr    = cluster_string(labels)
+        Z      = result["Z"]
+        n_act  = result["n_chunks"]
+        labels = fcluster(Z, threshold_for_k(Z, p_k, n_act), criterion="distance")
+        cstr   = cluster_string(labels)
         edition_strings.append(cstr)
+        edition_label_arrays.append(labels.tolist())
         all_rows.append({
-            holdout_param:   val,
-            "edition":       meta["label"],
-            "lang":          LANG_LABELS[meta["lang"]],
-            "n_tokens":      len(TOKEN),
-            "k_actual":      int(len(np.unique(labels))),
+            holdout_param:    val,
+            "edition":        meta["label"],
+            "lang":           LANG_LABELS[meta["lang"]],
+            "n_tokens":       len(TOKEN),
+            "k_actual":       int(len(np.unique(labels))),
             "cluster_string": cstr,
+            "labels":         labels.tolist(),
         })
 
+    mh  = mean_pairwise_hamming(edition_strings)
+    ari = mean_pairwise_ari(edition_label_arrays)
     summary_rows.append({
         holdout_param:  val,
-        "mean_hamming": mean_pairwise_hamming(edition_strings),
+        "mean_hamming": mh,
+        "mean_ari":     ari,
+        "1_minus_hamming": (1.0 - mh) if not np.isnan(mh) else float("nan"),
     })
 
 progress.empty()
@@ -214,39 +246,66 @@ if not all_rows:
 df_all     = pd.DataFrame(all_rows)
 df_summary = pd.DataFrame(summary_rows)
 
-# ── Line chart ────────────────────────────────────────────────────────────────
-st.subheader(f"Mean Pairwise Hamming Distance vs. {HOLDOUT_DEFS[holdout_param]['label']}")
-fig_line = px.line(
-    df_summary, x=holdout_param, y="mean_hamming",
-    markers=True,
-    labels={holdout_param: HOLDOUT_DEFS[holdout_param]["label"], "mean_hamming": "Mean Hamming"},
+# ── Sweep line chart ──────────────────────────────────────────────────────────
+x_label = HOLDOUT_DEFS[holdout_param]["label"]
+st.subheader(f"Cross-Edition Agreement vs. {x_label}")
+st.caption(
+    "Both metrics are shown as **higher = more agreement**. "
+    "**1 − Hamming** measures position-by-position agreement; "
+    "**ARI** measures permutation-invariant structural agreement. "
+    "When the two lines diverge, label-order effects are influencing the Hamming score."
 )
+
+fig_line = go.Figure()
+fig_line.add_trace(go.Scatter(
+    x=df_summary[holdout_param], y=df_summary["1_minus_hamming"],
+    mode="lines+markers",
+    name="1 − Hamming",
+    line=dict(color="#EF553B", width=2),
+    marker=dict(size=6),
+    hovertemplate=f"{x_label}=%{{x}}<br>1−Hamming=%{{y:.3f}}<extra></extra>",
+))
+fig_line.add_trace(go.Scatter(
+    x=df_summary[holdout_param], y=df_summary["mean_ari"],
+    mode="lines+markers",
+    name="ARI",
+    line=dict(color="#1f77b4", width=2),
+    marker=dict(size=6),
+    hovertemplate=f"{x_label}=%{{x}}<br>ARI=%{{y:.3f}}<extra></extra>",
+))
 fig_line.update_layout(
-    height=320,
+    height=340,
     margin=dict(l=60, r=30, t=20, b=50),
     plot_bgcolor="white",
-    yaxis=dict(range=[0, 1], showgrid=True, gridcolor="#EEEEEE", zeroline=False),
-    xaxis=dict(showgrid=False, zeroline=False),
+    xaxis=dict(title=x_label, showgrid=False, zeroline=False),
+    yaxis=dict(title="Agreement (↑ = more similar)", range=[-0.05, 1.05],
+               showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+    legend=dict(x=0.02, y=0.05),
 )
 st.plotly_chart(fig_line, width="stretch")
 
 st.dataframe(
-    df_summary.rename(columns={
-        holdout_param:  HOLDOUT_DEFS[holdout_param]["label"],
-        "mean_hamming": "Mean Hamming",
-    }),
+    df_summary[[holdout_param, "mean_hamming", "1_minus_hamming", "mean_ari"]].rename(columns={
+        holdout_param:     x_label,
+        "mean_hamming":    "Mean Hamming",
+        "1_minus_hamming": "1 − Hamming",
+        "mean_ari":        "Mean ARI",
+    }).round(4),
     use_container_width=True,
     hide_index=True,
 )
 
-# ── Pairwise matrix for a selected sweep value ────────────────────────────────
+# ── Pairwise matrices for a selected sweep value ───────────────────────────────
 st.divider()
-st.subheader("Pairwise Hamming Matrix")
-sel_val = st.selectbox(
-    HOLDOUT_DEFS[holdout_param]["label"],
-    sweep_vals,
-    index=len(sweep_vals) - 1,
+st.subheader("Pairwise Distance / Agreement Matrices")
+st.caption(
+    "Select a sweep value to inspect how each pair of editions compares. "
+    "**Hamming** (left): lower = more similar. "
+    "**ARI** (right): higher = more similar."
 )
+
+sel_val = st.selectbox(x_label, sweep_vals, index=len(sweep_vals) - 1)
+
 if HOLDOUT_DEFS[holdout_param]["dtype"] == float:
     df_sel = df_all[np.isclose(df_all[holdout_param].astype(float), float(sel_val))]
 else:
@@ -254,19 +313,42 @@ else:
 
 if len(df_sel) >= 2:
     edition_labels = df_sel["edition"].tolist()
-    mat = pairwise_hamming_matrix(df_sel["cluster_string"].tolist())
-    dist_df = pd.DataFrame(mat, index=edition_labels, columns=edition_labels).round(4)
-    fig_hm = px.imshow(
-        dist_df, color_continuous_scale="Blues", zmin=0, zmax=1,
-        text_auto=".3f", aspect="auto",
-    )
-    fig_hm.update_layout(
-        height=max(300, len(edition_labels) * 50 + 100),
-        margin=dict(l=20, r=20, t=20, b=20),
-        coloraxis_colorbar=dict(title="Hamming"),
-    )
-    fig_hm.update_traces(textfont_size=11)
-    st.plotly_chart(fig_hm, width="stretch")
+    ham_mat = pairwise_hamming_matrix(df_sel["cluster_string"].tolist())
+    ari_mat = pairwise_ari_matrix([np.array(lbl) for lbl in df_sel["labels"].tolist()])
+
+    ham_df = pd.DataFrame(ham_mat, index=edition_labels, columns=edition_labels).round(3)
+    ari_df = pd.DataFrame(ari_mat, index=edition_labels, columns=edition_labels).round(3)
+
+    _h = max(300, len(edition_labels) * 50 + 100)
+    _margin = dict(l=20, r=20, t=40, b=20)
+
+    col_left, col_right = st.columns(2)
+
+    with col_left:
+        st.markdown("**Hamming distance** (0 = identical, 1 = maximally different)")
+        fig_ham = px.imshow(
+            ham_df, color_continuous_scale="Blues", zmin=0, zmax=1,
+            text_auto=".3f", aspect="auto",
+        )
+        fig_ham.update_layout(
+            height=_h, margin=_margin,
+            coloraxis_colorbar=dict(title="Hamming"),
+        )
+        fig_ham.update_traces(textfont_size=11)
+        st.plotly_chart(fig_ham, width="stretch")
+
+    with col_right:
+        st.markdown("**ARI** (1 = identical structure, 0 = random, negative = anti-correlated)")
+        fig_ari = px.imshow(
+            ari_df, color_continuous_scale="Greens", zmin=0, zmax=1,
+            text_auto=".3f", aspect="auto",
+        )
+        fig_ari.update_layout(
+            height=_h, margin=_margin,
+            coloraxis_colorbar=dict(title="ARI"),
+        )
+        fig_ari.update_traces(textfont_size=11)
+        st.plotly_chart(fig_ari, width="stretch")
 
 # ── Detailed cluster strings ───────────────────────────────────────────────────
 st.divider()

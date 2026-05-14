@@ -6,7 +6,10 @@ app:
 
 pages:
   - path: pages/chunk_clustering.py
-    title: Hierarchical Clustering
+    title: Clustering (chunk %)
+    icon: "🔗"
+  - path: pages/chunk_clustering_nc.py
+    title: Clustering (n-chunks)
     icon: "🔗"
   - path: pages/cluster_comparison.py
     title: Cross-Edition Comparison
@@ -14,11 +17,17 @@ pages:
   - path: pages/grid_search.py
     title: Parameter Grid Search
     icon: "🔍"
+  - path: pages/grid_search_ari.py
+    title: Grid Search (ARI)
+    icon: "🔍"
   # - path: pages/explorer.py
   #   title: Topic Modeling
   #   icon: "📜"
   - path: pages/model_diagnostics.py
-    title: Topic Modeling
+    title: Topic Modeling (chunk %)
+    icon: "⚙️"
+  - path: pages/model_diagnostics_nc.py
+    title: Topic Modeling (n-chunks)
     icon: "⚙️"
   # - path: pages/about.py
   #   title: About

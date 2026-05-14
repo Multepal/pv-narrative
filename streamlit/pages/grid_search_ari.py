@@ -1,9 +1,12 @@
 """
-Parameter Grid Search — sweep all combinations of non-k parameters and report
-how cross-edition Hamming distance varies with k for each combination.
+Parameter Grid Search (ARI) — sweep all combinations of non-k parameters and
+report how cross-edition Adjusted Rand Index varies with k for each combination.
 
 k is swept cheaply post-linkage (fcluster only). Expensive linkage runs are
 cached, so the full grid costs one upfront computation then stays instant.
+
+ARI operates on raw integer label arrays and is permutation-invariant, so it
+correctly scores structurally identical clusterings regardless of label order.
 """
 
 import os
@@ -15,7 +18,8 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer
-from scipy.spatial.distance import pdist, hamming
+from sklearn.metrics import adjusted_rand_score
+from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -79,24 +83,15 @@ def threshold_for_k(Z, k, n):
     return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
 
 
-def cluster_string(labels) -> str:
-    mapping: dict = {}
-    result = []
-    for lbl in labels:
-        if lbl not in mapping:
-            mapping[lbl] = chr(65 + len(mapping))
-        result.append(mapping[lbl])
-    return "".join(result)
-
-
-def mean_pairwise_hamming(strings: list[str]) -> float:
-    n = len(strings)
+def mean_pairwise_ari(label_arrays: list[np.ndarray]) -> float:
+    n = len(label_arrays)
     if n < 2:
         return float("nan")
-    return float(np.mean([
-        hamming(list(strings[i]), list(strings[j]))
+    scores = [
+        adjusted_rand_score(label_arrays[i], label_arrays[j])
         for i in range(n) for j in range(i + 1, n)
-    ]))
+    ]
+    return float(np.mean(scores))
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
@@ -105,11 +100,13 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title("Parameter Grid Search")
+st.title("Parameter Grid Search (ARI)")
 st.caption(
     "For each combination of non-k parameters, linkage is computed once per edition "
-    "then k is swept from 2–20 cheaply. Reports the optimal k* and minimum mean pairwise "
-    "Hamming distance for each combination. Results are cached after the first run."
+    "then k is swept from 2–20 cheaply. Reports the optimal k* and maximum mean pairwise "
+    "Adjusted Rand Index for each combination. "
+    "ARI is permutation-invariant: structurally identical clusterings always score 1.0 "
+    "regardless of label assignment order. Results are cached after the first run."
 )
 
 col1, col2 = st.columns(2)
@@ -157,25 +154,25 @@ for ci, (nc, mxdf) in enumerate(combos):
     combo_k_rows = []
 
     for k in K_VALS:
-        strings = []
+        label_arrays = []
         for src_id, result in linkage_cache.items():
             Z, n = result["Z"], result["n_chunks"]
             labels = fcluster(Z, threshold_for_k(Z, k, n), criterion="distance")
-            strings.append(cluster_string(labels))
-        mh = mean_pairwise_hamming(strings)
-        combo_k_rows.append({"k": k, "mean_hamming": mh})
+            label_arrays.append(labels)
+        ari = mean_pairwise_ari(label_arrays)
+        combo_k_rows.append({"k": k, "mean_ari": ari})
         curve_rows.append({
             "combo_label": combo_label,
             "n_chunks": nc, "max_df": mxdf,
-            "k": k, "mean_hamming": mh,
+            "k": k, "mean_ari": ari,
         })
 
-    best = min(combo_k_rows, key=lambda r: r["mean_hamming"])
+    best = max(combo_k_rows, key=lambda r: r["mean_ari"])
     summary_rows.append({
         "combo_label": combo_label,
         "n_chunks": nc, "max_df": mxdf,
         "k*": int(best["k"]),
-        "min_hamming": round(float(best["mean_hamming"]), 4),
+        "max_ari": round(float(best["mean_ari"]), 4),
     })
 
 progress.empty()
@@ -185,35 +182,35 @@ if not curve_rows:
     st.stop()
 
 df_curves  = pd.DataFrame(curve_rows)
-df_summary = pd.DataFrame(summary_rows).sort_values("min_hamming").reset_index(drop=True)
+df_summary = pd.DataFrame(summary_rows).sort_values("max_ari", ascending=False).reset_index(drop=True)
 
 # ── Spaghetti plot ─────────────────────────────────────────────────────────────
-st.subheader("Hamming vs. k — All Combinations")
+st.subheader("ARI vs. k — All Combinations")
 st.caption(
     "Each gray curve = one parameter combination. "
     "Bold blue = mean across all combinations. "
-    "A consistent trough indicates a robust optimal k."
+    "A consistent peak indicates a robust optimal k."
 )
 
 fig = go.Figure()
 
 for label, gdf in df_curves.groupby("combo_label", sort=False):
     fig.add_trace(go.Scatter(
-        x=gdf["k"], y=gdf["mean_hamming"],
+        x=gdf["k"], y=gdf["mean_ari"],
         mode="lines",
         line=dict(color="#CCCCCC", width=1),
         showlegend=False,
-        hovertemplate=f"{label}<br>k=%{{x}}<br>Hamming=%{{y:.3f}}<extra></extra>",
+        hovertemplate=f"{label}<br>k=%{{x}}<br>ARI=%{{y:.3f}}<extra></extra>",
     ))
 
-mean_curve = df_curves.groupby("k")["mean_hamming"].mean().reset_index()
+mean_curve = df_curves.groupby("k")["mean_ari"].mean().reset_index()
 fig.add_trace(go.Scatter(
-    x=mean_curve["k"], y=mean_curve["mean_hamming"],
+    x=mean_curve["k"], y=mean_curve["mean_ari"],
     mode="lines+markers",
     line=dict(color="#1f77b4", width=3),
     marker=dict(size=6),
     name="Mean across combos",
-    hovertemplate="mean · k=%{x}<br>Hamming=%{y:.3f}<extra></extra>",
+    hovertemplate="mean · k=%{x}<br>ARI=%{y:.3f}<extra></extra>",
 ))
 
 fig.update_layout(
@@ -221,16 +218,16 @@ fig.update_layout(
     margin=dict(l=60, r=30, t=10, b=50),
     plot_bgcolor="white",
     xaxis=dict(title="k (clusters)", dtick=1, showgrid=False, zeroline=False),
-    yaxis=dict(title="Mean Hamming", range=[0, 1],
+    yaxis=dict(title="Mean ARI", range=[-0.05, 1.05],
                showgrid=True, gridcolor="#EEEEEE", zeroline=False),
-    legend=dict(x=0.02, y=0.98),
+    legend=dict(x=0.02, y=0.02),
 )
 st.plotly_chart(fig, width="stretch")
 
 # ── k* distribution ────────────────────────────────────────────────────────────
 st.divider()
 st.subheader("Distribution of Optimal k*")
-st.caption("How many parameter combinations achieve their minimum Hamming distance at each k.")
+st.caption("How many parameter combinations achieve their maximum ARI at each k.")
 
 k_star_counts = (
     df_summary["k*"].value_counts()
@@ -252,6 +249,6 @@ st.plotly_chart(fig_bar, width="stretch")
 
 # ── Summary table ──────────────────────────────────────────────────────────────
 st.divider()
-st.subheader("Summary — Sorted by Minimum Hamming Distance")
-st.caption("Most coherent parameter combinations first.")
+st.subheader("Summary — Sorted by Maximum ARI")
+st.caption("Most coherent parameter combinations first (higher ARI = more agreement across editions).")
 st.dataframe(df_summary, use_container_width=True, hide_index=True)

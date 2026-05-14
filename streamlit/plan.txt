@@ -13,3 +13,9 @@ Plan: Go Meta
 1. Allow the user to pick a hold-out paramater, e.g. k clusters, and run the algorithm for each value of the held-out parameter.
 
 2. Summarize the results in a table where the held-parameter is a feature. 
+
+Plan: Hamming vs Levenshtein Distance
+
+1. Review the cluster comparison and grid search pages and let me know if you think I should switch from hamming to levenshtein distance. 
+
+Plan: 
