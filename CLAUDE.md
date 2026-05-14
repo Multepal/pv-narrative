@@ -2,7 +2,21 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Overview
+
+This is a rsearch project intended to model the narrative structure of the Popol Wuj.
+
+It uses Python, Pandas, Plotyl, Streamlit and other tools to create an interactive app.
+
+## Rules
+
+ALWAYS commit any existing uncommitted changes before making new code changes.
+
+ALWAYS be ready to roll back to the state of the code before the plan was executed.
+
 ## Running the Streamlit App
+
+Build and run ALL code in Python using the conda environment `pv-narrative`.  
 
 ```bash
 cd notebooks
@@ -17,7 +31,6 @@ pip install -r notebooks/requirements.txt
 
 ## Architecture
 
-This is a **MyST Markdown / Jupyter Book** project (`myst.yml`) combining research notebooks with an interactive Streamlit app.
 
 ### Data Pipeline
 
@@ -27,18 +40,6 @@ Each source edition has its own subdirectory under `notebooks/` (e.g., `notebook
 2. **`02-*-model*.ipynb`** — reads TOKEN.csv, applies TF-IDF + NMF/HAC/PCA, and writes model output CSVs (THETA, PHI, CHUNK, TFIDF, CLUSTER, etc.) plus figures.
 
 The `notebooks/ensemble/` directory aggregates TOKEN files across all sources.
-
-### Streamlit App (`notebooks/streamlit_app.py`)
-
-The app is self-contained: it reads a `*-TOKEN.csv` file at runtime and runs the full NMF pipeline (TF-IDF → NMF → cosine distance) interactively. It does **not** depend on the pre-computed model CSVs from the notebooks — it re-runs the model on every parameter change.
-
-Token file resolution order (for a given `src_id`):
-1. `notebooks/<src_id>/<src_id>-TOKEN.csv`
-2. `notebooks/ensemble/<src_id>-TOKEN.csv`
-3. `notebooks/<src_id>-TOKEN.csv`
-4. `../<src_id>/<src_id>-TOKEN.csv`
-
-**`notebooks/about.md`** — sidebar content rendered in the app; edit this file to update explanatory text without touching Python code.
 
 ### Local Library (`local_lib/`)
 
@@ -53,11 +54,3 @@ Shared Python modules used by the research notebooks (not the Streamlit app):
 ### TOKEN.csv Schema
 
 TOKEN files are the central data format. Columns up to (not including) `token_str` form the OHCO index (Ordered Hierarchy of Content Objects — e.g., book, chapter, paragraph, token). `term_str` holds the normalized term used for modeling.
-
-### Published Site
-
-The MyST site is configured to publish to `https://multepal.github.io/pv-narrative`. Build with:
-
-```bash
-myst build --html
-```
