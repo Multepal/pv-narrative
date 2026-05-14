@@ -1,5 +1,10 @@
 """
-Chunk Clustering (n-chunks) — HAC clustering using pd.cut for exact chunk counts.
+Chunk Clustering — Cosine-Similarity HAC.
+
+TF-IDF → cosine similarity matrix (n_chunks × n_chunks) → Ward HAC.
+Each chunk is represented by its similarity profile to all other chunks
+rather than its raw term vector. Word clouds and top-term labels still
+use the underlying TF-IDF weights.
 """
 
 import os
@@ -70,37 +75,36 @@ def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)
         return None
     tfidf_dense = X.toarray()
     words = vec.get_feature_names_out()
-    dist_condensed = pdist(tfidf_dense, metric='euclidean')
-    Z = linkage(dist_condensed, method='ward')
+    # Cosine similarity matrix: X is L2-normalized, so X @ X.T = cosine similarity
+    SIM = (X @ X.T).toarray()
+    Z = linkage(pdist(SIM, metric="euclidean"), method="ward")
     return {
-        'tfidf_dense': tfidf_dense,
-        'words': words,
-        'Z': Z,
-        'chunks_list': chunks_list,
-        'n_chunks': len(chunks_list),
+        "tfidf_dense": tfidf_dense,
+        "words": words,
+        "Z": Z,
+        "chunks_list": chunks_list,
+        "n_chunks": len(chunks_list),
     }
 
 
 def make_cluster_table(tfidf_dense, words, labels, n_top_words):
     tfidf_df = pd.DataFrame(tfidf_dense, columns=words)
-    cluster_s = pd.Series(labels, name='cluster')
+    cluster_s = pd.Series(labels, name="cluster")
     cluster_tfidf = tfidf_df.groupby(cluster_s).mean()
     top_terms = cluster_tfidf.apply(
         lambda row: ", ".join(row.sort_values(ascending=False).head(n_top_words).index), axis=1
     )
-    n_per = cluster_s.value_counts().sort_index().rename('n_chunks')
-    return pd.DataFrame({'n_chunks': n_per, 'top_terms': top_terms})
+    n_per = cluster_s.value_counts().sort_index().rename("n_chunks")
+    return pd.DataFrame({"n_chunks": n_per, "top_terms": top_terms})
 
 
 def threshold_for_k(Z, k, n):
     k = max(2, min(k, n - 1))
-    idx_low  = n - k - 1
-    idx_high = n - k
-    return float((Z[idx_low, 2] + Z[idx_high, 2]) / 2)
+    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
 
 
 def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
-    gray = '#CCCCCC'
+    gray = "#CCCCCC"
     node_clusters: dict = {}
 
     def leaf_clusters(node):
@@ -137,7 +141,7 @@ def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
                 cluster_root_height[c] = h
 
     cluster_root_x: dict = {}
-    for xs, ys in zip(dend['icoord'], dend['dcoord']):
+    for xs, ys in zip(dend["icoord"], dend["dcoord"]):
         h = float(ys[1])
         z_idx = _height_to_z.get(h)
         if z_idx is None:
@@ -149,37 +153,43 @@ def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
                 cluster_root_x[c] = (float(xs[1]) + float(xs[2])) / 2
 
     fig = go.Figure()
-    for xs, ys, color in zip(dend['icoord'], dend['dcoord'], dend['color_list']):
+    for xs, ys, color in zip(dend["icoord"], dend["dcoord"], dend["color_list"]):
         fig.add_trace(go.Scatter(
-            x=xs, y=ys, mode='lines',
+            x=xs, y=ys, mode="lines",
             line=dict(color=color, width=2.5),
-            showlegend=False, hoverinfo='none',
+            showlegend=False, hoverinfo="none",
         ))
 
     leaf_x    = [10 * i + 5 for i in range(n)]
-    tick_text = [chunk_labels[orig] for orig in dend['leaves']]
+    tick_text = [chunk_labels[orig] for orig in dend["leaves"]]
     fig.update_layout(
         xaxis=dict(tickvals=leaf_x, ticktext=tick_text,
                    range=[-5, 10 * n + 5],
                    showline=False, showgrid=False, zeroline=False),
         yaxis=dict(showline=False, showgrid=False, zeroline=False),
-        plot_bgcolor='white',
+        plot_bgcolor="white",
     )
-    return fig, dend['leaves'], cluster_root_x
+    return fig, dend["leaves"], cluster_root_x
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
-st.title("Chunk Clustering (n-chunks) — Popol Wuj")
+st.title("Chunk Clustering — Cosine-Similarity HAC — Popol Wuj")
 render_toc([
     ("Merge Height Scree Plot", "scree-plot"),
     ("Chunk Dendrogram",        "dendrogram"),
     ("Cluster Membership",      "cluster-membership"),
     ("Cluster Word Clouds",     "word-clouds"),
 ])
+st.caption(
+    "TF-IDF → cosine similarity matrix → Ward HAC. "
+    "Each chunk is represented by its similarity profile to all other chunks "
+    "(second-order distributional structure). Word clouds and top-term labels "
+    "use the underlying TF-IDF weights."
+)
 
 src_ids = list(SOURCES_META.keys())
 _col_ratios = cfg["layout"]["column_ratios"]
-cols = st.columns(_col_ratios[:4])  # source | n_chunks | min_df+max_df | ngram min+max
+cols = st.columns(_col_ratios[:4])
 
 _c = cfg["controls"]
 src_id = cols[0].selectbox(
@@ -219,21 +229,21 @@ if result is None:
     st.warning("Clustering couldn't run — try adjusting n_chunks, min_df, or max_df.")
     st.stop()
 
-n_chunks    = result['n_chunks']
-tfidf_dense = result['tfidf_dense']
-words       = result['words']
-Z           = result['Z']
-chunks_list = result['chunks_list']
+n_chunks    = result["n_chunks"]
+tfidf_dense = result["tfidf_dense"]
+words       = result["words"]
+Z           = result["Z"]
+chunks_list = result["chunks_list"]
 meta        = SOURCES_META[src_id]
 
 _linkage_key = f"{src_id}_{n_chunks}_{min_df}_{max_df}_{ngram_min}_{ngram_max}"
 _z_max = float(Z[:, 2].max())
 
 # ── Session state: reset k when linkage params change ────────────────────────
-if st.session_state.get("_cluster_nc_linkage_key") != _linkage_key:
-    st.session_state["_cluster_nc_linkage_key"] = _linkage_key
-    st.session_state["cluster_nc_k"] = cfg["controls"]["n_clusters"]["default"]
-_selected_k = st.session_state.get("cluster_nc_k", cfg["controls"]["n_clusters"]["default"])
+if st.session_state.get("_cluster_sim_linkage_key") != _linkage_key:
+    st.session_state["_cluster_sim_linkage_key"] = _linkage_key
+    st.session_state["cluster_sim_k"] = cfg["controls"]["n_clusters"]["default"]
+_selected_k = st.session_state.get("cluster_sim_k", cfg["controls"]["n_clusters"]["default"])
 
 # ── Section 1: Scree plot ─────────────────────────────────────────────────────
 st.subheader("Merge Height Scree Plot", anchor="scree-plot")
@@ -243,7 +253,7 @@ st.caption(
 )
 
 _max_k_scree = min(cfg["controls"]["n_clusters"]["max"], n_chunks - 1)
-_k_vals = list(range(2, _max_k_scree + 1))
+_k_vals  = list(range(2, _max_k_scree + 1))
 _heights = [float(Z[n_chunks - k, 2]) for k in _k_vals]
 
 fig_scree = go.Figure(go.Scatter(
@@ -264,17 +274,17 @@ fig_scree.update_layout(
     xaxis=dict(title="Number of clusters (k)", dtick=1, showgrid=False, zeroline=False),
     yaxis=dict(title="Ward merge distance", showgrid=True, gridcolor="#EEEEEE", zeroline=False),
 )
-_scree_event = st.plotly_chart(fig_scree, width='stretch', key=f"nc_scree_{_linkage_key}", on_select="rerun")
+_scree_event = st.plotly_chart(fig_scree, width="stretch", key=f"sim_scree_{_linkage_key}", on_select="rerun")
 if _scree_event.selection.points:
     _clicked_k = int(_scree_event.selection.points[0]["x"])
-    if _clicked_k != st.session_state.get("cluster_nc_k"):
-        st.session_state["cluster_nc_k"] = _clicked_k
+    if _clicked_k != st.session_state.get("cluster_sim_k"):
+        st.session_state["cluster_sim_k"] = _clicked_k
         st.rerun()
 st.success(f"k = {_selected_k} selected — dendrogram below ↓")
 
 # ── Section 2: Dendrogram ─────────────────────────────────────────────────────
 threshold  = threshold_for_k(Z, _selected_k, n_chunks)
-labels     = fcluster(Z, threshold, criterion='distance')
+labels     = fcluster(Z, threshold, criterion="distance")
 n_clusters = int(len(np.unique(labels)))
 
 _first_seen      = {c: int(np.argmax(labels == c)) for c in np.unique(labels)}
@@ -286,9 +296,12 @@ _key_sfx = f"{_linkage_key}_{_selected_k}"
 
 st.divider()
 st.subheader("Chunk Dendrogram", anchor="dendrogram")
-st.caption("Ward linkage on Euclidean distances between L2-normalized TF-IDF chunk vectors. Dashed line = cut threshold.")
+st.caption(
+    "Ward linkage on Euclidean distances between cosine-similarity profiles. "
+    "Dashed line = cut threshold."
+)
 
-_show_labels = n_chunks <= 60
+_show_labels  = n_chunks <= 60
 _chunk_labels = [str(i) for i in range(n_chunks)] if _show_labels else [""] * n_chunks
 fig_dend, _dend_leaves, _root_x = build_dendrogram_figure(Z, labels, n_chunks, cluster_to_color, _chunk_labels)
 
@@ -296,9 +309,9 @@ fig_rot = go.Figure()
 for _tr in fig_dend.data:
     fig_rot.add_trace(go.Scatter(
         x=list(_tr.y), y=list(_tr.x),
-        mode='lines',
+        mode="lines",
         line=_tr.line,
-        showlegend=False, hoverinfo='none',
+        showlegend=False, hoverinfo="none",
     ))
 
 fig_rot.add_vline(x=threshold, line_dash="dash", line_color="crimson", line_width=1.5)
@@ -310,15 +323,15 @@ for _i, _c in enumerate(unique_labels):
         x=threshold, y=_y,
         xshift=6, yshift=8,
         text=f"<b>{chr(65 + _i)}</b>",
-        showarrow=False, xanchor='left', yanchor='bottom',
-        font=dict(size=14, color='black'),
+        showarrow=False, xanchor="left", yanchor="bottom",
+        font=dict(size=14, color="black"),
     )
 
 _dx = fig_dend.layout.xaxis
 fig_rot.update_layout(
     height=500,
     margin=dict(l=50, r=30, t=10, b=50),
-    plot_bgcolor='white',
+    plot_bgcolor="white",
     xaxis=dict(
         range=[0, _z_max * 1.12],
         showline=False, showgrid=False, zeroline=False,
@@ -330,7 +343,7 @@ fig_rot.update_layout(
         showline=False, showgrid=False, zeroline=False,
     ),
 )
-st.plotly_chart(fig_rot, width='stretch', key=f"nc_dend_{_key_sfx}")
+st.plotly_chart(fig_rot, width="stretch", key=f"sim_dend_{_key_sfx}")
 st.caption(
     f"**{meta['label']}** ({LANG_LABELS[meta['lang']]}) · "
     f"{_n_tokens_early:,} tokens · {n_chunks} chunks · "
@@ -344,17 +357,17 @@ cluster_table = make_cluster_table(tfidf_dense, words, labels, n_top_words)
 st.divider()
 st.subheader("Cluster Membership in Narrative Order", anchor="cluster-membership")
 st.caption(
-    "Rows = clusters labeled by top terms, columns = chunks in sequential narrative order. "
+    "Rows = clusters labeled by top TF-IDF terms, columns = chunks in sequential narrative order. "
     "Colors match the dendrogram branches."
 )
-y_labels = [cluster_table.loc[c, 'top_terms'] for c in unique_labels]
+y_labels = [cluster_table.loc[c, "top_terms"] for c in unique_labels]
 
 z = np.zeros((n_clusters, n_chunks), dtype=float)
 for i, c in enumerate(unique_labels):
     z[i, labels == c] = i + 1
 
 _N = n_clusters + 1
-_colorscale = [[0, 'white'], [1 / _N, 'white']]
+_colorscale = [[0, "white"], [1 / _N, "white"]]
 for i, c in enumerate(unique_labels):
     _colorscale += [[(i + 1) / _N, cluster_to_color[c]], [(i + 2) / _N, cluster_to_color[c]]]
 
@@ -373,7 +386,7 @@ fig_seq = go.Figure(go.Heatmap(
 fig_seq.update_layout(
     height=n_clusters * _row_h + 80,
     margin=dict(l=250, r=20, t=20, b=60),
-    plot_bgcolor='white',
+    plot_bgcolor="white",
     xaxis=dict(title="Chunk (narrative order)", showgrid=False, zeroline=False),
     yaxis=dict(showgrid=False, zeroline=False),
 )
@@ -386,10 +399,10 @@ for _i, _c in enumerate(unique_labels):
         fig_seq.add_annotation(
             x=float(np.mean(_run)), y=y_labels[_i],
             text=f"<b>{chr(65 + _i)}</b>",
-            showarrow=False, xanchor='center', yanchor='middle',
-            font=dict(size=13, color='white'),
+            showarrow=False, xanchor="center", yanchor="middle",
+            font=dict(size=13, color="white"),
         )
-st.plotly_chart(fig_seq, width='stretch', key=f"nc_seq_{_key_sfx}")
+st.plotly_chart(fig_seq, width="stretch", key=f"sim_seq_{_key_sfx}")
 
 # ── Section 4: Word clouds ─────────────────────────────────────────────────────
 st.divider()
@@ -398,7 +411,7 @@ st.subheader("Cluster Word Clouds", anchor="word-clouds")
 _v = cfg["visualization"]
 _wc_means = (
     pd.DataFrame(tfidf_dense, columns=words)
-    .groupby(pd.Series(labels, name='cluster'))
+    .groupby(pd.Series(labels, name="cluster"))
     .mean()
 )
 _n_wc_cols = min(_v["wordcloud_cols"], n_clusters)
@@ -416,5 +429,5 @@ for _row_start in range(0, n_clusters, _n_wc_cols):
         _grid_cols[_col_idx].image(
             _wc.to_array(),
             caption=f"**{chr(65 + _lbl_idx)}** · {cluster_table.loc[_clust, 'top_terms']}",
-            width='stretch',
+            width="stretch",
         )

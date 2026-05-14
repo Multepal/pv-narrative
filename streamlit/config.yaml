@@ -5,45 +5,56 @@ app:
   layout: wide
 
 pages:
-  - path: pages/chunk_clustering.py
-    title: Clustering (chunk %)
-    icon: "🔗"
+  # ── Single-edition analysis ───────────────────────────────────────────────
   - path: pages/chunk_clustering_nc.py
-    title: Clustering (n-chunks)
+    title: Clustering (TF-IDF)
     icon: "🔗"
-  - path: pages/cluster_comparison.py
-    title: Cross-Edition Comparison
-    icon: "📊"
-  - path: pages/grid_search.py
-    title: Parameter Grid Search
-    icon: "🔍"
-  - path: pages/grid_search_ari.py
-    title: Grid Search (ARI)
-    icon: "🔍"
-  # - path: pages/explorer.py
-  #   title: Topic Modeling
-  #   icon: "📜"
-  - path: pages/model_diagnostics.py
-    title: Topic Modeling (chunk %)
-    icon: "⚙️"
+  - path: pages/chunk_clustering_sim.py
+    title: Clustering (Cosine-Sim)
+    icon: "🔗"
   - path: pages/model_diagnostics_nc.py
-    title: Topic Modeling (n-chunks)
+    title: Topics (NMF)
     icon: "⚙️"
   - path: pages/pca_lsa.py
-    title: PCA / LSA Analysis
+    title: PCA / LSA Explorer
     icon: "🔬"
-  - path: pages/cluster_comparison_pca.py
-    title: Cross-Edition Comparison (PCA)
+  # ── Cross-edition comparison ──────────────────────────────────────────────
+  - path: pages/cluster_comparison.py
+    title: Cross-Edition (TF-IDF)
     icon: "📊"
+  - path: pages/cluster_comparison_pca.py
+    title: Cross-Edition (PCA)
+    icon: "📊"
+  - path: pages/cluster_comparison_sim.py
+    title: Cross-Edition (Cosine-Sim)
+    icon: "📊"
+  # ── Parameter optimization ────────────────────────────────────────────────
+  - path: pages/grid_search_ari.py
+    title: Grid Search (TF-IDF)
+    icon: "🔍"
   - path: pages/grid_search_pca.py
     title: Grid Search (PCA)
     icon: "🔍"
   - path: pages/grid_search_nmf.py
     title: Grid Search (NMF)
     icon: "🔍"
+  - path: pages/grid_search_sim.py
+    title: Grid Search (Cosine-Sim)
+    icon: "🔍"
+  # ── Temporal / spectral analysis ──────────────────────────────────────────
   - path: pages/dct_analysis.py
     title: Narrative DCT
     icon: "〰️"
+  # ── Legacy (chunk-% variants, superseded by n-chunks) ─────────────────────
+  # - path: pages/chunk_clustering.py
+  #   title: Clustering (TF-IDF, chunk %)
+  #   icon: "🔗"
+  # - path: pages/model_diagnostics.py
+  #   title: Topics (NMF, chunk %)
+  #   icon: "⚙️"
+  # - path: pages/grid_search.py
+  #   title: Grid Search (TF-IDF, Hamming)
+  #   icon: "🔍"
   # - path: pages/about.py
   #   title: About
   #   icon: "ℹ️"
@@ -109,6 +120,11 @@ controls:
     min: 2
     max: 20
     default: 6
+    step: 1
+  n_chunks:
+    min: 5
+    max: 100
+    default: 33
     step: 1
   n_clusters:
     min: 2

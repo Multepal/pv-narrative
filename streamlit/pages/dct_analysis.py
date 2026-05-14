@@ -1,28 +1,27 @@
 """
-Narrative DCT — Discrete Cosine Transform of PCA/HAC cluster presence signals.
+Narrative DCT — Discrete Cosine Transform of cluster presence signals.
 
-For each cluster, the binary presence signal (1 where active, 0 elsewhere) is
-decomposed into frequency components via DCT-II. Low-frequency coefficients
-capture long narrative arcs; high-frequency coefficients capture rapid
-alternation. A low-pass reconstruction (IDCT of the first N coefficients)
-gives the structural envelope of each cluster's narrative presence.
+Applies DCT-II to each cluster's binary narrative presence signal using three
+clustering methods in parallel: TF-IDF → HAC, TF-IDF → PCA/LSA → HAC, and
+TF-IDF → NMF. Low-frequency DCT coefficients capture long narrative arcs;
+high-frequency coefficients capture rapid oscillation. Low-pass reconstruction
+(IDCT of the first N coefficients) gives the structural envelope of each cluster.
 
-Cross-edition section compares low-pass envelopes across all available editions
-to show where editions agree or diverge on the narrative rhythm of each cluster.
+Layout: for each analysis section, method is a row and clusters are columns.
 """
 
 import os
 import yaml
+import math
 import streamlit as st
 import pandas as pd
 import numpy as np
-import math
 import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 from scipy.fft import dct, idct
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD
+from sklearn.decomposition import TruncatedSVD, NMF
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
@@ -34,6 +33,7 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 
 SOURCES_META = cfg["sources"]
 LANG_LABELS  = cfg["languages"]
+NMF_MAX_ITER = cfg["model"]["nmf_max_iter"]
 
 st.markdown(
     f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
@@ -42,9 +42,7 @@ st.markdown(
 
 
 def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
+    candidates = [os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv")]
     for p in candidates:
         norm = os.path.normpath(p)
         if os.path.exists(norm):
@@ -60,43 +58,82 @@ def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
     return TOKEN.set_index(ohco)
 
 
-@st.cache_data(show_spinner=False)
-def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_range=(1, 1)):
+def _chunk_list(src_id, token_path, n_chunks):
     TOKEN = load_tokens(src_id, token_path)
     token_reset = TOKEN.reset_index()
     token_reset["chunk_num"] = pd.cut(
         token_reset.index, n_chunks, labels=list(range(n_chunks))
     )
-    chunks_s = (
+    return (
         token_reset.groupby("chunk_num", observed=True)["term_str"]
         .apply(lambda x: " ".join(x.dropna()))
+        .tolist()
     )
-    chunks_list = chunks_s.tolist()
+
+
+def _tfidf_matrix(chunks_list, min_df, max_df):
     if len(chunks_list) < 3:
         return None
     try:
         vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                              strip_accents=None, norm="l2", ngram_range=ngram_range)
-        X = vec.fit_transform(chunks_list)
+                              strip_accents=None, norm="l2")
+        return vec.fit_transform(chunks_list)
     except ValueError:
+        return None
+
+
+@st.cache_data(show_spinner=False)
+def run_tfidf_hac(src_id, token_path, n_chunks, min_df, max_df):
+    chunks = _chunk_list(src_id, token_path, n_chunks)
+    X = _tfidf_matrix(chunks, min_df, max_df)
+    if X is None:
+        return None
+    Z = linkage(pdist(X.toarray(), metric="euclidean"), method="ward")
+    return {"Z": Z, "n_chunks": len(chunks)}
+
+
+@st.cache_data(show_spinner=False)
+def run_pca_hac(src_id, token_path, n_chunks, min_df, max_df, n_components):
+    chunks = _chunk_list(src_id, token_path, n_chunks)
+    X = _tfidf_matrix(chunks, min_df, max_df)
+    if X is None:
         return None
     n_comp = min(n_components, X.shape[0] - 1, X.shape[1] - 1)
     if n_comp < 2:
         return None
     THETA = TruncatedSVD(n_components=n_comp, random_state=42).fit_transform(X)
-    return {"THETA": THETA, "n_chunks": len(chunks_list)}
+    return {"THETA": THETA, "n_chunks": len(chunks)}
 
 
-def threshold_for_k(Z, k, n):
-    k = max(2, min(k, n - 1))
-    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
+@st.cache_data(show_spinner=False)
+def run_nmf(src_id, token_path, n_chunks, min_df, max_df, k):
+    chunks = _chunk_list(src_id, token_path, n_chunks)
+    if len(chunks) < max(3, k):
+        return None
+    X = _tfidf_matrix(chunks, min_df, max_df)
+    if X is None or X.shape[1] < k:
+        return None
+    try:
+        model = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER)
+        THETA = model.fit_transform(X)
+    except Exception:
+        return None
+    return {"labels": np.argmax(THETA, axis=1), "n_chunks": len(chunks)}
 
 
-def get_labels(THETA, k):
-    """Ward HAC on PCA scores → normalized cluster labels (0..k-1 by first appearance)."""
-    Z = linkage(pdist(THETA, metric="euclidean"), method="ward")
-    n = THETA.shape[0]
-    raw = fcluster(Z, threshold_for_k(Z, k, n), criterion="distance")
+@st.cache_data(show_spinner=False)
+def run_sim_hac(src_id, token_path, n_chunks, min_df, max_df):
+    chunks = _chunk_list(src_id, token_path, n_chunks)
+    X = _tfidf_matrix(chunks, min_df, max_df)
+    if X is None:
+        return None
+    SIM = (X @ X.T).toarray()
+    Z = linkage(pdist(SIM, metric="euclidean"), method="ward")
+    return {"Z": Z, "n_chunks": len(chunks)}
+
+
+def normalize_labels(raw):
+    """Map any label array to 0-based first-appearance order."""
     mapping = {}
     out = np.zeros(len(raw), dtype=int)
     for i, lbl in enumerate(raw):
@@ -106,8 +143,23 @@ def get_labels(THETA, k):
     return out
 
 
+def threshold_for_k(Z, k, n):
+    k = max(2, min(k, n - 1))
+    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
+
+
+def hac_labels(Z, k, n):
+    raw = fcluster(Z, threshold_for_k(Z, k, n), criterion="distance")
+    return normalize_labels(raw)
+
+
+def pca_labels(THETA, k):
+    Z = linkage(pdist(THETA, metric="euclidean"), method="ward")
+    n = THETA.shape[0]
+    return hac_labels(Z, k, n)
+
+
 def binary_signals(labels, k):
-    """(k × n_chunks) binary matrix — row i is 1 where cluster i is active."""
     n = len(labels)
     mat = np.zeros((k, n))
     for t, c in enumerate(labels):
@@ -116,13 +168,7 @@ def binary_signals(labels, k):
     return mat
 
 
-def dct_matrix(signals):
-    """DCT-II of each row. Returns (k × n_chunks) coefficient matrix."""
-    return np.array([dct(row, type=2, norm="ortho") for row in signals])
-
-
 def low_pass(signal, n_keep):
-    """Reconstruct signal keeping only the first n_keep DCT coefficients."""
     coeffs = dct(signal, type=2, norm="ortho")
     filtered = np.zeros_like(coeffs)
     filtered[:n_keep] = coeffs[:n_keep]
@@ -138,9 +184,10 @@ render_toc([
 ])
 st.caption(
     "Applies the Discrete Cosine Transform to each cluster's binary presence signal "
-    "across narrative time. **Low-frequency coefficients** = long narrative arcs; "
-    "**high-frequency** = rapid oscillation. The low-pass reconstruction is the "
-    "structural envelope of each cluster — the narrative curve stripped of noise."
+    "across narrative time, using three clustering methods in parallel. "
+    "**Low-frequency coefficients** = long narrative arcs; "
+    "**high-frequency** = rapid oscillation. "
+    "Within each section, rows are methods and columns are clusters."
 )
 
 src_ids = list(SOURCES_META.keys())
@@ -151,7 +198,7 @@ cols    = st.columns(_col_r[:5])
 src_id    = cols[0].selectbox(
     "Source", src_ids, index=src_ids.index(_c["default_source"]),
     format_func=lambda x: f"{SOURCES_META[x]['label']} ({LANG_LABELS[SOURCES_META[x]['lang']]})")
-n_chunks  = cols[1].number_input("n_chunks",  min_value=5,  max_value=200, value=20,  step=1)
+n_chunks  = cols[1].number_input("n_chunks",  min_value=_c["n_chunks"]["min"], max_value=_c["n_chunks"]["max"], value=_c["n_chunks"]["default"], step=_c["n_chunks"]["step"])
 min_df    = cols[2].number_input("min_df",    _c["min_df"]["min"], _c["min_df"]["max"],
                                   _c["min_df"]["default"], step=_c["min_df"]["step"])
 max_df    = cols[2].number_input("max_df",    _c["max_df"]["min"], _c["max_df"]["max"],
@@ -167,183 +214,239 @@ n_keep = st.slider("Low-pass cutoff (DCT coefficients to keep)", 1, n_keep_max,
 
 st.divider()
 
-# ── Run LSA + HAC for the selected edition ────────────────────────────────────
+# ── Load token file ────────────────────────────────────────────────────────────
 token_path = find_token_file(src_id)
 if token_path is None:
     st.warning(f"Token file not found for `{src_id}`.")
     st.stop()
 
-result = run_lsa(src_id, token_path, int(n_chunks), int(min_df), float(max_df),
-                 int(n_components))
-if result is None:
-    st.warning("LSA couldn't run — try adjusting parameters.")
+_k  = int(k)
+_nc = int(n_chunks)
+_mn = int(min_df)
+_mx = float(max_df)
+_np = int(n_components)
+
+# ── Run all three models for the selected edition ──────────────────────────────
+res_tfidf = run_tfidf_hac(src_id, token_path, _nc, _mn, _mx)
+res_pca   = run_pca_hac(src_id, token_path, _nc, _mn, _mx, _np)
+res_nmf   = run_nmf(src_id, token_path, _nc, _mn, _mx, _k)
+res_sim   = run_sim_hac(src_id, token_path, _nc, _mn, _mx)
+
+if res_tfidf is None and res_pca is None and res_nmf is None and res_sim is None:
+    st.warning("All models failed — try adjusting parameters.")
     st.stop()
 
-THETA   = result["THETA"]
-n_act   = result["n_chunks"]
-labels  = get_labels(THETA, int(k))
-k_act   = int(labels.max()) + 1  # actual distinct clusters (may be < k)
+n_act     = (res_tfidf or res_pca or res_nmf or res_sim)["n_chunks"]
+x_pos     = np.linspace(1, 100, n_act)
+freq_bins = np.arange(n_act)
+_show_bins = min(n_act, 16)
+_palette   = px.colors.qualitative.Plotly
 
-signals = binary_signals(labels, k_act)
-coeffs  = dct_matrix(signals)
 
-_palette     = px.colors.qualitative.Plotly
-cluster_names = [f"Cluster {chr(65 + i)}" for i in range(k_act)]
-colors        = [_palette[i % len(_palette)] for i in range(k_act)]
-positions     = np.arange(n_act)
-freq_bins     = np.arange(n_act)
+def _build_model_data(res_t, res_p, res_n, res_s, k_val):
+    """Return list of (method_label, signals, coefficients, k_act) for each available model."""
+    methods = []
+
+    if res_t is not None:
+        lbl = hac_labels(res_t["Z"], k_val, res_t["n_chunks"])
+        ka  = int(lbl.max()) + 1
+        sig = binary_signals(lbl, ka)
+        methods.append(("TF-IDF → HAC", sig, np.array([dct(r, type=2, norm="ortho") for r in sig]), ka))
+
+    if res_p is not None:
+        lbl = pca_labels(res_p["THETA"], k_val)
+        ka  = int(lbl.max()) + 1
+        sig = binary_signals(lbl, ka)
+        methods.append(("PCA/LSA → HAC", sig, np.array([dct(r, type=2, norm="ortho") for r in sig]), ka))
+
+    if res_n is not None:
+        lbl = normalize_labels(res_n["labels"])
+        ka  = int(lbl.max()) + 1
+        sig = binary_signals(lbl, ka)
+        methods.append(("NMF", sig, np.array([dct(r, type=2, norm="ortho") for r in sig]), ka))
+
+    if res_s is not None:
+        lbl = hac_labels(res_s["Z"], k_val, res_s["n_chunks"])
+        ka  = int(lbl.max()) + 1
+        sig = binary_signals(lbl, ka)
+        methods.append(("Cosine-Sim → HAC", sig, np.array([dct(r, type=2, norm="ortho") for r in sig]), ka))
+
+    return methods
+
+
+model_data = _build_model_data(res_tfidf, res_pca, res_nmf, res_sim, _k)
 
 # ── Section 1: DCT Spectra ─────────────────────────────────────────────────────
 st.subheader("DCT Spectra", anchor="dct-spectra")
 st.caption(
     "Magnitude of each DCT coefficient for each cluster's binary presence signal. "
     "Bin 0 = DC (mean presence); bins 1–N = increasing frequency. "
-    "The dashed line marks the low-pass cutoff — coefficients to the right are zeroed "
-    "in the reconstruction below."
+    "The dashed line marks the low-pass cutoff."
 )
 
-_show_bins = min(n_act, 16)  # only show the informative low-frequency portion
+for mi, (method_name, signals_m, coeffs_m, k_act_m) in enumerate(model_data):
+    cluster_names_m = [f"Cluster {chr(65 + i)}" for i in range(k_act_m)]
+    colors_m = [_palette[i % len(_palette)] for i in range(k_act_m)]
 
-fig_spec = go.Figure()
-for i in range(k_act):
-    fig_spec.add_trace(go.Scatter(
-        x=freq_bins[:_show_bins],
-        y=np.abs(coeffs[i, :_show_bins]),
-        mode="lines+markers",
-        name=cluster_names[i],
-        line=dict(color=colors[i], width=2),
-        marker=dict(size=6),
-        hovertemplate=f"{cluster_names[i]}<br>bin %{{x}}<br>|coeff| = %{{y:.4f}}<extra></extra>",
-    ))
-fig_spec.add_vline(x=n_keep - 0.5, line_dash="dash", line_color="gray", line_width=1.5,
-                   annotation_text=f"cutoff = {n_keep}", annotation_position="top right")
-fig_spec.update_layout(
-    height=340,
-    margin=dict(l=60, r=30, t=20, b=50),
-    plot_bgcolor="white",
-    xaxis=dict(title="DCT frequency bin", dtick=1, showgrid=False, zeroline=False,
-               range=[-0.5, _show_bins - 0.5]),
-    yaxis=dict(title="|DCT coefficient|", showgrid=True, gridcolor="#EEEEEE", zeroline=False),
-    legend=dict(x=0.75, y=0.98),
-)
-st.plotly_chart(fig_spec, width="stretch")
+    st.markdown(f"**{method_name}**")
+    fig = go.Figure()
+    for i in range(k_act_m):
+        fig.add_trace(go.Scatter(
+            x=freq_bins[:_show_bins],
+            y=np.abs(coeffs_m[i, :_show_bins]),
+            mode="lines+markers",
+            name=cluster_names_m[i],
+            line=dict(color=colors_m[i], width=2),
+            marker=dict(size=6),
+            hovertemplate=f"{cluster_names_m[i]}<br>bin %{{x}}<br>|coeff| = %{{y:.4f}}<extra></extra>",
+        ))
+    fig.add_vline(x=n_keep - 0.5, line_dash="dash", line_color="gray", line_width=1.5,
+                  annotation_text=f"cutoff = {n_keep}", annotation_position="top right")
+    fig.update_layout(
+        height=280,
+        margin=dict(l=60, r=30, t=20, b=50),
+        plot_bgcolor="white",
+        xaxis=dict(title="DCT frequency bin", dtick=1, showgrid=False, zeroline=False,
+                   range=[-0.5, _show_bins - 0.5]),
+        yaxis=dict(title="|DCT coefficient|", showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+        legend=dict(x=0.75, y=0.98),
+    )
+    st.plotly_chart(fig, width="stretch", key=f"spec_{mi}")
 
 # ── Section 2: Low-pass Reconstruction ────────────────────────────────────────
 st.divider()
 st.subheader("Low-pass Reconstruction", anchor="low-pass")
 st.caption(
-    "IDCT of the first **{n}** coefficients — the structural envelope of each cluster's "
-    "narrative presence. The dashed line is the raw binary signal; the solid line is the "
-    "smooth reconstruction. Adjust the **Low-pass cutoff** slider above to control smoothness."
-    .format(n=n_keep)
+    f"IDCT of the first **{n_keep}** coefficients — the structural envelope of each cluster's "
+    "narrative presence. Dashed = raw binary signal; solid = smooth reconstruction."
 )
 
-fig_lp = go.Figure()
-x_pos = np.linspace(1, 100, n_act)
+for mi, (method_name, signals_m, _, k_act_m) in enumerate(model_data):
+    cluster_names_m = [f"Cluster {chr(65 + i)}" for i in range(k_act_m)]
+    colors_m = [_palette[i % len(_palette)] for i in range(k_act_m)]
+    n_cols = min(k_act_m, 3)
+    n_rows = math.ceil(k_act_m / n_cols)
 
-for i in range(k_act):
-    recon = low_pass(signals[i], n_keep)
-    # raw signal as faint dashed background
-    fig_lp.add_trace(go.Scatter(
-        x=x_pos, y=signals[i],
-        mode="lines",
-        line=dict(color=colors[i], width=1, dash="dot"),
-        opacity=0.3,
-        showlegend=False,
-        hoverinfo="skip",
-    ))
-    # low-pass reconstruction as bold solid line
-    fig_lp.add_trace(go.Scatter(
-        x=x_pos, y=recon,
-        mode="lines",
-        name=cluster_names[i],
-        line=dict(color=colors[i], width=2.5),
-        hovertemplate=f"{cluster_names[i]}<br>pos %{{x:.0f}}<br>envelope = %{{y:.3f}}<extra></extra>",
-    ))
+    st.markdown(f"**{method_name}**")
+    fig = make_subplots(rows=n_rows, cols=n_cols, subplot_titles=cluster_names_m,
+                        horizontal_spacing=0.06, vertical_spacing=0.18)
 
-fig_lp.update_layout(
-    height=380,
-    margin=dict(l=60, r=30, t=20, b=50),
-    plot_bgcolor="white",
-    xaxis=dict(title="Narrative position (1–100)", showgrid=False, zeroline=False),
-    yaxis=dict(title="Presence (0–1)",
-               showgrid=True, gridcolor="#EEEEEE", zeroline=True, zerolinecolor="#CCCCCC"),
-    legend=dict(x=0.01, y=0.98),
-)
-st.plotly_chart(fig_lp, width="stretch")
+    for ci in range(k_act_m):
+        row = ci // n_cols + 1
+        col = ci % n_cols + 1
+        recon = low_pass(signals_m[ci], n_keep)
+        fig.add_trace(go.Scatter(
+            x=x_pos, y=signals_m[ci], mode="lines",
+            line=dict(color=colors_m[ci], width=1, dash="dot"),
+            opacity=0.3, showlegend=False, hoverinfo="skip",
+        ), row=row, col=col)
+        fig.add_trace(go.Scatter(
+            x=x_pos, y=recon, mode="lines",
+            name=cluster_names_m[ci],
+            line=dict(color=colors_m[ci], width=2.5),
+            showlegend=False,
+            hovertemplate=f"{cluster_names_m[ci]}<br>pos %{{x:.0f}}<br>env = %{{y:.3f}}<extra></extra>",
+        ), row=row, col=col)
+
+    fig.update_xaxes(showgrid=False, zeroline=False)
+    fig.update_yaxes(showgrid=True, gridcolor="#EEEEEE", zeroline=True, zerolinecolor="#CCCCCC")
+    fig.update_layout(
+        height=200 * n_rows,
+        margin=dict(l=50, r=20, t=40, b=40),
+        plot_bgcolor="white",
+    )
+    st.plotly_chart(fig, width="stretch", key=f"lp_{mi}")
 
 # ── Section 3: Cross-edition Envelopes ────────────────────────────────────────
 st.divider()
 st.subheader("Cross-edition Envelopes", anchor="cross-edition")
 st.caption(
     "Low-pass reconstruction for every available edition using the same parameters. "
-    "Clusters are aligned by **order of first appearance** (Cluster A = first-appearing "
-    "cluster in narrative order). Convergence of lines = editions agree on the narrative "
-    "rhythm of that cluster; divergence = structural disagreement."
+    "Clusters are aligned by **order of first appearance**. "
+    "Convergence of lines = editions agree on the narrative rhythm; divergence = structural disagreement."
 )
 
-all_edition_data = {}
+# Collect all-edition results for each method
+all_ed = {"tfidf": {}, "pca": {}, "nmf": {}, "sim": {}}
 missing = []
-progress = st.progress(0, text="Computing cross-edition LSA…")
-
 src_list = list(SOURCES_META.keys())
+progress = st.progress(0, text="Computing cross-edition models…")
+
 for ei, sid in enumerate(src_list):
     progress.progress((ei + 1) / len(src_list), text=f"{SOURCES_META[sid]['label']}")
     tp = find_token_file(sid)
     if tp is None:
         missing.append(sid)
         continue
-    res = run_lsa(sid, tp, int(n_chunks), int(min_df), float(max_df), int(n_components))
-    if res is None:
-        missing.append(sid)
-        continue
-    lbl = get_labels(res["THETA"], int(k))
-    k_ed = int(lbl.max()) + 1
-    sig  = binary_signals(lbl, k_ed)
-    recons = np.array([low_pass(sig[i], n_keep) if i < k_ed else np.zeros(n_act)
-                       for i in range(k_act)])
-    all_edition_data[sid] = recons
+
+    r = run_tfidf_hac(sid, tp, _nc, _mn, _mx)
+    if r is not None:
+        all_ed["tfidf"][sid] = hac_labels(r["Z"], _k, r["n_chunks"])
+
+    r = run_pca_hac(sid, tp, _nc, _mn, _mx, _np)
+    if r is not None:
+        all_ed["pca"][sid] = pca_labels(r["THETA"], _k)
+
+    r = run_nmf(sid, tp, _nc, _mn, _mx, _k)
+    if r is not None:
+        all_ed["nmf"][sid] = normalize_labels(r["labels"])
+
+    r = run_sim_hac(sid, tp, _nc, _mn, _mx)
+    if r is not None:
+        all_ed["sim"][sid] = hac_labels(r["Z"], _k, r["n_chunks"])
 
 progress.empty()
 
 if missing:
     st.caption(f"Editions skipped (no token file): {', '.join(missing)}")
 
-if len(all_edition_data) >= 2:
-    _edition_colors = px.colors.qualitative.Dark24
-    n_cols_grid = min(k_act, 3)
-    n_rows_grid = math.ceil(k_act / n_cols_grid)
+_edition_colors = px.colors.qualitative.Dark24
 
-    fig_ed = make_subplots(
-        rows=n_rows_grid, cols=n_cols_grid,
-        subplot_titles=cluster_names[:k_act],
-        horizontal_spacing=0.06,
-        vertical_spacing=0.14,
-    )
 
-    for ci in range(k_act):
-        row = ci // n_cols_grid + 1
-        col = ci % n_cols_grid + 1
-        for ei, (sid, recons) in enumerate(all_edition_data.items()):
+def _render_cross_edition(method_name, ed_labels_dict, k_target, key):
+    if len(ed_labels_dict) < 2:
+        st.info(f"Need at least 2 editions for {method_name}.")
+        return
+
+    # Low-pass envelope per edition: shape (k_target, n_act)
+    ed_envelopes = {}
+    for sid, labels in ed_labels_dict.items():
+        k_ed = int(labels.max()) + 1
+        sig  = binary_signals(labels, k_ed)
+        ed_envelopes[sid] = np.array([
+            low_pass(sig[i], n_keep) if i < k_ed else np.zeros(n_act)
+            for i in range(k_target)
+        ])
+
+    cluster_names_m = [f"Cluster {chr(65 + i)}" for i in range(k_target)]
+    n_cols = min(k_target, 3)
+    n_rows = math.ceil(k_target / n_cols)
+
+    st.markdown(f"**{method_name}**")
+    fig = make_subplots(rows=n_rows, cols=n_cols, subplot_titles=cluster_names_m,
+                        horizontal_spacing=0.06, vertical_spacing=0.14)
+
+    for ci in range(k_target):
+        row = ci // n_cols + 1
+        col = ci % n_cols + 1
+        for ei, (sid, recons) in enumerate(ed_envelopes.items()):
             meta = SOURCES_META[sid]
-            ed_color = _edition_colors[ei % len(_edition_colors)]
-            fig_ed.add_trace(go.Scatter(
+            fig.add_trace(go.Scatter(
                 x=x_pos, y=recons[ci],
                 mode="lines",
                 name=meta["label"],
                 legendgroup=sid,
                 showlegend=(ci == 0),
-                line=dict(color=ed_color, width=1.8),
+                line=dict(color=_edition_colors[ei % len(_edition_colors)], width=1.8),
                 hovertemplate=(
                     f"{meta['label']}<br>pos %{{x:.0f}}<br>envelope = %{{y:.3f}}<extra></extra>"
                 ),
             ), row=row, col=col)
 
-    fig_ed.update_xaxes(showgrid=False, zeroline=False)
-    fig_ed.update_yaxes(showgrid=True, gridcolor="#EEEEEE",
-                        zeroline=True, zerolinecolor="#CCCCCC")
-    fig_ed.update_layout(
-        height=280 * n_rows_grid,
+    fig.update_xaxes(showgrid=False, zeroline=False)
+    fig.update_yaxes(showgrid=True, gridcolor="#EEEEEE", zeroline=True, zerolinecolor="#CCCCCC")
+    fig.update_layout(
+        height=280 * n_rows,
         margin=dict(l=40, r=180, t=40, b=40),
         plot_bgcolor="white",
         legend=dict(
@@ -355,6 +458,10 @@ if len(all_edition_data) >= 2:
             borderwidth=1,
         ),
     )
-    st.plotly_chart(fig_ed, width="stretch")
-else:
-    st.info("Need at least 2 editions with token files for cross-edition comparison.")
+    st.plotly_chart(fig, width="stretch", key=f"ce_{key}")
+
+
+_render_cross_edition("TF-IDF → HAC",     all_ed["tfidf"], _k, "tfidf")
+_render_cross_edition("PCA/LSA → HAC",   all_ed["pca"],   _k, "pca")
+_render_cross_edition("NMF",             all_ed["nmf"],   _k, "nmf")
+_render_cross_edition("Cosine-Sim → HAC", all_ed["sim"],  _k, "sim")

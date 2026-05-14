@@ -1,11 +1,8 @@
 """
-Cross-Edition Cluster Comparison — run HAC across all editions with fixed
-parameters and compare cluster sequences using pairwise Hamming distance and
-Adjusted Rand Index (ARI).
-
-Hold out one parameter to sweep its full valid range and observe how
-cross-edition agreement varies. Both metrics are shown oriented as
-higher = more agreement: (1 − Hamming) and ARI.
+Cross-Edition Cluster Comparison (Cosine-Similarity HAC) — same as
+cluster_comparison_pca.py but replaces TruncatedSVD with a cosine similarity
+matrix. Each chunk's TF-IDF vector is mapped to its similarity profile
+(cosine similarity to every other chunk), then Ward HAC clusters those profiles.
 """
 
 import os
@@ -84,8 +81,10 @@ def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)
         X = vec.fit_transform(chunks_list)
     except ValueError:
         return None
-    tfidf_dense = X.toarray()
-    Z = linkage(pdist(tfidf_dense, metric="euclidean"), method="ward")
+    # Cosine similarity matrix: n_chunks × n_chunks
+    # X is L2-normalized, so X @ X.T = cosine similarity
+    SIM = (X @ X.T).toarray()
+    Z = linkage(pdist(SIM, metric="euclidean"), method="ward")
     return {"Z": Z, "n_chunks": len(chunks_list)}
 
 
@@ -145,16 +144,17 @@ def pairwise_ari_matrix(label_arrays: list) -> np.ndarray:
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
-st.title("Cross-Edition Cluster Comparison")
+st.title("Cross-Edition Comparison — Cosine-Similarity HAC")
 render_toc([
     ("Agreement vs. Parameter",    "agreement-chart"),
     ("Pairwise Distance Matrices", "pairwise-matrices"),
 ])
 st.caption(
-    "Runs HAC across all editions. Each edition is divided into exactly `n_chunks` equal bins "
-    "via `pd.cut` (no overlap). Select a parameter to hold out; it will be swept over its full "
-    "valid range while all other parameters stay fixed. Both **Hamming** (position-by-position "
-    "agreement) and **ARI** (permutation-invariant structural agreement) are reported."
+    "TF-IDF → cosine similarity matrix → Ward HAC. Each chunk is represented by its "
+    "similarity profile to all other chunks (an n_chunks × n_chunks Gram matrix), "
+    "capturing second-order distributional structure rather than raw term overlap. "
+    "Each edition is divided into exactly `n_chunks` equal bins via `pd.cut` (no overlap). "
+    "Both **Hamming** and **ARI** are shown oriented as higher = more agreement."
 )
 
 _c = cfg["controls"]
@@ -288,7 +288,7 @@ fig_line.update_layout(
                showgrid=True, gridcolor="#EEEEEE", zeroline=False),
     legend=dict(x=0.02, y=0.05),
 )
-st.plotly_chart(fig_line, width="stretch")
+st.plotly_chart(fig_line, use_container_width=True)
 
 st.dataframe(
     df_summary[[holdout_param, "mean_hamming", "1_minus_hamming", "mean_ari"]].rename(columns={
@@ -341,7 +341,7 @@ if len(df_sel) >= 2:
             coloraxis_colorbar=dict(title="Hamming"),
         )
         fig_ham.update_traces(textfont_size=11)
-        st.plotly_chart(fig_ham, width="stretch")
+        st.plotly_chart(fig_ham, use_container_width=True)
 
     with col_right:
         st.markdown("**ARI** (1 = identical structure, 0 = random, negative = anti-correlated)")
@@ -354,7 +354,7 @@ if len(df_sel) >= 2:
             coloraxis_colorbar=dict(title="ARI"),
         )
         fig_ari.update_traces(textfont_size=11)
-        st.plotly_chart(fig_ari, width="stretch")
+        st.plotly_chart(fig_ari, use_container_width=True)
 
 # ── Detailed cluster strings ───────────────────────────────────────────────────
 st.divider()

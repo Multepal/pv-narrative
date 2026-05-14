@@ -167,7 +167,8 @@ holdout_param = cols[0].selectbox(
     format_func=lambda x: HOLDOUT_DEFS[x]["label"],
 )
 
-n_chunks  = cols[1].number_input("n_chunks",  min_value=5, max_value=200, value=20, step=1,
+n_chunks  = cols[1].number_input("n_chunks",  min_value=_c["n_chunks"]["min"], max_value=_c["n_chunks"]["max"],
+                                  value=_c["n_chunks"]["default"], step=_c["n_chunks"]["step"],
                                   disabled=(holdout_param == "n_chunks"))
 min_df    = cols[2].number_input("min_df",    _c["min_df"]["min"], _c["min_df"]["max"],
                                   _c["min_df"]["default"], step=_c["min_df"]["step"],

@@ -228,7 +228,7 @@ src_id = cols[0].selectbox(
 _early_token_path = find_token_file(src_id)
 _n_tokens_early = len(load_tokens(src_id, _early_token_path)) if _early_token_path else None
 
-n_chunks   = cols[1].number_input("n_chunks", min_value=5, max_value=200, value=20, step=1)
+n_chunks   = cols[1].number_input("n_chunks", min_value=_c["n_chunks"]["min"], max_value=_c["n_chunks"]["max"], value=_c["n_chunks"]["default"], step=_c["n_chunks"]["step"])
 min_df     = cols[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
 max_df     = cols[2].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
 _ng        = _c["ngram_range"]
@@ -314,8 +314,8 @@ if _selected_k is not None:
     _n_top_words = _c["n_top_words"]["default"]
     _v = cfg["visualization"]
     _ctl_cols = st.columns(3)
-    _h_n_chunks  = _ctl_cols[0].number_input("n_chunks", min_value=5, max_value=200,
-                                              value=n_chunks, step=1, key="ha_nc_n_chunks")
+    _h_n_chunks  = _ctl_cols[0].number_input("n_chunks", min_value=_c["n_chunks"]["min"], max_value=_c["n_chunks"]["max"],
+                                              value=n_chunks, step=_c["n_chunks"]["step"], key="ha_nc_n_chunks")
     _h_min_df    = _ctl_cols[1].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"],
                                               min_df, step=_c["min_df"]["step"], key="ha_nc_min_df")
     _h_max_df    = _ctl_cols[1].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"],
