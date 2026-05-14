@@ -29,6 +29,9 @@ pages:
   - path: pages/model_diagnostics_nc.py
     title: Topic Modeling (n-chunks)
     icon: "⚙️"
+  - path: pages/pca_lsa.py
+    title: PCA / LSA Analysis
+    icon: "🔬"
   # - path: pages/about.py
   #   title: About
   #   icon: "ℹ️"

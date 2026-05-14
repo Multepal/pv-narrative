@@ -1,21 +1,42 @@
-Plans
+PROJECT INFO
+============
 
-For all plans, you are an expert data scientist and digital humanist.
+Metadata:
+    title: Operationalizing Structuralism
+    subtitle: The Popol Wuj
+    author: Rafael C. Alvarado
+    affiliation: School of Data Science, University of Virginia
+    date: May 2026
 
-Plan: Compare Clusters Across Parameters
+Rules:
+    - For ALL plans, you are an expert data scientist and digital humanist.
+    - Build ALL code in Python using the conda environment `pv-narrative`.   
+    - NEVER edit this file unless explicitly asked to do so.
+    - Interpret the phrase "Make it so" as permission to complete the task without asking permission unless there is a pressing question.
+    - ALWAYS commit code before proceding with the execution of plan.
+    - ALWAYS be ready to roll back to the state of the code before the plan was executed.
+    - ALWAYS show a mug-of-beer icon when you are finished with a task.
 
-1. The end goal is to have a page that documents the degree of coherency -- for lack of a better word at this point -- for a given set of parameters, including book edition. The result should be table that has a feature for each parameter and and outcomes as a string of cluster letters, one for each chunk. 
+Plans:
+    Plan: Compare Clusters Across Parameters
+    Steps:
+        - The end goal is to have a page that documents the degree of coherency -- for lack of a better word at this point -- for a given set of parameters, including book edition. The result should be table that has a feature for each parameter and and outcomes as a string of cluster letters, one for each chunk. 
+        - Then, for each collecton of paramaters -- except edition -- I want to compute the mean pairwise hamming distance among the clister letter strings for the editions.
 
-2. Then, for each collecton of paramaters -- except edition -- I want to compute the mean pairwise hamming distance among the clister letter strings for the editions.
+    Plan: Go Meta
+    Steps: 
+        - Allow the user to pick a hold-out paramater, e.g. k clusters, and run the algorithm for each value of the held-out parameter.
+        - Summarize the results in a table where the held-parameter is a feature. 
 
-Plan: Go Meta
+    Plan: Hamming vs Levenshtein Distance
+    
+        - Review the cluster comparison and grid search pages and let me know if you think I should switch from hamming to levenshtein distance. 
 
-1. Allow the user to pick a hold-out paramater, e.g. k clusters, and run the algorithm for each value of the held-out parameter.
-
-2. Summarize the results in a table where the held-parameter is a feature. 
-
-Plan: Hamming vs Levenshtein Distance
-
-1. Review the cluster comparison and grid search pages and let me know if you think I should switch from hamming to levenshtein distance. 
-
-Plan: 
+    Plan: Try PCA / LSA
+    Steps:
+        - Create a new page in the streamlit app that uses PCA (LSA) to generate a HAC model of each text. Will it be useful? Do components behave as clusters? Consider if components should be split into two poles, each representing a component. 
+    
+    Plan: TOC
+    Steps:
+        - Investigate if all the pages in the streamlit app can have a page-level table of contents in the right margin of each page.
+        - If this can be done quickly and elegantly, make it so.
