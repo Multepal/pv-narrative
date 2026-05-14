@@ -55,6 +55,6 @@ Continue to state hypothesis ...
 
     <div>
 
-    "Following Hearst (1997), we segment the text using overlapping sliding windows of width $W$, which implement a rectangular kernel smoother of bandwidth $W$ over the term-occurrence signals. The step size $s = W(1−ρ)$ controls sampling density; smaller steps produce denser, smoother topic trajectories without altering the averaging bandwidth.
+    Following Hearst (1997), we segment the text using overlapping sliding windows of width $W$, which implement a rectangular kernel smoother of bandwidth $W$ over the term-occurrence signals. The step size $s = W(1−ρ)$ controls sampling density; smaller steps produce denser, smoother topic trajectories without altering the averaging bandwidth.
 
     </div>
