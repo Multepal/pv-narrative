@@ -41,6 +41,9 @@ pages:
   - path: pages/grid_search_nmf.py
     title: Grid Search (NMF)
     icon: "🔍"
+  - path: pages/dct_analysis.py
+    title: Narrative DCT
+    icon: "〰️"
   # - path: pages/about.py
   #   title: About
   #   icon: "ℹ️"
