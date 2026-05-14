@@ -8,15 +8,6 @@ Metadata:
     affiliation: School of Data Science, University of Virginia
     date: May 2026
 
-Rules:
-    - For ALL plans, you are an expert data scientist and digital humanist.
-    - Build ALL code in Python using the conda environment `pv-narrative`.   
-    - NEVER edit this file unless explicitly asked to do so.
-    - Interpret the phrase "Make it so" as permission to complete the task without asking permission unless there is a pressing question.
-    - ALWAYS commit code before proceding with the execution of plan.
-    - ALWAYS be ready to roll back to the state of the code before the plan was executed.
-    - ALWAYS show a mug-of-beer icon when you are finished with a task.
-
 Plans:
     Plan: Compare Clusters Across Parameters
     Steps:
