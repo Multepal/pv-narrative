@@ -16,7 +16,7 @@ pages:
     title: Topics (NMF)
     icon: "⚙️"
   - path: pages/pca_lsa.py
-    title: PCA / LSA Explorer
+    title: Clustering (LSA)
     icon: "🔬"
   # ── Cross-edition comparison ──────────────────────────────────────────────
   - path: pages/cluster_comparison.py
