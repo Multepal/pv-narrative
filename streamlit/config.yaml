@@ -23,7 +23,7 @@ pages:
     title: Cross-Edition (TF-IDF)
     icon: "📊"
   - path: pages/cluster_comparison_pca.py
-    title: Cross-Edition (PCA)
+    title: Cross-Edition (LSA)
     icon: "📊"
   - path: pages/cluster_comparison_sim.py
     title: Cross-Edition (Cosine-Sim)
@@ -33,7 +33,7 @@ pages:
     title: Grid Search (TF-IDF)
     icon: "🔍"
   - path: pages/grid_search_pca.py
-    title: Grid Search (PCA)
+    title: Grid Search (LSA)
     icon: "🔍"
   - path: pages/grid_search_nmf.py
     title: Grid Search (NMF)
