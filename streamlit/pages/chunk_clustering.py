@@ -13,6 +13,7 @@ from wordcloud import WordCloud
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster, leaves_list, dendrogram as scipy_dendrogram
+from toc import render_toc
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -220,6 +221,12 @@ def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
 
 # ── Controls ──────────────────────────────────────────────────────────────────
 st.title("Chunk Clustering — Popol Wuj")
+render_toc([
+    ("Merge Height Scree Plot", "scree-plot"),
+    ("Chunk Dendrogram",        "dendrogram"),
+    ("Cluster Membership",      "cluster-membership"),
+    ("Cluster Word Clouds",     "word-clouds"),
+])
 
 src_ids = list(SOURCES_META.keys())
 _col_ratios = cfg["layout"]["column_ratios"]
@@ -293,7 +300,7 @@ if st.session_state.get("_cluster_linkage_key") != _linkage_key:
 _selected_k = st.session_state.get("cluster_k", cfg["controls"]["n_clusters"]["default"])
 
 # ── Section 1: Scree plot (click to select k) ────────────────────────────────
-st.subheader("Merge Height Scree Plot")
+st.subheader("Merge Height Scree Plot", anchor="scree-plot")
 st.caption(
     "Ward merge distance required to reduce k clusters to k−1. "
     "Look for the elbow where the line flattens. **Click a point to select k.**"
@@ -342,7 +349,7 @@ cluster_to_color = {c: _palette[i % len(_palette)] for i, c in enumerate(unique_
 _key_sfx = f"{_linkage_key}_{_selected_k}"
 
 st.divider()
-st.subheader("Chunk Dendrogram")
+st.subheader("Chunk Dendrogram", anchor="dendrogram")
 st.caption("Ward linkage on Euclidean distances between L2-normalized TF-IDF chunk vectors. Dashed line = cut threshold.")
 
 # Build dendrogram in default orientation, then rotate 90° CCW by swapping x↔y
@@ -400,7 +407,7 @@ st.caption(
 cluster_table = make_cluster_table(tfidf_dense, words, labels, n_top_words)
 
 st.divider()
-st.subheader("Cluster Membership in Narrative Order")
+st.subheader("Cluster Membership in Narrative Order", anchor="cluster-membership")
 st.caption(
     "Rows = clusters labeled by top terms, columns = chunks in sequential narrative order. "
     "Colors match the dendrogram branches."
@@ -453,7 +460,7 @@ st.plotly_chart(fig_seq, width='stretch', key=f"seq_{_key_sfx}")
 
 # ── Section 4: Cluster word clouds ───────────────────────────────────────────
 st.divider()
-st.subheader("Cluster Word Clouds")
+st.subheader("Cluster Word Clouds", anchor="word-clouds")
 
 _v = cfg["visualization"]
 _wc_means = (

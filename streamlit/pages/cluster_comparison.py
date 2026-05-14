@@ -19,6 +19,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import adjusted_rand_score
 from scipy.spatial.distance import pdist, hamming
 from scipy.cluster.hierarchy import linkage, fcluster
+from toc import render_toc
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -145,6 +146,10 @@ def pairwise_ari_matrix(label_arrays: list) -> np.ndarray:
 
 # ── Controls ──────────────────────────────────────────────────────────────────
 st.title("Cross-Edition Cluster Comparison")
+render_toc([
+    ("Agreement vs. Parameter",    "agreement-chart"),
+    ("Pairwise Distance Matrices", "pairwise-matrices"),
+])
 st.caption(
     "Runs HAC across all editions. Each edition is divided into exactly `n_chunks` equal bins "
     "via `pd.cut` (no overlap). Select a parameter to hold out; it will be swept over its full "
@@ -248,7 +253,7 @@ df_summary = pd.DataFrame(summary_rows)
 
 # ── Sweep line chart ──────────────────────────────────────────────────────────
 x_label = HOLDOUT_DEFS[holdout_param]["label"]
-st.subheader(f"Cross-Edition Agreement vs. {x_label}")
+st.subheader(f"Cross-Edition Agreement vs. {x_label}", anchor="agreement-chart")
 st.caption(
     "Both metrics are shown as **higher = more agreement**. "
     "**1 − Hamming** measures position-by-position agreement; "
@@ -297,7 +302,7 @@ st.dataframe(
 
 # ── Pairwise matrices for a selected sweep value ───────────────────────────────
 st.divider()
-st.subheader("Pairwise Distance / Agreement Matrices")
+st.subheader("Pairwise Distance / Agreement Matrices", anchor="pairwise-matrices")
 st.caption(
     "Select a sweep value to inspect how each pair of editions compares. "
     "**Hamming** (left): lower = more similar. "

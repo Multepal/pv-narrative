@@ -14,6 +14,7 @@ from plotly.subplots import make_subplots
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_distances
+from toc import render_toc
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -209,6 +210,11 @@ def render_heatmap(THETA, PHI, chunks_list, key="heatmap"):
 
 # ── Controls ──────────────────────────────────────────────────────────────────
 st.title("Topic Modeling (n-chunks) — Popol Wuj")
+render_toc([
+    ("Coherence & Independence", "coherence-chart"),
+    ("Topic Heatmap",            "heatmap"),
+    ("Topic Word Clouds",        "word-clouds"),
+])
 
 src_ids = list(SOURCES_META.keys())
 _col_ratios = cfg["layout"]["column_ratios"]
@@ -254,7 +260,7 @@ elbow_df = run_elbow(src_id, token_path, n_chunks, min_df, max_df,
 _m = dict(l=10, r=120, t=40, b=40)
 _selected_k = st.session_state.get("selected_nc_k")
 
-st.subheader("Coherence & Independence vs. Number of Topics")
+st.subheader("Coherence & Independence vs. Number of Topics", anchor="coherence-chart")
 st.caption(
     "UMass coherence (blue, left axis): higher = more coherent. "
     "Mean pairwise cosine distance (red, right axis): higher = more independent. "
@@ -303,7 +309,7 @@ else:
 _selected_k = st.session_state.get("selected_nc_k")
 if _selected_k is not None:
     st.divider()
-    st.subheader(f"Heatmap — k = {_selected_k}")
+    st.subheader(f"Heatmap — k = {_selected_k}", anchor="heatmap")
 
     _n_top_words = _c["n_top_words"]["default"]
     _v = cfg["visualization"]
@@ -337,7 +343,7 @@ if _selected_k is not None:
         render_heatmap(THETA, PHI, chunks_list, key=f"nc_heat_{_selected_k}")
 
         st.divider()
-        st.subheader("Topic Word Clouds")
+        st.subheader("Topic Word Clouds", anchor="word-clouds")
         _wc_topic_seq = THETA.idxmax(axis=1).tolist()
         _wc_topic_order = []
         for t in _wc_topic_seq:

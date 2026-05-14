@@ -17,6 +17,7 @@ import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.spatial.distance import pdist, hamming
 from scipy.cluster.hierarchy import linkage, fcluster
+from toc import render_toc
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -106,6 +107,11 @@ st.markdown(
 )
 
 st.title("Parameter Grid Search")
+render_toc([
+    ("Hamming vs. k",         "hamming-chart"),
+    ("Optimal k Distribution","k-distribution"),
+    ("Summary",               "summary"),
+])
 st.caption(
     "For each combination of non-k parameters, linkage is computed once per edition "
     "then k is swept from 2–20 cheaply. Reports the optimal k* and minimum mean pairwise "
@@ -188,7 +194,7 @@ df_curves  = pd.DataFrame(curve_rows)
 df_summary = pd.DataFrame(summary_rows).sort_values("min_hamming").reset_index(drop=True)
 
 # ── Spaghetti plot ─────────────────────────────────────────────────────────────
-st.subheader("Hamming vs. k — All Combinations")
+st.subheader("Hamming vs. k — All Combinations", anchor="hamming-chart")
 st.caption(
     "Each gray curve = one parameter combination. "
     "Bold blue = mean across all combinations. "
@@ -229,7 +235,7 @@ st.plotly_chart(fig, width="stretch")
 
 # ── k* distribution ────────────────────────────────────────────────────────────
 st.divider()
-st.subheader("Distribution of Optimal k*")
+st.subheader("Distribution of Optimal k*", anchor="k-distribution")
 st.caption("How many parameter combinations achieve their minimum Hamming distance at each k.")
 
 k_star_counts = (
@@ -252,6 +258,6 @@ st.plotly_chart(fig_bar, width="stretch")
 
 # ── Summary table ──────────────────────────────────────────────────────────────
 st.divider()
-st.subheader("Summary — Sorted by Minimum Hamming Distance")
+st.subheader("Summary — Sorted by Minimum Hamming Distance", anchor="summary")
 st.caption("Most coherent parameter combinations first.")
 st.dataframe(df_summary, use_container_width=True, hide_index=True)

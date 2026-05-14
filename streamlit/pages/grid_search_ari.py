@@ -21,6 +21,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import adjusted_rand_score
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
+from toc import render_toc
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -101,6 +102,11 @@ st.markdown(
 )
 
 st.title("Parameter Grid Search (ARI)")
+render_toc([
+    ("ARI vs. k",             "ari-chart"),
+    ("Optimal k Distribution","k-distribution"),
+    ("Summary",               "summary"),
+])
 st.caption(
     "For each combination of non-k parameters, linkage is computed once per edition "
     "then k is swept from 2–20 cheaply. Reports the optimal k* and maximum mean pairwise "
@@ -185,7 +191,7 @@ df_curves  = pd.DataFrame(curve_rows)
 df_summary = pd.DataFrame(summary_rows).sort_values("max_ari", ascending=False).reset_index(drop=True)
 
 # ── Spaghetti plot ─────────────────────────────────────────────────────────────
-st.subheader("ARI vs. k — All Combinations")
+st.subheader("ARI vs. k — All Combinations", anchor="ari-chart")
 st.caption(
     "Each gray curve = one parameter combination. "
     "Bold blue = mean across all combinations. "
@@ -226,7 +232,7 @@ st.plotly_chart(fig, width="stretch")
 
 # ── k* distribution ────────────────────────────────────────────────────────────
 st.divider()
-st.subheader("Distribution of Optimal k*")
+st.subheader("Distribution of Optimal k*", anchor="k-distribution")
 st.caption("How many parameter combinations achieve their maximum ARI at each k.")
 
 k_star_counts = (
@@ -249,6 +255,6 @@ st.plotly_chart(fig_bar, width="stretch")
 
 # ── Summary table ──────────────────────────────────────────────────────────────
 st.divider()
-st.subheader("Summary — Sorted by Maximum ARI")
+st.subheader("Summary — Sorted by Maximum ARI", anchor="summary")
 st.caption("Most coherent parameter combinations first (higher ARI = more agreement across editions).")
 st.dataframe(df_summary, use_container_width=True, hide_index=True)

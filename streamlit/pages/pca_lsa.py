@@ -14,6 +14,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram as scipy_dendrogram
+from toc import render_toc
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -160,6 +161,14 @@ def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
 
 # ── Controls ──────────────────────────────────────────────────────────────────
 st.title("PCA / LSA Analysis — Popol Wuj")
+render_toc([
+    ("HAC Dendrogram",           "hac-dendrogram"),
+    ("Cluster Membership",       "cluster-membership"),
+    ("Cluster Component Profiles","cluster-profiles"),
+    ("Component Poles",          "component-poles"),
+    ("Variance Explained",       "variance-explained"),
+    ("Component Scores",         "component-scores"),
+])
 st.caption(
     "LSA = TF-IDF + truncated SVD. "
     "Unlike NMF, components are **bipolar**: each has a positive pole (dominant terms) "
@@ -227,7 +236,7 @@ _dist = pdist(THETA, metric='euclidean')
 _Z    = linkage(_dist, method='ward')
 _z_max = float(_Z[:, 2].max())
 
-st.subheader("HAC Dendrogram (Ward on PCA Score Vectors)")
+st.subheader("HAC Dendrogram (Ward on PCA Score Vectors)", anchor="hac-dendrogram")
 st.caption(
     "Hierarchical clustering of chunks using their PCA scores as features. "
     "Click a point to select k. Use the scree plot at the bottom to change n_components."
@@ -316,7 +325,7 @@ st.caption(
 
 # ── Section 2: Cluster membership strip ────────────────────────────────────────
 st.divider()
-st.subheader("Cluster Membership in Narrative Order")
+st.subheader("Cluster Membership in Narrative Order", anchor="cluster-membership")
 st.caption("Colors match the dendrogram branches.")
 
 _row_h = max(40, cfg["layout"]["heatmap_row_height_px"])
@@ -359,7 +368,7 @@ for _i, _c in enumerate(_unique):
 st.plotly_chart(fig_strip, width='stretch', key=f"lsa_strip_{_key_sfx}")
 
 # ── Cluster centroid table ─────────────────────────────────────────────────────
-st.subheader("Cluster Component Profiles")
+st.subheader("Cluster Component Profiles", anchor="cluster-profiles")
 st.caption(
     "Mean PCA score per cluster and component. "
     "Red = positive pole, blue = negative pole. "
@@ -415,7 +424,7 @@ st.plotly_chart(fig_centroid, width='stretch', key=f"lsa_centroid_{_key_sfx}")
 
 # ── Section 3: Bipolar component word clouds ───────────────────────────────────
 st.divider()
-st.subheader("Component Poles (Bipolar Word Clouds)")
+st.subheader("Component Poles (Bipolar Word Clouds)", anchor="component-poles")
 st.caption(
     "**Left (blue) = positive pole**: terms most strongly associated with this component. "
     "**Right (red) = negative pole**: terms that contrast with the positive pole. "
@@ -457,7 +466,7 @@ for comp_idx in range(_selected_n):
 
 # ── Section 4: Variance Explained (Scree Plot) ────────────────────────────────
 st.divider()
-st.subheader("Variance Explained (Scree Plot)")
+st.subheader("Variance Explained (Scree Plot)", anchor="variance-explained")
 st.caption("Per-component and cumulative variance explained. **Click a bar or point to select n_components.**")
 
 _comp_vals = list(range(1, len(explained) + 1))
@@ -493,7 +502,7 @@ st.success(f"n_components = {_selected_n} · {_cum_var[_selected_n - 1] * 100:.1
 
 # ── Section 5: Component score heatmap ────────────────────────────────────────
 st.divider()
-st.subheader("Component Scores Across Chunks")
+st.subheader("Component Scores Across Chunks", anchor="component-scores")
 st.caption(
     "Diverging colorscale (red = positive, blue = negative). "
     "Chunks with large absolute scores are strongly associated with a component's pole."
