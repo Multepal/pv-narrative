@@ -32,6 +32,12 @@ pages:
   - path: pages/pca_lsa.py
     title: PCA / LSA Analysis
     icon: "🔬"
+  - path: pages/cluster_comparison_pca.py
+    title: Cross-Edition Comparison (PCA)
+    icon: "📊"
+  - path: pages/grid_search_pca.py
+    title: Grid Search (PCA)
+    icon: "🔍"
   # - path: pages/about.py
   #   title: About
   #   icon: "ℹ️"
