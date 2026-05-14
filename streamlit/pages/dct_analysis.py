@@ -16,8 +16,10 @@ import yaml
 import streamlit as st
 import pandas as pd
 import numpy as np
+import math
 import plotly.graph_objects as go
 import plotly.express as px
+from plotly.subplots import make_subplots
 from scipy.fft import dct, idct
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
@@ -309,34 +311,50 @@ if missing:
 
 if len(all_edition_data) >= 2:
     _edition_colors = px.colors.qualitative.Dark24
-    cluster_cols = st.columns(min(k_act, 3))
+    n_cols_grid = min(k_act, 3)
+    n_rows_grid = math.ceil(k_act / n_cols_grid)
+
+    fig_ed = make_subplots(
+        rows=n_rows_grid, cols=n_cols_grid,
+        subplot_titles=cluster_names[:k_act],
+        horizontal_spacing=0.06,
+        vertical_spacing=0.14,
+    )
 
     for ci in range(k_act):
-        col = cluster_cols[ci % len(cluster_cols)]
-        fig_ed = go.Figure()
+        row = ci // n_cols_grid + 1
+        col = ci % n_cols_grid + 1
         for ei, (sid, recons) in enumerate(all_edition_data.items()):
             meta = SOURCES_META[sid]
             ed_color = _edition_colors[ei % len(_edition_colors)]
             fig_ed.add_trace(go.Scatter(
                 x=x_pos, y=recons[ci],
                 mode="lines",
-                name=f"{meta['label']}",
+                name=meta["label"],
+                legendgroup=sid,
+                showlegend=(ci == 0),
                 line=dict(color=ed_color, width=1.8),
                 hovertemplate=(
                     f"{meta['label']}<br>pos %{{x:.0f}}<br>envelope = %{{y:.3f}}<extra></extra>"
                 ),
-            ))
-        fig_ed.update_layout(
-            title=dict(text=cluster_names[ci], font=dict(size=13), x=0.05),
-            height=260,
-            margin=dict(l=40, r=10, t=36, b=40),
-            plot_bgcolor="white",
-            xaxis=dict(title="Narrative position", showgrid=False, zeroline=False),
-            yaxis=dict(range=[-0.2, 1.2], showgrid=True, gridcolor="#EEEEEE",
-                       zeroline=True, zerolinecolor="#CCCCCC"),
-            showlegend=(ci == 0),
-            legend=dict(font=dict(size=9), x=0, y=1),
-        )
-        col.plotly_chart(fig_ed, width="stretch", key=f"dct_ed_{ci}")
+            ), row=row, col=col)
+
+    fig_ed.update_xaxes(showgrid=False, zeroline=False)
+    fig_ed.update_yaxes(range=[-0.2, 1.2], showgrid=True, gridcolor="#EEEEEE",
+                        zeroline=True, zerolinecolor="#CCCCCC")
+    fig_ed.update_layout(
+        height=280 * n_rows_grid,
+        margin=dict(l=40, r=180, t=40, b=40),
+        plot_bgcolor="white",
+        legend=dict(
+            x=1.02, y=0.5,
+            xanchor="left", yanchor="middle",
+            font=dict(size=10),
+            bgcolor="rgba(255,255,255,0.85)",
+            bordercolor="#CCCCCC",
+            borderwidth=1,
+        ),
+    )
+    st.plotly_chart(fig_ed, width="stretch")
 else:
     st.info("Need at least 2 editions with token files for cross-edition comparison.")
