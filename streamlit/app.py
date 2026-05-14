@@ -1,6 +1,9 @@
 import os
+import sys
 import yaml
 import streamlit as st
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), "pages"))
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
