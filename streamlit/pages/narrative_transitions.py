@@ -87,13 +87,22 @@ def run_nmf(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1))
     return {"THETA": THETA, "PHI": PHI, "n_chunks": len(chunks_list)}
 
 
-def build_fsm_figure(K, T_prob, PHI, colors, min_prob=0.1):
-    """Directed graph: nodes = topics, edges = transition probabilities >= min_prob."""
-    # Circular layout, starting at top
-    angles = np.linspace(np.pi / 2, np.pi / 2 + 2 * np.pi, K, endpoint=False)
-    nx_pos = np.cos(angles)
-    ny_pos = np.sin(angles)
-    node_r = 0.20   # visual radius used to set arrow tips inside node markers
+def build_fsm_figure(K, T_prob, PHI, colors, labels, min_prob=0.1):
+    """Directed graph: nodes ordered by first appearance along x-axis.
+    Forward edges arc above; backward edges arc below."""
+    # First-appearance order
+    rank = {}
+    for lbl in labels:
+        if lbl not in rank:
+            rank[lbl] = len(rank)
+    for ti in range(K):
+        if ti not in rank:
+            rank[ti] = len(rank)
+
+    spacing = 2.0
+    node_x  = np.array([rank[ti] * spacing for ti in range(K)], dtype=float)
+    node_y  = np.zeros(K, dtype=float)
+    node_r  = 0.22  # arrow-tip offset from node centre
 
     fig = go.Figure()
 
@@ -106,44 +115,39 @@ def build_fsm_figure(K, T_prob, PHI, colors, min_prob=0.1):
             lw    = 1.0 + p * 5.0
 
             if i == j:
-                # Self-loop: small circle offset radially outward from node
-                offset   = 0.35
-                loop_r   = 0.18
-                cx       = nx_pos[i] * (1 + offset)
-                cy       = ny_pos[i] * (1 + offset)
-                t_loop   = np.linspace(0, 2 * np.pi, 60)
+                # Self-loop: small circle above the node
+                loop_r = 0.30
+                cy     = node_y[i] + loop_r + 0.10
+                t_loop = np.linspace(0, 2 * np.pi, 60)
                 fig.add_trace(go.Scatter(
-                    x=cx + loop_r * np.cos(t_loop),
-                    y=cy + loop_r * np.sin(t_loop),
+                    x=node_x[i] + loop_r * np.cos(t_loop),
+                    y=cy        + loop_r * np.sin(t_loop),
                     mode="lines",
                     line=dict(color=color, width=lw),
                     showlegend=False, hoverinfo="skip",
                 ))
-                # Probability label at top of loop
                 fig.add_annotation(
-                    x=cx, y=cy + loop_r + 0.08,
+                    x=node_x[i], y=cy + loop_r + 0.10,
                     text=f"{p:.2f}", showarrow=False,
                     font=dict(size=9, color=color),
                     bgcolor="white", opacity=0.85,
                 )
             else:
-                # Quadratic Bezier, curved left relative to i→j direction
-                x1, y1 = nx_pos[i], ny_pos[i]
-                x2, y2 = nx_pos[j], ny_pos[j]
-                mx, my = (x1 + x2) / 2, (y1 + y2) / 2
-                dx, dy = x2 - x1, y2 - y1
-                perp_len = np.sqrt(dx * dx + dy * dy) + 1e-9
-                px_perp  = -dy / perp_len
-                py_perp  =  dx / perp_len
-                curvature = 0.35
-                cpx = mx + curvature * px_perp
-                cpy = my + curvature * py_perp
+                x1, y1 = node_x[i], node_y[i]
+                x2, y2 = node_x[j], node_y[j]
+                span   = abs(rank[j] - rank[i])
+                # Arc height scales with span; forward above, backward below
+                h = 0.5 + span * 0.20
+                if rank[j] > rank[i]:
+                    cpy = h       # forward: above axis
+                else:
+                    cpy = -h      # backward: below axis
+                cpx = (x1 + x2) / 2
 
                 t  = np.linspace(0, 1, 60)
                 bx = (1 - t) ** 2 * x1 + 2 * (1 - t) * t * cpx + t ** 2 * x2
                 by = (1 - t) ** 2 * y1 + 2 * (1 - t) * t * cpy + t ** 2 * y2
 
-                # Arrow tip: stop short of node centre by node_r
                 ddx = x2 - bx[-10]
                 ddy = y2 - by[-10]
                 dd  = np.sqrt(ddx ** 2 + ddy ** 2) + 1e-9
@@ -164,18 +168,17 @@ def build_fsm_figure(K, T_prob, PHI, colors, min_prob=0.1):
                     arrowwidth=max(1.0, lw * 0.7),
                     arrowcolor=color,
                 )
-                # Probability label at Bezier midpoint
                 fig.add_annotation(
-                    x=float((1-0.5)**2*x1 + 2*(1-0.5)*0.5*cpx + 0.5**2*x2),
-                    y=float((1-0.5)**2*y1 + 2*(1-0.5)*0.5*cpy + 0.5**2*y2),
+                    x=float(cpx), y=float(cpy) + (0.08 if cpy >= 0 else -0.14),
                     text=f"{p:.2f}", showarrow=False,
                     font=dict(size=9, color=color),
                     bgcolor="white", opacity=0.85,
                 )
 
-    # Nodes on top
+    # Nodes — sorted by rank for correct x placement
+    ordered = sorted(range(K), key=lambda ti: rank[ti])
     fig.add_trace(go.Scatter(
-        x=nx_pos, y=ny_pos,
+        x=node_x, y=node_y,
         mode="markers+text",
         marker=dict(size=44, color=colors[:K], line=dict(color="white", width=2)),
         text=[f"T{i}" for i in range(K)],
@@ -186,12 +189,15 @@ def build_fsm_figure(K, T_prob, PHI, colors, min_prob=0.1):
         hoverinfo="text",
     ))
 
+    x_lo = -1.0
+    x_hi = (K - 1) * spacing + 1.0
+    max_h = 0.5 + (K - 1) * 0.20 + 0.70  # tallest possible arc + self-loop
     fig.update_layout(
-        height=520,
+        height=420,
         margin=dict(l=20, r=20, t=20, b=20),
         plot_bgcolor="white",
-        xaxis=dict(visible=False, range=[-1.8, 1.8]),
-        yaxis=dict(visible=False, range=[-1.8, 1.8], scaleanchor="x"),
+        xaxis=dict(visible=False, range=[x_lo, x_hi]),
+        yaxis=dict(visible=False, range=[-max_h, max_h]),
     )
     return fig
 
@@ -371,7 +377,7 @@ st.caption(
 )
 
 _min_prob = st.slider("Minimum probability to show", 0.0, 0.5, 0.1, 0.05, format="%.2f")
-fig_fsm = build_fsm_figure(K, T_prob, PHI, _colors, min_prob=_min_prob)
+fig_fsm = build_fsm_figure(K, T_prob, PHI, _colors, labels, min_prob=_min_prob)
 st.plotly_chart(fig_fsm, width="stretch")
 
 st.divider()
