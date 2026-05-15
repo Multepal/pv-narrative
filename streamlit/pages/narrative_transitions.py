@@ -87,11 +87,121 @@ def run_nmf(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1))
     return {"THETA": THETA, "PHI": PHI, "n_chunks": len(chunks_list)}
 
 
+def build_fsm_figure(K, T_prob, PHI, colors, min_prob=0.1):
+    """Directed graph: nodes = topics, edges = transition probabilities >= min_prob."""
+    # Circular layout, starting at top
+    angles = np.linspace(np.pi / 2, np.pi / 2 + 2 * np.pi, K, endpoint=False)
+    nx_pos = np.cos(angles)
+    ny_pos = np.sin(angles)
+    node_r = 0.20   # visual radius used to set arrow tips inside node markers
+
+    fig = go.Figure()
+
+    for i in range(K):
+        for j in range(K):
+            p = float(T_prob[i, j])
+            if p < min_prob:
+                continue
+            color = colors[i]
+            lw    = 1.0 + p * 5.0
+
+            if i == j:
+                # Self-loop: small circle offset radially outward from node
+                offset   = 0.35
+                loop_r   = 0.18
+                cx       = nx_pos[i] * (1 + offset)
+                cy       = ny_pos[i] * (1 + offset)
+                t_loop   = np.linspace(0, 2 * np.pi, 60)
+                fig.add_trace(go.Scatter(
+                    x=cx + loop_r * np.cos(t_loop),
+                    y=cy + loop_r * np.sin(t_loop),
+                    mode="lines",
+                    line=dict(color=color, width=lw),
+                    showlegend=False, hoverinfo="skip",
+                ))
+                # Probability label at top of loop
+                fig.add_annotation(
+                    x=cx, y=cy + loop_r + 0.08,
+                    text=f"{p:.2f}", showarrow=False,
+                    font=dict(size=9, color=color),
+                    bgcolor="white", opacity=0.85,
+                )
+            else:
+                # Quadratic Bezier, curved left relative to i→j direction
+                x1, y1 = nx_pos[i], ny_pos[i]
+                x2, y2 = nx_pos[j], ny_pos[j]
+                mx, my = (x1 + x2) / 2, (y1 + y2) / 2
+                dx, dy = x2 - x1, y2 - y1
+                perp_len = np.sqrt(dx * dx + dy * dy) + 1e-9
+                px_perp  = -dy / perp_len
+                py_perp  =  dx / perp_len
+                curvature = 0.35
+                cpx = mx + curvature * px_perp
+                cpy = my + curvature * py_perp
+
+                t  = np.linspace(0, 1, 60)
+                bx = (1 - t) ** 2 * x1 + 2 * (1 - t) * t * cpx + t ** 2 * x2
+                by = (1 - t) ** 2 * y1 + 2 * (1 - t) * t * cpy + t ** 2 * y2
+
+                # Arrow tip: stop short of node centre by node_r
+                ddx = x2 - bx[-10]
+                ddy = y2 - by[-10]
+                dd  = np.sqrt(ddx ** 2 + ddy ** 2) + 1e-9
+                tip_x = x2 - node_r * ddx / dd
+                tip_y = y2 - node_r * ddy / dd
+
+                fig.add_trace(go.Scatter(
+                    x=bx, y=by, mode="lines",
+                    line=dict(color=color, width=lw),
+                    showlegend=False, hoverinfo="skip",
+                ))
+                fig.add_annotation(
+                    x=tip_x, y=tip_y,
+                    ax=bx[-12], ay=by[-12],
+                    xref="x", yref="y", axref="x", ayref="y",
+                    showarrow=True,
+                    arrowhead=2, arrowsize=1.5,
+                    arrowwidth=max(1.0, lw * 0.7),
+                    arrowcolor=color,
+                )
+                # Probability label at Bezier midpoint
+                fig.add_annotation(
+                    x=float((1-0.5)**2*x1 + 2*(1-0.5)*0.5*cpx + 0.5**2*x2),
+                    y=float((1-0.5)**2*y1 + 2*(1-0.5)*0.5*cpy + 0.5**2*y2),
+                    text=f"{p:.2f}", showarrow=False,
+                    font=dict(size=9, color=color),
+                    bgcolor="white", opacity=0.85,
+                )
+
+    # Nodes on top
+    fig.add_trace(go.Scatter(
+        x=nx_pos, y=ny_pos,
+        mode="markers+text",
+        marker=dict(size=44, color=colors[:K], line=dict(color="white", width=2)),
+        text=[f"T{i}" for i in range(K)],
+        textposition="middle center",
+        textfont=dict(color="white", size=12),
+        showlegend=False,
+        hovertext=[f"T{i}: {', '.join(PHI[i][:5])}" for i in range(K)],
+        hoverinfo="text",
+    ))
+
+    fig.update_layout(
+        height=520,
+        margin=dict(l=20, r=20, t=20, b=20),
+        plot_bgcolor="white",
+        xaxis=dict(visible=False, range=[-1.8, 1.8]),
+        yaxis=dict(visible=False, range=[-1.8, 1.8], scaleanchor="x"),
+    )
+    return fig
+
+
 # ── Controls ──────────────────────────────────────────────────────────────────
 st.title("Narrative Transitions")
 render_toc([
     ("Topic Sequence",      "topic-sequence"),
     ("Transition Matrix",   "transition-matrix"),
+    ("FSM Graph",           "fsm-graph"),
     ("Topic Summary",       "topic-summary"),
 ])
 st.caption(
@@ -248,6 +358,21 @@ with col_right:
                            coloraxis_colorbar=dict(title="P"))
     fig_prob.update_traces(textfont_size=12)
     st.plotly_chart(fig_prob, width="stretch")
+
+st.divider()
+
+# ── FSM Graph ─────────────────────────────────────────────────────────────────
+st.subheader("FSM Graph", anchor="fsm-graph")
+st.caption(
+    "Nodes = topics; directed edges = transition probabilities. "
+    "Edge width and label show probability. "
+    "Self-loops (theme persistence) appear as circles above each node. "
+    "Adjust the threshold to hide weak transitions."
+)
+
+_min_prob = st.slider("Minimum probability to show", 0.0, 0.5, 0.1, 0.05, format="%.2f")
+fig_fsm = build_fsm_figure(K, T_prob, PHI, _colors, min_prob=_min_prob)
+st.plotly_chart(fig_fsm, width="stretch")
 
 st.divider()
 
