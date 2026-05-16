@@ -530,7 +530,7 @@ fig_agree = px.scatter(
     x="PC1 score", y="Commit height",
     color="Cluster",
     color_discrete_map=_agree_color_map,
-    category_orders=[chr(65 + i) for i in range(_n_clusters)],
+    category_orders={"Cluster": [chr(65 + i) for i in range(_n_clusters)]},
     hover_data={"Chunk": True, "Top words": True},
 )
 fig_agree.update_traces(
