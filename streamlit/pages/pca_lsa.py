@@ -226,7 +226,7 @@ _lsa_key = f"{src_id}_{n_chunks}_{min_df}_{max_df}_{ngram_min}_{ngram_max}"
 
 if st.session_state.get("_lsa_key") != _lsa_key:
     st.session_state["_lsa_key"] = _lsa_key
-    st.session_state["lsa_n_components"] = min(_c["n_topics"]["default"], result['n_components'])
+    st.session_state["lsa_n_components"] = min(10, result['n_components'])
     st.session_state["lsa_k"] = _c["n_clusters"]["default"]
 
 _selected_n = st.session_state.get("lsa_n_components", _c["n_topics"]["default"])
