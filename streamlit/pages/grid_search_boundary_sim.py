@@ -47,9 +47,10 @@ st.caption(
     "tighten or loosen matching. k is swept cheaply post-linkage; similarity+linkage results are cached."
 )
 
-with st.expander("Tolerance parameter — justification"):
-    st.markdown(
-        r"""
+with st.sidebar:
+    with st.expander("Tolerance — justification", expanded=False):
+        st.markdown(
+            r"""
 The tolerance is set as $\tau = \alpha \;/\; 2(k-1)$, where $\alpha$ is the scale
 factor below (default **0.75**). The matching rule is: boundary $b_1$ (from one
 edition) matches boundary $b_2$ (from another) if $|b_1 - b_2| \leq \tau$.
@@ -70,26 +71,20 @@ side or the other. In concrete terms, at $n = 25$ chunks and $k = 6$ this
 corresponds to a window of roughly ±1.9 chunks, which accommodates the
 one-to-two-chunk positional variation attributable to differences in segmentation
 and translation between editions without reaching the next segment boundary.
-        """
+            """
+        )
+    nc_range    = st.slider("n_chunks range", min_value=15, max_value=50, value=(15, 40), step=5)
+    nc_vals     = list(range(nc_range[0], nc_range[1] + 1, 5))
+    maxdf_range = st.slider("max_df range", min_value=0.20, max_value=0.95, value=(0.30, 0.70), step=0.05, format="%.2f")
+    _n_maxdf    = round((maxdf_range[1] - maxdf_range[0]) / 0.05) + 1
+    maxdf_vals  = [round(maxdf_range[0] + i * 0.05, 2) for i in range(_n_maxdf)]
+    tol_scale   = st.slider("Tolerance scale", min_value=0.25, max_value=2.0, value=0.75, step=0.25,
+        help="Multiplier on τ = 1/(2(k−1)). Values < 1 tighten matching; > 1 loosen it.")
+    n_combos    = len(nc_vals) * len(maxdf_vals)
+    st.caption(
+        f"**{n_combos}** combinations · **{n_combos * len(SOURCES_META)}** TF-IDF+linkage runs (est.)  "
+        f"·  min_df={FIXED_MIN_DF} · ngram=(1,1) fixed"
     )
-
-col1, col2, col3 = st.columns(3)
-
-nc_range = col1.slider("n_chunks range", min_value=15, max_value=50, value=(15, 40), step=5)
-nc_vals  = list(range(nc_range[0], nc_range[1] + 1, 5))
-
-maxdf_range = col2.slider("max_df range", min_value=0.20, max_value=0.95, value=(0.30, 0.70), step=0.05, format="%.2f")
-_n_maxdf    = round((maxdf_range[1] - maxdf_range[0]) / 0.05) + 1
-maxdf_vals  = [round(maxdf_range[0] + i * 0.05, 2) for i in range(_n_maxdf)]
-
-tol_scale = col3.slider("Tolerance scale", min_value=0.25, max_value=2.0, value=0.75, step=0.25,
-    help="Multiplier on τ = 1/(2(k−1)). Values < 1 tighten matching; > 1 loosen it.")
-
-n_combos = len(nc_vals) * len(maxdf_vals)
-st.caption(
-    f"**{n_combos}** combinations · **{n_combos * len(SOURCES_META)}** TF-IDF+linkage runs (est.)  "
-    f"·  min_df={FIXED_MIN_DF} · ngram=(1,1) fixed"
-)
 
 # ── Grid computation ───────────────────────────────────────────────────────────
 combos      = list(itertools.product(nc_vals, maxdf_vals))
