@@ -168,6 +168,7 @@ render_toc([
     ("Component Poles",          "component-poles"),
     ("Variance Explained",       "variance-explained"),
     ("Component Scores",         "component-scores"),
+    ("Component Scatter",        "pc-scatter"),
 ])
 st.caption(
     "LSA = TF-IDF + truncated SVD. "
@@ -523,3 +524,48 @@ fig_heat.update_layout(
     margin=dict(l=60, r=20, t=20, b=40),
 )
 st.plotly_chart(fig_heat, width='stretch', key=f"lsa_heat_{_lsa_key}_{_selected_n}")
+
+# ── Section 6: Component scatter ───────────────────────────────────────────────
+st.divider()
+st.subheader("Component Score Scatter", anchor="pc-scatter")
+st.caption(
+    "Each point is a chunk, colored by cluster. "
+    "Choose a component for the X axis; Y is automatically the next component. "
+    "Marginal boxplots show the spread of each cluster along X."
+)
+
+if _selected_n >= 2:
+    _pc_options  = [f"PC{i + 1}" for i in range(_selected_n - 1)]
+    _pc_x_label  = st.selectbox("X-axis component", _pc_options, index=0,
+                                key=f"lsa_scatter_pc_{_key_sfx}")
+    _pc_x_idx    = int(_pc_x_label[2:]) - 1
+    _pc_y_idx    = _pc_x_idx + 1
+    _pc_y_label  = f"PC{_pc_y_idx + 1}"
+
+    _lbl_to_alpha = {_c: chr(65 + i) for i, _c in enumerate(_unique)}
+    _scatter_df   = pd.DataFrame({
+        _pc_x_label: THETA[:, _pc_x_idx],
+        _pc_y_label: THETA[:, _pc_y_idx],
+        "Cluster":   [_lbl_to_alpha[_l] for _l in _labels],
+        "Chunk":     list(range(n_actual)),
+    })
+    _color_map     = {chr(65 + i): c2color[_c] for i, _c in enumerate(_unique)}
+    _cluster_order = [chr(65 + i) for i in range(_n_clusters)]
+
+    fig_scatter = px.scatter(
+        _scatter_df,
+        x=_pc_x_label, y=_pc_y_label,
+        color="Cluster",
+        color_discrete_map=_color_map,
+        category_orders={"Cluster": _cluster_order},
+        hover_data={"Chunk": True},
+        marginal_x="box",
+    )
+    fig_scatter.update_layout(
+        height=520,
+        margin=dict(l=60, r=30, t=20, b=50),
+        plot_bgcolor="white",
+    )
+    st.plotly_chart(fig_scatter, width='stretch', key=f"lsa_scatter_{_key_sfx}_{_pc_x_label}")
+else:
+    st.info("Select at least 2 components to show the scatter plot.")
