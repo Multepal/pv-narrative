@@ -174,6 +174,7 @@ render_toc([
     ("Cluster Membership",       "cluster-membership"),
     ("Component Scatter",        "pc-scatter"),
     ("Component Loadings",       "pc-loadings"),
+    ("PC–HAC Agreement",         "pca-hac-agreement"),
     ("Cluster Component Profiles","cluster-profiles"),
     ("Component Poles",          "component-poles"),
     ("Variance Explained",       "variance-explained"),
@@ -486,6 +487,69 @@ if _selected_n >= 2:
     st.plotly_chart(fig_loadings, width='stretch', key=f"lsa_loadings_{_key_sfx}_{_pc_x_label}")
 else:
     st.info("Select at least 2 components to show the scatter plot.")
+
+# ── PC score vs. cluster commitment ───────────────────────────────────────────
+st.divider()
+st.subheader("PC Score vs. Cluster Commitment", anchor="pca-hac-agreement")
+st.caption(
+    "X = each chunk's PC1 score. "
+    "Y = highest dendrogram merge height at which that chunk's subtree was still a "
+    "pure single-cluster group. "
+    "High commitment = tightly grouped with cluster-mates early in the hierarchy; "
+    "low commitment = only joined the cluster near the final cut. "
+    "If PCA and HAC agree, chunks with large |PC1| should sit high on the Y axis."
+)
+
+_node_lvs = {}
+for _j in range(len(_Z)):
+    _lj, _rj = int(_Z[_j, 0]), int(_Z[_j, 1])
+    _node_lvs[n_actual + _j] = (
+        ({_lj} if _lj < n_actual else _node_lvs[_lj]) |
+        ({_rj} if _rj < n_actual else _node_lvs[_rj])
+    )
+
+_commit_h = np.zeros(n_actual)
+for _j in range(len(_Z)):
+    _h   = float(_Z[_j, 2])
+    _lvs = _node_lvs[n_actual + _j]
+    if len({_labels[_l] for _l in _lvs}) == 1:
+        for _l in _lvs:
+            _commit_h[_l] = _h
+
+_lbl_alpha2      = {_c: chr(65 + i) for i, _c in enumerate(_unique)}
+_agree_color_map = {chr(65 + i): c2color[_c] for i, _c in enumerate(_unique)}
+_agree_df = pd.DataFrame({
+    "PC1 score":     THETA[:, 0],
+    "Commit height": _commit_h,
+    "Cluster":       [_lbl_alpha2[_l] for _l in _labels],
+    "Chunk":         list(range(n_actual)),
+    "Top words":     result['chunk_top_words'],
+})
+fig_agree = px.scatter(
+    _agree_df,
+    x="PC1 score", y="Commit height",
+    color="Cluster",
+    color_discrete_map=_agree_color_map,
+    category_orders=[chr(65 + i) for i in range(_n_clusters)],
+    hover_data={"Chunk": True, "Top words": True},
+)
+fig_agree.update_traces(
+    marker=dict(size=9),
+    hovertemplate=(
+        "<b>Chunk %{customdata[0]}</b>  ·  Cluster %{fullData.name}<br>"
+        "PC1 = %{x:.3f}  ·  Commit height = %{y:.4f}<br>"
+        "%{customdata[1]}<extra></extra>"
+    ),
+)
+fig_agree.add_vline(x=0, line_dash="dash", line_color="#AAAAAA", line_width=1.5)
+fig_agree.update_layout(
+    height=420,
+    margin=dict(l=60, r=30, t=20, b=50),
+    plot_bgcolor="white",
+    xaxis=dict(title="PC1 score", showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+    yaxis=dict(title="Commit height (HAC)", showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+)
+st.plotly_chart(fig_agree, width='stretch', key=f"lsa_agree_{_key_sfx}")
 
 # ── Cluster centroid table ─────────────────────────────────────────────────────
 st.subheader("Cluster Component Profiles", anchor="cluster-profiles")
