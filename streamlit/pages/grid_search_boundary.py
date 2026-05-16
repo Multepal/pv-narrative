@@ -47,6 +47,32 @@ st.caption(
     "tighten or loosen matching. k is swept cheaply post-linkage; SVD+linkage results are cached."
 )
 
+with st.expander("Tolerance parameter — justification"):
+    st.markdown(
+        r"""
+The tolerance is set as $\tau = \alpha \;/\; 2(k-1)$, where $\alpha$ is the scale
+factor below (default **0.75**). The matching rule is: boundary $b_1$ (from one
+edition) matches boundary $b_2$ (from another) if $|b_1 - b_2| \leq \tau$.
+For this assignment to be *unambiguous* — so that no single boundary in one
+edition could plausibly match two distinct boundaries in the other — the matching
+window $2\tau$ must be strictly smaller than the minimum distance between adjacent
+boundaries. Under $k$ clusters evenly spaced at $1/(k-1)$, the **non-aliasing
+condition** is:
+
+$$2\tau < \frac{1}{k-1} \;\Longrightarrow\; \alpha < 1.0$$
+
+The natural default $\alpha = 1.0$ sits exactly at the aliasing boundary: a
+boundary placed midway between two true boundaries is equidistant from both, and
+its assignment is decided only by a tiebreak. Setting $\alpha = 0.75$ gives a
+matching window of $0.75/(k-1)$, leaving a 12.5% dead zone on either side of
+each expected boundary position — every boundary unambiguously belongs to one
+side or the other. In concrete terms, at $n = 25$ chunks and $k = 6$ this
+corresponds to a window of roughly ±1.9 chunks, which accommodates the
+one-to-two-chunk positional variation attributable to differences in segmentation
+and translation between editions without reaching the next segment boundary.
+        """
+    )
+
 col1, col2, col3 = st.columns(3)
 
 nc_range = col1.slider("n_chunks range", min_value=15, max_value=50, value=(15, 40), step=5)
@@ -56,7 +82,7 @@ maxdf_range = col2.slider("max_df range", min_value=0.20, max_value=0.95, value=
 _n_maxdf    = round((maxdf_range[1] - maxdf_range[0]) / 0.05) + 1
 maxdf_vals  = [round(maxdf_range[0] + i * 0.05, 2) for i in range(_n_maxdf)]
 
-tol_scale = col3.slider("Tolerance scale", min_value=0.25, max_value=2.0, value=1.0, step=0.25,
+tol_scale = col3.slider("Tolerance scale", min_value=0.25, max_value=2.0, value=0.75, step=0.25,
     help="Multiplier on τ = 1/(2(k−1)). Values < 1 tighten matching; > 1 loosen it.")
 
 n_combos = len(nc_vals) * len(maxdf_vals)
