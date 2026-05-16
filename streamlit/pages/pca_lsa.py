@@ -172,6 +172,7 @@ render_toc([
     ("HAC Dendrogram",           "hac-dendrogram"),
     ("Cluster Membership",       "cluster-membership"),
     ("Component Scatter",        "pc-scatter"),
+    ("Component Loadings",       "pc-loadings"),
     ("Cluster Component Profiles","cluster-profiles"),
     ("Component Poles",          "component-poles"),
     ("Variance Explained",       "variance-explained"),
@@ -427,6 +428,40 @@ if _selected_n >= 2:
         plot_bgcolor="white",
     )
     st.plotly_chart(fig_scatter, width='stretch', key=f"lsa_scatter_{_key_sfx}_{_pc_x_label}")
+
+    st.divider()
+    st.subheader("Component Loadings", anchor="pc-loadings")
+    st.caption(
+        "Each point is a vocabulary term. Position reflects its loading on the two selected "
+        "components — positive values pull toward a pole, negative values toward the opposite. "
+        "Terms near the origin contribute little to either axis."
+    )
+
+    _loadings_df = pd.DataFrame({
+        _pc_x_label: components[_pc_x_idx],
+        _pc_y_label: components[_pc_y_idx],
+        "Word":      words,
+    })
+    fig_loadings = px.scatter(
+        _loadings_df,
+        x=_pc_x_label, y=_pc_y_label,
+        text="Word",
+        hover_name="Word",
+    )
+    fig_loadings.update_traces(
+        marker=dict(size=6, color="#636EFA"),
+        textposition="top center",
+        textfont=dict(size=10),
+        hovertemplate="<b>%{hovertext}</b><br>%{xaxis.title.text} = %{x:.4f}<br>%{yaxis.title.text} = %{y:.4f}<extra></extra>",
+    )
+    fig_loadings.update_layout(
+        height=580,
+        margin=dict(l=60, r=30, t=20, b=50),
+        plot_bgcolor="white",
+        xaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=True, zerolinecolor="#AAAAAA", zerolinewidth=1.5),
+        yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=True, zerolinecolor="#AAAAAA", zerolinewidth=1.5),
+    )
+    st.plotly_chart(fig_loadings, width='stretch', key=f"lsa_loadings_{_key_sfx}_{_pc_x_label}")
 else:
     st.info("Select at least 2 components to show the scatter plot.")
 
