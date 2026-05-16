@@ -78,14 +78,21 @@ def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_ra
         return None
     svd = TruncatedSVD(n_components=n_components, random_state=42)
     THETA = svd.fit_transform(X)
+    _feat  = vec.get_feature_names_out()
+    _Xd    = X.toarray()
+    _top_words = [
+        ", ".join(_feat[j] for j in np.argsort(_Xd[i])[::-1][:5] if _Xd[i, j] > 0)
+        for i in range(len(chunks_list))
+    ]
     return {
         'THETA': THETA,
         'components': svd.components_,
-        'words': vec.get_feature_names_out(),
+        'words': _feat,
         'explained': svd.explained_variance_ratio_,
         'n_chunks': len(chunks_list),
         'n_components': n_components,
         'chunks_list': chunks_list,
+        'chunk_top_words': _top_words,
     }
 
 
@@ -387,10 +394,11 @@ if _selected_n >= 2:
 
     _lbl_to_alpha = {_c: chr(65 + i) for i, _c in enumerate(_unique)}
     _scatter_df   = pd.DataFrame({
-        _pc_x_label: THETA[:, _pc_x_idx],
-        _pc_y_label: THETA[:, _pc_y_idx],
-        "Cluster":   [_lbl_to_alpha[_l] for _l in _labels],
-        "Chunk":     list(range(n_actual)),
+        _pc_x_label:  THETA[:, _pc_x_idx],
+        _pc_y_label:  THETA[:, _pc_y_idx],
+        "Cluster":    [_lbl_to_alpha[_l] for _l in _labels],
+        "Chunk":      list(range(n_actual)),
+        "Top words":  result['chunk_top_words'],
     })
     _color_map     = {chr(65 + i): c2color[_c] for i, _c in enumerate(_unique)}
     _cluster_order = [chr(65 + i) for i in range(_n_clusters)]
@@ -401,8 +409,17 @@ if _selected_n >= 2:
         color="Cluster",
         color_discrete_map=_color_map,
         category_orders={"Cluster": _cluster_order},
-        hover_data={"Chunk": True},
+        hover_data={"Chunk": True, "Top words": True},
         marginal_x="box",
+    )
+    fig_scatter.update_traces(
+        marker=dict(size=9),
+        hovertemplate=(
+            "<b>Chunk %{customdata[0]}</b>  ·  Cluster %{fullData.name}<br>"
+            "%{xaxis.title.text} = %{x:.3f}  ·  %{yaxis.title.text} = %{y:.3f}<br>"
+            "%{customdata[1]}<extra></extra>"
+        ),
+        selector=dict(type="scatter"),
     )
     fig_scatter.update_layout(
         height=520,
