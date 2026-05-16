@@ -38,6 +38,9 @@ pages:
   - path: pages/grid_search_pca.py
     title: Grid Search (LSA)
     icon: "🔍"
+  - path: pages/grid_search_boundary.py
+    title: Grid Search (Boundary)
+    icon: "🔍"
   - path: pages/grid_search_nmf.py
     title: Grid Search (NMF)
     icon: "🔍"

@@ -110,6 +110,7 @@ st.title("Parameter Grid Search")
 render_toc([
     ("Hamming vs. k",         "hamming-chart"),
     ("Optimal k Distribution","k-distribution"),
+    ("Best Parameters",       "best-params"),
     ("Summary",               "summary"),
 ])
 st.caption(
@@ -255,6 +256,83 @@ fig_bar.update_layout(
     yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
 )
 st.plotly_chart(fig_bar, width="stretch")
+
+# ── Best Parameters ────────────────────────────────────────────────────────────
+st.divider()
+st.subheader("Best Parameters", anchor="best-params")
+
+# Exclude k=2: Hamming is trivially low at the minimum k; find the genuine secondary minimum
+_df_excl2   = df_curves[df_curves["k"] >= 3]
+_mean_by_k  = _df_excl2.groupby("k")["mean_hamming"].mean()
+_k_star     = int(_mean_by_k.idxmin())
+_best       = _df_excl2[_df_excl2["k"] == _k_star].nsmallest(1, "mean_hamming").iloc[0]
+
+st.caption(
+    f"k=2 is excluded from the optimal search — Hamming distance is trivially low at the "
+    f"minimum k, then rises as k grows, before reaching a secondary minimum around k={_k_star}."
+)
+
+_c1, _c2, _c3, _c4 = st.columns(4)
+_c1.metric("Best n_chunks",     int(_best["n_chunks"]))
+_c2.metric("Best max_df",       f"{_best['max_df']:.2f}")
+_c3.metric("Optimal k*",        _k_star)
+_c4.metric("Min Hamming at k*", f"{_best['mean_hamming']:.4f}")
+
+# Hamming at k* specifically (keeps heatmap, callouts, and marginal bars consistent)
+_df_at_kstar = (
+    df_curves[df_curves["k"] == _k_star]
+    [["n_chunks", "max_df", "mean_hamming"]]
+    .reset_index(drop=True)
+)
+
+_pivot = _df_at_kstar.pivot(index="n_chunks", columns="max_df", values="mean_hamming")
+_fig_heat = px.imshow(
+    _pivot,
+    labels=dict(x="max_df", y="n_chunks", color=f"Hamming at k={_k_star}"),
+    color_continuous_scale="Blues_r",
+    aspect="auto",
+    text_auto=".3f",
+)
+_fig_heat.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
+st.plotly_chart(_fig_heat, width="stretch")
+
+_col_nc, _col_mdf = st.columns(2)
+_by_nc  = _df_at_kstar.groupby("n_chunks")["mean_hamming"].mean().reset_index()
+_by_mdf = _df_at_kstar.groupby("max_df")["mean_hamming"].mean().reset_index()
+
+_fig_nc = px.bar(_by_nc, x="n_chunks", y="mean_hamming",
+                 labels={"n_chunks": "n_chunks", "mean_hamming": f"Mean Hamming at k={_k_star}"})
+_fig_nc.update_layout(
+    height=240, margin=dict(l=60, r=30, t=10, b=50),
+    plot_bgcolor="white",
+    xaxis=dict(dtick=5, showgrid=False, zeroline=False),
+    yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+)
+_col_nc.plotly_chart(_fig_nc, width="stretch")
+
+_fig_mdf = px.bar(_by_mdf, x="max_df", y="mean_hamming",
+                  labels={"max_df": "max_df", "mean_hamming": f"Mean Hamming at k={_k_star}"})
+_fig_mdf.update_layout(
+    height=240, margin=dict(l=60, r=30, t=10, b=50),
+    plot_bgcolor="white",
+    xaxis=dict(showgrid=False, zeroline=False),
+    yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+)
+_col_mdf.plotly_chart(_fig_mdf, width="stretch")
+
+# Per-k table
+st.subheader("Best Parameters by k")
+st.caption("For each k, the (n_chunks, max_df) combination yielding the lowest mean pairwise Hamming distance.")
+
+_best_by_k = (
+    df_curves
+    .loc[df_curves.groupby("k")["mean_hamming"].idxmin()]
+    [["k", "n_chunks", "max_df", "mean_hamming"]]
+    .sort_values("k")
+    .reset_index(drop=True)
+    .rename(columns={"mean_hamming": "Hamming"})
+)
+st.dataframe(_best_by_k, use_container_width=True, hide_index=True)
 
 # ── Summary table ──────────────────────────────────────────────────────────────
 st.divider()
