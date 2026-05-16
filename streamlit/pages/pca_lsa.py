@@ -13,6 +13,7 @@ from wordcloud import WordCloud
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
 from scipy.spatial.distance import pdist
+from scipy.spatial import ConvexHull
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram as scipy_dendrogram
 from toc import render_toc
 
@@ -423,6 +424,26 @@ if _selected_n >= 2:
         ),
         selector=dict(type="scatter"),
     )
+    _ref = next(t for t in fig_scatter.data if t.type == "scatter")
+    for _cl in _cluster_order:
+        _pts = _scatter_df[_scatter_df["Cluster"] == _cl][[_pc_x_label, _pc_y_label]].values
+        if len(_pts) < 3:
+            continue
+        try:
+            _hull = ConvexHull(_pts)
+            _idx  = np.append(_hull.vertices, _hull.vertices[0])
+            fig_scatter.add_trace(go.Scatter(
+                x=_pts[_idx, 0], y=_pts[_idx, 1],
+                mode="lines", fill="toself",
+                fillcolor=_color_map[_cl],
+                line=dict(color=_color_map[_cl], width=1),
+                opacity=0.15,
+                showlegend=False,
+                hoverinfo="skip",
+                xaxis=_ref.xaxis, yaxis=_ref.yaxis,
+            ))
+        except Exception:
+            pass
     fig_scatter.update_layout(
         height=520,
         margin=dict(l=60, r=30, t=20, b=50),
