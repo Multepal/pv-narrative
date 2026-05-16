@@ -1,11 +1,5 @@
 """
-Parameter Grid Search — Boundary Concordance (NMF) — sweep combinations of
-n_chunks and max_df, measuring how consistently narrative boundaries (topic
-transitions) appear at the same relative positions across editions.
-
-Pipeline: TF-IDF → NMF → argmax(THETA) → boundary F1.
-Unlike HAC, NMF cannot sweep k cheaply post-fit: each (combo, k) requires a full
-NMF fit. run_nmf_labels is cached per (src_id, n_chunks, min_df, max_df, k).
+Parameter Grid Search — Boundary Concordance (NMF)
 """
 
 import os
@@ -16,104 +10,20 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import NMF
 from toc import render_toc
+from grid_search_boundary_core import (
+    find_token_file, load_tokens, run_nmf_labels,
+    get_boundaries, boundary_f1, mean_pairwise_boundary_f1,
+    FIXED_MIN_DF, FIXED_NGRAM, NMF_MAX_ITER,
+)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
     cfg = yaml.safe_load(_f)
 
-SOURCES_META  = cfg["sources"]
-K_VALS        = list(range(2, 21))
-NMF_MAX_ITER  = cfg["model"]["nmf_max_iter"]
-FIXED_MIN_DF  = 5
-FIXED_NGRAM   = (1, 1)
-
-
-def find_token_file(src_id: str) -> str | None:
-    candidates = [os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv")]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
-
-
-@st.cache_data(show_spinner=False)
-def run_nmf_labels(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1)):
-    """Return dominant-topic label array (argmax of THETA) for one edition at one k."""
-    TOKEN = load_tokens(src_id, token_path)
-    token_reset = TOKEN.reset_index()
-    token_reset["chunk_num"] = pd.cut(
-        token_reset.index, n_chunks, labels=list(range(n_chunks))
-    )
-    chunks_s = (
-        token_reset.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-    )
-    chunks_list = chunks_s.tolist()
-    if len(chunks_list) < max(3, k):
-        return None
-    try:
-        vec = TfidfVectorizer(
-            lowercase=True, max_df=max_df, min_df=min_df,
-            strip_accents=None, norm="l2", ngram_range=ngram_range,
-        )
-        X = vec.fit_transform(chunks_list)
-    except ValueError:
-        return None
-    if X.shape[1] < k:
-        return None
-    try:
-        model = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER)
-        THETA = model.fit_transform(X)
-    except Exception:
-        return None
-    return np.argmax(THETA, axis=1)
-
-
-def get_boundaries(labels: np.ndarray) -> np.ndarray:
-    """Normalized [0, 1] positions where consecutive cluster labels differ."""
-    n = len(labels)
-    return np.array([i / n for i in range(1, n) if labels[i] != labels[i - 1]])
-
-
-def boundary_f1(b1: np.ndarray, b2: np.ndarray, tol: float) -> float:
-    """F1 between two boundary sets within positional tolerance tol."""
-    if len(b1) == 0 and len(b2) == 0:
-        return 1.0
-    if len(b1) == 0 or len(b2) == 0:
-        return 0.0
-    matched_1 = sum(any(abs(b - c) <= tol for c in b2) for b in b1)
-    matched_2 = sum(any(abs(c - b) <= tol for b in b1) for c in b2)
-    precision = matched_1 / len(b1)
-    recall    = matched_2 / len(b2)
-    if precision + recall == 0:
-        return 0.0
-    return 2 * precision * recall / (precision + recall)
-
-
-def mean_pairwise_boundary_f1(label_arrays: list[np.ndarray], tol: float) -> float:
-    n = len(label_arrays)
-    if n < 2:
-        return float("nan")
-    boundary_sets = [get_boundaries(la) for la in label_arrays]
-    scores = [
-        boundary_f1(boundary_sets[i], boundary_sets[j], tol)
-        for i in range(n) for j in range(i + 1, n)
-    ]
-    return float(np.mean(scores))
-
+SOURCES_META = cfg["sources"]
+K_VALS       = list(range(2, 21))
 
 # ── Controls ──────────────────────────────────────────────────────────────────
 st.markdown(
@@ -130,17 +40,14 @@ render_toc([
 ])
 st.caption(
     "TF-IDF → NMF. Dominant topic per chunk = argmax of the THETA matrix. "
-    "For each (n_chunks, max_df, k), each edition's dominant-topic sequence is converted "
-    "to a set of normalized boundary positions — the relative positions in [0, 1] "
-    "where the topic label changes. Pairwise boundary F1 is averaged across all edition pairs. "
-    "**Tolerance scales with k**: `tol = 1 / (2 × (k − 1))` — half the expected inter-boundary gap — "
-    "so matching gets proportionally stricter as k grows. "
-    "**Higher = editions agree more on where narrative transitions occur.** "
-    "**Note:** each (combo, k) requires a full NMF fit — first load is slow; "
-    "results are cached for instant reruns."
+    "Each edition's topic sequence is converted to normalized boundary positions in [0, 1]. "
+    "Pairwise boundary F1 is averaged across all edition pairs. "
+    "**Tolerance scales with k**: `tol = scale / (2 × (k − 1))` — adjust the scale slider to "
+    "tighten or loosen matching. "
+    "**Each (combo, k) requires a full NMF fit** — first load is slow; results are cached."
 )
 
-col1, col2 = st.columns(2)
+col1, col2, col3 = st.columns(3)
 
 nc_range = col1.slider("n_chunks range", min_value=15, max_value=50, value=(15, 40), step=5)
 nc_vals  = list(range(nc_range[0], nc_range[1] + 1, 5))
@@ -148,6 +55,9 @@ nc_vals  = list(range(nc_range[0], nc_range[1] + 1, 5))
 maxdf_range = col2.slider("max_df range", min_value=0.20, max_value=0.95, value=(0.30, 0.70), step=0.05, format="%.2f")
 _n_maxdf    = round((maxdf_range[1] - maxdf_range[0]) / 0.05) + 1
 maxdf_vals  = [round(maxdf_range[0] + i * 0.05, 2) for i in range(_n_maxdf)]
+
+tol_scale = col3.slider("Tolerance scale", min_value=0.25, max_value=2.0, value=1.0, step=0.25,
+    help="Multiplier on τ = 1/(2(k−1)). Values < 1 tighten matching; > 1 loosen it.")
 
 n_combos = len(nc_vals) * len(maxdf_vals)
 n_fits   = n_combos * len(K_VALS) * len(SOURCES_META)
@@ -176,8 +86,7 @@ for nc, mxdf in combos:
             step / total_steps,
             text=f"{combo_label}  ·  k={k}  ({step}/{total_steps})",
         )
-
-        tol = 1.0 / (2 * max(k - 1, 1))
+        tol = tol_scale / (2 * max(k - 1, 1))
         label_arrays = []
         for src_id in SOURCES_META:
             tp = token_files[src_id]
@@ -225,30 +134,21 @@ st.caption(
 )
 
 fig = go.Figure()
-
 for label, gdf in df_curves.groupby("combo_label", sort=False):
     fig.add_trace(go.Scatter(
-        x=gdf["k"], y=gdf["mean_f1"],
-        mode="lines",
-        line=dict(color="#CCCCCC", width=1),
-        showlegend=False,
+        x=gdf["k"], y=gdf["mean_f1"], mode="lines",
+        line=dict(color="#CCCCCC", width=1), showlegend=False,
         hovertemplate=f"{label}<br>k=%{{x}}<br>F1=%{{y:.3f}}<extra></extra>",
     ))
-
 mean_curve = df_curves.groupby("k")["mean_f1"].mean().reset_index()
 fig.add_trace(go.Scatter(
-    x=mean_curve["k"], y=mean_curve["mean_f1"],
-    mode="lines+markers",
-    line=dict(color="#1f77b4", width=3),
-    marker=dict(size=6),
+    x=mean_curve["k"], y=mean_curve["mean_f1"], mode="lines+markers",
+    line=dict(color="#1f77b4", width=3), marker=dict(size=6),
     name="Mean across combos",
     hovertemplate="mean · k=%{x}<br>F1=%{y:.3f}<extra></extra>",
 ))
-
 fig.update_layout(
-    height=400,
-    margin=dict(l=60, r=30, t=10, b=50),
-    plot_bgcolor="white",
+    height=400, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
     xaxis=dict(title="k (topics)", dtick=1, showgrid=False, zeroline=False),
     yaxis=dict(title="Mean Boundary F1", range=[-0.05, 1.05],
                showgrid=True, gridcolor="#EEEEEE", zeroline=False),
@@ -262,18 +162,13 @@ st.subheader("Distribution of Optimal k*", anchor="k-distribution")
 st.caption("How many parameter combinations achieve their maximum boundary F1 at each k.")
 
 k_star_counts = (
-    df_summary["k*"].value_counts()
-    .reindex(range(2, 21), fill_value=0)
-    .reset_index()
+    df_summary["k*"].value_counts().reindex(range(2, 21), fill_value=0).reset_index()
 )
 k_star_counts.columns = ["k*", "count"]
-
 fig_kbar = px.bar(k_star_counts, x="k*", y="count",
                   labels={"k*": "k (topics)", "count": "# combinations"})
 fig_kbar.update_layout(
-    height=280,
-    margin=dict(l=60, r=30, t=10, b=50),
-    plot_bgcolor="white",
+    height=280, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
     xaxis=dict(dtick=1, showgrid=False, zeroline=False),
     yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
 )
@@ -283,16 +178,12 @@ st.plotly_chart(fig_kbar, width="stretch")
 st.divider()
 st.subheader("Best Parameters", anchor="best-params")
 
-# Exclude k=2: boundary F1 peaks trivially at the minimum k
 _df_excl2  = df_curves[df_curves["k"] >= 3]
 _mean_by_k = _df_excl2.groupby("k")["mean_f1"].mean()
 _k_star    = int(_mean_by_k.idxmax())
 _best      = _df_excl2[_df_excl2["k"] == _k_star].nlargest(1, "mean_f1").iloc[0]
 
-st.caption(
-    f"k=2 is excluded — boundary F1 peaks trivially at the minimum k, "
-    f"dips as k increases, then rises to a genuine maximum at k={_k_star} before declining."
-)
+st.caption(f"k=2 excluded — F1 peaks trivially at minimum k. Genuine maximum at k={_k_star}.")
 
 _c1, _c2, _c3, _c4 = st.columns(4)
 _c1.metric("Best n_chunks", int(_best["n_chunks"]))
@@ -300,20 +191,14 @@ _c2.metric("Best max_df",   f"{_best['max_df']:.2f}")
 _c3.metric("Optimal k*",    _k_star)
 _c4.metric("Max F1 at k*",  f"{_best['mean_f1']:.4f}")
 
-# F1 at k* for all combos (consistent with callouts)
 _df_at_kstar = (
-    df_curves[df_curves["k"] == _k_star]
-    [["n_chunks", "max_df", "mean_f1"]]
-    .reset_index(drop=True)
+    df_curves[df_curves["k"] == _k_star][["n_chunks", "max_df", "mean_f1"]].reset_index(drop=True)
 )
-
 _pivot = _df_at_kstar.pivot(index="n_chunks", columns="max_df", values="mean_f1")
 _fig_heat = px.imshow(
     _pivot,
     labels=dict(x="max_df", y="n_chunks", color=f"Boundary F1 at k={_k_star}"),
-    color_continuous_scale="Blues",
-    aspect="auto",
-    text_auto=".3f",
+    color_continuous_scale="Blues", aspect="auto", text_auto=".3f",
 )
 _fig_heat.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
 st.plotly_chart(_fig_heat, width="stretch")
@@ -323,44 +208,30 @@ _by_nc  = _df_at_kstar.groupby("n_chunks")["mean_f1"].mean().reset_index()
 _by_mdf = _df_at_kstar.groupby("max_df")["mean_f1"].mean().reset_index()
 
 _fig_nc = px.bar(_by_nc, x="n_chunks", y="mean_f1",
-                 labels={"n_chunks": "n_chunks", "mean_f1": f"Mean Boundary F1 at k={_k_star}"})
-_fig_nc.update_layout(
-    height=240, margin=dict(l=60, r=30, t=10, b=50),
-    plot_bgcolor="white",
+                 labels={"n_chunks": "n_chunks", "mean_f1": f"Mean F1 at k={_k_star}"})
+_fig_nc.update_layout(height=240, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
     xaxis=dict(dtick=5, showgrid=False, zeroline=False),
-    yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
-)
+    yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False))
 _col_nc.plotly_chart(_fig_nc, width="stretch")
 
 _fig_mdf = px.bar(_by_mdf, x="max_df", y="mean_f1",
-                  labels={"max_df": "max_df", "mean_f1": f"Mean Boundary F1 at k={_k_star}"})
-_fig_mdf.update_layout(
-    height=240, margin=dict(l=60, r=30, t=10, b=50),
-    plot_bgcolor="white",
+                  labels={"max_df": "max_df", "mean_f1": f"Mean F1 at k={_k_star}"})
+_fig_mdf.update_layout(height=240, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
     xaxis=dict(showgrid=False, zeroline=False),
-    yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
-)
+    yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False))
 _col_mdf.plotly_chart(_fig_mdf, width="stretch")
 
-# Per-k table
 st.subheader("Best Parameters by k")
 st.caption("For each k, the (n_chunks, max_df) combination yielding the highest mean boundary F1.")
-
 _best_by_k = (
-    df_curves
-    .loc[df_curves.groupby("k")["mean_f1"].idxmax()]
-    [["k", "n_chunks", "max_df", "mean_f1"]]
-    .sort_values("k")
-    .reset_index(drop=True)
+    df_curves.loc[df_curves.groupby("k")["mean_f1"].idxmax()]
+    [["k", "n_chunks", "max_df", "mean_f1"]].sort_values("k").reset_index(drop=True)
     .rename(columns={"mean_f1": "Boundary F1"})
 )
 st.dataframe(_best_by_k, use_container_width=True, hide_index=True)
 
-# ── Summary table ──────────────────────────────────────────────────────────────
+# ── Summary ────────────────────────────────────────────────────────────────────
 st.divider()
 st.subheader("Summary — Sorted by Maximum Boundary F1", anchor="summary")
-st.caption(
-    "Most concordant parameter combinations first. "
-    "Higher F1 = editions agree more on where narrative transitions occur."
-)
+st.caption("Most concordant parameter combinations first.")
 st.dataframe(df_summary, use_container_width=True, hide_index=True)

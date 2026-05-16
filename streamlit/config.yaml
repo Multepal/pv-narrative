@@ -56,6 +56,9 @@ pages:
   - path: pages/grid_search_boundary_sim.py
     title: Grid Search (Boundary/Cosine-Sim)
     icon: "🔍"
+  - path: pages/grid_search_boundary_ensemble.py
+    title: Grid Search (Boundary/Ensemble)
+    icon: "🔍"
   # ── Temporal / spectral analysis ──────────────────────────────────────────
   - path: pages/dct_analysis.py
     title: Narrative DCT
