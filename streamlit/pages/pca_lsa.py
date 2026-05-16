@@ -11,7 +11,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from wordcloud import WordCloud
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD
+from sklearn.decomposition import PCA
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster, dendrogram as scipy_dendrogram
 from toc import render_toc
@@ -62,7 +62,7 @@ def _make_chunks(src_id, token_path, n_chunks):
     return chunks_s.tolist()
 
 
-@st.cache_data(show_spinner="Running LSA…")
+@st.cache_data(show_spinner="Running PCA…")
 def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_range=(1, 1)):
     chunks_list = _make_chunks(src_id, token_path, n_chunks)
     if len(chunks_list) < 3:
@@ -73,22 +73,22 @@ def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_ra
         X = vec.fit_transform(chunks_list)
     except ValueError:
         return None
-    n_components = min(n_components, X.shape[0] - 1, X.shape[1] - 1)
+    _feat = vec.get_feature_names_out()
+    _Xd   = X.toarray()
+    n_components = min(n_components, _Xd.shape[0] - 1, _Xd.shape[1] - 1)
     if n_components < 2:
         return None
-    svd = TruncatedSVD(n_components=n_components, random_state=42)
-    THETA = svd.fit_transform(X)
-    _feat  = vec.get_feature_names_out()
-    _Xd    = X.toarray()
+    pca   = PCA(n_components=n_components, whiten=False, random_state=42)
+    THETA = pca.fit_transform(_Xd)
     _top_words = [
         ", ".join(_feat[j] for j in np.argsort(_Xd[i])[::-1][:5] if _Xd[i, j] > 0)
         for i in range(len(chunks_list))
     ]
     return {
         'THETA': THETA,
-        'components': svd.components_,
+        'components': pca.components_,
         'words': _feat,
-        'explained': svd.explained_variance_ratio_,
+        'explained': pca.explained_variance_ratio_,
         'n_chunks': len(chunks_list),
         'n_components': n_components,
         'chunks_list': chunks_list,
@@ -179,9 +179,10 @@ render_toc([
     ("Component Scores",         "component-scores"),
 ])
 st.caption(
-    "LSA = TF-IDF + truncated SVD. "
+    "TF-IDF → PCA (centered, no whitening). "
+    "Centering removes the spurious first component produced by uncentered SVD/LSA. "
     "Unlike NMF, components are **bipolar**: each has a positive pole (dominant terms) "
-    "and a negative pole (contrasting terms). HAC runs on chunk PCA score vectors."
+    "and a negative pole (contrasting terms). HAC runs on chunk score vectors."
 )
 
 src_ids = list(SOURCES_META.keys())
