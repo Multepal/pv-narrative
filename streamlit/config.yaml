@@ -35,6 +35,9 @@ pages:
   - path: pages/grid_search_ari.py
     title: Grid Search (TF-IDF)
     icon: "🔍"
+  - path: pages/grid_search_boundary_tfidf.py
+    title: Grid Search (Boundary/TF-IDF)
+    icon: "🔍"
   - path: pages/grid_search_pca.py
     title: Grid Search (LSA)
     icon: "🔍"
@@ -44,8 +47,14 @@ pages:
   - path: pages/grid_search_nmf.py
     title: Grid Search (NMF)
     icon: "🔍"
+  - path: pages/grid_search_boundary_nmf.py
+    title: Grid Search (Boundary/NMF)
+    icon: "🔍"
   - path: pages/grid_search_sim.py
     title: Grid Search (Cosine-Sim)
+    icon: "🔍"
+  - path: pages/grid_search_boundary_sim.py
+    title: Grid Search (Boundary/Cosine-Sim)
     icon: "🔍"
   # ── Temporal / spectral analysis ──────────────────────────────────────────
   - path: pages/dct_analysis.py
