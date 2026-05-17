@@ -19,7 +19,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
-from utils import find_token_file, load_tokens, threshold_for_k, make_cluster_table, build_dendrogram_figure
+from utils import find_token_file, load_tokens, threshold_for_k, make_cluster_table, build_dendrogram_figure, load_boundaries, add_boundary_vlines
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -257,6 +257,9 @@ st.caption(
     "Rows = clusters labeled by top TF-IDF terms, columns = chunks in sequential narrative order. "
     "Colors match the dendrogram branches."
 )
+_show_bounds = st.checkbox("Show episode boundaries", value=False, key=f"sim_bounds_{_key_sfx}")
+_boundaries  = load_boundaries(APP_DIR) if _show_bounds else []
+
 y_labels = [cluster_table.loc[c, "top_terms"] for c in unique_labels]
 
 z = np.zeros((n_clusters, n_chunks), dtype=float)
@@ -299,7 +302,22 @@ for _i, _c in enumerate(unique_labels):
             showarrow=False, xanchor="center", yanchor="middle",
             font=dict(size=13, color="white"),
         )
+if _boundaries:
+    add_boundary_vlines(fig_seq, _boundaries, n_chunks)
 st.plotly_chart(fig_seq, width="stretch", key=f"sim_seq_{_key_sfx}")
+
+_lbl_to_alpha = {c: chr(65 + i) for i, c in enumerate(unique_labels)}
+_export_df = pd.DataFrame({
+    "chunk":     list(range(n_chunks)),
+    "cluster":   [_lbl_to_alpha[l] for l in labels],
+    "top_terms": [cluster_table.loc[l, "top_terms"] for l in labels],
+})
+st.download_button(
+    "↓ Download cluster assignments (CSV)",
+    data=_export_df.to_csv(index=False),
+    file_name=f"clusters_sim_{src_id}_{n_chunks}_k{_selected_k}.csv",
+    mime="text/csv",
+)
 
 # ── Section 4: Word clouds ─────────────────────────────────────────────────────
 st.divider()

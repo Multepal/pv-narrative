@@ -15,7 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_distances
 from toc import render_toc
-from utils import find_token_file, load_tokens, make_chunks, wrap_text
+from utils import find_token_file, load_tokens, make_chunks, wrap_text, load_boundaries, add_boundary_vlines
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -115,9 +115,11 @@ def run_model(src_id, token_path, n_chunks, min_df, max_df, n_topics, model_type
     return THETA, PHI, chunks_list
 
 
-def render_heatmap(THETA, PHI, chunks_list, key="heatmap"):
+def render_heatmap(THETA, PHI, chunks_list, key="heatmap", boundaries=None):
     _v = cfg["visualization"]
     n_chunks = len(chunks_list)
+    _show_bounds = st.checkbox("Show episode boundaries", value=False, key=f"diag_bounds_{key}")
+    _active_bounds = (boundaries or []) if _show_bounds else []
     n_topics = THETA.shape[1]
     _row_h = cfg["layout"]["heatmap_row_height_px"]
     height = n_topics * _row_h + 60
@@ -163,7 +165,19 @@ def render_heatmap(THETA, PHI, chunks_list, key="heatmap"):
     )
     fig.update_layout(height=height, margin=dict(l=60, r=20, t=20, b=40),
                       coloraxis_showscale=False)
+    if _active_bounds:
+        add_boundary_vlines(fig, _active_bounds, n_chunks, x_is_pct=True)
     st.plotly_chart(fig, width='stretch', key=key)
+
+    _theta_export = THETA.copy()
+    _theta_export.columns = [f"T{c}" for c in _theta_export.columns]
+    _theta_export.insert(0, "chunk", list(range(n_chunks)))
+    st.download_button(
+        "↓ Download topic weights (CSV)",
+        data=_theta_export.to_csv(index=False),
+        file_name=f"nmf_theta_{key}.csv",
+        mime="text/csv",
+    )
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
@@ -298,7 +312,8 @@ if _selected_k is not None:
         st.warning("Model couldn't run — try adjusting parameters.")
     else:
         st.caption(f"{len(chunks_list)} chunks · {THETA.shape[0]} × {THETA.shape[1]}")
-        render_heatmap(THETA, PHI, chunks_list, key=f"nc_heat_{_selected_k}")
+        render_heatmap(THETA, PHI, chunks_list, key=f"nc_heat_{_selected_k}",
+                       boundaries=load_boundaries(APP_DIR))
 
         st.divider()
         st.subheader("Topic Word Clouds", anchor="word-clouds")

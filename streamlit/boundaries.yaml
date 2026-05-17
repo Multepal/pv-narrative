@@ -1,0 +1,26 @@
+# boundaries.yaml — Scholarly episode boundaries for the Popol Wuj.
+#
+# position: narrative position as a percentage (0–100) of the full text.
+#   Boundaries are converted to chunk indices at runtime based on the current
+#   n_chunks setting, so they adapt automatically when you change n_chunks.
+#
+# These estimates are derived from Christenson 2007 chapter numbers (87 total).
+# Adjust position values to match your preferred scholarly segmentation.
+# Comment out or delete entries you don't want shown.
+
+boundaries:
+  - label: "Seven Macaw"
+    position: 10.0
+    note: "Ch. 9 — Pride and defeat of Wuqub' Kaqix; immediately precedes the Hero Twins cycle"
+  - label: "Father of Twins"
+    position: 17.0
+    note: "Ch. 15 — Tale of Hun Hunahpu, father of the Hero Twins; Xibalba underworld ordeal"
+  - label: "Creation of Humanity"
+    position: 47.0
+    note: "Ch. 41 — Creation of the corn people; major structural boundary across all editions"
+  - label: "Dawn of the Sun"
+    position: 66.0
+    note: "Ch. 57 — Dawn, offerings, and the rising of the sun and moon"
+  - label: "K'iche' History"
+    position: 75.0
+    note: "Ch. 65 — Journey to Tulan; transition from mythic to K'iche' historical narrative"

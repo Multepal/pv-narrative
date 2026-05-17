@@ -16,7 +16,7 @@ from scipy.spatial.distance import pdist
 from scipy.spatial import ConvexHull
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
-from utils import find_token_file, load_tokens, make_chunks, threshold_for_k, build_dendrogram_figure
+from utils import find_token_file, load_tokens, make_chunks, threshold_for_k, build_dendrogram_figure, load_boundaries, add_boundary_vlines
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -163,9 +163,11 @@ def render_hac_dendrogram(result, THETA, n_actual, lsa_key, selected_k, selected
             "n_clusters": _n_clusters, "key_sfx": _key_sfx, "z_max": _z_max, "threshold": _threshold}
 
 
-def render_cluster_strip(cs, n_actual):
+def render_cluster_strip(cs, n_actual, boundaries=None):
     st.subheader("Cluster Membership in Narrative Order", anchor="cluster-membership")
     st.caption("Colors match the dendrogram branches.")
+    _show_bounds = st.checkbox("Show episode boundaries", value=False, key=f"lsa_bounds_{cs['key_sfx']}")
+    _active_bounds = (boundaries or []) if _show_bounds else []
 
     _labels, c2color, _unique = cs["labels"], cs["c2color"], cs["unique"]
     _n_clusters = cs["n_clusters"]
@@ -207,7 +209,21 @@ def render_cluster_strip(cs, n_actual):
                 showarrow=False, xanchor='center', yanchor='middle',
                 font=dict(size=13, color='white'),
             )
+    if _active_bounds:
+        add_boundary_vlines(fig_strip, _active_bounds, n_actual)
     st.plotly_chart(fig_strip, width='stretch', key=f"lsa_strip_{cs['key_sfx']}")
+
+    _lbl_to_alpha = {c: chr(65 + i) for i, c in enumerate(cs["unique"])}
+    _export_df = pd.DataFrame({
+        "chunk":   list(range(n_actual)),
+        "cluster": [_lbl_to_alpha[l] for l in cs["labels"]],
+    })
+    st.download_button(
+        "↓ Download cluster assignments (CSV)",
+        data=_export_df.to_csv(index=False),
+        file_name=f"lsa_clusters_{cs['key_sfx']}.csv",
+        mime="text/csv",
+    )
 
 
 def render_component_scatter(THETA, components, words, result, cs, selected_n):
@@ -538,6 +554,15 @@ def render_component_scores(THETA, selected_n, n_actual, lsa_key):
     )
     st.plotly_chart(fig_heat, width='stretch', key=f"lsa_heat_{lsa_key}_{selected_n}")
 
+    _theta_df = pd.DataFrame(THETA, columns=[f"PC{i + 1}" for i in range(selected_n)])
+    _theta_df.insert(0, "chunk", list(range(n_actual)))
+    st.download_button(
+        "↓ Download component scores (CSV)",
+        data=_theta_df.to_csv(index=False),
+        file_name=f"lsa_scores_{lsa_key}.csv",
+        mime="text/csv",
+    )
+
 
 # ── Page layout and controls ───────────────────────────────────────────────────
 
@@ -622,10 +647,12 @@ _cum_var   = np.cumsum(explained)
 
 # ── Render sections ────────────────────────────────────────────────────────────
 
+_boundaries = load_boundaries(APP_DIR)
+
 cs = render_hac_dendrogram(result, THETA, n_actual, _lsa_key, _selected_k, _selected_n, src_id, _n_tokens_early)
 
 st.divider()
-render_cluster_strip(cs, n_actual)
+render_cluster_strip(cs, n_actual, boundaries=_boundaries)
 
 st.divider()
 render_component_scatter(THETA, components, words, result, cs, _selected_n)
