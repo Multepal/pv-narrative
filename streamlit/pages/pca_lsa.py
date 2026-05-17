@@ -14,8 +14,9 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import PCA
 from scipy.spatial.distance import pdist
 from scipy.spatial import ConvexHull
-from scipy.cluster.hierarchy import linkage, fcluster, dendrogram as scipy_dendrogram
+from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
+from utils import find_token_file, load_tokens, make_chunks, threshold_for_k, build_dendrogram_figure
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -31,41 +32,9 @@ st.markdown(
 )
 
 
-def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
-
-
-def _make_chunks(src_id, token_path, n_chunks):
-    TOKEN = load_tokens(src_id, token_path)
-    token_reset = TOKEN.reset_index()
-    token_reset["chunk_num"] = pd.cut(
-        token_reset.index, n_chunks, labels=list(range(n_chunks))
-    )
-    chunks_s = (
-        token_reset.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-    )
-    return chunks_s.tolist()
-
-
 @st.cache_data(show_spinner="Running PCA…")
 def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_range=(1, 1)):
-    chunks_list = _make_chunks(src_id, token_path, n_chunks)
+    chunks_list = make_chunks(src_id, token_path, n_chunks)
     if len(chunks_list) < 3:
         return None
     try:
@@ -97,76 +66,6 @@ def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_ra
         'chunks_list': chunks_list,
         'chunk_top_words': _top_words,
     }
-
-
-def threshold_for_k(Z, k, n):
-    k = max(2, min(k, n - 1))
-    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
-
-
-def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
-    gray = '#CCCCCC'
-    node_clusters: dict = {}
-
-    def leaf_clusters(node):
-        if node in node_clusters:
-            return node_clusters[node]
-        if node < n:
-            result = frozenset([labels[node]])
-        else:
-            i = int(node - n)
-            result = leaf_clusters(int(Z[i, 0])) | leaf_clusters(int(Z[i, 1]))
-        node_clusters[node] = result
-        return result
-
-    for i in range(len(Z)):
-        leaf_clusters(n + i)
-
-    def link_color_func(k):
-        cs = leaf_clusters(k)
-        return cluster_to_color[next(iter(cs))] if len(cs) == 1 else gray
-
-    dend = scipy_dendrogram(Z, no_plot=True, link_color_func=link_color_func)
-
-    _height_to_z = {float(Z[i, 2]): i for i in range(len(Z))}
-    cluster_root_height: dict = {}
-    for i in range(len(Z)):
-        cs = node_clusters[n + i]
-        if len(cs) == 1:
-            c = next(iter(cs))
-            h = float(Z[i, 2])
-            if c not in cluster_root_height or h > cluster_root_height[c]:
-                cluster_root_height[c] = h
-
-    cluster_root_x: dict = {}
-    for xs, ys in zip(dend['icoord'], dend['dcoord']):
-        h = float(ys[1])
-        z_idx = _height_to_z.get(h)
-        if z_idx is None:
-            continue
-        cs = node_clusters.get(n + z_idx, frozenset())
-        if len(cs) == 1:
-            c = next(iter(cs))
-            if cluster_root_height.get(c) == h:
-                cluster_root_x[c] = (float(xs[1]) + float(xs[2])) / 2
-
-    fig = go.Figure()
-    for xs, ys, color in zip(dend['icoord'], dend['dcoord'], dend['color_list']):
-        fig.add_trace(go.Scatter(
-            x=xs, y=ys, mode='lines',
-            line=dict(color=color, width=2.5),
-            showlegend=False, hoverinfo='none',
-        ))
-
-    leaf_x = [10 * i + 5 for i in range(n)]
-    fig.update_layout(
-        xaxis=dict(tickvals=leaf_x, ticktext=[chunk_labels[o] for o in dend['leaves']],
-                   range=[-5, 10 * n + 5],
-                   showline=False, showgrid=False, zeroline=False),
-        yaxis=dict(showline=False, showgrid=False, zeroline=False),
-        plot_bgcolor='white',
-    )
-    return fig, dend['leaves'], cluster_root_x
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────

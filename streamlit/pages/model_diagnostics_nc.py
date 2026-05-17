@@ -15,6 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_distances
 from toc import render_toc
+from utils import find_token_file, load_tokens, make_chunks
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,38 +29,6 @@ st.markdown(
     f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
     unsafe_allow_html=True,
 )
-
-
-def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
-
-
-def _make_chunks(src_id, token_path, n_chunks):
-    TOKEN = load_tokens(src_id, token_path)
-    token_reset = TOKEN.reset_index()
-    token_reset["chunk_num"] = pd.cut(
-        token_reset.index, n_chunks, labels=list(range(n_chunks))
-    )
-    chunks_s = (
-        token_reset.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-    )
-    return chunks_s.tolist()
 
 
 def _umass_coherence(X_bin, feature_names, top_words):
@@ -80,7 +49,7 @@ def _umass_coherence(X_bin, feature_names, top_words):
 
 @st.cache_data(show_spinner="Running elbow analysis…")
 def run_elbow(src_id, token_path, n_chunks, min_df, max_df, max_topics, model_type, ngram_range=(1, 1)):
-    chunks_list = _make_chunks(src_id, token_path, n_chunks)
+    chunks_list = make_chunks(src_id, token_path, n_chunks)
     if len(chunks_list) < 2:
         return None
     try:
@@ -120,7 +89,7 @@ def run_elbow(src_id, token_path, n_chunks, min_df, max_df, max_topics, model_ty
 
 @st.cache_data(show_spinner="Running topic model…")
 def run_model(src_id, token_path, n_chunks, min_df, max_df, n_topics, model_type, n_top_words, ngram_range=(1, 1)):
-    chunks_list = _make_chunks(src_id, token_path, n_chunks)
+    chunks_list = make_chunks(src_id, token_path, n_chunks)
     if len(chunks_list) < 2:
         return None, None, None
     try:

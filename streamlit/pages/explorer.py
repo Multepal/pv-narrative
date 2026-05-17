@@ -13,6 +13,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import NMF
 from sklearn.preprocessing import MinMaxScaler
 from scipy.spatial import distance
+from utils import load_tokens
 
 # Point back to streamlit/ so config.yaml and token file paths resolve identically
 # to when this code lived in app.py
@@ -35,14 +36,6 @@ def find_token_file(src_id: str) -> str | None:
         if os.path.exists(norm):
             return norm
     return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
 
 
 @st.cache_data(show_spinner=False)

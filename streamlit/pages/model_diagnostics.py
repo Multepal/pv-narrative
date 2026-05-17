@@ -15,6 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_distances
 from toc import render_toc
+from utils import find_token_file, load_tokens
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -28,29 +29,6 @@ st.markdown(
     f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
     unsafe_allow_html=True,
 )
-
-
-def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        # os.path.join(APP_DIR, src_id, f"{src_id}-TOKEN.csv"),
-        # os.path.join(APP_DIR, "ensemble", f"{src_id}-TOKEN.csv"),
-        # os.path.join(APP_DIR, f"{src_id}-TOKEN.csv"),
-        # os.path.join(APP_DIR, "..", src_id, f"{src_id}-TOKEN.csv"),
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
 
 
 @st.cache_data(show_spinner=False)

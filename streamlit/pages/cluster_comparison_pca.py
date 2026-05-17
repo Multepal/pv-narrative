@@ -12,10 +12,12 @@ import plotly.express as px
 import plotly.graph_objects as go
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
-from sklearn.metrics import adjusted_rand_score
-from scipy.spatial.distance import pdist, hamming
+from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
+from utils import (find_token_file, load_tokens, threshold_for_k, cluster_string,
+                   mean_pairwise_hamming, mean_pairwise_ari,
+                   pairwise_hamming_matrix, pairwise_ari_matrix)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -38,25 +40,6 @@ HOLDOUT_DEFS = {
     "max_df":    {"label": "max_df",       "dtype": float, "vals": [round(v, 2) for v in np.arange(0.20, 0.95, 0.10)]},
     "ngram_max": {"label": "ngram max",    "dtype": int,   "vals": list(range(1, 5))},
 }
-
-
-def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
 
 
 @st.cache_data(show_spinner=False)
@@ -87,61 +70,6 @@ def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)
     X_pca = TruncatedSVD(n_components=n_comp, random_state=42).fit_transform(X)
     Z = linkage(pdist(X_pca, metric="euclidean"), method="ward")
     return {"Z": Z, "n_chunks": len(chunks_list)}
-
-
-def threshold_for_k(Z, k, n):
-    k = max(2, min(k, n - 1))
-    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
-
-
-def cluster_string(labels) -> str:
-    mapping: dict = {}
-    result = []
-    for lbl in labels:
-        if lbl not in mapping:
-            mapping[lbl] = chr(65 + len(mapping))
-        result.append(mapping[lbl])
-    return "".join(result)
-
-
-def mean_pairwise_hamming(strings: list[str]) -> float:
-    n = len(strings)
-    if n < 2:
-        return float("nan")
-    return float(np.mean([
-        hamming(list(strings[i]), list(strings[j]))
-        for i in range(n) for j in range(i + 1, n)
-    ]))
-
-
-def mean_pairwise_ari(label_arrays: list) -> float:
-    n = len(label_arrays)
-    if n < 2:
-        return float("nan")
-    return float(np.mean([
-        adjusted_rand_score(label_arrays[i], label_arrays[j])
-        for i in range(n) for j in range(i + 1, n)
-    ]))
-
-
-def pairwise_hamming_matrix(strings: list[str]) -> np.ndarray:
-    n = len(strings)
-    mat = np.zeros((n, n))
-    for i in range(n):
-        for j in range(i + 1, n):
-            d = hamming(list(strings[i]), list(strings[j]))
-            mat[i, j] = mat[j, i] = d
-    return mat
-
-
-def pairwise_ari_matrix(label_arrays: list) -> np.ndarray:
-    n = len(label_arrays)
-    mat = np.ones((n, n))
-    for i in range(n):
-        for j in range(i + 1, n):
-            score = adjusted_rand_score(label_arrays[i], label_arrays[j])
-            mat[i, j] = mat[j, i] = score
-    return mat
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────

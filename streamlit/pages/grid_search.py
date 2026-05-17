@@ -15,9 +15,10 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer
-from scipy.spatial.distance import pdist, hamming
+from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
+from utils import find_token_file, load_tokens, threshold_for_k, cluster_string, mean_pairwise_hamming
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -27,25 +28,6 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 SOURCES_META = cfg["sources"]
 LANG_LABELS  = cfg["languages"]
 K_VALS       = list(range(2, 21))
-
-
-def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
 
 
 @st.cache_data(show_spinner=False)
@@ -73,31 +55,6 @@ def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)
     tfidf_dense = X.toarray()
     Z = linkage(pdist(tfidf_dense, metric="euclidean"), method="ward")
     return {"Z": Z, "n_chunks": len(chunks_list)}
-
-
-def threshold_for_k(Z, k, n):
-    k = max(2, min(k, n - 1))
-    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
-
-
-def cluster_string(labels) -> str:
-    mapping: dict = {}
-    result = []
-    for lbl in labels:
-        if lbl not in mapping:
-            mapping[lbl] = chr(65 + len(mapping))
-        result.append(mapping[lbl])
-    return "".join(result)
-
-
-def mean_pairwise_hamming(strings: list[str]) -> float:
-    n = len(strings)
-    if n < 2:
-        return float("nan")
-    return float(np.mean([
-        hamming(list(strings[i]), list(strings[j]))
-        for i in range(n) for j in range(i + 1, n)
-    ]))
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────

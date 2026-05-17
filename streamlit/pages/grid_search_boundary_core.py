@@ -15,6 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD, NMF
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage
+from utils import find_token_file, load_tokens, threshold_for_k
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -25,21 +26,6 @@ N_COMPONENTS = 10
 FIXED_MIN_DF = 5
 FIXED_NGRAM  = (1, 1)
 NMF_MAX_ITER = _cfg["model"]["nmf_max_iter"]
-
-
-def find_token_file(src_id: str) -> str | None:
-    p = os.path.normpath(
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv")
-    )
-    return p if os.path.exists(p) else None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
 
 
 def _vectorize(src_id, token_path, n_chunks, min_df, max_df, ngram_range):
@@ -111,11 +97,6 @@ def run_nmf_labels(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=
     except Exception:
         return None
     return np.argmax(THETA, axis=1)
-
-
-def threshold_for_k(Z, k, n):
-    k = max(2, min(k, n - 1))
-    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
 
 
 def get_boundaries(labels: np.ndarray) -> np.ndarray:

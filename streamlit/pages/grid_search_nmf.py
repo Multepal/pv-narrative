@@ -17,8 +17,8 @@ import plotly.graph_objects as go
 import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import NMF
-from sklearn.metrics import adjusted_rand_score
 from toc import render_toc
+from utils import find_token_file, load_tokens, mean_pairwise_ari
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -31,25 +31,6 @@ K_VALS        = list(range(2, 21))
 NMF_MAX_ITER  = cfg["model"]["nmf_max_iter"]
 FIXED_MIN_DF  = 5
 FIXED_NGRAM   = (1, 1)
-
-
-def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
 
 
 @st.cache_data(show_spinner=False)
@@ -83,17 +64,6 @@ def run_nmf_labels(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=
     except Exception:
         return None
     return np.argmax(THETA, axis=1)
-
-
-def mean_pairwise_ari(label_arrays: list[np.ndarray]) -> float:
-    n = len(label_arrays)
-    if n < 2:
-        return float("nan")
-    scores = [
-        adjusted_rand_score(label_arrays[i], label_arrays[j])
-        for i in range(n) for j in range(i + 1, n)
-    ]
-    return float(np.mean(scores))
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────

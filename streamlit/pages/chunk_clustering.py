@@ -12,8 +12,9 @@ import plotly.graph_objects as go
 from wordcloud import WordCloud
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.spatial.distance import pdist
-from scipy.cluster.hierarchy import linkage, fcluster, leaves_list, dendrogram as scipy_dendrogram
+from scipy.cluster.hierarchy import linkage, fcluster, leaves_list
 from toc import render_toc
+from utils import find_token_file, load_tokens, threshold_for_k, make_cluster_table, build_dendrogram_figure
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -27,25 +28,6 @@ st.markdown(
     f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
     unsafe_allow_html=True,
 )
-
-
-def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
 
 
 @st.cache_data(show_spinner=False)
@@ -122,101 +104,6 @@ def run_linkage(src_id, token_path, chunk_size, overlap_int, min_df, max_df, ngr
         'chunks_list': chunks_list,
         'n_chunks': n_chunks,
     }
-
-
-def make_cluster_table(tfidf_dense, words, labels, n_top_words):
-    """Top terms per cluster by mean TF-IDF weight."""
-    tfidf_df = pd.DataFrame(tfidf_dense, columns=words)
-    cluster_s = pd.Series(labels, name='cluster')
-    cluster_tfidf = tfidf_df.groupby(cluster_s).mean()
-    top_terms = cluster_tfidf.apply(
-        lambda row: ", ".join(row.sort_values(ascending=False).head(n_top_words).index), axis=1
-    )
-    n_per = cluster_s.value_counts().sort_index().rename('n_chunks')
-    return pd.DataFrame({'n_chunks': n_per, 'top_terms': top_terms})
-
-
-def threshold_for_k(Z, k, n):
-    """Return a threshold value that yields exactly k clusters via distance criterion."""
-    heights = Z[:, 2]  # already sorted ascending by scipy
-    k = max(2, min(k, n - 1))
-    idx_low  = n - k - 1
-    idx_high = n - k
-    return float((heights[idx_low] + heights[idx_high]) / 2)
-
-
-def build_dendrogram_figure(Z, labels, n, cluster_to_color, chunk_labels):
-    """Plotly dendrogram with branch colors matching cluster_to_color assignments."""
-    gray = '#CCCCCC'
-    node_clusters: dict = {}
-
-    def leaf_clusters(node):
-        if node in node_clusters:
-            return node_clusters[node]
-        if node < n:
-            result = frozenset([labels[node]])
-        else:
-            i = int(node - n)
-            left, right = int(Z[i, 0]), int(Z[i, 1])
-            result = leaf_clusters(left) | leaf_clusters(right)
-        node_clusters[node] = result
-        return result
-
-    # Precompute all internal nodes so link_color_func has no recursion overhead
-    for i in range(len(Z)):
-        leaf_clusters(n + i)
-
-    def link_color_func(k):
-        cs = leaf_clusters(k)
-        if len(cs) == 1:
-            return cluster_to_color[next(iter(cs))]
-        return gray
-
-    dend = scipy_dendrogram(Z, no_plot=True, link_color_func=link_color_func)
-
-    # For each cluster, find the x of the leftmost vertical line of its root merge.
-    # Strategy: map Z heights → Z index, then match dend icoord entries to find the root merge.
-    _height_to_z = {float(Z[i, 2]): i for i in range(len(Z))}
-    cluster_root_height: dict = {}
-    for i in range(len(Z)):
-        cs = node_clusters[n + i]
-        if len(cs) == 1:
-            c = next(iter(cs))
-            h = float(Z[i, 2])
-            if c not in cluster_root_height or h > cluster_root_height[c]:
-                cluster_root_height[c] = h
-
-    cluster_root_x: dict = {}
-    for xs, ys in zip(dend['icoord'], dend['dcoord']):
-        h = float(ys[1])
-        z_idx = _height_to_z.get(h)
-        if z_idx is None:
-            continue
-        cs = node_clusters.get(n + z_idx, frozenset())
-        if len(cs) == 1:
-            c = next(iter(cs))
-            if cluster_root_height.get(c) == h:
-                cluster_root_x[c] = (float(xs[1]) + float(xs[2])) / 2  # centre of root merge = x of vertical above threshold
-
-    fig = go.Figure()
-    for xs, ys, color in zip(dend['icoord'], dend['dcoord'], dend['color_list']):
-        fig.add_trace(go.Scatter(
-            x=xs, y=ys, mode='lines',
-            line=dict(color=color, width=2.5),
-            showlegend=False, hoverinfo='none',
-        ))
-
-    # Leaves sit at x = 5, 15, 25, … in scipy's coordinate system
-    leaf_x    = [10 * i + 5 for i in range(n)]
-    tick_text = [chunk_labels[orig] for orig in dend['leaves']]
-    fig.update_layout(
-        xaxis=dict(tickvals=leaf_x, ticktext=tick_text,
-                   range=[-5, 10 * n + 5],
-                   showline=False, showgrid=False, zeroline=False),
-        yaxis=dict(showline=False, showgrid=False, zeroline=False),
-        plot_bgcolor='white',
-    )
-    return fig, dend['leaves'], cluster_root_x
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────

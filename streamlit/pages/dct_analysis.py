@@ -25,6 +25,7 @@ from sklearn.decomposition import TruncatedSVD, NMF
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
+from utils import find_token_file, load_tokens, make_chunks, threshold_for_k
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -41,36 +42,6 @@ st.markdown(
 )
 
 
-def find_token_file(src_id: str) -> str | None:
-    candidates = [os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv")]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
-
-
-def _chunk_list(src_id, token_path, n_chunks):
-    TOKEN = load_tokens(src_id, token_path)
-    token_reset = TOKEN.reset_index()
-    token_reset["chunk_num"] = pd.cut(
-        token_reset.index, n_chunks, labels=list(range(n_chunks))
-    )
-    return (
-        token_reset.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-        .tolist()
-    )
-
-
 def _tfidf_matrix(chunks_list, min_df, max_df):
     if len(chunks_list) < 3:
         return None
@@ -84,7 +55,7 @@ def _tfidf_matrix(chunks_list, min_df, max_df):
 
 @st.cache_data(show_spinner=False)
 def run_tfidf_hac(src_id, token_path, n_chunks, min_df, max_df):
-    chunks = _chunk_list(src_id, token_path, n_chunks)
+    chunks = make_chunks(src_id, token_path, n_chunks)
     X = _tfidf_matrix(chunks, min_df, max_df)
     if X is None:
         return None
@@ -94,7 +65,7 @@ def run_tfidf_hac(src_id, token_path, n_chunks, min_df, max_df):
 
 @st.cache_data(show_spinner=False)
 def run_pca_hac(src_id, token_path, n_chunks, min_df, max_df, n_components):
-    chunks = _chunk_list(src_id, token_path, n_chunks)
+    chunks = make_chunks(src_id, token_path, n_chunks)
     X = _tfidf_matrix(chunks, min_df, max_df)
     if X is None:
         return None
@@ -107,7 +78,7 @@ def run_pca_hac(src_id, token_path, n_chunks, min_df, max_df, n_components):
 
 @st.cache_data(show_spinner=False)
 def run_nmf(src_id, token_path, n_chunks, min_df, max_df, k):
-    chunks = _chunk_list(src_id, token_path, n_chunks)
+    chunks = make_chunks(src_id, token_path, n_chunks)
     if len(chunks) < max(3, k):
         return None
     X = _tfidf_matrix(chunks, min_df, max_df)
@@ -123,7 +94,7 @@ def run_nmf(src_id, token_path, n_chunks, min_df, max_df, k):
 
 @st.cache_data(show_spinner=False)
 def run_sim_hac(src_id, token_path, n_chunks, min_df, max_df):
-    chunks = _chunk_list(src_id, token_path, n_chunks)
+    chunks = make_chunks(src_id, token_path, n_chunks)
     X = _tfidf_matrix(chunks, min_df, max_df)
     if X is None:
         return None
@@ -141,11 +112,6 @@ def normalize_labels(raw):
             mapping[lbl] = len(mapping)
         out[i] = mapping[lbl]
     return out
-
-
-def threshold_for_k(Z, k, n):
-    k = max(2, min(k, n - 1))
-    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
 
 
 def hac_labels(Z, k, n):

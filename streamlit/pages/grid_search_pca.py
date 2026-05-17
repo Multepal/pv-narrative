@@ -16,10 +16,10 @@ import plotly.graph_objects as go
 import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD
-from sklearn.metrics import adjusted_rand_score
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
+from utils import find_token_file, load_tokens, threshold_for_k, mean_pairwise_ari
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,25 +30,6 @@ SOURCES_META = cfg["sources"]
 LANG_LABELS  = cfg["languages"]
 K_VALS       = list(range(2, 21))
 N_COMPONENTS = 10
-
-
-def find_token_file(src_id: str) -> str | None:
-    candidates = [
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv"),
-    ]
-    for p in candidates:
-        norm = os.path.normpath(p)
-        if os.path.exists(norm):
-            return norm
-    return None
-
-
-@st.cache_data(show_spinner=False)
-def load_tokens(src_id: str, token_path: str) -> pd.DataFrame:
-    TOKEN = pd.read_csv(token_path)
-    idx_offset = TOKEN.columns.to_list().index("token_str")
-    ohco = TOKEN.columns.to_list()[:idx_offset]
-    return TOKEN.set_index(ohco)
 
 
 @st.cache_data(show_spinner=False)
@@ -79,22 +60,6 @@ def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)
     X_pca = TruncatedSVD(n_components=n_comp, random_state=42).fit_transform(X)
     Z = linkage(pdist(X_pca, metric="euclidean"), method="ward")
     return {"Z": Z, "n_chunks": len(chunks_list)}
-
-
-def threshold_for_k(Z, k, n):
-    k = max(2, min(k, n - 1))
-    return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
-
-
-def mean_pairwise_ari(label_arrays: list[np.ndarray]) -> float:
-    n = len(label_arrays)
-    if n < 2:
-        return float("nan")
-    scores = [
-        adjusted_rand_score(label_arrays[i], label_arrays[j])
-        for i in range(n) for j in range(i + 1, n)
-    ]
-    return float(np.mean(scores))
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
