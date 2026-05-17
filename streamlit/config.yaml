@@ -143,7 +143,7 @@ controls:
     default: 6
     step: 1
   lsa_n_components:
-    default: 5
+    default: 6
   n_chunks:
     min: 5
     max: 100
