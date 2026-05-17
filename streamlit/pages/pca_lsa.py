@@ -81,6 +81,7 @@ def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_ra
         return None
     pca   = PCA(n_components=n_components, whiten=False, random_state=42)
     THETA = pca.fit_transform(_Xd)
+    _df   = np.asarray((_Xd > 0).sum(axis=0)).ravel()
     _top_words = [
         ", ".join(_feat[j] for j in np.argsort(_Xd[i])[::-1][:5] if _Xd[i, j] > 0)
         for i in range(len(chunks_list))
@@ -89,6 +90,7 @@ def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_ra
         'THETA': THETA,
         'components': pca.components_,
         'words': _feat,
+        'df': _df,
         'explained': pca.explained_variance_ratio_,
         'n_chunks': len(chunks_list),
         'n_components': n_components,
@@ -464,18 +466,22 @@ if _selected_n >= 2:
         _pc_x_label: components[_pc_x_idx],
         _pc_y_label: components[_pc_y_idx],
         "Word":      words,
+        "df":        result['df'],
     })
     fig_loadings = px.scatter(
         _loadings_df,
         x=_pc_x_label, y=_pc_y_label,
         text="Word",
         hover_name="Word",
+        size="df",
+        size_max=20,
+        custom_data=["df"],
     )
     fig_loadings.update_traces(
-        marker=dict(size=6, color="#636EFA"),
+        marker=dict(color="#636EFA"),
         textposition="top center",
         textfont=dict(size=10),
-        hovertemplate="<b>%{hovertext}</b><br>%{xaxis.title.text} = %{x:.4f}<br>%{yaxis.title.text} = %{y:.4f}<extra></extra>",
+        hovertemplate="<b>%{hovertext}</b><br>%{xaxis.title.text} = %{x:.4f}<br>%{yaxis.title.text} = %{y:.4f}<br>df = %{customdata[0]}<extra></extra>",
     )
     fig_loadings.update_layout(
         height=580,
