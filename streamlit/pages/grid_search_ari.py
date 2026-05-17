@@ -28,6 +28,7 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
     cfg = yaml.safe_load(_f)
 
 SOURCES_META  = cfg["sources"]
+_v            = cfg["visualization"]
 K_VALS        = list(range(2, 21))
 NMF_MAX_ITER  = cfg["model"]["nmf_max_iter"]
 N_COMPONENTS  = 10
@@ -308,7 +309,7 @@ _pivot = _df_at_kstar.pivot(index="n_chunks", columns="max_df", values="mean_ari
 _fig_heat = px.imshow(
     _pivot,
     labels=dict(x="max_df", y="n_chunks", color=f"ARI at k={_k_star}"),
-    color_continuous_scale="Blues", aspect="auto", text_auto=".3f",
+    color_continuous_scale=_v["colorscale_ari"], aspect="auto", text_auto=".3f",
 )
 _fig_heat.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
 st.plotly_chart(_fig_heat, width="stretch")

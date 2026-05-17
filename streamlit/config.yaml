@@ -152,6 +152,11 @@ layout:
 
 visualization:
   heatmap_color_scale: YlGnBu
+  colorscale_ari: Blues
+  colorscale_pca: RdBu_r
+  colorscale_cluster: Greens
+  colorscale_boundary: RdYlGn
+  colorscale_transitions: Oranges
   wordcloud_colormap: Blues
   wordcloud_width: 400
   wordcloud_height: 250

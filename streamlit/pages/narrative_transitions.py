@@ -327,7 +327,7 @@ with col_left:
     st.markdown("**Transition counts**")
     fig_cnt = px.imshow(
         count_df, text_auto=True, aspect="auto",
-        color_continuous_scale="Blues",
+        color_continuous_scale=_v["colorscale_ari"],
         zmin=0,
     )
     fig_cnt.update_layout(height=_mat_h, margin=_mat_margin,
@@ -339,7 +339,7 @@ with col_right:
     st.markdown("**Transition probabilities**")
     fig_prob = px.imshow(
         prob_df.round(2), text_auto=".2f", aspect="auto",
-        color_continuous_scale="Oranges",
+        color_continuous_scale=_v["colorscale_transitions"],
         zmin=0, zmax=1,
     )
     fig_prob.update_layout(height=_mat_h, margin=_mat_margin,

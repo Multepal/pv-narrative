@@ -136,6 +136,19 @@ def build_dendrogram_figure(Z, labels, n: int, cluster_to_color: dict, chunk_lab
     return fig, dend["leaves"], cluster_root_x
 
 
+def wrap_text(text: str, width: int = 60) -> str:
+    words, lines, line = text.split(), [], []
+    for word in words:
+        if sum(len(w) for w in line) + len(line) + len(word) > width:
+            lines.append(" ".join(line))
+            line = [word]
+        else:
+            line.append(word)
+    if line:
+        lines.append(" ".join(line))
+    return "<br>".join(lines)
+
+
 def mean_pairwise_hamming(strings: list[str]) -> float:
     n = len(strings)
     if n < 2:

@@ -13,7 +13,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import NMF
 from sklearn.preprocessing import MinMaxScaler
 from scipy.spatial import distance
-from utils import load_tokens
+from utils import load_tokens, wrap_text as _wrap
 
 # Point back to streamlit/ so config.yaml and token file paths resolve identically
 # to when this code lived in app.py
@@ -215,17 +215,7 @@ if "active_chunks" not in st.session_state:
 if "last_bar_sel" not in st.session_state:
     st.session_state["last_bar_sel"] = None
 
-def _wrap(text, width=_v["wrap_width"]):
-    words, lines, line = text.split(), [], []
-    for word in words:
-        if sum(len(w) for w in line) + len(line) + len(word) > width:
-            lines.append(" ".join(line))
-            line = [word]
-        else:
-            line.append(word)
-    if line:
-        lines.append(" ".join(line))
-    return "<br>".join(lines)
+
 
 _preview_len = _v["preview_len"]
 _chunk_previews = [

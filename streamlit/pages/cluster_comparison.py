@@ -32,6 +32,7 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 
 SOURCES_META = cfg["sources"]
 LANG_LABELS  = cfg["languages"]
+_v           = cfg["visualization"]
 NMF_MAX_ITER = cfg["model"]["nmf_max_iter"]
 N_COMPONENTS = 10
 
@@ -326,7 +327,7 @@ if len(df_sel) >= 2:
 
     with col_left:
         st.markdown("**Hamming distance** (0 = identical, 1 = maximally different)")
-        fig_ham = px.imshow(ham_df, color_continuous_scale="Blues", zmin=0, zmax=1,
+        fig_ham = px.imshow(ham_df, color_continuous_scale=_v["colorscale_ari"], zmin=0, zmax=1,
                             text_auto=".3f", aspect="auto")
         fig_ham.update_layout(height=_h, margin=_margin,
                               coloraxis_colorbar=dict(title="Hamming"))
@@ -335,7 +336,7 @@ if len(df_sel) >= 2:
 
     with col_right:
         st.markdown("**ARI** (1 = identical structure, 0 = random, negative = anti-correlated)")
-        fig_ari = px.imshow(ari_df, color_continuous_scale="Greens", zmin=0, zmax=1,
+        fig_ari = px.imshow(ari_df, color_continuous_scale=_v["colorscale_cluster"], zmin=0, zmax=1,
                             text_auto=".3f", aspect="auto")
         fig_ari.update_layout(height=_h, margin=_margin,
                               coloraxis_colorbar=dict(title="ARI"))

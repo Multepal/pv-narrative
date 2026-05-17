@@ -15,7 +15,7 @@ from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics.pairwise import cosine_distances
 from toc import render_toc
-from utils import find_token_file, load_tokens, make_chunks
+from utils import find_token_file, load_tokens, make_chunks, wrap_text
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -123,18 +123,7 @@ def render_heatmap(THETA, PHI, chunks_list, key="heatmap"):
     height = n_topics * _row_h + 60
     _preview_len = _v["preview_len"]
 
-    def _wrap(text, width=_v["wrap_width"]):
-        words, lines, line = text.split(), [], []
-        for word in words:
-            if sum(len(w) for w in line) + len(line) + len(word) > width:
-                lines.append(" ".join(line))
-                line = [word]
-            else:
-                line.append(word)
-        if line:
-            lines.append(" ".join(line))
-        return "<br>".join(lines)
-
+    _wrap = lambda text: wrap_text(text, _v["wrap_width"])
     _chunk_previews = [
         _wrap((c[:_preview_len] + "…") if len(c) > _preview_len else c)
         for c in chunks_list

@@ -33,6 +33,7 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
     cfg = yaml.safe_load(_f)
 
 SOURCES_META = cfg["sources"]
+_v           = cfg["visualization"]
 K_VALS       = list(range(2, 21))
 
 HAC_RUN_FNS = {
@@ -267,7 +268,7 @@ if method == "Ensemble":
     pivot_con = merged.pivot(index="n_chunks", columns="max_df", values="consensus_score")
     fig_con   = px.imshow(pivot_con,
                           labels=dict(x="max_df", y="n_chunks", color="Consensus score"),
-                          color_continuous_scale="RdYlGn", zmin=0, zmax=1,
+                          color_continuous_scale=_v["colorscale_boundary"], zmin=0, zmax=1,
                           aspect="auto", text_auto=".2f")
     fig_con.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
     st.plotly_chart(fig_con, width="stretch")
@@ -308,7 +309,7 @@ if method == "Ensemble":
     )
     fig_sharp = px.imshow(pivot_sharp,
                           labels=dict(x="max_df", y="n_chunks", color="Mean sharpness"),
-                          color_continuous_scale="Blues", aspect="auto", text_auto=".3f")
+                          color_continuous_scale=_v["colorscale_ari"], aspect="auto", text_auto=".3f")
     fig_sharp.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
     st.plotly_chart(fig_sharp, width="stretch")
 
@@ -490,7 +491,7 @@ else:
     _pivot = _df_at_kstar.pivot(index="n_chunks", columns="max_df", values="mean_f1")
     _fig_heat = px.imshow(_pivot,
                           labels=dict(x="max_df", y="n_chunks", color=f"Boundary F1 at k={_k_star}"),
-                          color_continuous_scale="Blues", aspect="auto", text_auto=".3f")
+                          color_continuous_scale=_v["colorscale_ari"], aspect="auto", text_auto=".3f")
     _fig_heat.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
     st.plotly_chart(_fig_heat, width="stretch")
 
