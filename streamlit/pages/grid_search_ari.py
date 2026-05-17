@@ -1,12 +1,10 @@
 """
-Parameter Grid Search (ARI) — sweep all combinations of non-k parameters and
-report how cross-edition Adjusted Rand Index varies with k for each combination.
+Parameter Grid Search — Cross-Edition ARI (method selector).
 
-k is swept cheaply post-linkage (fcluster only). Expensive linkage runs are
-cached, so the full grid costs one upfront computation then stays instant.
+Sweeps combinations of n_chunks and max_df; reports mean pairwise ARI vs. k.
 
-ARI operates on raw integer label arrays and is permutation-invariant, so it
-correctly scores structurally identical clusterings regardless of label order.
+  TF-IDF / LSA / Cosine-Sim — k swept cheaply post-linkage (fcluster only)
+  NMF                        — full fit per (combo, k); cached but slow first run
 """
 
 import os
@@ -18,6 +16,7 @@ import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import TruncatedSVD, NMF
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
@@ -28,23 +27,36 @@ APP_DIR = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
     cfg = yaml.safe_load(_f)
 
-SOURCES_META = cfg["sources"]
-LANG_LABELS  = cfg["languages"]
-K_VALS       = list(range(2, 21))
+SOURCES_META  = cfg["sources"]
+K_VALS        = list(range(2, 21))
+NMF_MAX_ITER  = cfg["model"]["nmf_max_iter"]
+N_COMPONENTS  = 10
+FIXED_MIN_DF  = 5
+FIXED_NGRAM   = (1, 1)
+
+METHOD_LABELS = {
+    "TF-IDF":     "TF-IDF → Ward HAC",
+    "LSA":        f"TF-IDF → LSA (SVD, n={N_COMPONENTS}) → Ward HAC",
+    "Cosine-Sim": "TF-IDF → cosine-similarity matrix → Ward HAC",
+    "NMF":        "TF-IDF → NMF (full fit per k)",
+}
+
+METHOD_K_LABEL = {
+    "TF-IDF": "k (clusters)", "LSA": "k (clusters)",
+    "Cosine-Sim": "k (clusters)", "NMF": "k (topics)",
+}
 
 
 @st.cache_data(show_spinner=False)
-def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)):
+def run_hac_grid(src_id, token_path, n_chunks, min_df, max_df, method, ngram_range=(1, 1)):
     TOKEN = load_tokens(src_id, token_path)
-    token_reset = TOKEN.reset_index()
-    token_reset["chunk_num"] = pd.cut(
-        token_reset.index, n_chunks, labels=list(range(n_chunks))
-    )
-    chunks_s = (
-        token_reset.groupby("chunk_num", observed=True)["term_str"]
+    tr = TOKEN.reset_index()
+    tr["chunk_num"] = pd.cut(tr.index, n_chunks, labels=list(range(n_chunks)))
+    chunks_list = (
+        tr.groupby("chunk_num", observed=True)["term_str"]
         .apply(lambda x: " ".join(x.dropna()))
+        .tolist()
     )
-    chunks_list = chunks_s.tolist()
     if len(chunks_list) < 3:
         return None
     try:
@@ -55,9 +67,46 @@ def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)
         X = vec.fit_transform(chunks_list)
     except ValueError:
         return None
-    tfidf_dense = X.toarray()
-    Z = linkage(pdist(tfidf_dense, metric="euclidean"), method="ward")
+    if method == "LSA":
+        n_comp = min(N_COMPONENTS, X.shape[0] - 1, X.shape[1] - 1)
+        if n_comp < 2:
+            return None
+        mat = TruncatedSVD(n_components=n_comp, random_state=42).fit_transform(X)
+    elif method == "Cosine-Sim":
+        mat = (X @ X.T).toarray()
+    else:
+        mat = X.toarray()
+    Z = linkage(pdist(mat, metric="euclidean"), method="ward")
     return {"Z": Z, "n_chunks": len(chunks_list)}
+
+
+@st.cache_data(show_spinner=False)
+def run_nmf_grid(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1)):
+    TOKEN = load_tokens(src_id, token_path)
+    tr = TOKEN.reset_index()
+    tr["chunk_num"] = pd.cut(tr.index, n_chunks, labels=list(range(n_chunks)))
+    chunks_list = (
+        tr.groupby("chunk_num", observed=True)["term_str"]
+        .apply(lambda x: " ".join(x.dropna()))
+        .tolist()
+    )
+    if len(chunks_list) < max(3, k):
+        return None
+    try:
+        vec = TfidfVectorizer(
+            lowercase=True, max_df=max_df, min_df=min_df,
+            strip_accents=None, norm="l2", ngram_range=ngram_range,
+        )
+        X = vec.fit_transform(chunks_list)
+    except ValueError:
+        return None
+    if X.shape[1] < k:
+        return None
+    try:
+        THETA = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER).fit_transform(X)
+    except Exception:
+        return None
+    return np.argmax(THETA, axis=1)
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
@@ -66,86 +115,109 @@ st.markdown(
     unsafe_allow_html=True,
 )
 
-st.title("Parameter Grid Search (ARI)")
+st.title("Parameter Grid Search — ARI")
 render_toc([
-    ("ARI vs. k",             "ari-chart"),
-    ("Optimal k Distribution","k-distribution"),
-    ("Best Parameters",       "best-params"),
-    ("Summary",               "summary"),
+    ("ARI vs. k",              "ari-chart"),
+    ("Optimal k Distribution", "k-distribution"),
+    ("Best Parameters",        "best-params"),
+    ("Summary",                "summary"),
 ])
 st.caption(
-    "For each combination of non-k parameters, linkage is computed once per edition "
-    "then k is swept from 2–20 cheaply. Reports the optimal k* and maximum mean pairwise "
-    "Adjusted Rand Index for each combination. "
-    "ARI is permutation-invariant: structurally identical clusterings always score 1.0 "
-    "regardless of label assignment order. Results are cached after the first run."
+    "Sweeps `n_chunks` × `max_df` combinations; reports mean pairwise ARI vs. k. "
+    "For HAC methods k is swept cheaply post-linkage. "
+    "For NMF each (combo, k) requires a full fit — first load is slow; results are cached."
 )
 
-col1, col2 = st.columns(2)
+col_m, col1, col2 = st.columns(3)
+method = col_m.selectbox("Method", list(METHOD_LABELS.keys()),
+                          format_func=lambda x: METHOD_LABELS[x])
+k_label = METHOD_K_LABEL[method]
 
-nc_range = col1.slider("n_chunks range", min_value=5, max_value=50, value=(10, 40), step=5)
-nc_vals  = list(range(nc_range[0], nc_range[1] + 1, 5))
-
-maxdf_range = col2.slider("max_df range", min_value=0.20, max_value=0.95, value=(0.30, 0.70), step=0.05, format="%.2f")
+nc_range    = col1.slider("n_chunks range", min_value=5, max_value=50, value=(10, 40), step=5)
+nc_vals     = list(range(nc_range[0], nc_range[1] + 1, 5))
+maxdf_range = col2.slider("max_df range", min_value=0.20, max_value=0.95, value=(0.30, 0.70),
+                           step=0.05, format="%.2f")
 _n_maxdf    = round((maxdf_range[1] - maxdf_range[0]) / 0.05) + 1
 maxdf_vals  = [round(maxdf_range[0] + i * 0.05, 2) for i in range(_n_maxdf)]
 
-FIXED_MIN_DF  = 5
-FIXED_NGRAM   = (1, 1)
-
 n_combos = len(nc_vals) * len(maxdf_vals)
-st.caption(f"**{n_combos}** combinations · **{n_combos * len(SOURCES_META)}** linkage runs (est.)  ·  min_df={FIXED_MIN_DF} · ngram=(1,1) fixed")
+if method == "NMF":
+    n_fits = n_combos * len(K_VALS) * len(SOURCES_META)
+    st.caption(
+        f"**{n_combos}** combinations × **{len(K_VALS)}** k values × **{len(SOURCES_META)}** editions "
+        f"= **{n_fits}** NMF fits (est.)  ·  min_df={FIXED_MIN_DF} · ngram=(1,1) fixed"
+    )
+else:
+    st.caption(
+        f"**{n_combos}** combinations · **{n_combos * len(SOURCES_META)}** linkage runs (est.)  "
+        f"·  min_df={FIXED_MIN_DF} · ngram=(1,1) fixed"
+    )
 
 # ── Grid computation ───────────────────────────────────────────────────────────
 combos      = list(itertools.product(nc_vals, maxdf_vals))
 token_files = {src_id: find_token_file(src_id) for src_id in SOURCES_META}
-
-curve_rows   = []
+curve_rows  = []
 summary_rows = []
-progress     = st.progress(0, text="Running grid…")
+progress    = st.progress(0, text="Running grid…")
 
-for ci, (nc, mxdf) in enumerate(combos):
-    progress.progress(
-        (ci + 1) / len(combos),
-        text=f"combo {ci + 1}/{len(combos)}  ·  n_chunks={nc}  max_df={mxdf}",
-    )
-
-    linkage_cache = {}
-    for src_id in SOURCES_META:
-        tp = token_files[src_id]
-        if tp is None:
+if method == "NMF":
+    total_steps = len(combos) * len(K_VALS)
+    step = 0
+    for nc, mxdf in combos:
+        combo_label  = f"nc={nc} · max_df={mxdf:.2f}"
+        combo_k_rows = []
+        for k in K_VALS:
+            step += 1
+            progress.progress(step / total_steps,
+                              text=f"{combo_label}  ·  k={k}  ({step}/{total_steps})")
+            label_arrays = []
+            for src_id in SOURCES_META:
+                tp = token_files[src_id]
+                if tp is None:
+                    continue
+                labels = run_nmf_grid(src_id, tp, nc, FIXED_MIN_DF, mxdf, k, FIXED_NGRAM)
+                if labels is not None:
+                    label_arrays.append(labels)
+            if len(label_arrays) < 2:
+                continue
+            ari = mean_pairwise_ari(label_arrays)
+            combo_k_rows.append({"k": k, "mean_ari": ari})
+            curve_rows.append({"combo_label": combo_label, "n_chunks": nc, "max_df": mxdf,
+                               "k": k, "mean_ari": ari})
+        if combo_k_rows:
+            best = max(combo_k_rows, key=lambda r: r["mean_ari"])
+            summary_rows.append({"combo_label": combo_label, "n_chunks": nc, "max_df": mxdf,
+                                  "k*": int(best["k"]),
+                                  "max_ari": round(float(best["mean_ari"]), 4)})
+else:
+    for ci, (nc, mxdf) in enumerate(combos):
+        progress.progress((ci + 1) / len(combos),
+                          text=f"combo {ci + 1}/{len(combos)}  ·  n_chunks={nc}  max_df={mxdf}")
+        linkage_cache = {}
+        for src_id in SOURCES_META:
+            tp = token_files[src_id]
+            if tp is None:
+                continue
+            result = run_hac_grid(src_id, tp, nc, FIXED_MIN_DF, mxdf, method, FIXED_NGRAM)
+            if result is not None:
+                linkage_cache[src_id] = result
+        if len(linkage_cache) < 2:
             continue
-        result = run_linkage(src_id, tp, nc, FIXED_MIN_DF, mxdf, FIXED_NGRAM)
-        if result is not None:
-            linkage_cache[src_id] = result
-
-    if len(linkage_cache) < 2:
-        continue
-
-    combo_label = f"nc={nc} · max_df={mxdf:.2f}"
-    combo_k_rows = []
-
-    for k in K_VALS:
-        label_arrays = []
-        for src_id, result in linkage_cache.items():
-            Z, n = result["Z"], result["n_chunks"]
-            labels = fcluster(Z, threshold_for_k(Z, k, n), criterion="distance")
-            label_arrays.append(labels)
-        ari = mean_pairwise_ari(label_arrays)
-        combo_k_rows.append({"k": k, "mean_ari": ari})
-        curve_rows.append({
-            "combo_label": combo_label,
-            "n_chunks": nc, "max_df": mxdf,
-            "k": k, "mean_ari": ari,
-        })
-
-    best = max(combo_k_rows, key=lambda r: r["mean_ari"])
-    summary_rows.append({
-        "combo_label": combo_label,
-        "n_chunks": nc, "max_df": mxdf,
-        "k*": int(best["k"]),
-        "max_ari": round(float(best["mean_ari"]), 4),
-    })
+        combo_label  = f"nc={nc} · max_df={mxdf:.2f}"
+        combo_k_rows = []
+        for k in K_VALS:
+            label_arrays = [
+                fcluster(r["Z"], threshold_for_k(r["Z"], k, r["n_chunks"]), criterion="distance")
+                for r in linkage_cache.values()
+            ]
+            ari = mean_pairwise_ari(label_arrays)
+            combo_k_rows.append({"k": k, "mean_ari": ari})
+            curve_rows.append({"combo_label": combo_label, "n_chunks": nc, "max_df": mxdf,
+                               "k": k, "mean_ari": ari})
+        best = max(combo_k_rows, key=lambda r: r["mean_ari"])
+        summary_rows.append({"combo_label": combo_label, "n_chunks": nc, "max_df": mxdf,
+                              "k*": int(best["k"]),
+                              "max_ari": round(float(best["mean_ari"]), 4)})
 
 progress.empty()
 
@@ -165,31 +237,22 @@ st.caption(
 )
 
 fig = go.Figure()
-
 for label, gdf in df_curves.groupby("combo_label", sort=False):
     fig.add_trace(go.Scatter(
-        x=gdf["k"], y=gdf["mean_ari"],
-        mode="lines",
-        line=dict(color="#CCCCCC", width=1),
-        showlegend=False,
+        x=gdf["k"], y=gdf["mean_ari"], mode="lines",
+        line=dict(color="#CCCCCC", width=1), showlegend=False,
         hovertemplate=f"{label}<br>k=%{{x}}<br>ARI=%{{y:.3f}}<extra></extra>",
     ))
-
 mean_curve = df_curves.groupby("k")["mean_ari"].mean().reset_index()
 fig.add_trace(go.Scatter(
-    x=mean_curve["k"], y=mean_curve["mean_ari"],
-    mode="lines+markers",
-    line=dict(color="#1f77b4", width=3),
-    marker=dict(size=6),
+    x=mean_curve["k"], y=mean_curve["mean_ari"], mode="lines+markers",
+    line=dict(color="#1f77b4", width=3), marker=dict(size=6),
     name="Mean across combos",
     hovertemplate="mean · k=%{x}<br>ARI=%{y:.3f}<extra></extra>",
 ))
-
 fig.update_layout(
-    height=400,
-    margin=dict(l=60, r=30, t=10, b=50),
-    plot_bgcolor="white",
-    xaxis=dict(title="k (clusters)", dtick=1, showgrid=False, zeroline=False),
+    height=400, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
+    xaxis=dict(title=k_label, dtick=1, showgrid=False, zeroline=False),
     yaxis=dict(title="Mean ARI", range=[-0.05, 1.05],
                showgrid=True, gridcolor="#EEEEEE", zeroline=False),
     legend=dict(x=0.02, y=0.02),
@@ -207,13 +270,10 @@ k_star_counts = (
     .reset_index()
 )
 k_star_counts.columns = ["k*", "count"]
-
 fig_bar = px.bar(k_star_counts, x="k*", y="count",
-                 labels={"k*": "k (clusters)", "count": "# combinations"})
+                 labels={"k*": k_label, "count": "# combinations"})
 fig_bar.update_layout(
-    height=280,
-    margin=dict(l=60, r=30, t=10, b=50),
-    plot_bgcolor="white",
+    height=280, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
     xaxis=dict(dtick=1, showgrid=False, zeroline=False),
     yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
 )
@@ -223,11 +283,10 @@ st.plotly_chart(fig_bar, width="stretch")
 st.divider()
 st.subheader("Best Parameters", anchor="best-params")
 
-# Exclude k=2: ARI peaks trivially at the minimum k; find the genuine secondary maximum
-_df_excl2   = df_curves[df_curves["k"] >= 3]
-_mean_by_k  = _df_excl2.groupby("k")["mean_ari"].mean()
-_k_star     = int(_mean_by_k.idxmax())
-_best       = _df_excl2[_df_excl2["k"] == _k_star].nlargest(1, "mean_ari").iloc[0]
+_df_excl2  = df_curves[df_curves["k"] >= 3]
+_mean_by_k = _df_excl2.groupby("k")["mean_ari"].mean()
+_k_star    = int(_mean_by_k.idxmax())
+_best      = _df_excl2[_df_excl2["k"] == _k_star].nlargest(1, "mean_ari").iloc[0]
 
 st.caption(
     f"k=2 is excluded from the optimal search — ARI peaks trivially at the minimum k, "
@@ -235,25 +294,21 @@ st.caption(
 )
 
 _c1, _c2, _c3, _c4 = st.columns(4)
-_c1.metric("Best n_chunks",    int(_best["n_chunks"]))
-_c2.metric("Best max_df",      f"{_best['max_df']:.2f}")
-_c3.metric("Optimal k*",       _k_star)
-_c4.metric("Max ARI at k*",    f"{_best['mean_ari']:.4f}")
+_c1.metric("Best n_chunks", int(_best["n_chunks"]))
+_c2.metric("Best max_df",   f"{_best['max_df']:.2f}")
+_c3.metric("Optimal k*",    _k_star)
+_c4.metric("Max ARI at k*", f"{_best['mean_ari']:.4f}")
 
-# ARI at k* specifically (keeps heatmap, callouts, and marginal bars consistent)
 _df_at_kstar = (
     df_curves[df_curves["k"] == _k_star]
     [["n_chunks", "max_df", "mean_ari"]]
     .reset_index(drop=True)
 )
-
 _pivot = _df_at_kstar.pivot(index="n_chunks", columns="max_df", values="mean_ari")
 _fig_heat = px.imshow(
     _pivot,
     labels=dict(x="max_df", y="n_chunks", color=f"ARI at k={_k_star}"),
-    color_continuous_scale="Blues",
-    aspect="auto",
-    text_auto=".3f",
+    color_continuous_scale="Blues", aspect="auto", text_auto=".3f",
 )
 _fig_heat.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
 st.plotly_chart(_fig_heat, width="stretch")
@@ -265,8 +320,7 @@ _by_mdf = _df_at_kstar.groupby("max_df")["mean_ari"].mean().reset_index()
 _fig_nc = px.bar(_by_nc, x="n_chunks", y="mean_ari",
                  labels={"n_chunks": "n_chunks", "mean_ari": f"Mean ARI at k={_k_star}"})
 _fig_nc.update_layout(
-    height=240, margin=dict(l=60, r=30, t=10, b=50),
-    plot_bgcolor="white",
+    height=240, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
     xaxis=dict(dtick=5, showgrid=False, zeroline=False),
     yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
 )
@@ -275,28 +329,23 @@ _col_nc.plotly_chart(_fig_nc, width="stretch")
 _fig_mdf = px.bar(_by_mdf, x="max_df", y="mean_ari",
                   labels={"max_df": "max_df", "mean_ari": f"Mean ARI at k={_k_star}"})
 _fig_mdf.update_layout(
-    height=240, margin=dict(l=60, r=30, t=10, b=50),
-    plot_bgcolor="white",
+    height=240, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
     xaxis=dict(showgrid=False, zeroline=False),
     yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
 )
 _col_mdf.plotly_chart(_fig_mdf, width="stretch")
 
-# Per-k table
 st.subheader("Best Parameters by k")
 st.caption("For each k, the (n_chunks, max_df) combination yielding the highest mean pairwise ARI.")
-
 _best_by_k = (
-    df_curves
-    .loc[df_curves.groupby("k")["mean_ari"].idxmax()]
+    df_curves.loc[df_curves.groupby("k")["mean_ari"].idxmax()]
     [["k", "n_chunks", "max_df", "mean_ari"]]
-    .sort_values("k")
-    .reset_index(drop=True)
+    .sort_values("k").reset_index(drop=True)
     .rename(columns={"mean_ari": "ARI"})
 )
 st.dataframe(_best_by_k, use_container_width=True, hide_index=True)
 
-# ── Summary table ──────────────────────────────────────────────────────────────
+# ── Summary ────────────────────────────────────────────────────────────────────
 st.divider()
 st.subheader("Summary — Sorted by Maximum ARI", anchor="summary")
 st.caption("Most coherent parameter combinations first (higher ARI = more agreement across editions).")

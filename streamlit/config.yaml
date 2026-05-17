@@ -20,44 +20,14 @@ pages:
     icon: "🔬"
   # ── Cross-edition comparison ──────────────────────────────────────────────
   - path: pages/cluster_comparison.py
-    title: Cross-Edition (TF-IDF)
-    icon: "📊"
-  - path: pages/cluster_comparison_pca.py
-    title: Cross-Edition (LSA)
-    icon: "📊"
-  - path: pages/cluster_comparison_nmf.py
-    title: Cross-Edition (NMF)
-    icon: "📊"
-  - path: pages/cluster_comparison_sim.py
-    title: Cross-Edition (Cosine-Sim)
+    title: Cross-Edition Comparison
     icon: "📊"
   # ── Parameter optimization ────────────────────────────────────────────────
   - path: pages/grid_search_ari.py
-    title: Grid Search (TF-IDF)
-    icon: "🔍"
-  - path: pages/grid_search_boundary_tfidf.py
-    title: Grid Search (Boundary/TF-IDF)
-    icon: "🔍"
-  - path: pages/grid_search_pca.py
-    title: Grid Search (LSA)
+    title: Grid Search (ARI)
     icon: "🔍"
   - path: pages/grid_search_boundary.py
     title: Grid Search (Boundary)
-    icon: "🔍"
-  - path: pages/grid_search_nmf.py
-    title: Grid Search (NMF)
-    icon: "🔍"
-  - path: pages/grid_search_boundary_nmf.py
-    title: Grid Search (Boundary/NMF)
-    icon: "🔍"
-  - path: pages/grid_search_sim.py
-    title: Grid Search (Cosine-Sim)
-    icon: "🔍"
-  - path: pages/grid_search_boundary_sim.py
-    title: Grid Search (Boundary/Cosine-Sim)
-    icon: "🔍"
-  - path: pages/grid_search_boundary_ensemble.py
-    title: Grid Search (Boundary/Ensemble)
     icon: "🔍"
   # ── Temporal / spectral analysis ──────────────────────────────────────────
   - path: pages/dct_analysis.py
