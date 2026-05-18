@@ -24,7 +24,7 @@ import plotly.express as px
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
-from utils import find_token_file, load_tokens
+from utils import find_token_file, load_tokens, load_chunk_doc_texts
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -156,6 +156,8 @@ def _load_annotation_lines(n_chunks: int) -> pd.DataFrame:
 def load_concordance(n_chunks: int) -> dict:
     """Return dict (ana_id, chunk_num) → HTML hover string for the heatmap."""
     joined = _load_annotation_lines(n_chunks)
+    eng_texts = load_chunk_doc_texts("christenson_english_prose", n_chunks)
+
     conc = {}
     for (ana_id, chunk_num), grp in joined.groupby(["ana_id", "chunk_num"]):
         entries = []
@@ -164,7 +166,6 @@ def load_concordance(n_chunks: int) -> dict:
             ref  = f"f.{int(row['folio'])}{side_str} lb.{int(row['lb'])}"
             norm = str(row.get("cxim_str", "")).strip()
             raw  = str(row["lb_str_plain"]).strip()
-            # Use Christenson's normalized line as primary text; fall back to raw.
             line = norm if norm and norm != "nan" else raw
             if len(line) > 72:
                 line = line[:72] + "…"
@@ -174,7 +175,17 @@ def load_concordance(n_chunks: int) -> dict:
         body = "<br>".join(entries[:10])
         if n > 10:
             body += f"<br><i>… +{n - 10} more</i>"
-        conc[(ana_id, chunk_num)] = header + body
+
+        eng = eng_texts[chunk_num] if chunk_num < len(eng_texts) else ""
+        if eng:
+            snippet = eng.replace("\n\n", " ¶ ")[:200]
+            if len(eng) > 200:
+                snippet += "…"
+            gloss = "<br>─────────────────────────────<br><i>" + snippet + "</i>"
+        else:
+            gloss = ""
+
+        conc[(ana_id, chunk_num)] = header + body + gloss
     return conc
 
 
@@ -627,6 +638,35 @@ with _tab_heat:
         _caps.append(_horiz_legend)
     if _caps:
         st.caption(" · ".join(_caps))
+
+    # ── Chunk text browser ────────────────────────────────────────────────────
+    st.divider()
+    st.subheader("Chunk Text Browser", anchor=False)
+    st.caption(
+        "Read the source text for any chunk across editions. "
+        "K'iche' (normalized) on the left; English prose on the right."
+    )
+    _chunk_sel = st.selectbox(
+        "Chunk", range(int(n_chunks)),
+        format_func=lambda c: f"Chunk {c}",
+        key="chunk_browser_sel",
+    )
+    _cxim_texts = load_chunk_doc_texts("christenson_ximenez", int(n_chunks))
+    _eng_texts  = load_chunk_doc_texts("christenson_english_prose", int(n_chunks))
+    _chr_texts  = load_chunk_doc_texts("christenson", int(n_chunks))
+
+    _br_left, _br_right = st.columns(2)
+    with _br_left:
+        st.caption("**Christenson's Ximénez** — normalized K'iche'")
+        _cxim_chunk = _cxim_texts[_chunk_sel] if _chunk_sel < len(_cxim_texts) else ""
+        st.markdown(_cxim_chunk or "_No text available._")
+        with st.expander("Christenson 2007 — modern K'iche'", expanded=False):
+            _chr_chunk = _chr_texts[_chunk_sel] if _chunk_sel < len(_chr_texts) else ""
+            st.markdown(_chr_chunk or "_No text available._")
+    with _br_right:
+        st.caption("**Christenson — English prose**")
+        _eng_chunk = _eng_texts[_chunk_sel] if _chunk_sel < len(_eng_texts) else ""
+        st.markdown(_eng_chunk or "_No text available._")
 
     # ── Glossary panel (selectbox) ────────────────────────────────────────────
     st.divider()

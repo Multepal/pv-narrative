@@ -3,6 +3,7 @@ Shared utilities for all Streamlit page scripts.
 """
 
 import os
+import re
 import yaml
 import numpy as np
 import pandas as pd
@@ -41,6 +42,60 @@ def make_chunks(src_id: str, token_path: str, n_chunks: int) -> list[str]:
         .apply(lambda x: " ".join(x.dropna()))
         .tolist()
     )
+
+
+@st.cache_data(show_spinner=False)
+def load_chunk_doc_texts(src_id: str, n_chunks: int) -> list[str]:
+    """Readable DOC prose per chunk (length = n_chunks).
+
+    Groups tokens by their first OHCO level (paragraph / chapter), assigns
+    each group to a chunk, then looks up the corresponding DOC text.
+    Editions whose DOC files have sub-unit rows (e.g. ajtzibab, where each
+    paragraph spans many line rows) are aggregated before lookup.
+    Returns empty strings for chunks or editions with no data.
+    """
+    token_path = find_token_file(src_id)
+    if token_path is None:
+        return [""] * n_chunks
+
+    doc_path = os.path.normpath(
+        os.path.join(os.path.dirname(token_path), f"{src_id}-DOC.csv")
+    )
+    if not os.path.exists(doc_path):
+        return [""] * n_chunks
+
+    TOKEN = pd.read_csv(token_path)
+    idx_end = TOKEN.columns.tolist().index("token_str")
+    doc_col = TOKEN.columns.tolist()[0]          # coarsest OHCO level
+
+    TOKEN["chunk_num"] = pd.cut(TOKEN.index, n_chunks, labels=range(n_chunks)).astype(int)
+    # Collect all doc-unit IDs whose tokens appear in each chunk.  Using all
+    # IDs (not just first) ensures chunks that fall inside a long paragraph
+    # still receive text.
+    chunk_to_ids = (
+        TOKEN.groupby("chunk_num")[doc_col]
+        .apply(lambda s: list(dict.fromkeys(s)))   # unique, insertion-ordered
+    )
+
+    doc = pd.read_csv(doc_path)
+    doc_idx = doc.columns[0]
+    # Aggregate sub-unit rows to doc_idx level (handles ajtzibab, tedlock, etc.)
+    texts = (
+        doc.groupby(doc_idx)["doc_str"]
+        .apply(lambda x: " ".join(
+            v for v in x.dropna().astype(str) if v.lower() != "nan"
+        ))
+    )
+
+    _nan_prefix = re.compile(r"^\s*nan\s+", re.IGNORECASE)
+
+    result = []
+    for c in range(n_chunks):
+        ids = chunk_to_ids.get(c, [])
+        parts = [_nan_prefix.sub("", str(texts.get(i, ""))) for i in ids]
+        parts = [p for p in parts if p.strip() and p.strip().lower() != "nan"]
+        result.append("\n\n".join(parts))
+    return result
 
 
 def threshold_for_k(Z, k: int, n: int) -> float:
