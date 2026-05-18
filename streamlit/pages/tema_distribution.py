@@ -626,8 +626,15 @@ with _tab_heat:
         height=max(300, n_selected * _row_px + 80),
         margin=dict(l=200, r=20, t=20, b=60),
         xaxis=dict(title="Chunk (narrative order)", tickmode="linear"),
-        yaxis=dict(autorange="reversed", categoryorder="array",
-                   categoryarray=_horiz_labels),
+        yaxis=dict(
+            autorange="reversed",
+            categoryorder="array",
+            categoryarray=_horiz_labels,
+            tickmode="array",
+            tickvals=list(range(len(_horiz_labels))),
+            ticktext=_horiz_labels,
+            tickfont=dict(size=max(8, min(12, 300 // max(n_selected, 1)))),
+        ),
     )
     st.plotly_chart(fig_heat, width="stretch")
 
