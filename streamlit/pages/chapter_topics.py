@@ -20,6 +20,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
+from scipy.stats import entropy as scipy_entropy
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -220,6 +221,139 @@ st.caption(
     "Colour = normalised topic activation (per-chapter shares sum to 1) · "
     "Dashed white lines = your proposed division starts."
 )
+
+# ── Topic entropy per chapter ─────────────────────────────────────────────────
+st.subheader("Topic Entropy & Dominance per Chapter", anchor=False)
+st.caption(
+    "**Entropy** (left axis, dark): Shannon entropy of the topic distribution. "
+    "High = multiple topics co-active. "
+    "**Dominance** (right axis, colour): share held by the single strongest topic. "
+    "Low dominance = structurally ambiguous; high dominance = structurally pure."
+)
+
+H = C_norm.apply(
+    lambda col: float(scipy_entropy(col.clip(lower=1e-9))), axis=0
+)
+H_max    = float(np.log(len(all_topics)))
+dom_score = C_norm.max(axis=0)   # highest single-topic share per chapter
+
+fig_ent = go.Figure()
+
+# Shaded background bands per division
+div_starts = [chap for _, _, chap in USER_DIVISIONS]
+div_ends   = div_starts[1:] + [all_chaps[-1] + 1]
+band_colors = ["rgba(75,171,201,0.08)", "rgba(224,108,75,0.08)",
+               "rgba(142,107,191,0.08)", "rgba(107,155,210,0.08)",
+               "rgba(142,107,191,0.08)", "rgba(75,171,201,0.08)",
+               "rgba(90,171,107,0.08)",  "rgba(201,168,76,0.08)"]
+for (rom, label, cs), ce, bc in zip(USER_DIVISIONS, div_ends, band_colors):
+    fig_ent.add_vrect(
+        x0=cs - 0.5, x1=ce - 0.5,
+        fillcolor=bc, line_width=0,
+        annotation_text=rom,
+        annotation_position="top left",
+        annotation_font=dict(size=10, color="#777"),
+    )
+
+# Max-entropy reference
+fig_ent.add_hline(
+    y=H_max, line_dash="dot", line_color="#ccc", line_width=1,
+    annotation_text=f"max H={H_max:.2f}",
+    annotation_position="right",
+    annotation_font=dict(size=8, color="#aaa"),
+)
+
+hover_text = [
+    f"<b>Ch. {c}</b> {chap_titles.get(c,'')}<br>"
+    f"entropy: {H[c]:.3f}<br>"
+    f"dominance: {dom_score[c]:.3f}<br>"
+    f"dominant topic: {topic_labels.get(int(C_norm[c].idxmax()),'?')}"
+    for c in all_chaps
+]
+
+# Entropy line (left y-axis)
+fig_ent.add_trace(go.Scatter(
+    x=all_chaps, y=H.values,
+    mode="lines+markers",
+    name="Entropy",
+    line=dict(color="#333", width=1.8),
+    marker=dict(size=5, color="#333"),
+    customdata=hover_text,
+    hovertemplate="%{customdata}<extra></extra>",
+    yaxis="y",
+))
+
+# Dominance bars (right y-axis, coloured by dominant topic index)
+_topic_palette = ["#4babc9", "#e06c4b", "#8e6bbf", "#6b9bd2", "#5aab6b", "#c9a84c"]
+dom_colors = [
+    _topic_palette[int(C_norm[c].idxmax()) % len(_topic_palette)]
+    for c in all_chaps
+]
+
+fig_ent.add_trace(go.Bar(
+    x=all_chaps, y=dom_score.values,
+    name="Dominance",
+    marker_color=dom_colors, opacity=0.35,
+    customdata=hover_text,
+    hovertemplate="%{customdata}<extra></extra>",
+    yaxis="y2",
+))
+
+# Division lines
+if show_divisions:
+    for rom, label, chap in USER_DIVISIONS[1:]:
+        fig_ent.add_vline(
+            x=chap - 0.5,
+            line_dash="dash", line_color="#888", line_width=1.2,
+        )
+
+fig_ent.update_layout(
+    height=300,
+    margin=dict(l=60, r=80, t=20, b=50),
+    plot_bgcolor="white",
+    barmode="overlay",
+    xaxis=dict(
+        title="Chapter (narrative order)",
+        showgrid=True, gridcolor="#eee", zeroline=False,
+        range=[0.5, all_chaps[-1] + 0.5],
+    ),
+    yaxis=dict(
+        title="Shannon entropy (nats)",
+        showgrid=True, gridcolor="#eee", zeroline=False,
+        range=[1.3, H_max * 1.08],
+        side="left",
+    ),
+    yaxis2=dict(
+        title="Dominance (max topic share)",
+        overlaying="y", side="right",
+        range=[0, 0.65],
+        showgrid=False,
+    ),
+    legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0),
+    hoverlabel=dict(align="left", font=dict(family="monospace", size=11)),
+)
+
+st.plotly_chart(fig_ent, width="stretch")
+
+col_top, col_bot = st.columns(2)
+with col_top:
+    st.caption("**Highest entropy** (most topic-mixed)")
+    top_h = H.nlargest(10).reset_index()
+    top_h.columns = ["chapter", "entropy"]
+    top_h["title"] = top_h["chapter"].map(chap_titles)
+    top_h["dom_topic"] = top_h["chapter"].map(
+        lambda c: topic_labels.get(int(C_norm[c].idxmax()), "?"))
+    top_h["entropy"] = top_h["entropy"].round(3)
+    st.dataframe(top_h.set_index("chapter").sort_index(), width="stretch")
+with col_bot:
+    st.caption("**Lowest dominance** (no single topic wins)")
+    bot_d = dom_score.nsmallest(10).reset_index()
+    bot_d.columns = ["chapter", "dominance"]
+    bot_d["title"] = bot_d["chapter"].map(chap_titles)
+    bot_d["dom_topic"] = bot_d["chapter"].map(
+        lambda c: topic_labels.get(int(C_norm[c].idxmax()), "?"))
+    bot_d["dominance"] = bot_d["dominance"].round(3)
+    st.dataframe(bot_d.set_index("chapter").sort_index(), width="stretch")
 
 # ── Dominant topic per chapter ────────────────────────────────────────────────
 st.subheader("Dominant Topic per Chapter", anchor=False)
