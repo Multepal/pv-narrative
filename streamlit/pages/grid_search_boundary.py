@@ -23,6 +23,7 @@ from toc import render_toc
 from grid_search_boundary_core import (
     find_token_file,
     run_linkage_tfidf, run_linkage_lsa, run_linkage_sim, run_nmf_labels,
+    run_resonance_boundaries, resonance_boundaries_at_pct, mean_pairwise_f1_from_positions,
     threshold_for_k, mean_pairwise_boundary_f1,
     FIXED_MIN_DF, FIXED_NGRAM, N_COMPONENTS,
 )
@@ -43,11 +44,12 @@ HAC_RUN_FNS = {
 }
 
 METHOD_LABELS = {
-    "TF-IDF":     "TF-IDF → Ward HAC",
-    "LSA":        f"TF-IDF → LSA (SVD, n={N_COMPONENTS}) → Ward HAC",
-    "Cosine-Sim": "TF-IDF → cosine-similarity matrix → Ward HAC",
-    "NMF":        "TF-IDF → NMF (full fit per k)",
-    "Ensemble":   "Ensemble — all four methods, consensus + sharpness",
+    "TF-IDF":         "TF-IDF → Ward HAC",
+    "LSA":            f"TF-IDF → LSA (SVD, n={N_COMPONENTS}) → Ward HAC",
+    "Cosine-Sim":     "TF-IDF → cosine-similarity matrix → Ward HAC",
+    "NMF":            "TF-IDF → NMF (full fit per k)",
+    "KLD Resonance":  "KLD Resonance — novelty/transience peaks across editions",
+    "Ensemble":       "Ensemble — all four HAC/NMF methods, consensus + sharpness",
 }
 
 METHOD_COLORS = {
@@ -118,12 +120,29 @@ maxdf_vals  = [round(maxdf_range[0] + i * 0.05, 2) for i in range(_n_maxdf)]
 tol_scale = col3.slider("Tolerance scale", min_value=0.25, max_value=2.0, value=0.75, step=0.25,
     help="Multiplier on τ = 1/(2(k−1)). Values < 1 tighten matching; > 1 loosen it.")
 
+if method == "KLD Resonance":
+    _rcols = st.columns(2)
+    window    = _rcols[0].number_input("Window (w)", min_value=1, max_value=20, value=3, step=1,
+                                        help="Number of preceding/following chunks for novelty/transience.")
+    pct_range = _rcols[1].slider("Percentile range", min_value=60, max_value=99,
+                                  value=(70, 95), step=5,
+                                  help="Sweep of threshold percentiles applied to the resonance signal.")
+    pct_vals  = list(range(pct_range[0], pct_range[1] + 1, 5))
+else:
+    window   = 3
+    pct_vals = []
+
 n_combos = len(nc_vals) * len(maxdf_vals)
 if method == "NMF":
     n_fits = n_combos * len(K_VALS) * len(SOURCES_META)
     st.caption(
         f"**{n_combos}** combinations × **{len(K_VALS)}** k values × **{len(SOURCES_META)}** editions "
         f"= **{n_fits}** NMF fits (est.)  ·  min_df={FIXED_MIN_DF} · ngram=(1,1) fixed"
+    )
+elif method == "KLD Resonance":
+    st.caption(
+        f"**{n_combos}** (n_chunks, max_df) combinations × **{len(pct_vals)}** percentile thresholds "
+        f"· window w={window} · min_df={FIXED_MIN_DF} fixed"
     )
 elif method == "Ensemble":
     st.caption(
@@ -343,6 +362,136 @@ if method == "Ensemble":
         .round(4),
         use_container_width=True, hide_index=True,
     )
+
+elif method == "KLD Resonance":
+    # ── KLD Resonance ──────────────────────────────────────────────────────────
+    curve_rows   = []
+    summary_rows = []
+    progress     = st.progress(0, text="Running grid…")
+
+    for ci, (nc, mxdf) in enumerate(combos):
+        progress.progress((ci + 1) / len(combos),
+                          text=f"combo {ci + 1}/{len(combos)}  ·  n_chunks={nc}  max_df={mxdf}")
+        resonance_cache = {}
+        for src_id in SOURCES_META:
+            tp = token_files[src_id]
+            if tp is None:
+                continue
+            res = run_resonance_boundaries(src_id, tp, nc, FIXED_MIN_DF, mxdf, window)
+            if res is not None:
+                resonance_cache[src_id] = res
+        if len(resonance_cache) < 2:
+            continue
+
+        combo_label    = f"nc={nc} · max_df={mxdf:.2f}"
+        combo_pct_rows = []
+        for pct in pct_vals:
+            position_arrays = []
+            n_b_list        = []
+            for res in resonance_cache.values():
+                pos = resonance_boundaries_at_pct(res["resonance"], res["n_chunks"], pct)
+                position_arrays.append(pos)
+                n_b_list.append(len(pos))
+            k_eff = float(np.mean(n_b_list)) + 1
+            tol   = tol_scale / (2 * max(k_eff - 1, 1))
+            f1    = mean_pairwise_f1_from_positions(position_arrays, tol)
+            combo_pct_rows.append({"percentile": pct, "mean_f1": f1, "k_eff": round(k_eff, 1)})
+            curve_rows.append({"combo_label": combo_label, "n_chunks": nc,
+                               "max_df": mxdf, "percentile": pct, "mean_f1": f1})
+        if combo_pct_rows:
+            best = max(combo_pct_rows, key=lambda r: r["mean_f1"])
+            summary_rows.append({"combo_label": combo_label, "n_chunks": nc, "max_df": mxdf,
+                                  "pct*": int(best["percentile"]),
+                                  "k_eff": best["k_eff"],
+                                  "max_f1": round(float(best["mean_f1"]), 4)})
+
+    progress.empty()
+
+    if not curve_rows:
+        st.warning("No combinations produced valid results. Try adjusting the grid.")
+        st.stop()
+
+    df_curves  = pd.DataFrame(curve_rows)
+    df_summary = pd.DataFrame(summary_rows).sort_values("max_f1", ascending=False).reset_index(drop=True)
+
+    # ── Concordance vs. percentile ─────────────────────────────────────────────
+    st.subheader("Boundary Concordance vs. Threshold Percentile", anchor="concordance-chart")
+    st.caption(
+        "Each gray curve = one (n_chunks, max_df) combination. "
+        "Bold green = mean across all combinations. "
+        "Tolerance adapts to the mean number of detected boundaries at each percentile."
+    )
+    fig = go.Figure()
+    for label, gdf in df_curves.groupby("combo_label", sort=False):
+        fig.add_trace(go.Scatter(
+            x=gdf["percentile"], y=gdf["mean_f1"], mode="lines",
+            line=dict(color="#CCCCCC", width=1), showlegend=False,
+            hovertemplate=f"{label}<br>pct=%{{x}}<br>F1=%{{y:.3f}}<extra></extra>",
+        ))
+    mean_curve = df_curves.groupby("percentile")["mean_f1"].mean().reset_index()
+    fig.add_trace(go.Scatter(
+        x=mean_curve["percentile"], y=mean_curve["mean_f1"], mode="lines+markers",
+        line=dict(color="#00CC96", width=3), marker=dict(size=6),
+        name="Mean across combos",
+        hovertemplate="mean · pct=%{x}<br>F1=%{y:.3f}<extra></extra>",
+    ))
+    fig.update_layout(
+        height=400, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
+        xaxis=dict(title="Threshold percentile", dtick=5, showgrid=False, zeroline=False),
+        yaxis=dict(title="Mean Boundary F1", range=[-0.05, 1.05],
+                   showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+        legend=dict(x=0.02, y=0.02),
+    )
+    st.plotly_chart(fig, width="stretch")
+
+    # ── Optimal threshold distribution ────────────────────────────────────────
+    st.divider()
+    st.subheader("Distribution of Optimal Threshold (pct*)", anchor="k-distribution")
+    st.caption("How many parameter combinations achieve their maximum concordance at each percentile.")
+    pct_star_counts = (
+        df_summary["pct*"].value_counts().reindex(pct_vals, fill_value=0).reset_index()
+    )
+    pct_star_counts.columns = ["pct*", "count"]
+    fig_bar = px.bar(pct_star_counts, x="pct*", y="count",
+                     labels={"pct*": "Threshold percentile", "count": "# combinations"})
+    fig_bar.update_layout(
+        height=280, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
+        xaxis=dict(dtick=5, showgrid=False, zeroline=False),
+        yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+    )
+    st.plotly_chart(fig_bar, width="stretch")
+
+    # ── Best Parameters ────────────────────────────────────────────────────────
+    st.divider()
+    st.subheader("Best Parameters", anchor="best-params")
+    _mean_by_pct = df_curves.groupby("percentile")["mean_f1"].mean()
+    _pct_star    = int(_mean_by_pct.idxmax())
+    _best        = df_curves[df_curves["percentile"] == _pct_star].nlargest(1, "mean_f1").iloc[0]
+    st.caption(f"Optimal threshold percentile: **{_pct_star}**.")
+
+    _c1, _c2, _c3, _c4 = st.columns(4)
+    _c1.metric("Best n_chunks",   int(_best["n_chunks"]))
+    _c2.metric("Best max_df",     f"{_best['max_df']:.2f}")
+    _c3.metric("Optimal pct*",    _pct_star)
+    _c4.metric("Max F1 at pct*",  f"{_best['mean_f1']:.4f}")
+
+    _df_at_pct = (
+        df_curves[df_curves["percentile"] == _pct_star][["n_chunks", "max_df", "mean_f1"]]
+        .reset_index(drop=True)
+    )
+    _pivot = _df_at_pct.pivot(index="n_chunks", columns="max_df", values="mean_f1")
+    _fig_heat = px.imshow(_pivot,
+                          labels=dict(x="max_df", y="n_chunks",
+                                      color=f"Boundary F1 at pct={_pct_star}"),
+                          color_continuous_scale=_v["colorscale_ari"], aspect="auto", text_auto=".3f")
+    _fig_heat.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
+    st.plotly_chart(_fig_heat, width="stretch")
+
+    # ── Summary ────────────────────────────────────────────────────────────────
+    st.divider()
+    st.subheader("Summary — Sorted by Maximum Boundary F1", anchor="summary")
+    st.caption("Most concordant parameter combinations first. k_eff = mean detected boundaries + 1.")
+    st.dataframe(df_summary, use_container_width=True, hide_index=True)
 
 else:
     # ── Single method ──────────────────────────────────────────────────────────

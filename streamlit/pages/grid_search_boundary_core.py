@@ -99,6 +99,72 @@ def run_nmf_labels(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=
     return np.argmax(THETA, axis=1)
 
 
+@st.cache_data(show_spinner=False)
+def run_resonance_boundaries(src_id, token_path, n_chunks, min_df, max_df, window):
+    """Compute KLD resonance curve for one edition. Returns dict with 'resonance' and 'n_chunks'."""
+    TOKEN = load_tokens(src_id, token_path)
+    token_reset = TOKEN.reset_index()
+    token_reset["chunk_num"] = pd.cut(
+        token_reset.index, n_chunks, labels=list(range(n_chunks))
+    )
+    chunks_list = (
+        token_reset.groupby("chunk_num", observed=True)["term_str"]
+        .apply(lambda x: " ".join(x.dropna()))
+        .tolist()
+    )
+    if len(chunks_list) < 3:
+        return None
+    try:
+        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+                              strip_accents=None, norm=None)
+        X = vec.fit_transform(chunks_list).toarray().astype(float)
+    except ValueError:
+        return None
+
+    X += 1e-9
+    P = X / X.sum(axis=1, keepdims=True)
+    n = len(P)
+
+    def kld(p, q):
+        return float(np.sum(p * np.log2(p / q)))
+
+    novelty    = np.full(n, np.nan)
+    transience = np.full(n, np.nan)
+    for j in range(n):
+        back = [kld(P[j], P[j - d]) for d in range(1, window + 1) if j - d >= 0]
+        fwd  = [kld(P[j], P[j + d]) for d in range(1, window + 1) if j + d < n]
+        if back:
+            novelty[j]    = float(np.mean(back))
+        if fwd:
+            transience[j] = float(np.mean(fwd))
+
+    return {"resonance": novelty - transience, "n_chunks": n}
+
+
+def resonance_boundaries_at_pct(resonance: np.ndarray, n_chunks: int, threshold_pct: int) -> np.ndarray:
+    """Normalized [0, 1] boundary positions where resonance ≥ threshold_pct percentile."""
+    valid = resonance[~np.isnan(resonance)]
+    if len(valid) == 0:
+        return np.array([])
+    thresh = float(np.nanpercentile(valid, threshold_pct))
+    return np.array([
+        j / n_chunks for j in range(n_chunks)
+        if not np.isnan(resonance[j]) and resonance[j] >= thresh
+    ])
+
+
+def mean_pairwise_f1_from_positions(position_arrays: list, tol: float) -> float:
+    """Mean pairwise boundary F1 from pre-normalized position arrays."""
+    n = len(position_arrays)
+    if n < 2:
+        return float("nan")
+    scores = [
+        boundary_f1(position_arrays[i], position_arrays[j], tol)
+        for i in range(n) for j in range(i + 1, n)
+    ]
+    return float(np.mean(scores))
+
+
 def get_boundaries(labels: np.ndarray) -> np.ndarray:
     """Normalized [0, 1] positions where consecutive cluster labels differ."""
     n = len(labels)
