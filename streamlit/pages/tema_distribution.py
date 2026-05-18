@@ -46,6 +46,9 @@ SURFACE_FORMS_PATH = os.path.normpath(
 LINE_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/ximenez/ximenez-quc-LINE.csv")
 )
+CXIM_LINE_PATH = os.path.normpath(
+    os.path.join(APP_DIR, "../../notebooks/christenson_ximenez/christenson_ximenez-LINE.csv")
+)
 COVERAGE_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/ximenez/ximenez-COVERAGE.csv")
 )
@@ -129,6 +132,18 @@ def _load_annotation_lines(n_chunks: int) -> pd.DataFrame:
         LINE[["folio", "side", "para_num", "lb", "lb_str_plain"]],
         on=["folio", "side", "para_num", "lb"], how="left",
     )
+
+    # Join Christenson normalized K'iche' line text via folio/side/lb alignment.
+    # Christenson uses 'recto'/'verso'; Ximenez uses 1/2 — map before joining.
+    CXIM = pd.read_csv(CXIM_LINE_PATH)
+    CXIM["side"] = CXIM["side"].map({"recto": 1, "verso": 2})
+    joined = joined.merge(
+        CXIM[["folio_num", "side", "lb_num", "line_str"]].rename(
+            columns={"folio_num": "folio", "lb_num": "lb", "line_str": "cxim_str"}
+        ),
+        on=["folio", "side", "lb"], how="left",
+    )
+
     TOKEN = pd.read_csv(TOKEN_PATH)
     TOKEN["chunk_num"] = pd.cut(TOKEN.index, n_chunks, labels=range(n_chunks)).astype(int)
     para_to_chunk = TOKEN.groupby("para_num")["chunk_num"].first()
@@ -147,10 +162,13 @@ def load_concordance(n_chunks: int) -> dict:
         for _, row in grp.iterrows():
             side_str = "r" if int(row["side"]) == 1 else "v"
             ref  = f"f.{int(row['folio'])}{side_str} lb.{int(row['lb'])}"
-            text = str(row["lb_str_plain"]).strip()
-            if len(text) > 72:
-                text = text[:72] + "…"
-            entries.append(f"<i>{ref}</i>  {text}")
+            norm = str(row.get("cxim_str", "")).strip()
+            raw  = str(row["lb_str_plain"]).strip()
+            # Use Christenson's normalized line as primary text; fall back to raw.
+            line = norm if norm and norm != "nan" else raw
+            if len(line) > 72:
+                line = line[:72] + "…"
+            entries.append(f"<i>{ref}</i>  {line}")
         n = len(entries)
         header = f"<b>{ana_id}</b> · {n} line{'s' if n != 1 else ''} in chunk {chunk_num}<br>"
         body = "<br>".join(entries[:10])
