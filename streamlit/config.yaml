@@ -29,6 +29,10 @@ pages:
   - path: pages/grid_search_boundary.py
     title: Grid Search (Boundary)
     icon: "🔍"
+  # ── Text reader ──────────────────────────────────────────────────────────
+  - path: pages/christenson_reader.py
+    title: Christenson Text Reader
+    icon: "📖"
   # ── Temporal / spectral analysis ──────────────────────────────────────────
   - path: pages/dct_analysis.py
     title: Narrative DCT
