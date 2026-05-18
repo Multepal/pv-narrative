@@ -1,14 +1,9 @@
 """
 Christenson's Popol Wuj — Text Reader
 
-Shows all 87 chapters from Christenson (2007), organized by the 8 narrative
-divisions derived from k=6 HAC clustering of the K'iche' text.
-
-Division boundaries come from the contiguous runs of cluster_label in
-christenson-CHAP_MOD.csv.  The single-chapter cluster-6 anomaly (chap 13,
-"The Defeat of Zipacna") is merged into the preceding cluster-1 run, and the
-five closing genealogy chapters (83–87, cluster NaN) are merged into the
-cluster-5 run, yielding exactly 8 divisions.
+Shows all 87 chapters from Christenson (2007), organized by 8 interpretive
+narrative divisions with thematic labels.  Each chapter also shows its k=6
+HAC cluster label (from christenson-CHAP_MOD.csv) as secondary analytical data.
 """
 
 import os
@@ -25,16 +20,17 @@ CHAP_MOD_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/christenson/christenson-CHAP_MOD.csv")
 )
 
-# 8 narrative divisions (k=6 HAC, anomaly merged)
+ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
+
 DIVISIONS = [
-    {"div": 1, "cluster": 6, "gloss": "kaj",        "chap_start": 1,  "chap_end": 7},
-    {"div": 2, "cluster": 1, "gloss": "kaqix",      "chap_start": 8,  "chap_end": 13},
-    {"div": 3, "cluster": 3, "gloss": "xib'alb'a",  "chap_start": 14, "chap_end": 18},
-    {"div": 4, "cluster": 2, "gloss": "q'apoj",     "chap_start": 19, "chap_end": 24},
-    {"div": 5, "cluster": 3, "gloss": "xib'alb'a",  "chap_start": 25, "chap_end": 37},
-    {"div": 6, "cluster": 6, "gloss": "kaj",        "chap_start": 38, "chap_end": 46},
-    {"div": 7, "cluster": 4, "gloss": "b'alam",     "chap_start": 47, "chap_end": 64},
-    {"div": 8, "cluster": 5, "gloss": "ajaw",       "chap_start": 65, "chap_end": 87},
+    {"label": "First Creation",                "chap_start": 1,  "chap_end": 8},
+    {"label": "7 Macaw",                       "chap_start": 9,  "chap_end": 14},
+    {"label": "About the Two Boys' Father",    "chap_start": 15, "chap_end": 18},
+    {"label": "About the Two Boys' Mother",    "chap_start": 19, "chap_end": 21},
+    {"label": "The Two Boys Defeat Death",     "chap_start": 22, "chap_end": 40},
+    {"label": "The Second Creation",           "chap_start": 41, "chap_end": 47},
+    {"label": "Religion",                      "chap_start": 48, "chap_end": 64},
+    {"label": "Politics",                      "chap_start": 65, "chap_end": 87},
 ]
 
 CLUSTER_COLORS = {
@@ -45,6 +41,17 @@ CLUSTER_COLORS = {
     5: "#c9a84c",
     6: "#4babc9",
 }
+
+DIV_COLORS = [
+    "#4babc9",  # I
+    "#e06c4b",  # II
+    "#8e6bbf",  # III
+    "#6b9bd2",  # IV
+    "#8e6bbf",  # V
+    "#4babc9",  # VI
+    "#5aab6b",  # VII
+    "#c9a84c",  # VIII
+]
 
 
 @st.cache_data(show_spinner=False)
@@ -62,47 +69,36 @@ st.markdown(
 st.title("Christenson's Popol Wuj — Narrative Divisions")
 st.caption(
     "All 87 chapters from Allen J. Christenson's 2007 literal translation, "
-    "grouped into 8 narrative divisions derived from k=6 hierarchical agglomerative "
-    "clustering (HAC) of the K'iche' text."
+    "organized into 8 narrative divisions. "
+    "Each chapter's k=6 HAC cluster label is shown as analytical context."
 )
-
-with st.expander("About the divisions", expanded=False):
-    st.markdown("""
-The 8 divisions are contiguous runs of the same HAC cluster label over the narrative.
-With k=6 clusters the text splits into 9 raw runs; one single-chapter anomaly (ch. 13,
-cluster 6 sandwiched inside the cluster-1 Sipakna arc) is merged into Division 2, and
-the five closing genealogy chapters (83–87, unassigned) are absorbed into Division 8,
-giving exactly 8 divisions.  Division and cluster labels come from
-`christenson-CHAP_MOD.csv`; the cluster gloss is the highest-weight K'iche' term for
-that cluster derived from TF-IDF.
-""")
 
 CHAPS = load_chapters()
 
-# ── Sidebar controls ──────────────────────────────────────────────────────────
+# ── Sidebar: language toggle + TOC ───────────────────────────────────────────
 with st.sidebar:
     lang = st.radio("Display text", ["English", "K'iche'", "Both"], index=0)
     st.divider()
     st.markdown("**Divisions**")
-    for d in DIVISIONS:
-        n = d["chap_end"] - d["chap_start"] + 1
+    for i, d in enumerate(DIVISIONS):
+        rom = ROMAN[i]
         st.markdown(
-            f"[{d['div']}. *{d['gloss']}*  (ch. {d['chap_start']}–{d['chap_end']})](#div-{d['div']})"
+            f"[{rom}. {d['label']}  "
+            f"*(ch. {d['chap_start']}–{d['chap_end']})*](#div-{rom.lower()})"
         )
 
 # ── Main content ──────────────────────────────────────────────────────────────
-for d in DIVISIONS:
-    c = d["cluster"]
-    color = CLUSTER_COLORS.get(c, "#888")
+for i, d in enumerate(DIVISIONS):
+    rom = ROMAN[i]
+    color = DIV_COLORS[i]
     n_chaps = d["chap_end"] - d["chap_start"] + 1
 
     st.markdown(
-        f"<h2 id='div-{d['div']}' style='color:{color}'>"
-        f"Division {d['div']} &mdash; <em>{d['gloss']}</em>"
-        f"<span style='font-size:0.6em; color:#888; font-weight:normal'>"
-        f"  cluster {c} &nbsp;·&nbsp; "
-        f"chapters {d['chap_start']}–{d['chap_end']} &nbsp;·&nbsp; "
-        f"{n_chaps} chapter{'s' if n_chaps != 1 else ''}"
+        f"<h2 id='div-{rom.lower()}' style='color:{color}'>"
+        f"{rom}. {d['label']}"
+        f"<span style='font-size:0.55em; color:#888; font-weight:normal'>"
+        f"  &nbsp;·&nbsp; chapters {d['chap_start']}–{d['chap_end']}"
+        f"  &nbsp;·&nbsp; {n_chaps} chapter{'s' if n_chaps != 1 else ''}"
         f"</span></h2>",
         unsafe_allow_html=True,
     )
@@ -115,8 +111,15 @@ for d in DIVISIONS:
         eng = str(row["chap_eng_str"]) if pd.notna(row.get("chap_eng_str")) else ""
         quc = str(row["chap_quc_str"]) if pd.notna(row.get("chap_quc_str")) else ""
 
-        page_tag = f" <span style='font-size:0.85em; color:#aaa'>(p. {page})</span>" if page else ""
-        label = f"**{chap_num}.** {title}{page_tag}"
+        cl = row.get("cluster_label")
+        gloss = row.get("max_cluster_gloss", "")
+        cl_str = (
+            f" · cluster {int(cl)} *{gloss}*"
+            if pd.notna(cl) and pd.notna(gloss) and str(gloss) not in ("", "nan")
+            else ""
+        )
+        page_str = f" · p. {page}" if page else ""
+        label = f"**{chap_num}.** {title}{page_str}{cl_str}"
 
         with st.expander(label, expanded=False):
             if lang == "English":
