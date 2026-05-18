@@ -36,6 +36,9 @@ pages:
   - path: pages/narrative_play.py
     title: Narrative Play
     icon: "🎯"
+  - path: pages/chapter_topics.py
+    title: Chapter Topics
+    icon: "📐"
   # ── Temporal / spectral analysis ──────────────────────────────────────────
   - path: pages/dct_analysis.py
     title: Narrative DCT
