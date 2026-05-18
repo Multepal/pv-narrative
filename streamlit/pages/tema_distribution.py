@@ -178,10 +178,10 @@ def load_concordance(n_chunks: int) -> dict:
 
         eng = eng_texts[chunk_num] if chunk_num < len(eng_texts) else ""
         if eng:
-            snippet = eng.replace("\n\n", " ¶ ")[:200]
-            if len(eng) > 200:
-                snippet += "…"
-            gloss = "<br>─────────────────────────────<br><i>" + snippet + "</i>"
+            flat = eng.replace("\n\n", " ¶ ")
+            truncated = flat[:200] + ("…" if len(flat) > 200 else "")
+            wrapped = "<br>".join(textwrap.wrap(truncated, width=55))
+            gloss = "<br>─────────────────────────────<br><i>" + wrapped + "</i>"
         else:
             gloss = ""
 
@@ -311,7 +311,8 @@ def _hac_boundaries(token_path, n_chunks, min_df, max_df, n_clusters):
     chunks = _chunk_texts(token_path, n_chunks)
     X = TfidfVectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunks).toarray()
     labels = fcluster(linkage(X, method="ward"), n_clusters, criterion="maxclust")
-    return [j for j in range(1, n_chunks) if labels[j] != labels[j-1]]
+    bounds = [j for j in range(1, n_chunks) if labels[j] != labels[j - 1]]
+    return bounds, labels
 
 
 @st.cache_data(show_spinner=False)
@@ -365,7 +366,7 @@ def _hac_tema_assignments(token_path, tema_token_path, min_df, max_df, n_cluster
     assignments = {}
     for ana_id, grp in merged.groupby("ana_id"):
         assignments[ana_id] = int(grp["hac_label"].mode().iloc[0])
-    return assignments
+    return assignments, chunk_labels
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
@@ -544,10 +545,10 @@ with _tab_heat:
     _horiz_legend = ""
 
     if _show_hac == "HAC Clusters":
-        _vert_bounds = _hac_boundaries(
+        _vert_bounds, _ = _hac_boundaries(
             TOKEN_PATH, int(n_chunks), int(_min_df_h), _max_df_h, int(_n_clust)
         )
-        _hac_assign = _hac_tema_assignments(
+        _hac_assign, _tema_chunk_labels = _hac_tema_assignments(
             TOKEN_PATH, TEMA_TOKEN_PATH, int(_min_df_h), _max_df_h, int(_n_clust)
         )
         _horiz_temas = sorted(
@@ -560,7 +561,14 @@ with _tab_heat:
             if _hac_assign.get(_horiz_temas[i], -1) != _hac_assign.get(_horiz_temas[i+1], -1)
         ]
         _used_clusters = sorted({_hac_assign.get(t, -1) for t in _horiz_temas if _hac_assign.get(t, -1) >= 0})
-        _horiz_legend = f"k={_n_clust} · HAC clusters: " + " · ".join(f"**C{c}**" for c in _used_clusters)
+        # Use the same chunk_labels that produced the tema assignments for first-seen ordering
+        _first_seen = {c: int(np.argmax(_tema_chunk_labels == c)) for c in _used_clusters}
+        _clusters_by_appearance = sorted(_used_clusters, key=lambda c: _first_seen[c])
+        _letter_map_global = {c: chr(65 + i) for i, c in enumerate(_clusters_by_appearance)}
+        _horiz_legend = (
+            f"k={_n_clust} · HAC clusters: "
+            + " · ".join(f"**{_letter_map_global[c]}**" for c in _clusters_by_appearance)
+        )
 
     # ── Build heatmap ─────────────────────────────────────────────────────────
     conc = load_concordance(int(n_chunks))
@@ -621,10 +629,24 @@ with _tab_heat:
             x0=-0.5, x1=n_chunks - 0.5, y0=_h, y1=_h,
             line=dict(color="steelblue", width=1.5, dash="dash"))
 
+    if _horiz_bounds:
+        _band_starts = [-0.5] + list(_horiz_bounds)
+        _band_ends   = list(_horiz_bounds) + [len(_horiz_temas) - 0.5]
+        for _bs, _be in zip(_band_starts, _band_ends):
+            _row_idx = int(_bs + 0.5)
+            _cid     = _hac_assign.get(_horiz_temas[_row_idx], -1)
+            fig_heat.add_annotation(
+                x=1.01, y=(_bs + _be) / 2,
+                xref="paper", yref="y",
+                text=f"<b>{_letter_map_global.get(_cid, '?')}</b>",
+                showarrow=False, xanchor="left",
+                font=dict(size=13, color="steelblue"),
+            )
+
     _row_px = max(14, 400 // max(n_selected, 1))
     fig_heat.update_layout(
         height=max(300, n_selected * _row_px + 80),
-        margin=dict(l=200, r=20, t=20, b=60),
+        margin=dict(l=200, r=50, t=20, b=60),
         xaxis=dict(title="Chunk (narrative order)", tickmode="linear"),
         yaxis=dict(
             autorange="reversed",
@@ -666,14 +688,23 @@ with _tab_heat:
     with _br_left:
         st.caption("**Christenson's Ximénez** — normalized K'iche'")
         _cxim_chunk = _cxim_texts[_chunk_sel] if _chunk_sel < len(_cxim_texts) else ""
-        st.markdown(_cxim_chunk or "_No text available._")
+        st.text_area(
+            "cxim_text", value=_cxim_chunk or "No text available.",
+            height=300, disabled=True, label_visibility="collapsed",
+        )
         with st.expander("Christenson 2007 — modern K'iche'", expanded=False):
             _chr_chunk = _chr_texts[_chunk_sel] if _chunk_sel < len(_chr_texts) else ""
-            st.markdown(_chr_chunk or "_No text available._")
+            st.text_area(
+                "chr_text", value=_chr_chunk or "No text available.",
+                height=250, disabled=True, label_visibility="collapsed",
+            )
     with _br_right:
         st.caption("**Christenson — English prose**")
         _eng_chunk = _eng_texts[_chunk_sel] if _chunk_sel < len(_eng_texts) else ""
-        st.markdown(_eng_chunk or "_No text available._")
+        st.text_area(
+            "eng_text", value=_eng_chunk or "No text available.",
+            height=300, disabled=True, label_visibility="collapsed",
+        )
 
     # ── Glossary panel (selectbox) ────────────────────────────────────────────
     st.divider()
