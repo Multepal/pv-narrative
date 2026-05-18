@@ -36,6 +36,15 @@ pages:
   - path: pages/narrative_transitions.py
     title: Narrative Transitions
     icon: "🔀"
+  - path: pages/episode_boundaries.py
+    title: Episode Boundaries
+    icon: "📍"
+  - path: pages/tema_distribution.py
+    title: Tema Distribution
+    icon: "🧩"
+  - path: pages/annotation_coverage.py
+    title: Annotation Coverage
+    icon: "🔎"
   # ── Legacy (chunk-% variants, superseded by n-chunks) ─────────────────────
   # - path: pages/chunk_clustering.py
   #   title: Clustering (TF-IDF, chunk %)
