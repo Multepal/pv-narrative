@@ -14,7 +14,7 @@ from scipy.stats import entropy as scipy_entropy
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import NMF
 from toc import render_toc
-from utils import find_token_file, load_tokens, load_boundaries, add_boundary_vlines
+from utils import find_token_file, load_tokens
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -249,9 +249,6 @@ st.caption(
     "Each bar is one chunk; color = dominant topic. "
     "Read left to right as narrative progression."
 )
-_show_bounds = st.checkbox("Show episode boundaries", value=False, key="nt_bounds")
-_boundaries  = load_boundaries(APP_DIR) if _show_bounds else []
-
 _positions = list(range(n_actual))
 fig_seq = go.Figure()
 for ti in range(K):
@@ -275,8 +272,6 @@ fig_seq.update_layout(
     yaxis=dict(showticklabels=False, showgrid=False, zeroline=False),
     bargap=0,
 )
-if _boundaries:
-    add_boundary_vlines(fig_seq, _boundaries, n_actual)
 st.plotly_chart(fig_seq, width="stretch")
 
 # THETA heatmap

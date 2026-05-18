@@ -137,39 +137,6 @@ def build_dendrogram_figure(Z, labels, n: int, cluster_to_color: dict, chunk_lab
     return fig, dend["leaves"], cluster_root_x
 
 
-def load_boundaries(app_dir: str) -> list[dict]:
-    """Load episode boundaries from boundaries.yaml. Returns empty list if absent."""
-    path = os.path.normpath(os.path.join(app_dir, "../boundaries.yaml"))
-    if not os.path.exists(path):
-        return []
-    with open(path, encoding="utf-8") as f:
-        data = yaml.safe_load(f)
-    return data.get("boundaries", [])
-
-
-def add_boundary_vlines(fig, boundaries: list[dict], n_chunks: int, x_is_pct: bool = False) -> None:
-    """Add episode boundary vertical lines to a Plotly figure.
-
-    boundaries: list of dicts with keys 'label' and 'position' (0–100%).
-    n_chunks: total number of chunks (used when x_is_pct=False to convert position%).
-    x_is_pct: if True, treat the figure x-axis as a 1–100 percentile scale.
-    """
-    for b in boundaries:
-        if x_is_pct:
-            x = float(b["position"])
-        else:
-            x = max(0, min(n_chunks - 1, round(b["position"] / 100 * n_chunks)))
-        fig.add_vline(
-            x=x,
-            line_dash="dot",
-            line_color="rgba(0,0,0,0.45)",
-            line_width=1.5,
-            annotation_text=b["label"],
-            annotation_position="top",
-            annotation_font_size=9,
-            annotation_textangle=-60,
-        )
-
 
 def wrap_text(text: str, width: int = 60) -> str:
     words, lines, line = text.split(), [], []

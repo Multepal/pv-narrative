@@ -15,11 +15,12 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from wordcloud import WordCloud
+from matplotlib.colors import LinearSegmentedColormap
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
-from utils import find_token_file, load_tokens, threshold_for_k, make_cluster_table, build_dendrogram_figure, load_boundaries, add_boundary_vlines
+from utils import find_token_file, load_tokens, threshold_for_k, make_cluster_table, build_dendrogram_figure
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -257,9 +258,6 @@ st.caption(
     "Rows = clusters labeled by top TF-IDF terms, columns = chunks in sequential narrative order. "
     "Colors match the dendrogram branches."
 )
-_show_bounds = st.checkbox("Show episode boundaries", value=False, key=f"sim_bounds_{_key_sfx}")
-_boundaries  = load_boundaries(APP_DIR) if _show_bounds else []
-
 y_labels = [cluster_table.loc[c, "top_terms"] for c in unique_labels]
 
 z = np.zeros((n_clusters, n_chunks), dtype=float)
@@ -302,8 +300,6 @@ for _i, _c in enumerate(unique_labels):
             showarrow=False, xanchor="center", yanchor="middle",
             font=dict(size=13, color="white"),
         )
-if _boundaries:
-    add_boundary_vlines(fig_seq, _boundaries, n_chunks)
 st.plotly_chart(fig_seq, width="stretch", key=f"sim_seq_{_key_sfx}")
 
 _lbl_to_alpha = {c: chr(65 + i) for i, c in enumerate(unique_labels)}
@@ -335,10 +331,11 @@ for _row_start in range(0, n_clusters, _n_wc_cols):
     _grid_cols = st.columns(_n_wc_cols)
     for _col_idx, _lbl_idx in enumerate(_row_idxs):
         _clust = unique_labels[_lbl_idx]
+        _cmap = LinearSegmentedColormap.from_list("_wc", ["white", cluster_to_color[_clust]])
         _wc = WordCloud(
             width=_v["wordcloud_width"], height=_v["wordcloud_height"],
             background_color="white",
-            colormap=_v["wordcloud_colormap"],
+            colormap=_cmap,
             prefer_horizontal=_v["wordcloud_prefer_horizontal"],
         ).generate_from_frequencies(_wc_means.loc[_clust].to_dict())
         _grid_cols[_col_idx].image(
