@@ -563,17 +563,15 @@ with _tab_heat:
             elif count > 0:
                 row_h.append(t_header + f"{count} annotation{'s' if count != 1 else ''}")
             else:
-                row_h.append("")
+                row_h.append(t_header + "<i>(not present in this chunk)</i>")
         _z.append(row_z)
         _hover.append(row_h)
-
-    _horiz_indices = list(range(len(_horiz_labels)))
 
     _colorscale = cfg["visualization"]["heatmap_color_scale"]
     fig_heat = go.Figure(go.Heatmap(
         z=_z,
         x=_chunks,
-        y=_horiz_indices,
+        y=_horiz_labels,
         customdata=_hover,
         hovertemplate="%{customdata}<extra></extra>",
         colorscale=_colorscale,
@@ -586,7 +584,7 @@ with _tab_heat:
 
     for _b in _vert_bounds:
         fig_heat.add_shape(type="line",
-            x0=_b - 0.5, x1=_b - 0.5, y0=-0.5, y1=n_selected - 0.5,
+            x0=_b - 0.5, x1=_b - 0.5, y0=-0.5, y1=len(_horiz_labels) - 0.5,
             line=dict(color="crimson", width=1.5))
 
     for _h in _horiz_bounds:
@@ -595,118 +593,44 @@ with _tab_heat:
             line=dict(color="steelblue", width=1.5, dash="dash"))
 
     _row_px = max(14, 400 // max(n_selected, 1))
-
-    # Invisible scatter overlay — go.Heatmap doesn't fire Plotly selection events;
-    # this grid of transparent square markers sits on top and makes every cell
-    # clickable. Must use numeric y to match the heatmap's numeric y-axis.
-    _ov_x, _ov_y, _ov_data = [], [], []
-    for _i, _tlabel in enumerate(_horiz_labels):
-        for _c in _chunks:
-            _ov_x.append(_c)
-            _ov_y.append(_i)           # numeric index matching heatmap y-axis
-            _ov_data.append(_tlabel)   # store label in customdata for click lookup
-
-    fig_heat.add_trace(go.Scatter(
-        x=_ov_x,
-        y=_ov_y,
-        mode="markers",
-        marker=dict(symbol="square", opacity=0.01, color="black",
-                    size=max(12, min(40, _row_px))),
-        customdata=_ov_data,
-        hovertemplate="<extra></extra>",   # empty hover; hoverinfo="skip" suppresses events
-        showlegend=False,
-    ))
-
     fig_heat.update_layout(
         height=max(300, n_selected * _row_px + 80),
         margin=dict(l=200, r=20, t=20, b=60),
-        clickmode="event+select",
         xaxis=dict(title="Chunk (narrative order)", tickmode="linear"),
-        yaxis=dict(autorange="reversed", tickmode="array",
-                   tickvals=list(range(len(_horiz_labels))),
-                   ticktext=_horiz_labels),
+        yaxis=dict(autorange="reversed", categoryorder="array",
+                   categoryarray=_horiz_labels),
     )
-    _heat_event = st.plotly_chart(
-        fig_heat, width="stretch", on_select="rerun", selection_mode="points", key="heatmap_sel"
-    )
+    st.plotly_chart(fig_heat, width="stretch")
 
     _caps = []
     if _vert_bounds:
         _caps.append(f"**Vertical (crimson):** HAC Clusters — boundaries at chunks {sorted(_vert_bounds)}")
     if _horiz_legend:
         _caps.append(_horiz_legend)
-    st.caption(" · ".join(_caps)) if _caps else None
+    if _caps:
+        st.caption(" · ".join(_caps))
 
-    # ── Click-driven detail panel ─────────────────────────────────────────────
+    # ── Glossary panel (selectbox) ────────────────────────────────────────────
+    st.divider()
     _label_to_id = dict(zip(_horiz_labels, _horiz_temas))
-    _pts = (_heat_event.selection.points
-            if _heat_event and hasattr(_heat_event, "selection") and _heat_event.selection
-            else [])
-
-    if _pts:
-        _clicked_label = _pts[0].get("customdata", "")  # string label stored in scatter customdata
-        _clicked_chunk = _pts[0].get("x", None)
-        _clicked_id    = _label_to_id.get(_clicked_label, "")
-        _info          = topic_dict.get(_clicked_id, {})
-
-        st.divider()
-        _dc, _cc = st.columns([1, 1])
-
-        # Left: full tema description
-        with _dc:
-            if _info:
-                eng_str = f" — *{_info['english']}*" if _info["english"] else ""
-                st.markdown(
-                    f"#### {_info['title']}{eng_str} "
-                    f"<span style='font-size:0.8em;color:gray'>({_info['type']})</span>",
-                    unsafe_allow_html=True,
-                )
-                if _info["desc_html"]:
-                    st.markdown(_info["desc_html"], unsafe_allow_html=True)
-                else:
-                    st.caption("No description in topics.xml.")
-            else:
-                st.markdown(f"#### {_clicked_label}")
-                st.caption(f"No entry for `{_clicked_id}` in topics.xml.")
-
-        # Right: full concordance for this chunk
-        with _cc:
-            if _clicked_chunk is not None and _clicked_id:
-                _c_key = (_clicked_id, int(_clicked_chunk))
-                st.markdown(f"#### Lines in chunk {_clicked_chunk}")
-                _ann_df   = _load_annotation_lines(int(n_chunks))
-                _in_chunk = _ann_df[
-                    (_ann_df["ana_id"] == _clicked_id) &
-                    (_ann_df["chunk_num"] == int(_clicked_chunk))
-                ]
-                if not _in_chunk.empty:
-                    for _, row in _in_chunk.iterrows():
-                        side_s = "r" if int(row["side"]) == 1 else "v"
-                        ref    = f"**f.{int(row['folio'])}{side_s} lb.{int(row['lb'])}**"
-                        st.markdown(f"{ref} &nbsp; {row['lb_str_plain']}")
-                else:
-                    st.caption("No annotated lines in this chunk.")
-    else:
-        st.divider()
-        _label_to_id2 = dict(zip(_horiz_labels, _horiz_temas))
-        _sel_label = st.selectbox(
-            "Or select a tema for its description:",
-            ["— select —"] + _horiz_labels, key="tema_desc_sel"
-        )
-        if _sel_label and _sel_label != "— select —":
-            _sel_id = _label_to_id2.get(_sel_label, "")
-            _info   = topic_dict.get(_sel_id, {})
-            if _info:
-                eng_str = f" — *{_info['english']}*" if _info["english"] else ""
-                st.markdown(
-                    f"#### {_info['title']}{eng_str} "
-                    f"<span style='font-size:0.8em;color:gray'>({_info['type']})</span>",
-                    unsafe_allow_html=True,
-                )
-                if _info["desc_html"]:
-                    st.markdown(_info["desc_html"], unsafe_allow_html=True)
-            else:
-                st.info(f"No entry for `{_sel_id}` in topics.xml.")
+    _sel_label = st.selectbox(
+        "Select a tema for its full description:",
+        ["— select —"] + _horiz_labels, key="tema_desc_sel"
+    )
+    if _sel_label and _sel_label != "— select —":
+        _sel_id = _label_to_id.get(_sel_label, "")
+        _info   = topic_dict.get(_sel_id, {})
+        if _info:
+            eng_str = f" — *{_info['english']}*" if _info["english"] else ""
+            st.markdown(
+                f"#### {_info['title']}{eng_str} "
+                f"<span style='font-size:0.8em;color:gray'>({_info['type']})</span>",
+                unsafe_allow_html=True,
+            )
+            if _info["desc_html"]:
+                st.markdown(_info["desc_html"], unsafe_allow_html=True)
+        else:
+            st.info(f"No entry for `{_sel_id}` in topics.xml.")
 
 # ── Tab 3: Tema statistics ────────────────────────────────────────────────────
 with _tab_stats:
