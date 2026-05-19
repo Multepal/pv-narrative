@@ -40,6 +40,9 @@ TEMA_PATH = os.path.normpath(
 TOKEN_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/ximenez/ximenez-TOKEN.csv")
 )
+DOCMAP_PATH = os.path.normpath(
+    os.path.join(APP_DIR, "../../notebooks/ximenez/ximenez-DOCMAP.csv")
+)
 SURFACE_FORMS_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/ximenez/ximenez-SURFACE_FORMS.csv")
 )
@@ -144,7 +147,9 @@ def _load_annotation_lines(n_chunks: int) -> pd.DataFrame:
         on=["folio", "side", "lb"], how="left",
     )
 
-    TOKEN = pd.read_csv(TOKEN_PATH)
+    TOKEN = pd.read_csv(TOKEN_PATH).merge(
+        pd.read_csv(DOCMAP_PATH)[["doc_id", "para_num"]], on="doc_id", how="left"
+    )
     TOKEN["chunk_num"] = pd.cut(TOKEN.index, n_chunks, labels=range(n_chunks)).astype(int)
     para_to_chunk = TOKEN.groupby("para_num")["chunk_num"].first()
     joined = joined.join(para_to_chunk, on="para_num", how="left").dropna(subset=["chunk_num"])
@@ -213,7 +218,9 @@ METRIC_HELP = {
 
 @st.cache_data(show_spinner="Loading tema annotations…")
 def load_tema_data(n_chunks: int):
-    TOKEN     = pd.read_csv(TOKEN_PATH)
+    TOKEN     = pd.read_csv(TOKEN_PATH).merge(
+        pd.read_csv(DOCMAP_PATH)[["doc_id", "para_num"]], on="doc_id", how="left"
+    )
     TEMA_TOK  = pd.read_csv(TEMA_TOKEN_PATH, sep="|")
     TEMA_META = pd.read_csv(TEMA_PATH, sep="|")
 
@@ -353,7 +360,9 @@ def _hac_tema_assignments(token_path, tema_token_path, min_df, max_df, n_cluster
     X = TfidfVectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunks).toarray()
     chunk_labels = fcluster(linkage(X, method="ward"), n_clusters, criterion="maxclust")
 
-    TOKEN = pd.read_csv(token_path)
+    TOKEN = pd.read_csv(token_path).merge(
+        pd.read_csv(DOCMAP_PATH)[["doc_id", "para_num"]], on="doc_id", how="left"
+    )
     TOKEN["chunk_num"] = pd.cut(TOKEN.index, PHI_N_CHUNKS,
                                 labels=range(PHI_N_CHUNKS)).astype(int)
     para_to_chunk = TOKEN.groupby("para_num")["chunk_num"].first()

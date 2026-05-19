@@ -33,6 +33,9 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 TOKEN_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/christenson/christenson-TOKEN.csv")
 )
+DOCMAP_PATH = os.path.normpath(
+    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-DOCMAP.csv")
+)
 CHAP_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/christenson/christenson-CHAP-with-text.csv")
 )
@@ -68,6 +71,8 @@ MODEL_DIVISIONS = [
 @st.cache_data(show_spinner="Computing cluster assignments…")
 def compute_data(n_chunks: int, k: int, min_df: int, max_df: float):
     TOKEN = pd.read_csv(TOKEN_PATH)
+    DOCMAP = pd.read_csv(DOCMAP_PATH)[["doc_id", "chap_num"]].drop_duplicates("doc_id")
+    TOKEN = TOKEN.merge(DOCMAP, on="doc_id", how="left")
     CHAP  = pd.read_csv(CHAP_PATH)[["chap_num", "chap_title"]]
 
     TOKEN["chunk_num"] = pd.cut(TOKEN.index, n_chunks, labels=range(n_chunks)).astype(int)

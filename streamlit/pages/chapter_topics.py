@@ -30,6 +30,9 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 TOKEN_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/christenson/christenson-TOKEN.csv")
 )
+DOCMAP_PATH = os.path.normpath(
+    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-DOCMAP.csv")
+)
 PHI_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/christenson/christenson-PHI.csv")
 )
@@ -56,6 +59,8 @@ USER_DIVISIONS = [
 @st.cache_data(show_spinner="Applying topic model to chapters…")
 def compute_chapter_topics() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     TOKEN = pd.read_csv(TOKEN_PATH)
+    DOCMAP = pd.read_csv(DOCMAP_PATH)[["doc_id", "chap_num"]].drop_duplicates("doc_id")
+    TOKEN = TOKEN.merge(DOCMAP, on="doc_id", how="left")
     PHI   = pd.read_csv(PHI_PATH, index_col=0)
     TOPIC = pd.read_csv(TOPIC_PATH)
     CHAP  = pd.read_csv(CHAP_PATH)[["chap_num", "chap_title"]]
