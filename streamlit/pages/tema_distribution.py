@@ -541,11 +541,11 @@ with _tab_heat:
     )
 
     # ── Controls ─────────────────────────────────────────────────────────────
-    _hc1 = st.columns([2, 1, 1, 1])
-    _show_hac   = _hc1[0].selectbox("HAC boundaries", ["None", "HAC Clusters"], key="hac_src")
-    _n_clust    = _hc1[1].number_input("k clusters", 2, 20, 6, 1, key="h_k")
-    _min_df_h   = _hc1[2].number_input("min_df",     1, 20,  3, 1, key="h_min_df")
-    _max_df_h   = _hc1[3].number_input("max_df %",  10, 100, 50, 5, key="h_max_df") / 100.0
+    _hc1 = st.columns([1, 1, 1])
+    _n_clust    = _hc1[0].number_input("k clusters", 2, 20, 6, 1, key="h_k")
+    _min_df_h   = _hc1[1].number_input("min_df",     1, 20,  3, 1, key="h_min_df")
+    _max_df_h   = _hc1[2].number_input("max_df %",  10, 100, 50, 5, key="h_max_df") / 100.0
+    _show_hac   = "HAC Clusters"
 
     _vert_bounds  = []
     _horiz_temas  = ordered_temas
