@@ -18,6 +18,7 @@ My strategy with regard to the application of computational methods and statisti
 4.  Use non-negative matrix factorization topic modeling (NMF) to extract rich topics and a more noisy but interpretively rich topic/narrative heatmap. Choose k based on HAC. Associate NFM topics with HAC clusters.
 5.  Use latent semantic analysis (LSA) to generate a latent semantic subspace of components to explore structural relationships among the clusters. These provide insights into the oppositional relationship between topics in the domain of synchronic semantics vs diachronic narrative (syuzhet).
 6.  Apply the results of 3, 4, and 5 back to the temas artifact from 1 to create a rich interactive concordance of temas over time groups by clusters.
+7.  Apply NMF as a model to predict Christenson in order to infer textual divisions.
 
 ## Some Rules
 
@@ -51,6 +52,18 @@ Each source edition has its own subdirectory under `notebooks/` (e.g., `notebook
 2.  **`02-*-model*.ipynb`** — reads TOKEN.csv, applies TF-IDF + NMF/HAC/PCA, and writes model output CSVs (THETA, PHI, CHUNK, TFIDF, CLUSTER, etc.) plus figures.
 
 The `notebooks/ensemble/` directory aggregates TOKEN files across all sources. It also does some other explorations.
+
+## Data Model
+
+The project uses a relational data model to represent the corpus.
+
+The reference model consists of the following tables:
+
+1.  LIB
+2.  DOC
+3.  TOKEM
+4.  VOCAB
+5.  CHUNK
 
 ## Local Library (`local_lib/`)
 
