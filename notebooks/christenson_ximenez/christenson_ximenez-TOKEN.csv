@@ -1,4 +1,4 @@
-para_num,token_num,token_str,term_str,chunk_num
+doc_id,token_num,token_str,term_str,chunk_num
 0,0,ARE,are,0
 0,1,V,v,0
 0,2,XE,xe,0
