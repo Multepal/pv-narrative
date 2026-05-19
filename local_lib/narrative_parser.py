@@ -23,7 +23,7 @@ class NarrativeParser:
             .str.replace(r"[^a-z']", "", regex=True)
         )
         TOKEN = TOKEN[TOKEN.term_str != ""].copy()
-        self.TOKEN = TOKEN
+        self.TOKEN = TOKEN.dropna() # Why did I have to add the .dropna()???
 
     def compute_vocab(self):
         """TOKEN → VOCAB: term frequencies and information content."""
