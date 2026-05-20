@@ -177,7 +177,7 @@ with _tab_heat:
         yaxis=dict(
             autorange="reversed",
             categoryorder="array",
-            categoryarray=list(reversed(_labels_ordered)),
+            categoryarray=_labels_ordered,
             tickfont=dict(size=10),
         ),
         xaxis=dict(tickangle=-30),
