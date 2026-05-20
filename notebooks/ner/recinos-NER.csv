@@ -1,0 +1,1331 @@
+entity_id,edition,ohco_path,ngram,ngram_len,match_type,label,type
+TEPEW_Q'UKUMATZ,recinos,0.1.2,", Tepeu , Gucumatz",4,exact,Tepew Q'ukumatz,deidad
+B'ITOL,recinos,0.1.2,", Bitol ,",3,exact,B'itol,deidad
+K'AJOLOM,recinos,0.1.2,", Qaholom ,",3,exact,K'ajolom,deidad
+CH'O,recinos,0.1.2,"Cho ,",2,exact,Ch'o,animal
+PALO,recinos,0.1.2,"Palo ,",2,exact,Palo,lugar
+AJ,recinos,0.1.2,", Ah",2,exact,Aj,objeto
+TZ'AQOL,recinos,0.1.2,Tzacol,1,exact,Tz'aqol,deidad
+ALOM,recinos,0.1.2,Alom,1,exact,Alom,deidad
+AJ,recinos,0.1.2,Ah,1,exact,Aj,objeto
+DIOS,recinos,0.1.4,Dios,1,exact,Dios,deidad
+SU',recinos,0.1.5,su,1,fuzzy,Su',objeto
+B'ALAM_AQ'AB',recinos,0.1.6,acabó,1,exact,B'alam Aq'ab',persona
+SU',recinos,1.1.4,su,1,fuzzy,Su',objeto
+TEPEW_Q'UKUMATZ,recinos,1.1.9,", Tepeu , Gucumatz",4,exact,Tepew Q'ukumatz,deidad
+Q'UKUMATZ,recinos,1.1.10,Gucumatz .,2,exact,Q'ukumatz,deidad
+NIMA_SIS,recinos,1.1.11,grandes,1,exact,Nima Sis,deidad
+NIMA_SIS,recinos,1.1.11,grandes,1,exact,Nima Sis,deidad
+SU',recinos,1.1.11,su,1,fuzzy,Su',objeto
+DIOS,recinos,1.1.12,Dios .,2,exact,Dios,deidad
+TEPEW_Q'UKUMATZ,recinos,1.1.14,"Tepeu y Gucumatz ,",4,exact,Tepew Q'ukumatz,deidad
+TEPEW_Q'UKUMATZ,recinos,1.1.14,Tepeu y Gucumatz .,4,exact,Tepew Q'ukumatz,deidad
+SU',recinos,1.1.15,su,1,fuzzy,Su',objeto
+JUN_RAQAN,recinos,1.1.18,Huracán .,2,fuzzy,Jun Raqan,deidad
+JUN_RAQAN,recinos,1.1.19,Huracán .,2,fuzzy,Jun Raqan,deidad
+TEPEW_Q'UKUMATZ,recinos,1.1.23,Tepeu y Gucumatz ;,4,exact,Tepew Q'ukumatz,deidad
+JUN_RAQAN,recinos,1.1.32,", Huracán",2,fuzzy,Jun Raqan,deidad
+Q'UKUMATZ,recinos,1.1.32,Gucumatz,1,exact,Q'ukumatz,deidad
+SOTZ'I_JA,recinos,1.1.32,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,1.1.35,su,1,fuzzy,Su',objeto
+SU',recinos,1.2.9,su,1,fuzzy,Su',objeto
+JUN_RAQAN,recinos,1.2.15,"Huracán ,",2,fuzzy,Jun Raqan,deidad
+SU',recinos,1.2.16,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,1.2.17,ha,1,exact,Sotz'i Ja,lugar
+SOTZ'I_JA,recinos,1.2.19,ha,1,exact,Sotz'i Ja,lugar
+SOTZ'I_JA,recinos,1.2.20,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,1.2.25,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,1.2.25,grandes,1,exact,Nima Sis,deidad
+SU',recinos,1.2.27,su,1,fuzzy,Su',objeto
+SU',recinos,1.2.42,su,1,fuzzy,Su',objeto
+SU',recinos,1.2.42,su,1,fuzzy,Su',objeto
+TEPEW_Q'UKUMATZ,recinos,1.2.47,", Tepeu y Gucumatz",4,exact,Tepew Q'ukumatz,deidad
+JUN_RAQAN,recinos,1.2.47,Huracán,1,fuzzy,Jun Raqan,deidad
+LAQ,recinos,1.2.49,"platos ,",2,exact,Laq,objeto
+Q'OL,recinos,1.2.49,"resina ,",2,fuzzy,Q'ol,objeto
+RAXA_B'E,recinos,1.2.49,verde,1,exact,Raxa b'e,topónimo
+SU',recinos,1.2.51,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,1.2.57,ha,1,exact,Sotz'i Ja,lugar
+TEPEW_Q'UKUMATZ,recinos,1.2.59,Tepeu y Gucumatz !,4,exact,Tepew Q'ukumatz,deidad
+PALO,recinos,1.2.64,palo ;,2,exact,Palo,lugar
+SU',recinos,1.2.64,su,1,fuzzy,Su',objeto
+SU',recinos,1.2.64,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,1.2.67,"sangre ,",2,exact,Kik'el,objeto
+SU',recinos,1.2.67,su,1,fuzzy,Su',objeto
+PALO,recinos,1.3.0,palo,1,exact,Palo,lugar
+PALO,recinos,1.3.1,palo .,2,exact,Palo,lugar
+SU',recinos,1.3.3,su,1,fuzzy,Su',objeto
+SU',recinos,1.3.4,su,1,fuzzy,Su',objeto
+SU',recinos,1.3.4,su,1,fuzzy,Su',objeto
+Q'OL,recinos,1.3.6,resina,1,fuzzy,Q'ol,objeto
+KAMALOTZ',recinos,1.3.8,Camalotz,1,exact,Kamalotz',animal
+KOTZB'ALAM,recinos,1.3.8,Cotzbalam,1,exact,Kotzb'alam,animal
+TUKUMB'ALAM,recinos,1.3.9,Tucumbalam,1,exact,Tukumb'alam,animal
+JUN_RAQAN,recinos,1.3.10,Huracán .,2,fuzzy,Jun Raqan,deidad
+SU',recinos,1.3.10,su,1,fuzzy,Su',objeto
+SU',recinos,1.3.10,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,1.3.12,"grandes ,",2,exact,Nima Sis,deidad
+XOT,recinos,1.3.13,"comales ,",2,exact,Xot,objeto
+LAQ,recinos,1.3.13,"platos ,",2,exact,Laq,objeto
+TZ'I',recinos,1.3.13,"perros ,",2,exact,TZ'I',objeto
+TZ'I',recinos,1.3.14,perros,1,exact,TZ'I',objeto
+Q'EB'AL,recinos,1.3.15,las piedras de moler,4,exact,Q'eb'al,objeto
+TZ'I',recinos,1.3.19,perros,1,exact,TZ'I',objeto
+PALO,recinos,1.3.21,palo,1,exact,Palo,lugar
+TZ'I',recinos,1.3.25,perros,1,exact,TZ'I',objeto
+XOT,recinos,1.3.26,"comales ,",2,exact,Xot,objeto
+SU',recinos,1.3.26,su,1,fuzzy,Su',objeto
+LAS_CASAS,recinos,1.3.31,las casas,2,exact,Bartolomé de las Casas,persona
+LAS_CASAS,recinos,1.3.31,las casas,2,exact,Bartolomé de las Casas,persona
+PALO,recinos,1.3.33,palo,1,exact,Palo,lugar
+SU',recinos,1.3.33,su,1,fuzzy,Su',objeto
+SU',recinos,1.4.3,su,1,fuzzy,Su',objeto
+SU',recinos,1.4.14,su,1,fuzzy,Su',objeto
+SU',recinos,1.4.17,Su,1,fuzzy,Su',objeto
+PALO,recinos,1.4.18,palo .,2,exact,Palo,lugar
+KA'IB_K'AJOLAB',recinos,1.5.0,"dos muchachos ,",3,exact,Ka'ib' K'ajolab',grupo de deidades
+SU',recinos,1.5.5,su,1,fuzzy,Su',objeto
+KAB'RAQAN,recinos,1.5.6,Cabracán ;,2,fuzzy,Kab'raqan,deidad
+CHIMALMAT,recinos,1.5.6,"Chimalmat ,",2,exact,Chimalmat,deidad
+PEK_UL_YA',recinos,1.5.7,", Pecul ,",3,exact,Pek ul ya',topónimo
+YA'XKANUL,recinos,1.5.7,"Yaxcanul ,",2,exact,Ya'xkanul,topónimo
+JULISNAB',recinos,1.5.7,Huliznab .,2,exact,Julisnab',topónimo
+NIMA_SIS,recinos,1.5.7,grandes,1,exact,Nima Sis,deidad
+MAKAMOB',recinos,1.5.7,Macamob,1,exact,Makamob',topónimo
+KAB'RAQAN,recinos,1.5.9,Cabracán,1,fuzzy,Kab'raqan,deidad
+NIMA_SIS,recinos,1.5.9,grandes,1,exact,Nima Sis,deidad
+SU',recinos,1.5.10,su,1,fuzzy,Su',objeto
+KAB'RAQAN,recinos,1.5.13,Cabracán .,2,fuzzy,Kab'raqan,deidad
+WUQUB'_KAQIX,recinos,1.5.14,Vucub- Caquix,2,exact,Wuqub' Kaqix,deidad
+SU',recinos,1.5.14,su,1,fuzzy,Su',objeto
+SU',recinos,1.5.17,su,1,fuzzy,Su',objeto
+SU',recinos,1.5.17,su,1,fuzzy,Su',objeto
+WUQUB'_KAQIX,recinos,1.6.0,"Vucub- Caquix ,",3,exact,Wuqub' Kaqix,deidad
+KA'IB_K'AJOLAB',recinos,1.6.0,dos muchachos,2,exact,Ka'ib' K'ajolab',grupo de deidades
+SU',recinos,1.6.3,su,1,fuzzy,Su',objeto
+SU',recinos,1.6.4,su,1,fuzzy,Su',objeto
+SU',recinos,1.6.9,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,1.6.10,ha,1,exact,Sotz'i Ja,lugar
+CHIMALMAT,recinos,1.6.10,Chimalmat,1,exact,Chimalmat,deidad
+SOTZ'I_JA,recinos,1.6.11,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,1.6.13,( su,2,fuzzy,Su',objeto
+SU',recinos,1.6.20,; su,2,fuzzy,Su',objeto
+SU',recinos,1.6.20,su,1,fuzzy,Su',objeto
+SU',recinos,1.6.24,su,1,fuzzy,Su',objeto
+KA'IB_K'AJOLAB',recinos,1.6.25,"dos muchachos ,",3,exact,Ka'ib' K'ajolab',grupo de deidades
+SU',recinos,1.6.37,su,1,fuzzy,Su',objeto
+MU'J,recinos,1.6.40,Todo esto,2,exact,Mu'j,objeto
+SU',recinos,1.6.44,su,1,fuzzy,Su',objeto
+SU',recinos,1.6.46,su,1,fuzzy,Su',objeto
+B'AQ_HUESO,recinos,1.6.46,hueso,1,exact,B'aq Hueso,objeto
+SAQI_B'E,recinos,1.6.47,blanco .,2,exact,Saqi b'e,topónimo
+B'AQ_HUESO,recinos,1.6.47,hueso,1,exact,B'aq Hueso,objeto
+SAQI_B'E,recinos,1.6.49,"blanco ,",2,exact,Saqi b'e,topónimo
+SU',recinos,1.6.49,su,1,fuzzy,Su',objeto
+SU',recinos,1.6.56,su,1,fuzzy,Su',objeto
+CHIMALMAT,recinos,1.6.57,"Chimalmat ,",2,exact,Chimalmat,deidad
+SU',recinos,1.6.59,su,1,fuzzy,Su',objeto
+SU',recinos,1.6.61,su,1,fuzzy,Su',objeto
+KA'IB_K'AJOLAB',recinos,1.6.63,dos muchachos,2,exact,Ka'ib' K'ajolab',grupo de deidades
+SU',recinos,1.7.2,su,1,fuzzy,Su',objeto
+SU',recinos,1.7.3,su,1,fuzzy,Su',objeto
+PALO,recinos,1.7.5,"palo ,",2,exact,Palo,lugar
+SOTZ'I_JA,recinos,1.7.7,ha,1,exact,Sotz'i Ja,lugar
+PALO,recinos,1.7.14,palo,1,exact,Palo,lugar
+PALO,recinos,1.7.17,palo .,2,exact,Palo,lugar
+SOTZ'I_JA,recinos,1.7.17,ha,1,exact,Sotz'i Ja,lugar
+PALO,recinos,1.7.19,palo,1,exact,Palo,lugar
+SU',recinos,1.7.31,su,1,fuzzy,Su',objeto
+PALO,recinos,1.7.37,"palo ,",2,exact,Palo,lugar
+SU',recinos,1.7.37,su,1,fuzzy,Su',objeto
+PALO,recinos,1.7.38,palo,1,exact,Palo,lugar
+PALO,recinos,1.7.39,palo,1,exact,Palo,lugar
+SOTZ'I_JA,recinos,1.7.40,ha,1,exact,Sotz'i Ja,lugar
+SANIK,recinos,1.7.44,las hormigas,2,exact,Sanik,animal
+SANIK,recinos,1.7.47,las hormigas,2,exact,Sanik,animal
+PALO,recinos,1.7.47,palo .,2,exact,Palo,lugar
+SANIK,recinos,1.7.50,"las hormigas ,",3,exact,Sanik,animal
+SANIK,recinos,1.7.54,las hormigas .,3,exact,Sanik,animal
+B'ALAM_AQ'AB',recinos,1.7.57,acabó,1,exact,B'alam Aq'ab',persona
+MOTZ,recinos,1.7.59,"Motz ,",2,exact,Motz,topónimo
+KA'IB_K'AJOLAB',recinos,1.8.0,dos muchachos,2,exact,Ka'ib' K'ajolab',grupo de deidades
+KA'IB_K'AJOLAB',recinos,1.8.1,dos muchachos,2,exact,Ka'ib' K'ajolab',grupo de deidades
+SU',recinos,1.8.3,su,1,fuzzy,Su',objeto
+SU',recinos,1.8.4,su,1,fuzzy,Su',objeto
+TAP,recinos,1.8.5,cangrejo,1,exact,Tap,animal
+TAP,recinos,1.8.6,cangrejo ;,2,exact,Tap,animal
+TAP,recinos,1.8.6,cangrejo .,2,exact,Tap,animal
+Q'oq,recinos,1.8.7,") tortuga ,",3,exact,Q'oq,objeto
+ME'AWAN,recinos,1.8.7,"Meauán ,",2,fuzzy,Me'awan,topónimo
+TAP,recinos,1.8.13,"cangrejo ,",2,exact,Tap,animal
+TAP,recinos,1.8.13,cangrejo,1,exact,Tap,animal
+SU',recinos,1.8.25,Su,1,fuzzy,Su',objeto
+SU',recinos,1.8.30,su,1,fuzzy,Su',objeto
+TAP,recinos,1.8.31,cangrejo,1,exact,Tap,animal
+SU',recinos,1.8.31,su,1,fuzzy,Su',objeto
+TAP,recinos,1.8.36,cangrejo,1,exact,Tap,animal
+ME'AWAN,recinos,1.8.43,Meauán,1,fuzzy,Me'awan,topónimo
+KAB'RAQAN,recinos,1.9.0,Cabracán .,2,fuzzy,Kab'raqan,deidad
+KAB'RAQAN,recinos,1.9.2,Cabracán .,2,fuzzy,Kab'raqan,deidad
+JUN_RAQAN,recinos,1.9.3,"Huracán ,",2,fuzzy,Jun Raqan,deidad
+SU',recinos,1.9.5,", su",2,fuzzy,Su',objeto
+SU',recinos,1.9.5,su,1,fuzzy,Su',objeto
+SU',recinos,1.9.5,su,1,fuzzy,Su',objeto
+JUN_RAQAN,recinos,1.9.6,Huracán,1,fuzzy,Jun Raqan,deidad
+JUN_RAQAN,recinos,1.9.8,Huracán .,2,fuzzy,Jun Raqan,deidad
+KAB'RAQAN,recinos,1.9.9,", Cabracán",2,fuzzy,Kab'raqan,deidad
+NIMA_SIS,recinos,1.9.10,grandes,1,exact,Nima Sis,deidad
+KAB'RAQAN,recinos,1.9.11,Cabracán : — ¿,4,fuzzy,Kab'raqan,deidad
+KAB'RAQAN,recinos,1.9.14,Cabracán,1,fuzzy,Kab'raqan,deidad
+KAB'RAQAN,recinos,1.9.16,Cabracán .,2,fuzzy,Kab'raqan,deidad
+NIMA_SIS,recinos,1.9.20,"grandes ,",2,exact,Nima Sis,deidad
+KAB'RAQAN,recinos,1.9.24,Cabracán .,2,fuzzy,Kab'raqan,deidad
+KAB'RAQAN,recinos,1.9.34,Cabracán .,2,fuzzy,Kab'raqan,deidad
+SU',recinos,1.9.37,su,1,fuzzy,Su',objeto
+KAB'RAQAN,recinos,1.9.40,Cabracán,1,fuzzy,Kab'raqan,deidad
+KAB'RAQAN,recinos,1.9.42,Cabracán,1,fuzzy,Kab'raqan,deidad
+NIMA_SIS,recinos,1.9.42,grandes,1,exact,Nima Sis,deidad
+KAB'RAQAN,recinos,1.9.46,"Cabracán ,",2,fuzzy,Kab'raqan,deidad
+SU',recinos,1.9.46,su,1,fuzzy,Su',objeto
+B'ALAM_AQ'AB',recinos,1.9.47,acabó,1,exact,B'alam Aq'ab',persona
+KAB'RAQAN,recinos,1.9.48,"Cabracán ,",2,fuzzy,Kab'raqan,deidad
+KAB'RAQAN,recinos,1.9.52,Cabracán,1,fuzzy,Kab'raqan,deidad
+KAB'RAQAN,recinos,1.9.54,Cabracán,1,fuzzy,Kab'raqan,deidad
+SU',recinos,2.1.1,su,1,fuzzy,Su',objeto
+SU',recinos,2.1.2,su,1,fuzzy,Su',objeto
+SU',recinos,2.1.11,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,2.1.11,grandes,1,exact,Nima Sis,deidad
+SU',recinos,2.1.11,su,1,fuzzy,Su',objeto
+AJTZ'IB',recinos,2.1.13,", pintores ,",3,exact,Ajtz'ib',oficio
+AJPUWAQ,recinos,2.1.13,", plateros :",3,exact,Ajpuwaq,oficio
+WOK,recinos,2.1.15,"Voc ,  ",3,exact,Wok,animal
+JUN_RAQAN,recinos,2.1.15,"Huracán ,",2,fuzzy,Jun Raqan,deidad
+JUN_RAQAN,recinos,2.1.15,Huracán .,2,fuzzy,Jun Raqan,deidad
+WOK,recinos,2.1.15,Voc,1,exact,Wok,animal
+CHAAJ,recinos,2.1.17,jugar a la pelota,4,exact,Chaaj,objeto
+XIKIRIPAT,recinos,2.1.25,Xiquíripat,1,fuzzy,Xikiripat,deidad
+KIK'EL,recinos,2.1.26,sangre,1,exact,Kik'el,objeto
+AJAL_PUJ,recinos,2.1.27,Ahalpuh,1,exact,Ajal Puj,deidad
+Q'ANA_B'E,recinos,2.1.28,amarillo,1,exact,Q'ana b'e,topónimo
+AJAL_PUJ,recinos,2.1.29,Ahalpuh,1,exact,Ajal Puj,deidad
+B'AQ_HUESO,recinos,2.1.30,hueso .,2,exact,B'aq Hueso,objeto
+AJAL_TOQ'OB,recinos,2.1.33,Ahaltocob .,2,exact,Ajal Toq'ob,deidad
+AJAL_MES,recinos,2.1.33,Ahalmez,1,exact,Ajal Mes,deidad
+AJAL_TOQ'OB,recinos,2.1.35,"Ahaltocob ,",2,exact,Ajal Toq'ob,deidad
+AJAL_MES,recinos,2.1.35,Ahalmez,1,exact,Ajal Mes,deidad
+PATAN,recinos,2.1.36,"Patán ,",2,fuzzy,Patan,deidad
+KIK'EL,recinos,2.1.36,sangre .,2,exact,Kik'el,objeto
+AJAW_XIK,recinos,2.1.36,Xic,1,exact,Xik,deidad
+KIK'EL,recinos,2.1.36,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,2.1.37,sangre ),2,exact,Kik'el,objeto
+PATAN,recinos,2.1.38,Patán .,2,fuzzy,Patan,deidad
+AJAW_XIK,recinos,2.1.38,Xic,1,exact,Xik,deidad
+SU',recinos,2.1.41,su,1,fuzzy,Su',objeto
+AJPOP,recinos,2.2.1,", Ahpop",2,exact,Ajpop,oficio
+CHAAJ,recinos,2.2.4,jugar a la pelota,4,exact,Chaaj,objeto
+KAQIX_TUKUR,recinos,2.2.10,; Caquix- Tucur,3,exact,Kaqix Tukur,deidad
+SU',recinos,2.2.11,su,1,fuzzy,Su',objeto
+AJAL_PUJ,recinos,2.2.12,", Ahalpuh ,",3,exact,Ajal Puj,deidad
+XIKIRIPAT,recinos,2.2.12,", Xiquiripat ,",3,exact,Xikiripat,deidad
+AJAL_MES,recinos,2.2.12,", Ahalmez ,",3,exact,Ajal Mes,deidad
+AJAW_XIK,recinos,2.2.12,", Xic",2,exact,Xik,deidad
+PATAN,recinos,2.2.12,"Patán ,",2,fuzzy,Patan,deidad
+SU',recinos,2.2.12,su,1,fuzzy,Su',objeto
+KUCHUMA_KIK',recinos,2.2.12,Cuchumaquic,1,exact,Kuchuma Kik',deidad
+SU',recinos,2.2.12,su,1,fuzzy,Su',objeto
+SU',recinos,2.2.18,su,1,fuzzy,Su',objeto
+SU',recinos,2.2.18,su,1,fuzzy,Su',objeto
+SU',recinos,2.2.18,su,1,fuzzy,Su',objeto
+AJB'IX,recinos,2.2.24,"cantar ,",2,exact,Ajb'ix,oficio
+SUB'AQ,recinos,2.2.24,flauta,1,exact,Sub'aq,objeto
+SU',recinos,2.2.25,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,2.2.32,sangre,1,exact,Kik'el,objeto
+Q'ANA_B'E,recinos,2.2.34,amarillo .,2,exact,Q'ana b'e,topónimo
+SAQI_B'E,recinos,2.2.34,blanco,1,exact,Saqi b'e,topónimo
+Q'EQA_B'E,recinos,2.2.35,el camino negro,3,fuzzy,Q'eqa b'e,topónimo
+PALO,recinos,2.2.39,"palo ,",2,exact,Palo,lugar
+PALO,recinos,2.2.41,palo .,2,exact,Palo,lugar
+KIK'EL,recinos,2.2.51,sangre,1,exact,Kik'el,objeto
+SU',recinos,2.2.57,", su",2,fuzzy,Su',objeto
+B'AQ_HUESO,recinos,2.2.58,hueso ;,2,exact,B'aq Hueso,objeto
+SU',recinos,2.2.58,Su,1,fuzzy,Su',objeto
+SU',recinos,2.2.60,su,1,fuzzy,Su',objeto
+SU',recinos,2.2.64,su,1,fuzzy,Su',objeto
+SU',recinos,2.2.67,Su,1,fuzzy,Su',objeto
+SU',recinos,2.2.71,su,1,fuzzy,Su',objeto
+SU',recinos,2.2.99,su,1,fuzzy,Su',objeto
+KUCHUMA_KIK',recinos,2.3.0,Cuchumaquic .,2,exact,Kuchuma Kik',deidad
+KUCHUMA_KIK',recinos,2.3.2,Cuchumaquic,1,exact,Kuchuma Kik',deidad
+SU',recinos,2.3.3,su,1,fuzzy,Su',objeto
+AJ,recinos,2.3.7,— ¡ Ah !,4,exact,Aj,objeto
+SOTZ'I_JA,recinos,2.3.8,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,2.3.16,su,1,fuzzy,Su',objeto
+SU',recinos,2.3.18,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,2.3.21,grandes,1,exact,Nima Sis,deidad
+SU',recinos,2.3.24,Su,1,fuzzy,Su',objeto
+JUN_RAQAN,recinos,2.3.27,"Huracán ,",2,fuzzy,Jun Raqan,deidad
+SU',recinos,2.3.28,su,1,fuzzy,Su',objeto
+SU',recinos,2.3.28,su,1,fuzzy,Su',objeto
+KUCHUMA_KIK',recinos,2.3.30,Cuchumaquic .,2,exact,Kuchuma Kik',deidad
+SU',recinos,2.3.30,su,1,fuzzy,Su',objeto
+SU',recinos,2.3.30,su,1,fuzzy,Su',objeto
+SU',recinos,2.3.30,su,1,fuzzy,Su',objeto
+KUCHUMA_KIK',recinos,2.3.32,Cuchumaquic .,2,exact,Kuchuma Kik',deidad
+SOTZ'I_JA,recinos,2.3.34,; ha,2,exact,Sotz'i Ja,lugar
+KUCHUMA_KIK',recinos,2.3.34,Cuchumaquic,1,exact,Kuchuma Kik',deidad
+SU',recinos,2.3.38,su,1,fuzzy,Su',objeto
+AJPOP,recinos,2.3.42,Ahpop,1,exact,Ajpop,oficio
+SOTZ'I_JA,recinos,2.3.47,ha,1,exact,Sotz'i Ja,lugar
+KIK'EL,recinos,2.3.54,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,2.3.54,sangre,1,exact,Kik'el,objeto
+SU',recinos,2.3.54,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,2.3.58,sangre .,2,exact,Kik'el,objeto
+KIK'EL,recinos,2.3.58,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,2.3.59,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,2.3.59,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,2.3.60,Sangre .,2,exact,Kik'el,objeto
+KIK'EL,recinos,2.3.60,Sangre,1,exact,Kik'el,objeto
+SU',recinos,2.3.60,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.3.66,ha,1,exact,Sotz'i Ja,lugar
+KIK'EL,recinos,2.3.71,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,2.3.73,sangre .,2,exact,Kik'el,objeto
+SU',recinos,2.4.0,su,1,fuzzy,Su',objeto
+SU',recinos,2.4.7,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.4.8,; ha,2,exact,Sotz'i Ja,lugar
+SU',recinos,2.4.11,su,1,fuzzy,Su',objeto
+AJB'IX,recinos,2.4.13,"cantar ,",2,exact,Ajb'ix,oficio
+SUB'AQ,recinos,2.4.13,flauta,1,exact,Sub'aq,objeto
+B'IX,recinos,2.4.19,milpa,1,fuzzy,B'ix,lugar
+B'IX,recinos,2.4.20,milpa ;,2,fuzzy,B'ix,lugar
+SU',recinos,2.4.20,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.4.21,ha,1,exact,Sotz'i Ja,lugar
+TZAMIY,recinos,2.4.24,"las barbas ,",3,exact,Tzamiy,objeto
+B'IX,recinos,2.4.28,milpa,1,fuzzy,B'ix,lugar
+B'IX,recinos,2.4.29,milpa .,2,fuzzy,B'ix,lugar
+SU',recinos,2.4.31,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.1,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.2,su,1,fuzzy,Su',objeto
+KA'IB_K'AJOLAB',recinos,2.5.3,dos muchachos,2,exact,Ka'ib' K'ajolab',grupo de deidades
+NIMA_SIS,recinos,2.5.13,grandes,1,exact,Nima Sis,deidad
+AJTZ'IB',recinos,2.5.14,", pintores",2,exact,Ajtz'ib',oficio
+SU',recinos,2.5.15,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,2.5.16,Grandes,1,exact,Nima Sis,deidad
+SU',recinos,2.5.16,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.17,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.20,su,1,fuzzy,Su',objeto
+AJB'IX,recinos,2.5.22,cantar .,2,exact,Ajb'ix,oficio
+SUB'AQ,recinos,2.5.22,flauta,1,exact,Sub'aq,objeto
+SU',recinos,2.5.29,", su",2,fuzzy,Su',objeto
+SU',recinos,2.5.29,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.31,su,1,fuzzy,Su',objeto
+MU'J,recinos,2.5.32,todo esto,2,exact,Mu'j,objeto
+SU',recinos,2.5.40,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.5.42,ha,1,exact,Sotz'i Ja,lugar
+NIMA_SIS,recinos,2.5.46,grandes,1,exact,Nima Sis,deidad
+SU',recinos,2.5.48,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.48,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.48,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.5.48,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,2.5.52,su,1,fuzzy,Su',objeto
+SUB'AQ,recinos,2.5.56,"flauta ,",2,exact,Sub'aq,objeto
+SUB'AQ,recinos,2.5.57,flauta,1,exact,Sub'aq,objeto
+SU',recinos,2.5.57,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.58,su,1,fuzzy,Su',objeto
+SUB'AQ,recinos,2.5.62,flauta,1,exact,Sub'aq,objeto
+SU',recinos,2.5.64,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.65,su,1,fuzzy,Su',objeto
+SUB'AQ,recinos,2.5.69,flauta,1,exact,Sub'aq,objeto
+MU'J,recinos,2.5.72,todo esto,2,exact,Mu'j,objeto
+SUB'AQ,recinos,2.5.74,"flauta ,",2,exact,Sub'aq,objeto
+AJTZ'IB',recinos,2.5.78,pintores,1,exact,Ajtz'ib',oficio
+SU',recinos,2.5.80,su,1,fuzzy,Su',objeto
+SU',recinos,2.5.81,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,2.5.81,grandes,1,exact,Nima Sis,deidad
+SU',recinos,2.5.81,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.0,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.0,su,1,fuzzy,Su',objeto
+B'IX,recinos,2.6.1,milpa .,2,fuzzy,B'ix,lugar
+B'IX,recinos,2.6.2,"milpa ,",2,fuzzy,B'ix,lugar
+PALO,recinos,2.6.4,palo,1,exact,Palo,lugar
+SU',recinos,2.6.4,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.5,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.5,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.5,su,1,fuzzy,Su',objeto
+MIXKINA,recinos,2.6.9,azadón,1,fuzzy,Mixkina,objeto
+MIXKINA,recinos,2.6.9,azadón,1,fuzzy,Mixkina,objeto
+MIXKINA,recinos,2.6.12,azadón,1,fuzzy,Mixkina,objeto
+MIXKINA,recinos,2.6.13,azadón .,2,fuzzy,Mixkina,objeto
+NIMA_SIS,recinos,2.6.14,grandes,1,exact,Nima Sis,deidad
+AJB'IX,recinos,2.6.15,cantar,1,exact,Ajb'ix,oficio
+SU',recinos,2.6.20,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.21,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.22,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.23,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.6.25,ha,1,exact,Sotz'i Ja,lugar
+B'ALAM,recinos,2.6.26,", el tigre ,",4,fuzzy,B'alam,animal
+UMUL,recinos,2.6.26,", el conejo ,",4,exact,Umul,animal
+YAK,recinos,2.6.26,el gato de monte,4,exact,Yak,animal
+NIMA_SIS,recinos,2.6.26,"grandes ,",2,exact,Nima Sis,deidad
+KEJ,recinos,2.6.26,el venado,2,exact,Kej,animal
+NIMA_SIS,recinos,2.6.26,grandes ;,2,exact,Nima Sis,deidad
+B'IX,recinos,2.6.29,"milpa ,",2,fuzzy,B'ix,lugar
+SOTZ'I_JA,recinos,2.6.32,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,2.6.33,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.33,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.35,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,2.6.36,grandes .,2,exact,Nima Sis,deidad
+B'ALAM,recinos,2.6.38,"el tigre ,",3,fuzzy,B'alam,animal
+KEJ,recinos,2.6.40,el venado,2,exact,Kej,animal
+UMUL,recinos,2.6.40,el conejo,2,exact,Umul,animal
+YAK,recinos,2.6.41,El gato de monte,4,exact,Yak,animal
+CH'O,recinos,2.6.43,"el ratón ,",3,exact,Ch'o,animal
+KA'IB_K'AJOLAB',recinos,2.6.44,dos muchachos,2,exact,Ka'ib' K'ajolab',grupo de deidades
+CH'O,recinos,2.6.45,el ratón : —,4,exact,Ch'o,animal
+B'IX,recinos,2.6.46,milpa .,2,fuzzy,B'ix,lugar
+CH'O,recinos,2.6.48,el ratón .,3,exact,Ch'o,animal
+CH'O,recinos,2.6.55,"el ratón ,",3,exact,Ch'o,animal
+SU',recinos,2.6.55,su,1,fuzzy,Su',objeto
+MU'J,recinos,2.6.56,: todo esto,3,exact,Mu'j,objeto
+KAKAW,recinos,2.6.56,cacao,1,exact,Kakaw,objeto
+SU',recinos,2.6.62,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.62,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.65,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.65,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.66,su,1,fuzzy,Su',objeto
+CH'O,recinos,2.6.69,el ratón,2,exact,Ch'o,animal
+SU',recinos,2.6.69,su,1,fuzzy,Su',objeto
+XA'N,recinos,2.6.70,"Xan ,",2,exact,Xa'n,animal
+XA'N,recinos,2.6.70,"Xan ,",2,exact,Xa'n,animal
+SU',recinos,2.6.70,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.72,su,1,fuzzy,Su',objeto
+CH'O,recinos,2.6.73,el ratón,2,exact,Ch'o,animal
+SU',recinos,2.6.75,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.75,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.76,su,1,fuzzy,Su',objeto
+SU',recinos,2.6.79,su,1,fuzzy,Su',objeto
+CHAAJ,recinos,2.7.5,jugar a la pelota,4,exact,Chaaj,objeto
+SU',recinos,2.7.6,su,1,fuzzy,Su',objeto
+SU',recinos,2.7.14,su,1,fuzzy,Su',objeto
+SU',recinos,2.7.14,su,1,fuzzy,Su',objeto
+UK',recinos,2.7.16,el piojo,2,exact,Uk',animal
+UK',recinos,2.7.19,el piojo,2,exact,Uk',animal
+TAMASUL,recinos,2.7.20,"Tamazul ,",2,exact,Tamasul,animal
+UK',recinos,2.7.22,el piojo,2,exact,Uk',animal
+TAMASUL,recinos,2.7.22,Tamazul .,2,exact,Tamasul,animal
+UK',recinos,2.7.26,el piojo,2,exact,Uk',animal
+SAQIKAS,recinos,2.7.29,Zaquicaz .,2,exact,Saqikas,animal
+SU',recinos,2.7.29,su,1,fuzzy,Su',objeto
+SAQIKAS,recinos,2.7.29,culebra,1,exact,Saqikas,animal
+TAMASUL,recinos,2.7.30,"Tamazul ? ,",3,exact,Tamasul,animal
+SAQIKAS,recinos,2.7.30,Zaquicaz .,2,exact,Saqikas,animal
+SAQIKAS,recinos,2.7.31,culebra .,2,exact,Saqikas,animal
+SAQIKAS,recinos,2.7.33,culebra,1,exact,Saqikas,animal
+SAQIKAS,recinos,2.7.35,Zaquicaz,1,exact,Saqikas,animal
+WAK,recinos,2.7.37,"Vac ,  ",3,exact,Wak,animal
+SAQIKAS,recinos,2.7.37,culebra .,2,exact,Saqikas,animal
+SAQIKAS,recinos,2.7.37,culebra,1,exact,Saqikas,animal
+SU',recinos,2.7.42,su,1,fuzzy,Su',objeto
+LOTZ_KIK',recinos,2.7.50,Lotzquic  ,2,fuzzy,Lotz kik',objeto
+SAQIKAS,recinos,2.7.52,culebra .,2,exact,Saqikas,animal
+SAQIKAS,recinos,2.7.53,culebra .,2,exact,Saqikas,animal
+B'AQ_HUESO,recinos,2.7.58,hueso,1,exact,B'aq Hueso,objeto
+UK',recinos,2.7.61,El piojo,2,exact,Uk',animal
+CHAAJ,recinos,2.7.62,jugar a la pelota,4,exact,Chaaj,objeto
+SOTZ'I_JA,recinos,2.7.62,: — Ha,3,exact,Sotz'i Ja,lugar
+SU',recinos,2.7.67,su,1,fuzzy,Su',objeto
+AJ,recinos,2.7.69,ahí,1,exact,Aj,objeto
+AJ,recinos,2.7.72,ahí,1,exact,Aj,objeto
+SU',recinos,2.7.73,su,1,fuzzy,Su',objeto
+SU',recinos,2.8.0,su,1,fuzzy,Su',objeto
+MOLAY,recinos,2.8.2,Molay .,2,exact,Molay,animal
+KIK'EL,recinos,2.8.3,"sangre ,",2,exact,Kik'el,objeto
+Q'EQA_B'E,recinos,2.8.5,"el camino negro ,",4,fuzzy,Q'eqa b'e,topónimo
+SAQI_B'E,recinos,2.8.5,"blanco ,",2,exact,Saqi b'e,topónimo
+RAXA_B'E,recinos,2.8.5,verde .,2,exact,Raxa b'e,topónimo
+XA'N,recinos,2.8.6,Xan .,2,exact,Xa'n,animal
+KIK'EL,recinos,2.8.8,sangre,1,exact,Kik'el,objeto
+Q'EQA_B'E,recinos,2.8.10,el camino negro,3,fuzzy,Q'eqa b'e,topónimo
+PALO,recinos,2.8.10,palo,1,exact,Palo,lugar
+SOTZ'I_JA,recinos,2.8.15,ha,1,exact,Sotz'i Ja,lugar
+SOTZ'I_JA,recinos,2.8.16,ha,1,exact,Sotz'i Ja,lugar
+SOTZ'I_JA,recinos,2.8.18,ha,1,exact,Sotz'i Ja,lugar
+XIKIRIPAT,recinos,2.8.19,Xiquiripat .,2,exact,Xikiripat,deidad
+SOTZ'I_JA,recinos,2.8.20,ha,1,exact,Sotz'i Ja,lugar
+KUCHUMA_KIK',recinos,2.8.21,", Cuchumaquic ? ,",4,exact,Kuchuma Kik',deidad
+XIKIRIPAT,recinos,2.8.21,Xiquiripat .,2,exact,Xikiripat,deidad
+SOTZ'I_JA,recinos,2.8.22,ha,1,exact,Sotz'i Ja,lugar
+AJAL_PUJ,recinos,2.8.23,", Ahalpuh ? ,",4,exact,Ajal Puj,deidad
+KUCHUMA_KIK',recinos,2.8.23,Cuchumaquic .,2,exact,Kuchuma Kik',deidad
+SOTZ'I_JA,recinos,2.8.24,ha,1,exact,Sotz'i Ja,lugar
+AJAL_PUJ,recinos,2.8.25,Ahalpuh .,2,exact,Ajal Puj,deidad
+SOTZ'I_JA,recinos,2.8.26,ha,1,exact,Sotz'i Ja,lugar
+SOTZ'I_JA,recinos,2.8.28,ha,1,exact,Sotz'i Ja,lugar
+SOTZ'I_JA,recinos,2.8.30,ha,1,exact,Sotz'i Ja,lugar
+CH'AMIYA_JOLOM,recinos,2.8.31,", Chamiaholom ? ,",4,exact,Ch'amiya Jolom,deidad
+SOTZ'I_JA,recinos,2.8.32,ha,1,exact,Sotz'i Ja,lugar
+CH'AMIYA_JOLOM,recinos,2.8.33,Chamiaholom .,2,exact,Ch'amiya Jolom,deidad
+SOTZ'I_JA,recinos,2.8.34,ha,1,exact,Sotz'i Ja,lugar
+PATAN,recinos,2.8.35,", Patán ? ,",4,fuzzy,Patan,deidad
+SOTZ'I_JA,recinos,2.8.36,ha,1,exact,Sotz'i Ja,lugar
+PATAN,recinos,2.8.37,Patán .,2,fuzzy,Patan,deidad
+SOTZ'I_JA,recinos,2.8.38,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,2.8.39,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.8.39,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,2.8.41,su,1,fuzzy,Su',objeto
+SU',recinos,2.8.41,su,1,fuzzy,Su',objeto
+SU',recinos,2.8.43,su,1,fuzzy,Su',objeto
+SU',recinos,2.8.45,su,1,fuzzy,Su',objeto
+PALO,recinos,2.8.47,"palo ,",2,exact,Palo,lugar
+KUCHUMA_KIK',recinos,2.8.48,", Cuchumaquic ! ¡",4,exact,Kuchuma Kik',deidad
+AJAL_PUJ,recinos,2.8.48,", Ahal- puh !",4,exact,Ajal Puj,deidad
+CH'AMIYA_JOLOM,recinos,2.8.48,", Chamiaholom ! ¡",4,exact,Ch'amiya Jolom,deidad
+PATAN,recinos,2.8.48,", Patán ! ¡",4,fuzzy,Patan,deidad
+SU',recinos,2.9.1,su,1,fuzzy,Su',objeto
+SU',recinos,2.9.2,su,1,fuzzy,Su',objeto
+SU',recinos,2.9.6,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.9.12,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,2.9.17,su,1,fuzzy,Su',objeto
+CHAAJ,recinos,2.9.19,jugar a la pelota,4,exact,Chaaj,objeto
+CHAAJ,recinos,2.9.24,jugar a la pelota,4,exact,Chaaj,objeto
+KAQA_B'E,recinos,2.9.50,"colorado ,",2,exact,Kaqa b'e (camino rojo),lugar
+SAQI_B'E,recinos,2.9.50,"blanco ,",2,exact,Saqi b'e,topónimo
+Q'ANA_B'E,recinos,2.9.50,amarillo,1,exact,Q'ana b'e,topónimo
+SOTZ'I_JA,recinos,2.9.55,ha,1,exact,Sotz'i Ja,lugar
+SANIK,recinos,2.9.66,"las hormigas ,",3,exact,Sanik,animal
+SANIK,recinos,2.9.66,las hormigas,2,exact,Sanik,animal
+SU',recinos,2.9.75,su,1,fuzzy,Su',objeto
+SU',recinos,2.9.76,su,1,fuzzy,Su',objeto
+SANIK,recinos,2.9.78,las hormigas,2,exact,Sanik,animal
+SOTZ'I_JA,recinos,2.9.83,", ha",2,exact,Sotz'i Ja,lugar
+SANIK,recinos,2.9.87,las hormigas,2,exact,Sanik,animal
+SANIK,recinos,2.9.87,las hormigas,2,exact,Sanik,animal
+SU',recinos,2.9.94,su,1,fuzzy,Su',objeto
+CHAAJ,recinos,2.9.98,jugar a la pelota,4,exact,Chaaj,objeto
+JA_CHI_Q'AQ',recinos,2.10.22,"Casa de Fuego ,",4,exact,Ja chi q'aq',lugar
+SOTZ,recinos,2.10.28,"Camazotz ,",2,exact,Sotz,animal
+SU',recinos,2.10.28,su,1,fuzzy,Su',objeto
+SOTZ,recinos,2.10.31,Camazotz,1,exact,Sotz,animal
+SU',recinos,2.10.31,su,1,fuzzy,Su',objeto
+SOTZ,recinos,2.10.36,Camazotz,1,exact,Sotz,animal
+SOTZ'I_JA,recinos,2.10.37,ha,1,exact,Sotz'i Ja,lugar
+SOTZ'I_JA,recinos,2.10.39,ha,1,exact,Sotz'i Ja,lugar
+NIMA_SIS,recinos,2.11.0,"grandes ,",2,exact,Nima Sis,deidad
+SU',recinos,2.11.0,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,2.11.7,grandes .,2,exact,Nima Sis,deidad
+Q'oq,recinos,2.11.8,"tortuga ,",2,exact,Q'oq,objeto
+SU',recinos,2.11.8,su,1,fuzzy,Su',objeto
+JUN_RAQAN,recinos,2.11.11,", Huracán ,",3,fuzzy,Jun Raqan,deidad
+SU',recinos,2.11.17,su,1,fuzzy,Su',objeto
+B'AQ_HUESO,recinos,2.11.21,hueso,1,exact,B'aq Hueso,objeto
+KA'IB_K'AJOLAB',recinos,2.11.24,dos muchachos,2,exact,Ka'ib' K'ajolab',grupo de deidades
+CHAAJ,recinos,2.11.25,jugar a la pelota,4,exact,Chaaj,objeto
+UMUL,recinos,2.11.33,El conejo,2,exact,Umul,animal
+UMUL,recinos,2.11.34,el conejo .,3,exact,Umul,animal
+Q'oq,recinos,2.11.36,tortuga,1,exact,Q'oq,objeto
+KA'IB_K'AJOLAB',recinos,2.11.37,dos muchachos,2,exact,Ka'ib' K'ajolab',grupo de deidades
+Q'oq,recinos,2.11.43,tortuga ;,2,exact,Q'oq,objeto
+NIMA_SIS,recinos,2.11.47,Grandes,1,exact,Nima Sis,deidad
+PAK'AM,recinos,2.12.3,Pacam,1,exact,Pak'am,deidad
+PAK'AM,recinos,2.12.6,Pacam ?,2,exact,Pak'am,deidad
+NIMA_SIS,recinos,2.12.10,grandes .,2,exact,Nima Sis,deidad
+K'AJIM_JAL,recinos,2.12.10,harina,1,exact,K'ajim Jal,objeto
+SU',recinos,2.12.12,su,1,fuzzy,Su',objeto
+PAK'AM,recinos,2.12.27,"Pacam ,",2,exact,Pak'am,deidad
+IB'OY,recinos,2.13.5,Iboy (,2,fuzzy,Ib'oy,danza
+CH'ITIK,recinos,2.13.5,Chitic (,2,exact,Ch'itik,danza
+LAS_CASAS,recinos,2.13.7,las casas,2,exact,Bartolomé de las Casas,persona
+SU',recinos,2.13.7,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.11,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,2.13.22,ha,1,exact,Sotz'i Ja,lugar
+NIMA_SIS,recinos,2.13.22,grandes,1,exact,Nima Sis,deidad
+SU',recinos,2.13.29,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.30,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.30,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.30,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.30,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.61,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.66,", su",2,fuzzy,Su',objeto
+SU',recinos,2.13.66,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.80,su,1,fuzzy,Su',objeto
+SU',recinos,2.13.95,su,1,fuzzy,Su',objeto
+AJTZA,recinos,2.14.6,males,1,exact,Ajtza,deidad
+KIK'EL,recinos,2.14.12,sangre .,2,exact,Kik'el,objeto
+AJMAK,recinos,2.14.17,", los malos ,",4,exact,Ajmak,deidad
+AJMOKEN,recinos,2.14.17,", los desventurados ,",4,exact,Ajmoken,deidad
+AJB'IS,recinos,2.14.17,los tristes,2,fuzzy,Ajb'is,deidad
+KIK'EL,recinos,2.14.18,sangre .,2,exact,Kik'el,objeto
+SU',recinos,2.14.20,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.21,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.29,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.29,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.34,su,1,fuzzy,Su',objeto
+AJ,recinos,2.14.36,Ah,1,exact,Aj,objeto
+SU',recinos,2.14.36,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.37,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.40,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.46,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.46,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.47,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.48,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.49,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.50,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.52,su,1,fuzzy,Su',objeto
+SU',recinos,2.14.54,su,1,fuzzy,Su',objeto
+TEPEW_Q'UKUMATZ,recinos,3.1.1,Tepeu y Gucumatz :,4,exact,Tepew Q'ukumatz,deidad
+SOTZ'I_JA,recinos,3.1.1,“ Ha,2,exact,Sotz'i Ja,lugar
+YAK,recinos,3.1.7,el gato de monte,4,exact,Yak,animal
+K'EL,recinos,3.1.7,") , Quel (",4,exact,K'el,animal
+YAK,recinos,3.1.7,: Yac (,3,exact,Yak,animal
+JOJ,recinos,3.1.7,Hoh (,2,exact,Joj,animal
+PAXIL,recinos,3.1.8,"Paxil , •",3,exact,Paxil,topónimo
+KIK'EL,recinos,3.1.8,"sangre ,",2,exact,Kik'el,objeto
+PAXIL,recinos,3.1.8,Paxil,1,exact,Paxil,topónimo
+SU',recinos,3.1.8,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,3.1.8,sangre,1,exact,Kik'el,objeto
+K'AWEX,recinos,3.1.10,", anonas ,",3,exact,K'awex,objeto
+KAKAW,recinos,3.1.10,"cacao ,",2,exact,Kakaw,objeto
+Q'INOM,recinos,3.1.10,"jocotes ,",2,exact,Q'inom,objeto
+AJACHE',recinos,3.1.10,", matasanos",2,exact,Ajache',objeto
+KAB',recinos,3.1.10,miel .,2,fuzzy,Kab',objeto
+TULUL,recinos,3.1.10,zapotes,1,exact,Tulul,objeto
+PAXIL,recinos,3.1.11,Paxil,1,exact,Paxil,topónimo
+NIMA_SIS,recinos,3.1.12,"grandes ,",2,exact,Nima Sis,deidad
+NIMA_SIS,recinos,3.1.12,grandes .,2,exact,Nima Sis,deidad
+TEPEW_Q'UKUMATZ,recinos,3.1.15,", Tepeu y Gucumatz",4,exact,Tepew Q'ukumatz,deidad
+Q'ANA_B'E,recinos,3.1.17,amarillo,1,exact,Q'ana b'e,topónimo
+SAQI_B'E,recinos,3.1.17,blanco,1,exact,Saqi b'e,topónimo
+SU',recinos,3.1.17,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.2.0,Mahucutah,1,exact,Majuk'utaj,persona
+TEPEW_Q'UKUMATZ,recinos,3.2.5,", Tepeu y Gucumatz",4,exact,Tepew Q'ukumatz,deidad
+SU',recinos,3.2.6,su,1,fuzzy,Su',objeto
+SU',recinos,3.2.7,su,1,fuzzy,Su',objeto
+SU',recinos,3.2.8,su,1,fuzzy,Su',objeto
+SU',recinos,3.2.10,; su,2,fuzzy,Su',objeto
+SU',recinos,3.2.10,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.2.11,", Mahucutah",2,exact,Majuk'utaj,persona
+SOTZ'I_JA,recinos,3.2.17,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,3.2.19,su,1,fuzzy,Su',objeto
+SU',recinos,3.2.23,su,1,fuzzy,Su',objeto
+SU',recinos,3.2.25,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,3.2.31,grandes,1,exact,Nima Sis,deidad
+TEPEW_Q'UKUMATZ,recinos,3.2.32,", Tepeu , Gucumatz",4,exact,Tepew Q'ukumatz,deidad
+JUN_RAQAN,recinos,3.2.32,", Huracán ,",3,fuzzy,Jun Raqan,deidad
+SU',recinos,3.2.36,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.3.1,", Mahucutah",2,exact,Majuk'utaj,persona
+DIOS,recinos,3.3.1,Dios,1,exact,Dios,deidad
+MAJUK'UTAJ,recinos,3.3.3,Mahucutah ;,2,exact,Majuk'utaj,persona
+B'ALAM,recinos,3.3.3,Balam-,1,exact,B'alam,animal
+IXOQ_AJAWAB',recinos,3.3.4,Señoras,1,exact,Ixoq ajawab',linaje
+NIMA_SIS,recinos,3.3.5,"grandes ,",2,exact,Nima Sis,deidad
+K'ENECH_AJAW,recinos,3.3.7,", Quenech , Ahau",4,exact,K'enech Ajaw,linaje
+TEPEW,recinos,3.3.7,": Tepeu ,",3,exact,Tepew,oficio
+K'OJAJ,recinos,3.3.7,", Cohah",2,exact,K'ojaj,linaje
+TAMUB',recinos,3.3.8,Tamub,1,exact,Tamub',linaje
+NIJA'IB,recinos,3.3.9,Nihaib ;,2,exact,NIJA'IB,
+NIMA_SIS,recinos,3.3.9,grandes,1,exact,Nima Sis,deidad
+NIMA_SIS,recinos,3.3.9,grandes,1,exact,Nima Sis,deidad
+NIMA_SIS,recinos,3.3.9,grandes,1,exact,Nima Sis,deidad
+SU',recinos,3.3.10,su,1,fuzzy,Su',objeto
+KUMATZ_AMAQ',recinos,3.3.11,", Cumatz ,",3,exact,Kumatz Amaq',linaje
+B'ALAM_KOLOB',recinos,3.3.11,Balam- Colob .,3,exact,B'alam Kolob',linaje
+ILOKAB',recinos,3.3.11,"Ilocab ,",2,exact,Ilokab',linaje
+TAMUB',recinos,3.3.11,Tamub,1,exact,Tamub',linaje
+DIOS,recinos,3.3.18,Dios ),2,exact,Dios,deidad
+SU',recinos,3.3.18,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,3.3.20,"grandes ,",2,exact,Nima Sis,deidad
+B'ITOL,recinos,3.3.26,", Bitol ! ¡",4,exact,B'itol,deidad
+TEPEW_Q'UKUMATZ,recinos,3.3.26,"Tepeu , Gucumatz ,",4,exact,Tepew Q'ukumatz,deidad
+DIOS,recinos,3.3.26,"Dios ) ,",3,exact,Dios,deidad
+JUN_RAQAN,recinos,3.3.26,", Huracán ,",3,fuzzy,Jun Raqan,deidad
+K'AJOLOM,recinos,3.3.26,", Qaholom ,",3,exact,K'ajolom,deidad
+TZ'AQOL,recinos,3.3.26,", Tzacol",2,exact,Tz'aqol,deidad
+DIOS,recinos,3.3.26,"Dios ,",2,exact,Dios,deidad
+WOK,recinos,3.3.26,", Voc",2,exact,Wok,animal
+ALOM,recinos,3.3.26,Alom,1,exact,Alom,deidad
+MAJUK'UTAJ,recinos,3.4.0,", Mahucutah",2,exact,Majuk'utaj,persona
+NIMA_SIS,recinos,3.4.1,grandes,1,exact,Nima Sis,deidad
+YAKI,recinos,3.4.4,"yaqui ,",2,fuzzy,Yaki,linaje
+MAJUK'UTAJ,recinos,3.4.6,", Mahucutah",2,exact,Majuk'utaj,persona
+MAJUK'UTAJ,recinos,3.4.8,", Mahucutah",2,exact,Majuk'utaj,persona
+TAMUB',recinos,3.4.8,Tamub,1,exact,Tamub',linaje
+TULÁN,recinos,3.4.10,Tulán .,2,exact,Tulán,topónimo
+MAJUK'UTAJ,recinos,3.4.12,", Mahucutah",2,exact,Majuk'utaj,persona
+TOJIL,recinos,3.4.13,"Tohil ,",2,exact,Tojil,deidad
+DIOS,recinos,3.4.13,"dios ,",2,exact,Dios,deidad
+SU',recinos,3.4.13,su,1,fuzzy,Su',objeto
+AWILIX,recinos,3.4.14,"Avilix ,",2,exact,Awilix,deidad
+DIOS,recinos,3.4.14,dios,1,exact,Dios,deidad
+IQ'I_B'ALAM,recinos,3.4.15,Iqui- Balam .,3,exact,Iq'i B'alam,persona
+MAJUK'UTAJ,recinos,3.4.15,Mahucutah ;,2,exact,Majuk'utaj,persona
+DIOS,recinos,3.4.15,dios,1,exact,Dios,deidad
+JAQAWITZ,recinos,3.4.15,Hacavitz,1,exact,Jaqawitz,deidad
+DIOS,recinos,3.4.15,dios,1,exact,Dios,deidad
+NIK'AQAJ_TAQ'AJ,recinos,3.4.15,Nicahtacah,1,fuzzy,Nik'aqaj Taq'aj,deidad
+TAMUB',recinos,3.4.16,Tamub .,2,exact,Tamub',linaje
+TAMUB',recinos,3.4.17,"Tamub ,",2,exact,Tamub',linaje
+TOJIL,recinos,3.4.17,Tohil,1,exact,Tojil,deidad
+DIOS,recinos,3.4.17,dios,1,exact,Dios,deidad
+TAMUB',recinos,3.4.17,Tamub,1,exact,Tamub',linaje
+ILOKAB',recinos,3.4.18,Ilocab .,2,exact,Ilokab',linaje
+TOJIL,recinos,3.4.19,Tohil,1,exact,Tojil,deidad
+DIOS,recinos,3.4.19,dios,1,exact,Dios,deidad
+DIOS,recinos,3.4.20,"dios ,",2,exact,Dios,deidad
+TOJIL,recinos,3.4.20,", Tohil",2,exact,Tojil,deidad
+ILOKAB',recinos,3.4.20,Ilocab ;,2,exact,Ilokab',linaje
+DIOS,recinos,3.4.20,"dios ,",2,exact,Dios,deidad
+SU',recinos,3.4.20,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.4.20,Tohil,1,exact,Tojil,deidad
+TAMUB',recinos,3.4.20,Tamub,1,exact,Tamub',linaje
+TOJIL,recinos,3.4.21,", Tohil ,",3,exact,Tojil,deidad
+JAQAWITZ,recinos,3.4.21,Hacavitz .,2,exact,Jaqawitz,deidad
+AWILIX,recinos,3.4.21,Avilix,1,exact,Awilix,deidad
+TULÁN,recinos,3.4.24,Tulán .,2,exact,Tulán,topónimo
+SU',recinos,3.4.26,su,1,fuzzy,Su',objeto
+SU',recinos,3.4.27,su,1,fuzzy,Su',objeto
+TULÁN,recinos,3.4.28,Tulán .,2,exact,Tulán,topónimo
+TOJIL,recinos,3.5.1,Tohil .,2,exact,Tojil,deidad
+DIOS,recinos,3.5.2,dios,1,exact,Dios,deidad
+TOJIL,recinos,3.5.5,Tohil,1,exact,Tojil,deidad
+TOJIL,recinos,3.5.6,Tohil .,2,exact,Tojil,deidad
+DIOS,recinos,3.5.8,"Dios ! ,",3,exact,Dios,deidad
+DIOS,recinos,3.5.8,"Dios ,",2,exact,Dios,deidad
+DIOS,recinos,3.5.9,Dios ; ¡,3,exact,Dios,deidad
+TOJIL,recinos,3.5.9,Tohil .,2,exact,Tojil,deidad
+TOJIL,recinos,3.5.9,Tohil,1,exact,Tojil,deidad
+SU',recinos,3.5.10,su,1,fuzzy,Su',objeto
+SU',recinos,3.5.12,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.5.13,Tohil : — ¡,4,exact,Tojil,deidad
+TOJIL,recinos,3.5.13,", Tohil ,",3,exact,Tojil,deidad
+TOJIL,recinos,3.5.13,Tohil .,2,exact,Tojil,deidad
+B'ALAM,recinos,3.5.13,Balam,1,exact,B'alam,animal
+SU',recinos,3.5.13,su,1,fuzzy,Su',objeto
+AJ,recinos,3.5.13,Ah,1,exact,Aj,objeto
+TOJIL,recinos,3.5.14,"Tohil ,",2,exact,Tojil,deidad
+SU',recinos,3.5.14,su,1,fuzzy,Su',objeto
+B'ALAM_AQ'AB',recinos,3.5.15,", Balam Acab ,",4,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,recinos,3.5.15,Mahucutah,1,exact,Majuk'utaj,persona
+MAJUK'UTAJ,recinos,3.5.17,", Mahucutah",2,exact,Majuk'utaj,persona
+SU',recinos,3.5.17,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.5.22,", Mahucutah",2,exact,Majuk'utaj,persona
+TULÁN,recinos,3.5.26,Tulán ;,2,exact,Tulán,topónimo
+IQ'I_B'ALAM,recinos,3.5.28,"Iqui- Balam ,",3,exact,Iq'i B'alam,persona
+MAJUK'UTAJ,recinos,3.5.28,", Mahucutah",2,exact,Majuk'utaj,persona
+DIOS,recinos,3.5.28,Dios ;,2,exact,Dios,deidad
+SU',recinos,3.5.29,", su",2,fuzzy,Su',objeto
+TOJIL,recinos,3.5.29,Tohil .,2,exact,Tojil,deidad
+TOJIL,recinos,3.5.31,Tohil,1,exact,Tojil,deidad
+SOTZ,recinos,3.5.32,murciélago .,2,fuzzy,Sotz,animal
+TOJIL,recinos,3.5.34,"Tohil ,",2,exact,Tojil,deidad
+AWILIX,recinos,3.5.34,Avilix,1,exact,Awilix,deidad
+JAQAWITZ,recinos,3.5.34,Hacavitz,1,exact,Jaqawitz,deidad
+SU',recinos,3.5.34,su,1,fuzzy,Su',objeto
+IQ'I_B'ALAM,recinos,3.5.37,Iqui- Balam .,3,exact,Iq'i B'alam,persona
+MAJUK'UTAJ,recinos,3.5.37,", Mahucutah",2,exact,Majuk'utaj,persona
+MAJUK'UTAJ,recinos,3.5.39,", Mahucutah",2,exact,Majuk'utaj,persona
+TOJIL,recinos,3.5.49,Tohil,1,exact,Tojil,deidad
+TOJIL,recinos,3.5.50,"Tohil ! ,",3,exact,Tojil,deidad
+MAJUK'UTAJ,recinos,3.5.50,", Mahucutah",2,exact,Majuk'utaj,persona
+B'ALAM,recinos,3.5.50,Balam-,1,exact,B'alam,animal
+SU',recinos,3.5.51,su,1,fuzzy,Su',objeto
+SU',recinos,3.5.51,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.5.52,", Tohil ,",3,exact,Tojil,deidad
+TOJIL,recinos,3.5.53,Tohil .,2,exact,Tojil,deidad
+SU',recinos,3.5.53,su,1,fuzzy,Su',objeto
+SU',recinos,3.5.54,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.5.56,", Mahucutah",2,exact,Majuk'utaj,persona
+TOJIL,recinos,3.5.57,Tohil .,2,exact,Tojil,deidad
+TOJIL,recinos,3.5.58,Tohil .,2,exact,Tojil,deidad
+SOTZ,recinos,3.6.0,Zotzü .,2,exact,Sotz,animal
+SOTZ,recinos,3.6.1,murciélago .,2,fuzzy,Sotz,animal
+DIOS,recinos,3.6.1,dios,1,exact,Dios,deidad
+CHAMALKAN,recinos,3.6.1,Chamalcán,1,fuzzy,Chamalkan,deidad
+SU',recinos,3.6.3,su,1,fuzzy,Su',objeto
+SU',recinos,3.6.3,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.6.4,Tohil ;,2,exact,Tojil,deidad
+MAJUK'UTAJ,recinos,3.6.5,", Mahucutah",2,exact,Majuk'utaj,persona
+TOJIL,recinos,3.6.5,Tohil,1,exact,Tojil,deidad
+IK'OQ'IJ,recinos,3.6.7,"Icoquih ,  ",3,exact,Ik'oq'ij,topónimo
+IK'OQ'IJ,recinos,3.6.7,"Icoquih ,",2,exact,Ik'oq'ij,topónimo
+DIOS,recinos,3.6.7,dios .,2,exact,Dios,deidad
+SU',recinos,3.6.7,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,3.6.8,"sangre ,",2,exact,Kik'el,objeto
+SU',recinos,3.6.8,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,3.6.8,grandes,1,exact,Nima Sis,deidad
+TOJIL,recinos,3.6.8,Tohil,1,exact,Tojil,deidad
+TULÁN,recinos,3.6.9,Tulán,1,exact,Tulán,topónimo
+SU',recinos,3.6.9,su,1,fuzzy,Su',objeto
+SU',recinos,3.6.9,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.6.11,Tohil .,2,exact,Tojil,deidad
+MAJUK'UTAJ,recinos,3.6.12,", Mahucutah",2,exact,Majuk'utaj,persona
+DIOS,recinos,3.6.13,Dios .,2,exact,Dios,deidad
+KIK'EL,recinos,3.6.14,sangre,1,exact,Kik'el,objeto
+TULÁN,recinos,3.6.15,Tulán ;,2,exact,Tulán,topónimo
+TULÁN,recinos,3.6.15,Tulán .,2,exact,Tulán,topónimo
+SU',recinos,3.6.15,su,1,fuzzy,Su',objeto
+SU',recinos,3.6.19,su,1,fuzzy,Su',objeto
+ILOKAB',recinos,3.7.4,", Ilocab",2,exact,Ilokab',linaje
+SU',recinos,3.7.6,su,1,fuzzy,Su',objeto
+SU',recinos,3.7.6,su,1,fuzzy,Su',objeto
+SU',recinos,3.7.7,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,3.7.12,grandes,1,exact,Nima Sis,deidad
+SU',recinos,3.7.13,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.7.17,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,3.7.17,Hacavitz .,2,exact,Jaqawitz,deidad
+AWILIX,recinos,3.7.17,Avilix,1,exact,Awilix,deidad
+SU',recinos,3.7.18,su,1,fuzzy,Su',objeto
+SU',recinos,3.7.18,su,1,fuzzy,Su',objeto
+SU',recinos,3.7.19,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.7.19,Mahucutah,1,exact,Majuk'utaj,persona
+SU',recinos,3.7.19,su,1,fuzzy,Su',objeto
+SU',recinos,3.7.19,su,1,fuzzy,Su',objeto
+SU',recinos,3.7.21,su,1,fuzzy,Su',objeto
+DIOS,recinos,3.8.0,dios .,2,exact,Dios,deidad
+SU',recinos,3.8.0,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.8.1,"Tohil ,",2,exact,Tojil,deidad
+AWILIX,recinos,3.8.1,Avilix,1,exact,Awilix,deidad
+JAQAWITZ,recinos,3.8.1,Hacavitz,1,exact,Jaqawitz,deidad
+DIOS,recinos,3.8.7,dios .,2,exact,Dios,deidad
+SU',recinos,3.8.7,su,1,fuzzy,Su',objeto
+AWILIX,recinos,3.8.8,Avilix,1,exact,Awilix,deidad
+JAQAWITZ,recinos,3.8.11,"Hacavitz ,",2,exact,Jaqawitz,deidad
+JAQAWITZ,recinos,3.8.11,Hacavitz .,2,exact,Jaqawitz,deidad
+JAQAWITZ,recinos,3.8.12,Hacavitz .,2,exact,Jaqawitz,deidad
+SU',recinos,3.8.12,su,1,fuzzy,Su',objeto
+DIOS,recinos,3.8.12,dios,1,exact,Dios,deidad
+DIOS,recinos,3.8.13,"dios ,",2,exact,Dios,deidad
+MAJUK'UTAJ,recinos,3.8.13,Mahucutah,1,exact,Majuk'utaj,persona
+SU',recinos,3.8.13,su,1,fuzzy,Su',objeto
+DIOS,recinos,3.8.13,dios,1,exact,Dios,deidad
+JAQAWITZ,recinos,3.8.14,Hacavitz .,2,exact,Jaqawitz,deidad
+JAQAWITZ,recinos,3.8.14,Hacavitz,1,exact,Jaqawitz,deidad
+PA_TOJIL,recinos,3.8.15,Patohil .,2,exact,Pa Tojil,topónimo
+TOJIL,recinos,3.8.15,Tohil,1,exact,Tojil,deidad
+TOJIL,recinos,3.8.16,Tohil,1,exact,Tojil,deidad
+SU',recinos,3.8.16,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.8.18,", Mahucutah",2,exact,Majuk'utaj,persona
+JAQAWITZ,recinos,3.8.18,Hacavitz .,2,exact,Jaqawitz,deidad
+XPIYAKOK,recinos,3.8.18,ama-,1,exact,Xpiyakok,deidad
+ILOKAB',recinos,3.8.19,Ilocab .,2,exact,Ilokab',linaje
+DIOS,recinos,3.8.19,dios,1,exact,Dios,deidad
+TAMUB',recinos,3.8.19,Tamub,1,exact,Tamub',linaje
+TAMUB',recinos,3.8.20,"Tamub ,",2,exact,Tamub',linaje
+DIOS,recinos,3.8.20,dios,1,exact,Dios,deidad
+ILOKAB',recinos,3.8.21,Ilocab ;,2,exact,Ilokab',linaje
+ILOKAB',recinos,3.8.21,"Ilocab ,",2,exact,Ilokab',linaje
+DIOS,recinos,3.8.21,dios,1,exact,Dios,deidad
+NIMA_SIS,recinos,3.8.22,grandes .,2,exact,Nima Sis,deidad
+IK'OQ'IJ,recinos,3.8.23,"Icoquih ,",2,exact,Ik'oq'ij,topónimo
+MAJUK'UTAJ,recinos,3.8.24,", Mahucutah",2,exact,Majuk'utaj,persona
+SU',recinos,3.8.25,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.8.31,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,3.8.31,Hacavitz .,2,exact,Jaqawitz,deidad
+AWILIX,recinos,3.8.31,Avilix,1,exact,Awilix,deidad
+SU',recinos,3.8.32,", su",2,fuzzy,Su',objeto
+SU',recinos,3.8.32,su,1,fuzzy,Su',objeto
+SU',recinos,3.8.32,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.8.34,", Mahucutah",2,exact,Majuk'utaj,persona
+SU',recinos,3.8.35,su,1,fuzzy,Su',objeto
+JAQAWITZ_JUYUB',recinos,3.8.36,", Pa- Hacavitz .",4,exact,JAQAWITZ_JUYUB',
+SU',recinos,3.8.37,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.9.1,", Mahucutah",2,exact,Majuk'utaj,persona
+MAJUK'UTAJ,recinos,3.9.4,Mahucutah,1,exact,Majuk'utaj,persona
+SU',recinos,3.9.5,su,1,fuzzy,Su',objeto
+SU',recinos,3.9.7,", su",2,fuzzy,Su',objeto
+SU',recinos,3.9.7,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,3.9.10,grandes,1,exact,Nima Sis,deidad
+B'ALAM,recinos,3.9.11,el tigre .,3,fuzzy,B'alam,animal
+NIMA_SIS,recinos,3.9.13,grandes .,2,exact,Nima Sis,deidad
+TEPEW,recinos,3.9.14,"Tepeu ,",2,exact,Tepew,oficio
+TAMUB',recinos,3.9.14,Tamub,1,exact,Tamub',linaje
+YAKI,recinos,3.9.14,Yaqui,1,fuzzy,Yaki,linaje
+SU',recinos,3.9.18,su,1,fuzzy,Su',objeto
+SU',recinos,3.9.20,su,1,fuzzy,Su',objeto
+B'ALAM,recinos,3.9.23,", el tigre ,",4,fuzzy,B'alam,animal
+SAQI_K'OXOL,recinos,3.9.23,el duende .,3,exact,Saqi K'oxol,persona
+TOJIL,recinos,3.9.23,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,3.9.23,"Hacavitz ,",2,exact,Jaqawitz,deidad
+SAQIKAS,recinos,3.9.23,"culebra ,",2,exact,Saqikas,animal
+AWILIX,recinos,3.9.23,Avilix,1,exact,Awilix,deidad
+B'ALAM,recinos,3.9.26,", el tigre ,",4,fuzzy,B'alam,animal
+SAQI_K'OXOL,recinos,3.9.26,el duende ;,3,exact,Saqi K'oxol,persona
+SAQIKAS,recinos,3.9.26,"culebra ,",2,exact,Saqikas,animal
+MAJUK'UTAJ,recinos,3.9.27,", Mahucutah",2,exact,Majuk'utaj,persona
+JAQAWITZ,recinos,3.9.28,Hacavitz .,2,exact,Jaqawitz,deidad
+MAJUK'UTAJ,recinos,3.9.30,", Mahucutah",2,exact,Majuk'utaj,persona
+SU',recinos,3.9.31,su,1,fuzzy,Su',objeto
+SU',recinos,3.9.32,su,1,fuzzy,Su',objeto
+SU',recinos,3.9.32,su,1,fuzzy,Su',objeto
+TULÁN,recinos,3.9.34,Tulán,1,exact,Tulán,topónimo
+SOTZ'I_JA,recinos,3.9.35,ha,1,exact,Sotz'i Ja,lugar
+TOJIL,recinos,3.9.36,Tohil,1,exact,Tojil,deidad
+DIOS,recinos,3.9.36,dios,1,exact,Dios,deidad
+TULÁN,recinos,3.9.37,"Tulán ,",2,exact,Tulán,topónimo
+SUYWA,recinos,3.9.37,"Zuiva ,",2,exact,Suywa,topónimo
+MEXICO,recinos,3.9.38,México .,2,exact,México,topónimo
+TEPEW_OLOMAN,recinos,3.9.39,"Tepeu Olimán ,",3,fuzzy,Tepew Oloman,linaje
+JAQAWITZ,recinos,3.9.40,Hacavitz ;,2,exact,Jaqawitz,deidad
+DIOS,recinos,3.9.40,"dios ,",2,exact,Dios,deidad
+TOJIL,recinos,3.9.40,"Tohil ,",2,exact,Tojil,deidad
+TAMUB',recinos,3.9.40,Tamub,1,exact,Tamub',linaje
+TAMUB',recinos,3.9.40,Tamub,1,exact,Tamub',linaje
+SU',recinos,3.9.40,su,1,fuzzy,Su',objeto
+DIOS,recinos,3.9.40,dios,1,exact,Dios,deidad
+DIOS,recinos,3.9.41,dios,1,exact,Dios,deidad
+DIOS,recinos,3.9.41,dios,1,exact,Dios,deidad
+SU',recinos,3.9.41,su,1,fuzzy,Su',objeto
+SU',recinos,3.9.42,su,1,fuzzy,Su',objeto
+DIOS,recinos,3.9.42,dios,1,exact,Dios,deidad
+DIOS,recinos,3.9.43,"dios ,",2,exact,Dios,deidad
+SU',recinos,3.9.43,su,1,fuzzy,Su',objeto
+SU',recinos,3.9.43,su,1,fuzzy,Su',objeto
+DIOS,recinos,3.9.43,dios,1,exact,Dios,deidad
+SU',recinos,3.9.43,su,1,fuzzy,Su',objeto
+AJPOP_SOTZ'IL,recinos,3.9.43,Ahpozotzil,1,fuzzy,Ajpop Sotz'il,linaje
+DIOS,recinos,3.9.44,"dios ,",2,exact,Dios,deidad
+TULÁN,recinos,3.9.44,"Tulán ,",2,exact,Tulán,topónimo
+SU',recinos,3.9.44,; su,2,fuzzy,Su',objeto
+SU',recinos,3.9.44,su,1,fuzzy,Su',objeto
+DIOS,recinos,3.9.44,dios,1,exact,Dios,deidad
+TULÁN,recinos,3.9.44,Tulán,1,exact,Tulán,topónimo
+SU',recinos,3.9.45,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,3.10.0,", Mahucutah",2,exact,Majuk'utaj,persona
+SU',recinos,3.10.0,su,1,fuzzy,Su',objeto
+SU',recinos,3.10.0,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.10.1,"Tohil ,",2,exact,Tojil,deidad
+AWILIX,recinos,3.10.1,Avilix,1,exact,Awilix,deidad
+JAQAWITZ,recinos,3.10.1,Hacavitz,1,exact,Jaqawitz,deidad
+AWILIX,recinos,3.10.2,"Avilix ,",2,exact,Awilix,deidad
+TOJIL,recinos,3.10.2,Tohil,1,exact,Tojil,deidad
+JUN_TOJ,recinos,3.10.4,Tohü .,2,exact,Jun Toj,deidad
+Q'OL,recinos,3.10.5,"resina ,",2,fuzzy,Q'ol,objeto
+DIOS,recinos,3.10.5,dios .,2,exact,Dios,deidad
+NIMA_SIS,recinos,3.10.5,grandes,1,exact,Nima Sis,deidad
+NOJ,recinos,3.10.5,noh,1,exact,Noj,objeto
+PUCH_IYA,recinos,3.10.5,pericón,1,fuzzy,Puch iya,objeto
+SU',recinos,3.10.5,su,1,fuzzy,Su',objeto
+TOJIL,recinos,3.10.6,Tohil ;,2,exact,Tojil,deidad
+NIMA_SIS,recinos,3.10.8,; grandes,2,exact,Nima Sis,deidad
+SU',recinos,3.10.11,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,3.10.14,"sangre ,",2,exact,Kik'el,objeto
+KEJ,recinos,3.10.16,", el venado (",4,exact,Kej,animal
+TOJIL,recinos,3.10.17,"Tohil ? ,",3,exact,Tojil,deidad
+KEJ,recinos,3.10.17,el venado,2,exact,Kej,animal
+JAQAWITZ,recinos,3.10.19,Hacavitz .  ,3,exact,Jaqawitz,deidad
+TOJIL,recinos,3.10.19,"Tohil ,",2,exact,Tojil,deidad
+SU',recinos,3.10.19,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,3.10.19,sangre,1,exact,Kik'el,objeto
+SU',recinos,3.10.19,su,1,fuzzy,Su',objeto
+AWILIX,recinos,3.10.22,Avilix .,2,exact,Awilix,deidad
+KIK'EL,recinos,3.10.22,sangre,1,exact,Kik'el,objeto
+TOJIL,recinos,3.10.22,Tohil,1,exact,Tojil,deidad
+KIK'EL,recinos,3.10.23,sangre,1,exact,Kik'el,objeto
+PUCH_IYA,recinos,3.10.24,pericón,1,fuzzy,Puch iya,objeto
+WONON,recinos,3.10.26,tábanos,1,fuzzy,Wonon,animal
+TOJIL,recinos,4.1.9,"Tohil ,",2,exact,Tojil,deidad
+TOJIL,recinos,4.1.9,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.1.9,Hacavitz .,2,exact,Jaqawitz,deidad
+AWILIX,recinos,4.1.9,Avilix,1,exact,Awilix,deidad
+JAQAWITZ,recinos,4.1.9,Hacavitz,1,exact,Jaqawitz,deidad
+AWILIX,recinos,4.1.9,Avilix,1,exact,Awilix,deidad
+KIK'EL,recinos,4.1.10,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,4.1.10,sangre,1,exact,Kik'el,objeto
+TOJIL,recinos,4.1.11,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.1.11,Hacavitz .,2,exact,Jaqawitz,deidad
+AWILIX,recinos,4.1.11,Avilix,1,exact,Awilix,deidad
+TOJIL,recinos,4.1.12,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.1.12,Hacavitz .,2,exact,Jaqawitz,deidad
+AWILIX,recinos,4.1.12,Avilix,1,exact,Awilix,deidad
+SU',recinos,4.1.13,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,4.1.13,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,4.1.15,sangre :,2,exact,Kik'el,objeto
+TOJIL,recinos,4.1.15,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.1.15,Hacavitz .,2,exact,Jaqawitz,deidad
+KIK'EL,recinos,4.1.15,sangre,1,exact,Kik'el,objeto
+SU',recinos,4.1.15,su,1,fuzzy,Su',objeto
+SU',recinos,4.1.15,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,4.1.15,sangre,1,exact,Kik'el,objeto
+AWILIX,recinos,4.1.15,Avilix,1,exact,Awilix,deidad
+MAJUK'UTAJ,recinos,4.2.0,", Mahucutah",2,exact,Majuk'utaj,persona
+AWILIX,recinos,4.2.2,Avilix .,2,exact,Awilix,deidad
+TOJIL,recinos,4.2.2,Tohil,1,exact,Tojil,deidad
+KIK'EL,recinos,4.2.3,sangre,1,exact,Kik'el,objeto
+B'ALAM,recinos,4.2.4,: “ El tigre,4,fuzzy,B'alam,animal
+TOJIL,recinos,4.2.7,Tohil,1,exact,Tojil,deidad
+AWILIX,recinos,4.2.7,Avilix,1,exact,Awilix,deidad
+SU',recinos,4.2.14,su,1,fuzzy,Su',objeto
+TOJIL,recinos,4.2.17,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.2.17,"Hacavitz ,",2,exact,Jaqawitz,deidad
+AWILIX,recinos,4.2.17,Avilix,1,exact,Awilix,deidad
+TOJIL,recinos,4.2.18,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.2.18,Hacavitz ;,2,exact,Jaqawitz,deidad
+AWILIX,recinos,4.2.18,Avilix,1,exact,Awilix,deidad
+TOJIL,recinos,4.2.19,"Tohil ,",2,exact,Tojil,deidad
+AWILIX,recinos,4.2.19,Avilix,1,exact,Awilix,deidad
+JAQAWITZ,recinos,4.2.19,Hacavitz,1,exact,Jaqawitz,deidad
+TOJIL,recinos,4.2.21,"Tohil ,",2,exact,Tojil,deidad
+MAJUK'UTAJ,recinos,4.2.22,", Mahucutah",2,exact,Majuk'utaj,persona
+TOJIL,recinos,4.2.23,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.2.23,Hacavitz .,2,exact,Jaqawitz,deidad
+AWILIX,recinos,4.2.23,Avilix,1,exact,Awilix,deidad
+TOJIL,recinos,4.2.28,"Tohil , ¡",3,exact,Tojil,deidad
+TOJIL,recinos,4.2.28,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.2.28,"Hacavitz ,",2,exact,Jaqawitz,deidad
+AWILIX,recinos,4.2.28,Avilix,1,exact,Awilix,deidad
+DIOS,recinos,4.2.28,dios,1,exact,Dios,deidad
+SOTZ'I_JA,recinos,4.2.32,ha,1,exact,Sotz'i Ja,lugar
+TOJIL,recinos,4.2.33,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.2.33,"Hacavitz ,",2,exact,Jaqawitz,deidad
+AWILIX,recinos,4.2.33,Avilix,1,exact,Awilix,deidad
+IXPUCH',recinos,4.2.49,Ixpuch .,2,fuzzy,Ixpuch',deidad
+TOJIL,recinos,4.2.50,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.2.50,Hacavitz .,2,exact,Jaqawitz,deidad
+IXPUCH',recinos,4.2.50,Ixpuch,1,fuzzy,Ixpuch',deidad
+AWILIX,recinos,4.2.50,Avilix,1,exact,Awilix,deidad
+TOJIL,recinos,4.2.52,"Tohil ,  ",3,exact,Tojil,deidad
+TOJIL,recinos,4.2.55,"Tohil ,",2,exact,Tojil,deidad
+JAQAWITZ,recinos,4.2.55,Hacavitz ;,2,exact,Jaqawitz,deidad
+TOJIL,recinos,4.2.55,Tohil .,2,exact,Tojil,deidad
+AWILIX,recinos,4.2.55,Avilix,1,exact,Awilix,deidad
+TOJIL,recinos,4.2.56,Tohil,1,exact,Tojil,deidad
+SOTZ'I_JA,recinos,4.2.59,ha,1,exact,Sotz'i Ja,lugar
+TOJIL,recinos,4.2.60,Tohil,1,exact,Tojil,deidad
+SOTZ'I_JA,recinos,4.2.60,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,4.2.61,su,1,fuzzy,Su',objeto
+TOJIL,recinos,4.2.62,Tohil .,2,exact,Tojil,deidad
+TOJIL,recinos,4.2.63,"Tohil ,",2,exact,Tojil,deidad
+IXPUCH',recinos,4.2.63,"Ixpuch ,",2,fuzzy,Ixpuch',deidad
+AWILIX,recinos,4.2.63,Avilix,1,exact,Awilix,deidad
+JAQAWITZ,recinos,4.2.63,Hacavitz,1,exact,Jaqawitz,deidad
+B'ALAM_AQ'AB',recinos,4.2.65,", Balam- Acab ,",4,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,recinos,4.2.65,Mahucutah,1,exact,Majuk'utaj,persona
+MAJUK'UTAJ,recinos,4.2.66,", Mahucutah .",3,exact,Majuk'utaj,persona
+MAJUK'UTAJ,recinos,4.2.69,Mahucutah,1,exact,Majuk'utaj,persona
+MAJUK'UTAJ,recinos,4.2.71,Mahucutah : —,3,exact,Majuk'utaj,persona
+IXPUCH',recinos,4.2.71,"Ixpuch ,",2,fuzzy,Ixpuch',deidad
+TOJIL,recinos,4.2.71,"Tohil ,",2,exact,Tojil,deidad
+B'ALAM,recinos,4.2.71,Balam-,1,exact,B'alam,animal
+SOTZ'I_JA,recinos,4.2.71,ha,1,exact,Sotz'i Ja,lugar
+TOJIL,recinos,4.2.75,"Tohil ? ,",3,exact,Tojil,deidad
+IXPUCH',recinos,4.2.76,Ixpuch .,2,fuzzy,Ixpuch',deidad
+SU',recinos,4.2.78,su,1,fuzzy,Su',objeto
+B'ALAM,recinos,4.2.81,el tigre,2,fuzzy,B'alam,animal
+MAJUK'UTAJ,recinos,4.2.88,Mahucutah,1,exact,Majuk'utaj,persona
+IXPUCH',recinos,4.2.90,Ixpuch : — ¿,4,fuzzy,Ixpuch',deidad
+TOJIL,recinos,4.2.92,Tohil .,2,exact,Tojil,deidad
+TOJIL,recinos,4.2.93,Tohil,1,exact,Tojil,deidad
+IXPUCH',recinos,4.2.93,Ixpuch,1,fuzzy,Ixpuch',deidad
+IQ'I_B'ALAM,recinos,4.2.94,Iqui- Balam .,3,exact,Iq'i B'alam,persona
+MAJUK'UTAJ,recinos,4.2.94,Mahucutah,1,exact,Majuk'utaj,persona
+SU',recinos,4.3.2,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,4.3.8,", Mahucutah",2,exact,Majuk'utaj,persona
+JAQAWITZ,recinos,4.3.8,"Hacavitz ,",2,exact,Jaqawitz,deidad
+SU',recinos,4.3.10,su,1,fuzzy,Su',objeto
+TOJIL,recinos,4.3.14,"Tohil ,",2,exact,Tojil,deidad
+DIOS,recinos,4.3.14,"dios ,",2,exact,Dios,deidad
+B'ALAM_AQ'AB',recinos,4.3.15,", Balam- Acab",3,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,recinos,4.3.15,Mahucutah .,2,exact,Majuk'utaj,persona
+MAJUK'UTAJ,recinos,4.3.18,Mahucutah .,2,exact,Majuk'utaj,persona
+TZAMIY,recinos,4.3.20,las barbas ;,3,exact,Tzamiy,objeto
+SOTZ'I_JA,recinos,4.3.24,ha,1,exact,Sotz'i Ja,lugar
+TZAMIY,recinos,4.3.25,las barbas ?,3,exact,Tzamiy,objeto
+SOTZ'I_JA,recinos,4.3.25,ha,1,exact,Sotz'i Ja,lugar
+SU',recinos,4.3.29,su,1,fuzzy,Su',objeto
+SU',recinos,4.3.29,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,4.3.31,", Mahucutah",2,exact,Majuk'utaj,persona
+SU',recinos,4.3.31,su,1,fuzzy,Su',objeto
+TOJIL,recinos,4.3.32,Tohil : — ¿,4,exact,Tojil,deidad
+TOJIL,recinos,4.3.33,Tohil .,2,exact,Tojil,deidad
+MAJUK'UTAJ,recinos,4.3.37,Mahucutah,1,exact,Majuk'utaj,persona
+NIMA_SIS,recinos,4.3.39,grandes,1,exact,Nima Sis,deidad
+MAJUK'UTAJ,recinos,4.3.45,"Mahucutah ,",2,exact,Majuk'utaj,persona
+SU',recinos,4.3.46,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,4.4.0,", Mahucutah",2,exact,Majuk'utaj,persona
+NIMA_SIS,recinos,4.4.2,grandes,1,exact,Nima Sis,deidad
+MAJUK'UTAJ,recinos,4.4.15,Mahucutah .             ,3,exact,Majuk'utaj,persona
+JAQAWITZ,recinos,4.4.20,Hacavitz .,2,exact,Jaqawitz,deidad
+MAJUK'UTAJ,recinos,4.4.24,", Mahucutah",2,exact,Majuk'utaj,persona
+SU',recinos,4.4.24,su,1,fuzzy,Su',objeto
+SU',recinos,4.5.0,su,1,fuzzy,Su',objeto
+SU',recinos,4.5.0,su,1,fuzzy,Su',objeto
+K'OKA'IB,recinos,4.5.2,", Qocaib",2,exact,K'OKA'IB,
+K'O'AKUL,recinos,4.5.3,: Qoacul,2,exact,K'o'akul,linaje
+NIJA'IB,recinos,4.5.3,Nihaib .,2,exact,NIJA'IB,
+K'O'AKUTEK_NJDOS,recinos,4.5.3,Qoacutec,1,exact,K'o'akutek (gen. 2),persona
+K'O'AJAW_AKDOS,recinos,4.5.4,Qoahau .,2,exact,K'o'ajaw (gen. 2),persona
+MAJUK'UTAJ,recinos,4.5.4,Mahucutah,1,exact,Majuk'utaj,persona
+AJB'IX,recinos,4.5.8,"cantar ,",2,exact,Ajb'ix,oficio
+SU',recinos,4.5.12,su,1,fuzzy,Su',objeto
+DIOS,recinos,4.5.13,dios,1,exact,Dios,deidad
+SU',recinos,4.5.17,su,1,fuzzy,Su',objeto
+SU',recinos,4.5.20,su,1,fuzzy,Su',objeto
+JAQAWITZ,recinos,4.5.21,Hacavitz .,2,exact,Jaqawitz,deidad
+SU',recinos,4.5.23,su,1,fuzzy,Su',objeto
+K'OKA'IB,recinos,4.5.25,Qocaib,1,exact,K'OKA'IB,
+JAQAWITZ,recinos,4.5.26,Hacavitz,1,exact,Jaqawitz,deidad
+SU',recinos,4.5.27,su,1,fuzzy,Su',objeto
+SU',recinos,4.5.30,su,1,fuzzy,Su',objeto
+MAJUK'UTAJ,recinos,4.5.31,", Mahucutah",2,exact,Majuk'utaj,persona
+K'OKA'IB,recinos,4.6.4,Qocaib,1,exact,K'OKA'IB,
+NIJA'IB,recinos,4.6.5,Nihaib ;,2,exact,NIJA'IB,
+MAJUK'UTAJ,recinos,4.6.5,"Mahucutah ,",2,exact,Majuk'utaj,persona
+K'O'AKUTEK_NJDOS,recinos,4.6.5,Qoacutec,1,exact,K'o'akutek (gen. 2),persona
+K'O'AJAW_AKDOS,recinos,4.6.5,Qoahau,1,exact,K'o'ajaw (gen. 2),persona
+SU',recinos,4.6.6,", su",2,fuzzy,Su',objeto
+NAKXIT,recinos,4.6.11,"Nacxit ,",2,exact,Nakxit,deidad
+Q'ALIB'AJ,recinos,4.6.12,", el trono ,",4,exact,Q'alib'aj,objeto
+B'AQ_HUESO,recinos,4.6.12,"hueso ,",2,exact,B'aq Hueso,objeto
+KAXKON,recinos,4.6.12,caxcón .,2,fuzzy,Kaxkon,objeto
+AJPOP,recinos,4.6.12,Ahpop,1,exact,Ajpop,oficio
+AJPOP,recinos,4.6.12,Ahpop,1,exact,Ajpop,oficio
+NAKXIT,recinos,4.6.12,Nacxit,1,exact,Nakxit,deidad
+B'ALAM_AQ'AB',recinos,4.6.12,acabó,1,exact,B'alam Aq'ab',persona
+MU'J,recinos,4.6.13,Todo esto,2,exact,Mu'j,objeto
+TULÁN,recinos,4.6.13,"Tulán ,",2,exact,Tulán,topónimo
+JAQAWITZ,recinos,4.6.14,"Hacavitz ,",2,exact,Jaqawitz,deidad
+ILOKAB',recinos,4.6.14,Ilocab ;,2,exact,Ilokab',linaje
+K'OKA'IB,recinos,4.6.14,"Qocaib ,",2,exact,K'OKA'IB,
+K'O'AJAW_AKDOS,recinos,4.6.14,"Qoahau ,",2,exact,K'o'ajaw (gen. 2),persona
+SU',recinos,4.6.14,su,1,fuzzy,Su',objeto
+TAMUB',recinos,4.6.14,Tamub,1,exact,Tamub',linaje
+K'O'AKUTEK_NJDOS,recinos,4.6.14,Qoacutec,1,exact,K'o'akutek (gen. 2),persona
+SU',recinos,4.6.17,su,1,fuzzy,Su',objeto
+JAQAWITZ,recinos,4.6.18,"Hacavitz ,",2,exact,Jaqawitz,deidad
+MAJUK'UTAJ,recinos,4.6.20,Mahucutah .,2,exact,Majuk'utaj,persona
+SU',recinos,4.6.21,su,1,fuzzy,Su',objeto
+SU',recinos,4.6.24,su,1,fuzzy,Su',objeto
+JAQAWITZ,recinos,4.6.24,Hacavitz,1,exact,Jaqawitz,deidad
+SU',recinos,4.6.25,su,1,fuzzy,Su',objeto
+KAWINAL,recinos,4.6.27,Cavinal .,2,exact,Kawinal,topónimo
+SU',recinos,4.6.32,su,1,fuzzy,Su',objeto
+SU',recinos,4.7.0,su,1,fuzzy,Su',objeto
+SU',recinos,4.7.1,su,1,fuzzy,Su',objeto
+ISTAYUL_NJSIETE,recinos,4.7.3,"ztayul ,",2,exact,Istayul (gen. 7),persona
+AJPOP,recinos,4.7.3,", Ahpop",2,exact,Ajpop,oficio
+K'OTUJA_KQCINCO,recinos,4.7.3,Cotuhá,1,exact,K'otuja (gen. 5),persona
+OXIB_RI_NIM_JA,recinos,4.7.4,tres Casas grandes,3,exact,Oxib' ri nim ja,linaje
+NIMA_SIS,recinos,4.7.5,"grandes ,",2,exact,Nima Sis,deidad
+NIMA_SIS,recinos,4.7.5,"grandes ,",2,exact,Nima Sis,deidad
+NIJA'IB,recinos,4.7.5,Nihaib,1,exact,NIJA'IB,
+TAMUB',recinos,4.7.6,Tamub ) .,3,exact,Tamub',linaje
+NIMA_SIS,recinos,4.7.6,"grandes ,",2,exact,Nima Sis,deidad
+SU',recinos,4.7.9,Su,1,fuzzy,Su',objeto
+SU',recinos,4.7.10,su,1,fuzzy,Su',objeto
+SU',recinos,4.7.10,su,1,fuzzy,Su',objeto
+SU',recinos,4.7.10,su,1,fuzzy,Su',objeto
+ILOKAB',recinos,4.7.11,"Ilocab ,",2,exact,Ilokab',linaje
+ILOKAB',recinos,4.7.11,"Ilocab ,",2,exact,Ilokab',linaje
+K'OTUJA_KQCINCO,recinos,4.7.11,"Cotuhá ,",2,exact,K'otuja (gen. 5),persona
+ISTAYUL_KQCUATRO,recinos,4.7.12,"Iztayul ,",2,exact,Istayul (gen. 4),persona
+ILOKAB',recinos,4.7.12,Ilocab,1,exact,Ilokab',linaje
+K'OTUJA_KQCINCO,recinos,4.7.13,"Cotuhá ,",2,exact,K'otuja (gen. 5),persona
+SU',recinos,4.7.13,su,1,fuzzy,Su',objeto
+ILOKAB',recinos,4.7.13,Ilocab,1,exact,Ilokab',linaje
+DIOS,recinos,4.7.18,"dios ,",2,exact,Dios,deidad
+K'OTUJA_KQCINCO,recinos,4.7.18,Cotuhá .,2,exact,K'otuja (gen. 5),persona
+ILOKAB',recinos,4.7.18,Ilocab,1,exact,Ilokab',linaje
+SU',recinos,4.7.22,su,1,fuzzy,Su',objeto
+DIOS,recinos,4.7.25,"dios ,",2,exact,Dios,deidad
+NIMA_SIS,recinos,4.7.25,", grandes",2,exact,Nima Sis,deidad
+K'OTUJA_KQCINCO,recinos,4.7.25,"Cotuhá ,",2,exact,K'otuja (gen. 5),persona
+SU',recinos,4.7.25,su,1,fuzzy,Su',objeto
+ISTAYUL_KQCUATRO,recinos,4.7.25,Iztayul,1,exact,Istayul (gen. 4),persona
+NIJA'IB,recinos,4.7.25,Nihaib,1,exact,NIJA'IB,
+AWILIX,recinos,4.7.25,Ahau-,1,exact,Awilix,deidad
+OXIB_RI_NIM_JA,recinos,4.7.27,"tres Casas grandes ,",4,exact,Oxib' ri nim ja,linaje
+LAS_CASAS,recinos,4.7.27,las Casas,2,exact,Bartolomé de las Casas,persona
+NIMA_SIS,recinos,4.7.27,grandes .,2,exact,Nima Sis,deidad
+SU',recinos,4.7.27,su,1,fuzzy,Su',objeto
+OXIB_RI_NIM_JA,recinos,4.7.30,tres Casas grandes .,4,exact,Oxib' ri nim ja,linaje
+NIJA'IB,recinos,4.7.30,Nihaib,1,exact,NIJA'IB,
+K'OTUJA_KQCINCO,recinos,4.8.0,Cotuhá,1,exact,K'otuja (gen. 5),persona
+DIOS,recinos,4.8.2,dios ;,2,exact,Dios,deidad
+SU',recinos,4.8.3,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,4.8.4,grandes .,2,exact,Nima Sis,deidad
+SU',recinos,4.8.5,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,4.8.7,"grandes ,",2,exact,Nima Sis,deidad
+SOR_OBISPO,recinos,4.8.8,Señor Obispo .,3,fuzzy,Sor. Obispo,persona
+NIMA_SIS,recinos,4.8.8,"grandes ,",2,exact,Nima Sis,deidad
+SU',recinos,4.8.8,su,1,fuzzy,Su',objeto
+NIJA'IB,recinos,4.8.10,"Nihaib ,",2,exact,NIJA'IB,
+NIMA_SIS,recinos,4.8.12,grandes .,2,exact,Nima Sis,deidad
+AJPOP,recinos,4.8.14,"Ahpop , (",3,exact,Ajpop,oficio
+JOM,recinos,4.8.14,Pa Hom,2,exact,Jom,lugar
+SU',recinos,4.8.16,su,1,fuzzy,Su',objeto
+NIJA'IB,recinos,4.8.18,Nihaib .,2,exact,NIJA'IB,
+AWILIX,recinos,4.8.19,Ahau –,2,exact,Awilix,deidad
+NIMA_SIS,recinos,4.8.19,grandes .,2,exact,Nima Sis,deidad
+NIMA_SIS,recinos,4.9.0,grandes .,2,exact,Nima Sis,deidad
+NIMA_SIS,recinos,4.9.3,grandes,1,exact,Nima Sis,deidad
+SU',recinos,4.9.4,su,1,fuzzy,Su',objeto
+DIOS,recinos,4.9.4,dios,1,exact,Dios,deidad
+DIOS,recinos,4.9.5,"dios ,",2,exact,Dios,deidad
+K'OTUJA_KQCINCO,recinos,4.9.8,Cotuhá .,2,exact,K'otuja (gen. 5),persona
+Q'UKUMATZ,recinos,4.9.8,Gucumatz,1,exact,Q'ukumatz,deidad
+Q'UKUMATZ,recinos,4.9.9,", Gucumatz",2,exact,Q'ukumatz,deidad
+SAQIKAS,recinos,4.9.10,culebra,1,exact,Saqikas,animal
+SU',recinos,4.9.10,su,1,fuzzy,Su',objeto
+KIK'EL,recinos,4.9.11,sangre,1,exact,Kik'el,objeto
+KIK'EL,recinos,4.9.11,sangre,1,exact,Kik'el,objeto
+Q'UKUMATZ,recinos,4.9.14,Gucumatz,1,exact,Q'ukumatz,deidad
+SU',recinos,4.9.14,su,1,fuzzy,Su',objeto
+SU',recinos,4.9.15,su,1,fuzzy,Su',objeto
+Q'UKUMATZ,recinos,4.9.17,"Gucumatz ,",2,exact,Q'ukumatz,deidad
+AJPOP,recinos,4.9.17,Ahpop,1,exact,Ajpop,oficio
+ISTAYUL_KQCUATRO,recinos,4.9.19,"Iztayul ,",2,exact,Istayul (gen. 4),persona
+TEPEPUL_KQNUEVE,recinos,4.9.19,Tepepul,1,exact,Tepepul (gen. 9),persona
+KAWISIMAJ_KQSIETE,recinos,4.10.1,"Cavizimah ,",2,exact,Kawisimaj (gen. 7),persona
+NIMA_SIS,recinos,4.10.1,grandes,1,exact,Nima Sis,deidad
+KIKAB'_KQSIETE,recinos,4.10.1,Quícab,1,exact,Kikab' (gen. 7),persona
+NIMA_SIS,recinos,4.10.1,grandes,1,exact,Nima Sis,deidad
+NIMA_SIS,recinos,4.10.2,grandes .,2,exact,Nima Sis,deidad
+K'IKAB'_KQDIEZ,recinos,4.10.4,Quicab .,2,exact,K'IKAB'_KQDIEZ,
+K'IKAB'_KQDIEZ,recinos,4.10.5,Quicab .,2,exact,K'IKAB'_KQDIEZ,
+KAWISIMAJ_KQSIETE,recinos,4.10.6,Cavizimah .,2,exact,Kawisimaj (gen. 7),persona
+K'IKAB'_KQDIEZ,recinos,4.10.6,Quicab,1,exact,K'IKAB'_KQDIEZ,
+PETATAYUB',recinos,4.10.11,"Petatayub ,",2,exact,Petatayub',topónimo
+K'IKAB'_KQDIEZ,recinos,4.10.11,Quicab .,2,exact,K'IKAB'_KQDIEZ,
+K'IKAB'_KQDIEZ,recinos,4.10.18,Quicab,1,exact,K'IKAB'_KQDIEZ,
+DIOS,recinos,4.10.21,"dios ,",2,exact,Dios,deidad
+XAJBA'KYEJ,recinos,4.10.23,", Xahbaquieh ,",3,exact,XAJBA'KYEJ,
+KAB'RAQAN,recinos,4.10.23,"Cabracán ,  ",3,fuzzy,Kab'raqan,deidad
+CHULIMAL,recinos,4.10.23,"Chulimal ,",2,exact,Chulimal,topónimo
+XAYAB'AJ,recinos,4.10.23,"Xoyabah ,",2,exact,Xayab'aj,topónimo
+KAWISIMAJ_KQSIETE,recinos,4.10.24,"Cavizimah , (",3,exact,Kawisimaj (gen. 7),persona
+K'IKAB'_KQDIEZ,recinos,4.10.24,Quicab,1,exact,K'IKAB'_KQDIEZ,
+AJPOP,recinos,4.10.24,Ahpop,1,exact,Ajpop,oficio
+KAWISIMAJ_KQSIETE,recinos,4.10.25,"Cavizimah ,",2,exact,Kawisimaj (gen. 7),persona
+NIJA'IB,recinos,4.10.25,"Nihaib ,",2,exact,NIJA'IB,
+K'IKAB'_KQDIEZ,recinos,4.10.25,Quicab,1,exact,K'IKAB'_KQDIEZ,
+KAWISIMAJ_KQSIETE,recinos,4.10.27,", Cavizimah ,",3,exact,Kawisimaj (gen. 7),persona
+K'IKAB'_KQDIEZ,recinos,4.10.27,Quicab,1,exact,K'IKAB'_KQDIEZ,
+AJPOP,recinos,4.10.29,"Ahpop ,",2,exact,Ajpop,oficio
+SU',recinos,4.10.29,su,1,fuzzy,Su',objeto
+AJPOP,recinos,4.10.30,Ahpop ! ¡,3,exact,Ajpop,oficio
+AJPOP,recinos,4.10.30,"Ahpop ,",2,exact,Ajpop,oficio
+SU',recinos,4.10.30,su,1,fuzzy,Su',objeto
+ILOKAB',recinos,4.10.31,Ilocab ;,2,exact,Ilokab',linaje
+TAMUB',recinos,4.10.31,Tamub,1,exact,Tamub',linaje
+SU',recinos,4.10.34,su,1,fuzzy,Su',objeto
+XE'_B'ALAX,recinos,4.10.35,Xebalax,1,exact,Xe' B'alax,topónimo
+AJPOP,recinos,4.10.37,"Ahpop ,",2,exact,Ajpop,oficio
+AJPOP,recinos,4.10.37,Ahpop,1,exact,Ajpop,oficio
+ILOKAB',recinos,4.10.39,Ilocab ;,2,exact,Ilokab',linaje
+TAMUB',recinos,4.10.39,Tamub,1,exact,Tamub',linaje
+SU',recinos,4.10.41,su,1,fuzzy,Su',objeto
+AJPOP,recinos,4.10.42,Ahpop,1,exact,Ajpop,oficio
+DIOS,recinos,4.11.0,Dios .,2,exact,Dios,deidad
+DIOS,recinos,4.11.1,dios .,2,exact,Dios,deidad
+JUN_TOJ,recinos,4.11.2,"Tohü ,",2,exact,Jun Toj,deidad
+TOJIL,recinos,4.11.2,Tohil,1,exact,Tojil,deidad
+AWILIX,recinos,4.11.3,"Avilix ,",2,exact,Awilix,deidad
+NIJA'IB,recinos,4.11.3,Nihaib ;,2,exact,NIJA'IB,
+JAQAWITZ,recinos,4.11.3,Hacavitz,1,exact,Jaqawitz,deidad
+DIOS,recinos,4.11.3,Dios,1,exact,Dios,deidad
+TOJIL,recinos,4.11.5,Tohíl,1,exact,Tojil,deidad
+AJPOP,recinos,4.11.5,Ahpop,1,exact,Ajpop,oficio
+SU',recinos,4.11.5,su,1,fuzzy,Su',objeto
+AJPOP,recinos,4.11.6,Ahpop,1,exact,Ajpop,oficio
+K'OTUJA_KQCINCO,recinos,4.11.7,"Cotuhá ,",2,exact,K'otuja (gen. 5),persona
+KAWISIMAJ_KQSIETE,recinos,4.11.7,Cavizimah .,2,exact,Kawisimaj (gen. 7),persona
+NIMA_SIS,recinos,4.11.7,Grandes,1,exact,Nima Sis,deidad
+Q'UKUMATZ,recinos,4.11.7,Gucumatz,1,exact,Q'ukumatz,deidad
+K'IKAB'_KQDIEZ,recinos,4.11.7,Quicab,1,exact,K'IKAB'_KQDIEZ,
+NIMA_SIS,recinos,4.11.11,Grandes,1,exact,Nima Sis,deidad
+SU',recinos,4.11.12,su,1,fuzzy,Su',objeto
+TOJIL,recinos,4.11.15,Tohil .,2,exact,Tojil,deidad
+TULUL,recinos,4.11.16,"zapotes ,",2,exact,Tulul,objeto
+Q'INOM,recinos,4.11.16,jocotes .,2,exact,Q'inom,objeto
+SU',recinos,4.11.16,su,1,fuzzy,Su',objeto
+DIOS,recinos,4.11.16,dios,1,exact,Dios,deidad
+AJACHE',recinos,4.11.16,matasanos,1,exact,Ajache',objeto
+NIMA_SIS,recinos,4.11.19,grandes,1,exact,Nima Sis,deidad
+SU',recinos,4.11.19,su,1,fuzzy,Su',objeto
+DIOS,recinos,4.11.21,"dios ,",2,exact,Dios,deidad
+SU',recinos,4.11.22,su,1,fuzzy,Su',objeto
+SU',recinos,4.11.22,su,1,fuzzy,Su',objeto
+JUN_RAQAN,recinos,4.11.23,", Huracán ,",3,fuzzy,Jun Raqan,deidad
+DIOS,recinos,4.11.23,"dios ,",2,exact,Dios,deidad
+SU',recinos,4.11.23,su,1,fuzzy,Su',objeto
+TOJIL,recinos,4.11.31,", Tohil ;",3,exact,Tojil,deidad
+AWILIX,recinos,4.11.31,", Avilix ;",3,exact,Awilix,deidad
+JAQAWITZ,recinos,4.11.31,", Hacavitz ,",3,exact,Jaqawitz,deidad
+DIOS,recinos,4.11.32,Dios ! ”,3,exact,Dios,deidad
+SU',recinos,4.11.34,su,1,fuzzy,Su',objeto
+AJPOP,recinos,4.11.35,"Ahpop ,",2,exact,Ajpop,oficio
+AJPOP,recinos,4.11.35,Ahpop-,1,exact,Ajpop,oficio
+SU',recinos,4.11.37,su,1,fuzzy,Su',objeto
+TAMUB',recinos,4.11.37,Tamub,1,exact,Tamub',linaje
+ILOKAB',recinos,4.11.37,Ilocab,1,exact,Ilokab',linaje
+SU',recinos,4.11.41,", su",2,fuzzy,Su',objeto
+SU',recinos,4.11.41,su,1,fuzzy,Su',objeto
+SU',recinos,4.11.41,su,1,fuzzy,Su',objeto
+NIMA_SIS,recinos,4.11.42,grandes,1,exact,Nima Sis,deidad
+KAB',recinos,4.11.42,miel,1,fuzzy,Kab',objeto
+KAWISIMAJ_KQSIETE,recinos,4.11.43,"Cavizimah ,",2,exact,Kawisimaj (gen. 7),persona
+AJPOP,recinos,4.11.43,"Ahpop ,",2,exact,Ajpop,oficio
+Q'UKUMATZ,recinos,4.11.43,Gucumatz,1,exact,Q'ukumatz,deidad
+K'OTUJA_KQCINCO,recinos,4.11.43,Cotuhá,1,exact,K'otuja (gen. 5),persona
+K'IKAB'_KQDIEZ,recinos,4.11.43,Quicab,1,exact,K'IKAB'_KQDIEZ,
+SU',recinos,4.11.46,", su",2,fuzzy,Su',objeto
+Q'UKUMATZ,recinos,4.11.47,Gucumatz,1,exact,Q'ukumatz,deidad
+SU',recinos,4.11.48,su,1,fuzzy,Su',objeto
+IQ'I_B'ALAM,recinos,4.12.0,"Iqui- Balam ,",3,exact,Iq'i B'alam,persona
+MAJUK'UTAJ,recinos,4.12.0,", Mahucutah",2,exact,Majuk'utaj,persona
+SU',recinos,4.12.1,su,1,fuzzy,Su',objeto
+SU',recinos,4.12.1,su,1,fuzzy,Su',objeto
+SU',recinos,4.12.1,su,1,fuzzy,Su',objeto
+AJPOP,recinos,4.12.5,"Ahpop ,",2,exact,Ajpop,oficio
+K'OTUJA_KQCINCO,recinos,4.12.6,Cotuhá,1,exact,K'otuja (gen. 5),persona
+K'OTUJA_KQCINCO,recinos,4.12.7,"Cotuhá ,",2,exact,K'otuja (gen. 5),persona
+Q'UKUMATZ,recinos,4.12.7,Gucumatz,1,exact,Q'ukumatz,deidad
+ISTAYUL_KQCUATRO,recinos,4.12.8,"Iztayul ,",2,exact,Istayul (gen. 4),persona
+TEPEPUL_KQNUEVE,recinos,4.12.8,Tepepul,1,exact,Tepepul (gen. 9),persona
+KAWISIMAJ_KQSIETE,recinos,4.12.9,"Cavízimah ,",2,fuzzy,Kawisimaj (gen. 7),persona
+K'IKAB'_KQDIEZ,recinos,4.12.9,Quicab,1,exact,K'IKAB'_KQDIEZ,
+TEPEPUL_KQNUEVE,recinos,4.12.10,Tepepul,1,exact,Tepepul (gen. 9),persona
+TEPEPUL_KQNUEVE,recinos,4.12.11,"Tepepul ,",2,exact,Tepepul (gen. 9),persona
+TEKUM_KQNUEVE,recinos,4.12.11,Tecum,1,exact,Tekum (gen. 9),persona
+K'IKAB'_KQDIEZ,recinos,4.12.12,"Quicab ,",2,exact,K'IKAB'_KQDIEZ,
+TEPEPUL_KQNUEVE,recinos,4.12.16,"Tepepul ,",2,exact,Tepepul (gen. 9),persona
+TEKUM_KQNUEVE,recinos,4.12.16,Tecum,1,exact,Tekum (gen. 9),persona
+TEPEPUL_KQNUEVE,recinos,4.12.17,Tepepul .,2,exact,Tepepul (gen. 9),persona
+TEKUM_KQNUEVE,recinos,4.12.17,Tecum,1,exact,Tekum (gen. 9),persona
+AJPOP,recinos,4.12.18,Ahpop,1,exact,Ajpop,oficio
+AJPOP,recinos,4.12.18,Ahpop-,1,exact,Ajpop,oficio
+LAS_CASAS,recinos,4.12.20,las Casas,2,exact,Bartolomé de las Casas,persona
+NIMA_SIS,recinos,4.12.20,grandes,1,exact,Nima Sis,deidad
+AJPOP,recinos,4.12.20,Ahpop,1,exact,Ajpop,oficio
+LAS_CASAS,recinos,4.12.21,las Casas,2,exact,Bartolomé de las Casas,persona
+NIMA_SIS,recinos,4.12.21,grandes :,2,exact,Nima Sis,deidad
+NIMA_SIS,recinos,4.12.21,grandes,1,exact,Nima Sis,deidad
+JOM,recinos,4.12.29,Pahom,1,exact,Jom,lugar
+NIMA_SIS,recinos,4.12.32,grandes .,2,exact,Nima Sis,deidad
+NIJA'IB,recinos,4.12.33,Nihaib .,2,exact,NIJA'IB,
+NIMA_SIS,recinos,4.12.33,grandes,1,exact,Nima Sis,deidad
+K'O'AKUTEK_NJDOS,recinos,4.12.37,"Qoacutec ,",2,exact,K'o'akutek (gen. 2),persona
+K'O'AKUL,recinos,4.12.37,Qoacul,1,exact,K'o'akul,linaje
+K'OCHAJUJ_NJTRES,recinos,4.12.38,Cochahuh,1,exact,K'ochajuj (gen. 3),persona
+K'OTUJA_KQCINCO,recinos,4.12.40,Cotuhá (,2,exact,K'otuja (gen. 5),persona
+ISTAYUL_KQCUATRO,recinos,4.12.42,"Iztayul ,",2,exact,Istayul (gen. 4),persona
+K'OTUJA_KQCINCO,recinos,4.12.43,Cotuhá (,2,exact,K'otuja (gen. 5),persona
+KE'EMA_NJDIEZ,recinos,4.12.45,"Quema ,",2,exact,Ke'ema (gen. 10),persona
+LAS_CASAS,recinos,4.12.50,las Casas,2,exact,Bartolomé de las Casas,persona
+NIMA_SIS,recinos,4.12.50,grandes .,2,exact,Nima Sis,deidad
+NIJA'IB,recinos,4.12.51,"Nihaib ,",2,exact,NIJA'IB,
+YAKOLATAM,recinos,4.12.58,"Yacolatam ,",2,exact,Yakolatam,persona
+LAS_CASAS,recinos,4.12.60,", las Casas",3,exact,Bartolomé de las Casas,persona
+NIJA'IB,recinos,4.12.60,Nihaib ;,2,exact,NIJA'IB,
+NIJA'IB,recinos,4.12.60,"Nihaib ,",2,exact,NIJA'IB,
+NIMA_SIS,recinos,4.12.60,grandes,1,exact,Nima Sis,deidad
+KOMAJKUN_AKCINCO,recinos,4.12.62,Comahcun .,2,exact,Komajkun (gen. 5),persona
+K'OKAMEL_AKSIETE,recinos,4.12.64,Cocamel .,2,exact,K'okamel (gen. 7),persona
+LAS_CASAS,recinos,4.12.68,las Casas,2,exact,Bartolomé de las Casas,persona
+NIMA_SIS,recinos,4.12.68,grandes ;,2,exact,Nima Sis,deidad
+NIMA_SIS,recinos,4.12.68,grandes :,2,exact,Nima Sis,deidad
+JAQAWITZ,recinos,4.12.71,"Hacavitz ,",2,exact,Jaqawitz,deidad
+LAS_CASAS,recinos,4.12.72,", las Casas",3,exact,Bartolomé de las Casas,persona
+NIMA_SIS,recinos,4.12.72,grandes,1,exact,Nima Sis,deidad
+NIJA'IB,recinos,4.12.76,"Nihaib ,",2,exact,NIJA'IB,
+SU',recinos,4.12.76,su,1,fuzzy,Su',objeto
+SOTZ'I_JA,recinos,4.12.77,ha,1,exact,Sotz'i Ja,lugar
+SANTA_CRUZ,recinos,4.12.78,Santa Cruz .,3,exact,Santa Cruz,topónimo

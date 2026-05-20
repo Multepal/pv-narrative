@@ -55,6 +55,9 @@ pages:
   - path: pages/annotation_coverage.py
     title: Annotation Coverage
     icon: "🔎"
+  - path: pages/entity_index.py
+    title: Entity Index
+    icon: "🗂️"
   # ── Legacy (chunk-% variants, superseded by n-chunks) ─────────────────────
   # - path: pages/chunk_clustering.py
   #   title: Clustering (TF-IDF, chunk %)

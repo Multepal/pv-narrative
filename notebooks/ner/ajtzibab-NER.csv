@@ -1,0 +1,2388 @@
+entity_id,edition,ohco_path,ngram,ngram_len,match_type,label,type
+POPOL_WUJ,ajtzibab,0,POPOL WUJ,2,exact,Popol Wuj,objeto
+TINAMIT_K'ICHE',ajtzibab,2,"TINAMIT K'ICHE',",2,exact,Tinamit K'iche',topónimo
+TINAMIT_K'ICHE',ajtzibab,12,tinamit K'iche',2,exact,Tinamit K'iche',topónimo
+TZ'AQOL,ajtzibab,16,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,16,b'itol,1,exact,B'itol,deidad
+ALOM,ajtzibab,17,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,17,k'ajolom,1,exact,K'ajolom,deidad
+AJPU,ajtzibab,18,Ajpu,1,exact,Ajpu,oficio
+WUCH',ajtzibab,18,"Wuch',",1,exact,Wuch',animal
+AJPU,ajtzibab,18,Ajpu,1,exact,Ajpu,oficio
+UTIW,ajtzibab,18,Utiw,1,exact,Utiw,animal
+AQ,ajtzibab,19,"Aq,",1,exact,Aq,animal
+TEPEW_Q'UKUMATZ,ajtzibab,20,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+UK'U'X_CHO,ajtzibab,21,uk'u'x cho,2,exact,Uk'u'x Cho,deidad
+UK'U'X_PALO,ajtzibab,21,uk'u'x palo,2,exact,Uk'u'x Palo,deidad
+IXMUKANE,ajtzibab,23,iyom,1,exact,Ixmukane,deidad
+XPIYAKOK,ajtzibab,24,Xpiyakok,1,exact,Xpiyakok,deidad
+IXMUKANE,ajtzibab,25,matzanel,1,exact,Ixmukane,deidad
+IXMUKANE,ajtzibab,26,iyom,1,exact,Ixmukane,deidad
+XPIYAKOK,ajtzibab,26,mamom,1,exact,Xpiyakok,deidad
+DIOS,ajtzibab,30,dios,1,exact,Dios,deidad
+PALO,ajtzibab,34,palo.,1,exact,Palo,lugar
+KAJ,ajtzibab,40,kaj,1,exact,Kaj,objeto
+KAJ,ajtzibab,43,kaj,1,exact,Kaj,objeto
+TZ'AQOL,ajtzibab,45,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,45,b'itol,1,exact,B'itol,deidad
+AJB'IS,ajtzibab,49,ajb'is,1,exact,Ajb'is,deidad
+KAJ,ajtzibab,50,kaj,1,exact,Kaj,objeto
+CH'O,ajtzibab,50,cho,1,exact,Ch'o,animal
+PALO,ajtzibab,50,palo.,1,exact,Palo,lugar
+KA',ajtzibab,51,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,51,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,53,k'a,1,fuzzy,Ka',objeto
+TZ'IKIN,ajtzibab,56,"tz'ikin,",1,exact,Tz'ikin,animal
+KAR,ajtzibab,57,kar,1,exact,Kar,animal
+TAP,ajtzibab,57,"tap,",1,exact,Tap,animal
+CHE',ajtzibab,58,che',1,exact,Che',objeto
+K'IM,ajtzibab,60,k'im,1,exact,K'im,objeto
+KAJ,ajtzibab,61,kaj,1,exact,Kaj,objeto
+PALO,ajtzibab,63,palo,1,exact,Palo,lugar
+KAJ,ajtzibab,63,kaj,1,exact,Kaj,objeto
+PALO,ajtzibab,69,palo,1,exact,Palo,lugar
+TEPEW_Q'UKUMATZ,ajtzibab,74,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+TZ'AQOL,ajtzibab,74,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,74,b'itol,1,exact,B'itol,deidad
+ALOM,ajtzibab,75,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,75,k'ajolom,1,exact,K'ajolom,deidad
+Q'UKUMATZ,ajtzibab,78,Q'ukumatz,1,exact,Q'ukumatz,deidad
+KAJ,ajtzibab,80,kaj,1,exact,Kaj,objeto
+UK'U'X_KAJ,ajtzibab,81,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+TEPEW_Q'UKUMATZ,ajtzibab,84,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+TEPEW_Q'UKUMATZ,ajtzibab,86,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+CHE',ajtzibab,94,che',1,exact,Che',objeto
+UK'U'X_KAJ,ajtzibab,97,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+JUN_RAQAN,ajtzibab,97,Jun Raqan,2,exact,Jun Raqan,deidad
+UK'U'X_KAJ,ajtzibab,101,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+TEPEW_Q'UKUMATZ,ajtzibab,102,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+Q'OL,ajtzibab,105,q'o'l,1,fuzzy,Q'ol,objeto
+WA,ajtzibab,109,wa,1,exact,Wa,objeto
+KAJ,ajtzibab,112,kaj,1,exact,Kaj,objeto
+Q'UKUMATZ,ajtzibab,128,Q'ukumatz,1,exact,Q'ukumatz,deidad
+UK'U'X_KAJ,ajtzibab,129,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+UK'U'X_KAJ_UK'U'X_ULEW,ajtzibab,139,uk'u'x kaj uk'u'x ulew,4,exact,Uk'u'x Kaj Uk'u'x Ulew,grupo de deidades
+TZ'IKIN,ajtzibab,149,"tz'ikin,",1,exact,Tz'ikin,animal
+KOJ,ajtzibab,150,koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,150,"b'alam,",1,exact,B'alam,animal
+KUMATZ,ajtzibab,151,kumatz,1,exact,Kumatz,animal
+SOCHOJ,ajtzibab,151,sochoj,1,exact,Sochoj,animal
+K'ANTI',ajtzibab,151,"k'anti',",1,exact,K'anti',animal
+ALOM,ajtzibab,153,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,153,k'ajolom,1,exact,K'ajolom,deidad
+CHE',ajtzibab,155,che',1,exact,Che',objeto
+KA',ajtzibab,156,k'a,1,fuzzy,Ka',objeto
+KEJ,ajtzibab,159,kej,1,exact,Kej,animal
+TZ'IKIN,ajtzibab,159,tz'ikin,1,exact,Tz'ikin,animal
+KEJ,ajtzibab,160,kej,1,exact,Kej,animal
+TZ'IKIN,ajtzibab,160,tz'ikin.,1,exact,Tz'ikin,animal
+KEJ,ajtzibab,161,kej,1,exact,Kej,animal
+K'IM,ajtzibab,164,k'im,1,exact,K'im,objeto
+TZ'IKIN,ajtzibab,169,tz'ikin,1,exact,Tz'ikin,animal
+KEJ,ajtzibab,173,kej,1,exact,Kej,animal
+TZ'IKIN,ajtzibab,173,tz'ikin,1,exact,Tz'ikin,animal
+ALOM,ajtzibab,177,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,177,k'ajolom.,1,exact,K'ajolom,deidad
+KEJ,ajtzibab,178,kej,1,exact,Kej,animal
+TZ'IKIN,ajtzibab,178,tz'ikin,1,exact,Tz'ikin,animal
+KEJ,ajtzibab,179,kej,1,exact,Kej,animal
+TZ'IKIN,ajtzibab,179,tz'ikin,1,exact,Tz'ikin,animal
+TZ'AQOL,ajtzibab,180,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,180,b'itol,1,exact,B'itol,deidad
+ALOM,ajtzibab,180,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,180,k'ajolom,1,exact,K'ajolom,deidad
+KEJ,ajtzibab,185,kej,1,exact,Kej,animal
+TZ'IKIN,ajtzibab,185,tz'ikin,1,exact,Tz'ikin,animal
+KOJ,ajtzibab,186,koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,186,b'alam,1,exact,B'alam,animal
+KUMATZ,ajtzibab,187,kumatz,1,exact,Kumatz,animal
+ALOM,ajtzibab,190,ichuch,1,exact,Alom,deidad
+UK'U'X_KAJ_UK'U'X_ULEW,ajtzibab,193,uk'u'x kaj uk'u'x ulew,4,exact,Uk'u'x Kaj Uk'u'x Ulew,grupo de deidades
+TZ'AQOL,ajtzibab,194,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,194,b'itol,1,exact,B'itol,deidad
+ALOM,ajtzibab,195,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,195,k'ajolom.,1,exact,K'ajolom,deidad
+TZ'AQOL,ajtzibab,204,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,204,b'itol,1,exact,B'itol,deidad
+ALOM,ajtzibab,210,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,210,k'ajolom,1,exact,K'ajolom,deidad
+KA',ajtzibab,221,k'a,1,fuzzy,Ka',objeto
+TZ'AQOL,ajtzibab,241,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,241,b'itol,1,exact,B'itol,deidad
+ALOM,ajtzibab,242,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,242,k'ajolom,1,exact,K'ajolom,deidad
+Q'OL,ajtzibab,245,q'o'l,1,fuzzy,Q'ol,objeto
+XPIYAKOK,ajtzibab,282,"Xpiyakok,",1,exact,Xpiyakok,deidad
+JUNAJPU_WUCH,ajtzibab,283,"Junajpu Wuch',",2,exact,Junajpu Wuch',deidad
+JUNAJPU_UTIW,ajtzibab,283,Junajpu Utiw,2,exact,Junajpu Utiw,deidad
+XPIYAKOK,ajtzibab,286,Xpiyakok,1,exact,Xpiyakok,deidad
+KA',ajtzibab,287,k'a,1,fuzzy,Ka',objeto
+RATI'T_Q'IJ,ajtzibab,288,rati't q'ij,2,exact,Rati't Q'ij,deidad
+RATI'T_SAQ,ajtzibab,288,rati't saq,2,exact,Rati't Saq,deidad
+TZ'AQOL,ajtzibab,289,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,289,b'itol,1,exact,B'itol,deidad
+XPIYAKOK,ajtzibab,290,Xpiyakok,1,exact,Xpiyakok,deidad
+TEPEW_Q'UKUMATZ,ajtzibab,291,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+CHE',ajtzibab,295,che,1,fuzzy,Che',objeto
+Q'OL,ajtzibab,296,q'o'l,1,fuzzy,Q'ol,objeto
+IXMUKANE,ajtzibab,298,iyom,1,exact,Ixmukane,deidad
+XPIYAKOK,ajtzibab,298,mamom,1,exact,Xpiyakok,deidad
+XPIYAKOK,ajtzibab,299,Xpiyakok,1,exact,Xpiyakok,deidad
+JUNAJPU_WUCH,ajtzibab,306,"Junajpu Wuch',",2,exact,Junajpu Wuch',deidad
+JUNAJPU_UTIW,ajtzibab,306,Junajpu Utiw,2,exact,Junajpu Utiw,deidad
+KA'MUL_ALOM,ajtzibab,307,kamul alom,2,fuzzy,Ka'mul Alom,deidad
+KA'MUL_K'AJOLOM,ajtzibab,307,kamul k'ajolom,2,fuzzy,Ka'mul K'ajolom,deidad
+NIM_AQ,ajtzibab,308,Nim Aq,2,exact,Nim Aq,deidad
+AJK'UWAL,ajtzibab,309,ajk'uwa'l,1,fuzzy,Ajk'uwal,deidad
+AJYAMANIK,ajtzibab,309,ajyamanik,1,exact,Ajyamanik,deidad
+AJCH'UT,ajtzibab,310,ajch'ut,1,exact,Ajch'ut,deidad
+AJTZ'ALAM,ajtzibab,310,ajtz'alam,1,exact,Ajtz'alam,deidad
+AJQ'OL,ajtzibab,312,ajq'ol,1,exact,Ajq'ol,deidad
+AJTOLTEKAT,ajtzibab,312,ajtoltekat,1,exact,Ajtoltekat,deidad
+RATI'T_Q'IJ,ajtzibab,313,rati't q'ij,2,exact,Rati't Q'ij,deidad
+RATI'T_SAQ,ajtzibab,313,rati't saq,2,exact,Rati't Saq,deidad
+IXIM,ajtzibab,315,ixim,1,exact,Ixim,objeto
+TZ'ITE',ajtzibab,315,tz'ite',1,exact,Tz'ite',objeto
+KA',ajtzibab,319,k'a,1,fuzzy,Ka',objeto
+IXIM,ajtzibab,319,ixim,1,exact,Ixim,objeto
+TZ'ITE',ajtzibab,319,tz'ite',1,exact,Tz'ite',objeto
+IXMUKANE,ajtzibab,320,ati't,1,fuzzy,Ixmukane,deidad
+SAQI_NIM_AQ_SIS,ajtzibab,320,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+SAQI_NIM_AQ_SIS,ajtzibab,321,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+XPIYAKOK,ajtzibab,321,Xpiyakok,1,exact,Xpiyakok,deidad
+IXMUKANE,ajtzibab,322,ati't,1,fuzzy,Ixmukane,deidad
+CHE',ajtzibab,328,che',1,exact,Che',objeto
+Q'OL,ajtzibab,330,q'o'l,1,fuzzy,Q'ol,objeto
+IXIM,ajtzibab,332,ixim,1,exact,Ixim,objeto
+TZ'ITE',ajtzibab,332,tz'ite',1,exact,Tz'ite',objeto
+IXIM,ajtzibab,335,ixim,1,exact,Ixim,objeto
+TZ'ITE',ajtzibab,335,tz'ite',1,exact,Tz'ite',objeto
+UK'U'X_KAJ,ajtzibab,336,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+TEPEW_Q'UKUMATZ,ajtzibab,337,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+CHE',ajtzibab,340,che',1,exact,Che',objeto
+CHE',ajtzibab,345,che',1,exact,Che',objeto
+CHE',ajtzibab,348,che',1,exact,Che',objeto
+UK'U'X_KAJ,ajtzibab,353,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+TZ'AQOL,ajtzibab,365,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,365,b'itol,1,exact,B'itol,deidad
+KA',ajtzibab,368,K'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,370,che',1,exact,Che',objeto
+UK'U'X_KAJ,ajtzibab,371,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+CHE',ajtzibab,373,che',1,exact,Che',objeto
+TZ'ITE',ajtzibab,374,tz'ite',1,exact,Tz'ite',objeto
+TZ'AQOL,ajtzibab,375,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,375,b'itol,1,exact,B'itol,deidad
+TZ'AQOL,ajtzibab,377,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,377,b'itol.,1,exact,B'itol,deidad
+KAJ,ajtzibab,383,kaj.,1,exact,Kaj,objeto
+KAMALOTZ',ajtzibab,386,Kamalotz,1,fuzzy,Kamalotz',animal
+B'ALAM,ajtzibab,388,B'alam,1,exact,B'alam,animal
+B'ALAM,ajtzibab,390,B'alam,1,exact,B'alam,animal
+UK'U'X_KAJ,ajtzibab,396,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+CHE',ajtzibab,400,che',1,exact,Che',objeto
+KA',ajtzibab,407,ka',1,exact,Ka',objeto
+TZ'I',ajtzibab,431,tz'i',1,exact,TZ'I',objeto
+WA,ajtzibab,435,wa,1,exact,Wa,objeto
+CHE',ajtzibab,453,che',1,exact,Che',objeto
+K'OY,ajtzibab,462,k'oy,1,exact,K'oy,animal
+CHE',ajtzibab,464,che',1,exact,Che',objeto
+K'OY,ajtzibab,466,k'oy,1,exact,K'oy,animal
+CHE',ajtzibab,468,che'.,1,exact,Che',objeto
+WUQUB'_KAQIX,ajtzibab,472,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KAJ,ajtzibab,473,kaj,1,exact,Kaj,objeto
+IK,ajtzibab,474,ik',1,fuzzy,Ik,objeto
+KAJ,ajtzibab,489,kaj,1,exact,Kaj,objeto
+IK,ajtzibab,491,ik',1,fuzzy,Ik,objeto
+IK,ajtzibab,495,ik',1,fuzzy,Ik,objeto
+WUQUB'_KAQIX,ajtzibab,499,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+WUQUB'_KAQIX,ajtzibab,501,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KAJ,ajtzibab,504,kaj,1,exact,Kaj,objeto
+WUQUB'_KAQIX,ajtzibab,507,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+IK,ajtzibab,509,Ik',1,fuzzy,Ik,objeto
+WUQUB'_KAQIX,ajtzibab,512,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+WUQUB'_KAQIX,ajtzibab,516,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KA'IB_K'AJOLAB',ajtzibab,517,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+AJPU,ajtzibab,517,Ajpu,1,exact,Ajpu,oficio
+UK'U'X_KAJ,ajtzibab,520,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+WUQUB'_KAQIX,ajtzibab,536,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+SIPAKNA,ajtzibab,538,Sipakna,1,exact,Sipakna,deidad
+KAB'RAQAN,ajtzibab,539,Kab'raqan,1,exact,Kab'raqan,deidad
+CHIMALMAT,ajtzibab,540,Chimalmat,1,exact,Chimalmat,deidad
+WUQUB'_KAQIX,ajtzibab,541,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+SIPAKNA,ajtzibab,542,Sipakna,1,exact,Sipakna,deidad
+CHI_Q'AQ',ajtzibab,543,"chi Q'aq',",2,exact,Chi q'aq',topónimo
+AJPU,ajtzibab,543,"Ajpu,",1,exact,Ajpu,oficio
+MAKAMOB',ajtzibab,543,"Makamob',",1,exact,Makamob',topónimo
+JULISNAB',ajtzibab,543,Julisnab',1,exact,Julisnab',topónimo
+SIPAKNA,ajtzibab,547,Sipakna,1,exact,Sipakna,deidad
+KAB'RAQAN,ajtzibab,548,Kab'raqan,1,exact,Kab'raqan,deidad
+WUQUB'_KAQIX,ajtzibab,552,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+WUQUB'_KAQIX,ajtzibab,555,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+WA,ajtzibab,556,wa',1,fuzzy,Wa,objeto
+SIPAKNA,ajtzibab,557,Sipakna,1,exact,Sipakna,deidad
+KAB'RAQAN,ajtzibab,560,Kab'raqan,1,exact,Kab'raqan,deidad
+WUQUB'_KAQIX,ajtzibab,561,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+ALOM,ajtzibab,565,chuch,1,exact,Alom,deidad
+WUQUB'_KAQIX,ajtzibab,568,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KA'IB_K'AJOLAB',ajtzibab,569,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+WUQUB'_KAQIX,ajtzibab,571,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+TAPA'L,ajtzibab,572,tapa'l,1,exact,Tapa'l,objeto
+WUQUB'_KAQIX,ajtzibab,573,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+CHE',ajtzibab,575,che',1,exact,Che',objeto
+AJPU,ajtzibab,577,"Ajpu,",1,exact,Ajpu,oficio
+WUQUB'_KAQIX,ajtzibab,579,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KA'IB_K'AJOLAB',ajtzibab,580,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+CHE',ajtzibab,580,che',1,exact,Che',objeto
+WUQUB'_KAQIX,ajtzibab,581,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+TAPA'L,ajtzibab,582,tapa'l,1,exact,Tapa'l,objeto
+KA',ajtzibab,583,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,583,Ajpu,1,exact,Ajpu,oficio
+WUB,ajtzibab,584,wub',1,exact,Wub',objeto
+CHE',ajtzibab,586,che',1,exact,Che',objeto
+CHIMALMAT,ajtzibab,588,chimalmat,1,exact,Chimalmat,deidad
+AJPU,ajtzibab,588,Ajpu,1,exact,Ajpu,oficio
+WUQUB'_KAQIX,ajtzibab,590,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KA',ajtzibab,590,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,590,Ajpu,1,exact,Ajpu,oficio
+WUQUB'_KAQIX,ajtzibab,593,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+AJPU,ajtzibab,593,Ajpu,1,exact,Ajpu,oficio
+WUQUB'_KAQIX,ajtzibab,596,Wuqub' Kaqix.,2,exact,Wuqub' Kaqix,deidad
+WUQUB'_KAQIX,ajtzibab,597,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+AJPU,ajtzibab,597,Ajpu,1,exact,Ajpu,oficio
+CHIMALMAT,ajtzibab,601,Chimalmat,1,exact,Chimalmat,deidad
+WUQUB'_KAQIX,ajtzibab,602,Wuqub' Kaqix.,2,exact,Wuqub' Kaqix,deidad
+WUQUB'_KAQIX,ajtzibab,612,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+AJPU,ajtzibab,613,Ajpu.,1,exact,Ajpu,oficio
+AJPU,ajtzibab,614,Ajpu,1,exact,Ajpu,oficio
+SAQI_NIM_AQ_SIS,ajtzibab,615,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+SAQI_NIM_AQ_SIS,ajtzibab,616,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+IXMUKANE,ajtzibab,617,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,618,ati't,1,fuzzy,Ixmukane,deidad
+AQ,ajtzibab,620,Aq,1,exact,Aq,animal
+SAQI_NIM_AQ_SIS,ajtzibab,620,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+IXMUKANE,ajtzibab,621,ati't,1,fuzzy,Ixmukane,deidad
+SAQI_NIM_AQ_SIS,ajtzibab,622,ri ati't mama',3,fuzzy,Saqi Nim Aq Sis,deidad
+WUQUB'_KAQIX,ajtzibab,624,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+WUQUB'_KAQIX,ajtzibab,634,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KA'IB_K'AJOLAB',ajtzibab,636,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+KA',ajtzibab,638,K'a,1,fuzzy,Ka',objeto
+WUQUB'_KAQIX,ajtzibab,639,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+SAQI_NIM_AQ_SIS,ajtzibab,640,ri ati't mama',3,fuzzy,Saqi Nim Aq Sis,deidad
+KA'IB_K'AJOLAB',ajtzibab,641,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+WUQUB'_KAQIX,ajtzibab,643,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+WUQUB'_KAQIX,ajtzibab,644,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+SAQI_NIM_AQ_SIS,ajtzibab,645,mama' ati't,2,fuzzy,Saqi Nim Aq Sis,deidad
+SAQI_NIM_AQ_SIS,ajtzibab,657,ri ati't mama',3,fuzzy,Saqi Nim Aq Sis,deidad
+B'AQ,ajtzibab,667,b'aq,1,exact,B'aq,objeto
+B'AQ,ajtzibab,690,b'aq,1,exact,B'aq,objeto
+B'AQ,ajtzibab,691,b'aq,1,exact,B'aq,objeto
+WUQUB'_KAQIX,ajtzibab,696,Wuqub' Kaqix.,2,exact,Wuqub' Kaqix,deidad
+IXIM,ajtzibab,698,ixim,1,exact,Ixim,objeto
+WUQUB'_KAQIX,ajtzibab,703,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+AJPU,ajtzibab,709,"Ajpu,",1,exact,Ajpu,oficio
+WUQUB'_KAQIX,ajtzibab,710,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+AJPU,ajtzibab,711,Ajpu,1,exact,Ajpu,oficio
+CHIMALMAT,ajtzibab,712,Chimalmat,1,exact,Chimalmat,deidad
+WUQUB'_KAQIX,ajtzibab,713,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+WUQUB'_KAQIX,ajtzibab,714,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+IXMUKANE,ajtzibab,717,ati't,1,fuzzy,Ixmukane,deidad
+SAQI_NIM_AQ_SIS,ajtzibab,717,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+WUQUB'_KAQIX,ajtzibab,721,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KA',ajtzibab,725,k'a,1,fuzzy,Ka',objeto
+KA'IB_K'AJOLAB',ajtzibab,726,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+UK'U'X_KAJ,ajtzibab,727,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+SIPAKNA,ajtzibab,729,Sipakna,1,exact,Sipakna,deidad
+WUQUB'_KAQIX,ajtzibab,730,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+SIPAKNA,ajtzibab,731,Sipakna,1,exact,Sipakna,deidad
+SIPAKNA,ajtzibab,732,Sipakna,1,exact,Sipakna,deidad
+CHE',ajtzibab,735,che',1,exact,Che',objeto
+KA',ajtzibab,739,k'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,739,Sipakna,1,exact,Sipakna,deidad
+CHE',ajtzibab,742,che',1,exact,Che',objeto
+KA',ajtzibab,758,k'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,762,che',1,exact,Che',objeto
+SIPAKNA,ajtzibab,774,Sipakna,1,exact,Sipakna,deidad
+KA',ajtzibab,779,k'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,797,Sipakna,1,exact,Sipakna,deidad
+KA',ajtzibab,802,K'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,802,Sipakna,1,exact,Sipakna,deidad
+SIPAKNA,ajtzibab,816,Sipakna,1,exact,Sipakna,deidad
+KA',ajtzibab,821,k'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,821,che',1,exact,Che',objeto
+CHE',ajtzibab,829,che',1,exact,Che',objeto
+CHE',ajtzibab,833,che',1,exact,Che',objeto
+SANIK,ajtzibab,853,sanik,1,exact,Sanik,animal
+KA',ajtzibab,855,k'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,857,Sipakna,1,exact,Sipakna,deidad
+KA',ajtzibab,859,k'a,1,fuzzy,Ka',objeto
+SANIK,ajtzibab,860,sanik,1,exact,Sanik,animal
+CHE',ajtzibab,862,che',1,exact,Che',objeto
+SIPAKNA,ajtzibab,864,Sipakna,1,exact,Sipakna,deidad
+SANIK,ajtzibab,867,sanik,1,exact,Sanik,animal
+KA',ajtzibab,872,k'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,874,Sipakna,1,exact,Sipakna,deidad
+SANIK,ajtzibab,878,sanik,1,exact,Sanik,animal
+KA',ajtzibab,881,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,885,k'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,886,Sipakna,1,exact,Sipakna,deidad
+SIPAKNA,ajtzibab,889,Sipakna,1,exact,Sipakna,deidad
+WUQUB'_KAQIX,ajtzibab,890,Wuqub' Kaqix.,2,exact,Wuqub' Kaqix,deidad
+MOTZ,ajtzibab,894,motz,1,exact,Motz,topónimo
+SIPAKNA,ajtzibab,897,Sipakna,1,exact,Sipakna,deidad
+KA'IB_K'AJOLAB',ajtzibab,898,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+AJPU,ajtzibab,898,"Ajpu,",1,exact,Ajpu,oficio
+SIPAKNA,ajtzibab,899,Sipakna,1,exact,Sipakna,deidad
+KA'IB_K'AJOLAB',ajtzibab,901,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+JUNAJPU,ajtzibab,901,"Junajpu,",1,exact,Junajpu,deidad
+SIPAKNA,ajtzibab,904,Sipakna,1,exact,Sipakna,deidad
+KAR,ajtzibab,905,kar,1,exact,Kar,animal
+TAP,ajtzibab,905,tap,1,exact,Tap,animal
+KA',ajtzibab,910,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,911,"Ajpu,",1,exact,Ajpu,oficio
+TAP,ajtzibab,914,tap,1,exact,Tap,animal
+TAP,ajtzibab,917,tap,1,exact,Tap,animal
+KA',ajtzibab,919,k'a,1,fuzzy,Ka',objeto
+ME'AWAN,ajtzibab,921,Me'awan,1,exact,Me'awan,topónimo
+KA',ajtzibab,922,k'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,923,Sipakna,1,exact,Sipakna,deidad
+SIPAKNA,ajtzibab,926,Sipakna,1,exact,Sipakna,deidad
+SIPAKNA,ajtzibab,930,Sipakna.,1,exact,Sipakna,deidad
+KAR,ajtzibab,932,kar,1,exact,Kar,animal
+TAP,ajtzibab,932,tap,1,exact,Tap,animal
+SIPAKNA,ajtzibab,936,Sipakna,1,exact,Sipakna,deidad
+AJPU,ajtzibab,936,"Ajpu,",1,exact,Ajpu,oficio
+TAP,ajtzibab,937,tap,1,exact,Tap,animal
+AJPU,ajtzibab,945,"Ajpu,",1,exact,Ajpu,oficio
+SIPAKNA,ajtzibab,948,Sipakna,1,exact,Sipakna,deidad
+AJPU,ajtzibab,955,"Ajpu,",1,exact,Ajpu,oficio
+TZ'IKIN,ajtzibab,960,tz'ikin,1,exact,Tz'ikin,animal
+SIPAKNA,ajtzibab,963,Sipakna.,1,exact,Sipakna,deidad
+KA',ajtzibab,971,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,976,k'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,980,Sipakna,1,exact,Sipakna,deidad
+SIPAKNA,ajtzibab,982,Sipakna,1,exact,Sipakna,deidad
+TAP,ajtzibab,985,tap,1,exact,Tap,animal
+SIPAKNA,ajtzibab,989,Sipakna,1,exact,Sipakna,deidad
+TAP,ajtzibab,996,tap,1,exact,Tap,animal
+KA',ajtzibab,998,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,1006,K'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,1009,K'a,1,fuzzy,Ka',objeto
+SIPAKNA,ajtzibab,1016,Sipakna,1,exact,Sipakna,deidad
+SIPAKNA,ajtzibab,1017,Sipakna,1,exact,Sipakna,deidad
+AJPU,ajtzibab,1018,"Ajpu,",1,exact,Ajpu,oficio
+WUQUB'_KAQIX,ajtzibab,1021,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+ME'AWAN,ajtzibab,1022,Me'awan,1,exact,Me'awan,topónimo
+WUQUB'_KAQIX,ajtzibab,1028,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KAB'RAQAN,ajtzibab,1029,Kab'raqan,1,exact,Kab'raqan,deidad
+AJPU,ajtzibab,1032,"Ajpu,",1,exact,Ajpu,oficio
+KAB'RAQAN,ajtzibab,1033,Kab'raqan,1,exact,Kab'raqan,deidad
+AJPU,ajtzibab,1035,"Ajpu,",1,exact,Ajpu,oficio
+WUQUB'_KAQIX,ajtzibab,1036,Wuqub' Kaqix,2,exact,Wuqub' Kaqix,deidad
+KA'IB_K'AJOLAB',ajtzibab,1043,ka'ib' k'ajolab',2,exact,Ka'ib' K'ajolab',grupo de deidades
+UK'U'X_KAJ,ajtzibab,1049,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+KAB'RAQAN,ajtzibab,1052,Kab'raqan,1,exact,Kab'raqan,deidad
+KAB'RAQAN,ajtzibab,1058,Kab'raqan,1,exact,Kab'raqan,deidad
+KAB'RAQAN,ajtzibab,1065,Kab'raqan,1,exact,Kab'raqan,deidad
+AJPU,ajtzibab,1065,"Ajpu,",1,exact,Ajpu,oficio
+KAB'RAQAN,ajtzibab,1069,Kab'raqan.,1,exact,Kab'raqan,deidad
+TZ'IKIN,ajtzibab,1083,tz'ikin,1,exact,Tz'ikin,animal
+AJPU,ajtzibab,1087,"Ajpu,",1,exact,Ajpu,oficio
+KAB'RAQAN,ajtzibab,1087,Kab'raqan,1,exact,Kab'raqan,deidad
+AJPU,ajtzibab,1096,"Ajpu,",1,exact,Ajpu,oficio
+TZ'IKIN,ajtzibab,1104,tz'ikin,1,exact,Tz'ikin,animal
+TZ'IKIN,ajtzibab,1109,tz'ikin,1,exact,Tz'ikin,animal
+KAB'RAQAN,ajtzibab,1111,Kab'raqan,1,exact,Kab'raqan,deidad
+TZ'IKIN,ajtzibab,1114,tz'ikin,1,exact,Tz'ikin,animal
+TZ'IKIN,ajtzibab,1120,tz'ikin,1,exact,Tz'ikin,animal
+KAB'RAQAN,ajtzibab,1129,Kab'raqan,1,exact,Kab'raqan,deidad
+AJPU,ajtzibab,1130,"Ajpu,",1,exact,Ajpu,oficio
+TZ'IKIN,ajtzibab,1131,tz'ikin,1,exact,Tz'ikin,animal
+TZ'IKIN,ajtzibab,1134,tz'ikin,1,exact,Tz'ikin,animal
+KAB'RAQAN,ajtzibab,1136,Kab'raqan,1,exact,Kab'raqan,deidad
+TZ'IKIN,ajtzibab,1139,tz'ikin,1,exact,Tz'ikin,animal
+TZ'IKIN,ajtzibab,1145,tz'ikin,1,exact,Tz'ikin,animal
+KAB'RAQAN,ajtzibab,1145,Kab'raqan,1,exact,Kab'raqan,deidad
+KA',ajtzibab,1147,K'a,1,fuzzy,Ka',objeto
+TZ'IKIN,ajtzibab,1147,tz'ikin,1,exact,Tz'ikin,animal
+KAB'RAQAN,ajtzibab,1151,Kab'raqan,1,exact,Kab'raqan,deidad
+TZ'IKIN,ajtzibab,1153,tz'ikin,1,exact,Tz'ikin,animal
+KA',ajtzibab,1163,k'a,1,fuzzy,Ka',objeto
+KAB'RAQAN,ajtzibab,1165,Kab'raqan,1,exact,Kab'raqan,deidad
+AJPU,ajtzibab,1166,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1169,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1172,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1176,"Ajpu,",1,exact,Ajpu,oficio
+XPIYAKOK,ajtzibab,1177,"Xpiyakok,",1,exact,Xpiyakok,deidad
+AJPU,ajtzibab,1179,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1179,Ajpu,1,exact,Ajpu,oficio
+XPIYAKOK,ajtzibab,1180,"Xpiyakok,",1,exact,Xpiyakok,deidad
+AJPU,ajtzibab,1181,Ajpu,1,exact,Ajpu,oficio
+JUN_B'ATZ',ajtzibab,1184,Jun B'atz',2,exact,Jun B'atz',deidad
+JUN_CHOWEN,ajtzibab,1185,Jun Chowen,2,exact,Jun Chowen,deidad
+WA,ajtzibab,1186,wa',1,fuzzy,Wa,objeto
+AJPU,ajtzibab,1188,Ajpu.,1,exact,Ajpu,oficio
+AJPU,ajtzibab,1189,Ajpu,1,exact,Ajpu,oficio
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1197,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,1198,Ajpu,1,exact,Ajpu,oficio
+AJB'IX,ajtzibab,1199,ajb'ix,1,exact,Ajb'ix,oficio
+AJPU,ajtzibab,1200,ajpu,1,exact,Ajpu,oficio
+AJTZ'IB',ajtzibab,1200,ajtz'ib',1,exact,Ajtz'ib',oficio
+AJK'OT,ajtzibab,1201,ajk'ot,1,exact,Ajk'ot,oficio
+AJXIT,ajtzibab,1202,ajxit,1,exact,Ajxit,oficio
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1203,Jun B'atz' Jun Chowen.,4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,1204,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1204,Ajpu,1,exact,Ajpu,oficio
+JOM,ajtzibab,1208,jom,1,exact,Jom,lugar
+WOK,ajtzibab,1209,wok,1,exact,Wok,animal
+WOK,ajtzibab,1212,wok,1,exact,Wok,animal
+XIB'ALB'A,ajtzibab,1214,xib'alb'a,1,exact,Xib'alb'a,lugar
+KAJ,ajtzibab,1215,kaj,1,exact,Kaj,objeto
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1217,"Jun B'atz', Jun Chowen.",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+KA',ajtzibab,1217,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,1218,xib'alb'a,1,exact,Xib'alb'a,lugar
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1219,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+RAJAWAL_XIB'ALB'A,ajtzibab,1220,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+XIB'ALB'A,ajtzibab,1230,xib'alb'a.,1,exact,Xib'alb'a,lugar
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1232,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1237,"Jun Kame, Wuqub' Kame.",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+XIKIRIPAT,ajtzibab,1238,Xikiripat,1,exact,Xikiripat,deidad
+KIK',ajtzibab,1239,kik',1,exact,Kik',objeto
+AJAL_PUJ,ajtzibab,1240,"Ajal Puj,",2,exact,Ajal Puj,deidad
+AJAL_Q'ANA,ajtzibab,1240,Ajal Q'ana,2,exact,Ajal Q'ana,deidad
+CHUQ'ANAL,ajtzibab,1245,chuq'anal,1,exact,Chuq'anal,evento
+AJAL_PUJ,ajtzibab,1246,Ajal Puj,2,exact,Ajal Puj,deidad
+AJAL_Q'ANA,ajtzibab,1246,Ajal Q'ana,2,exact,Ajal Q'ana,deidad
+KA',ajtzibab,1246,K'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,1248,xib'alb'a,1,exact,Xib'alb'a,lugar
+B'AQ,ajtzibab,1249,b'aq,1,exact,B'aq,objeto
+B'AQ,ajtzibab,1251,b'aq,1,exact,B'aq,objeto
+JOLOM,ajtzibab,1251,jolom,1,exact,Jolom,objeto
+AJAL_MES,ajtzibab,1256,"Ajal Mes,",2,exact,Ajal Mes,deidad
+AJAL_TOQ'OB,ajtzibab,1256,Ajal Toq'ob',2,fuzzy,Ajal Toq'ob,deidad
+AJAL_MES,ajtzibab,1263,"Ajal Mes,",2,exact,Ajal Mes,deidad
+AJAL_TOQ'OB,ajtzibab,1263,Ajal Toq'ob',2,fuzzy,Ajal Toq'ob,deidad
+AJAW_XIK,ajtzibab,1265,"ajaw Xik,",2,exact,Xik,deidad
+PATAN,ajtzibab,1265,Patan,1,exact,Patan,deidad
+KIK',ajtzibab,1268,kik',1,exact,Kik',objeto
+KIK',ajtzibab,1270,kik',1,exact,Kik',objeto
+PATAN,ajtzibab,1271,patan,1,exact,Patan,deidad
+XIK,ajtzibab,1276,"Xik,",1,exact,Xik,animal
+PATAN,ajtzibab,1276,Patan,1,exact,Patan,deidad
+AJPU,ajtzibab,1279,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1279,Ajpu,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,1280,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,1281,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1281,Ajpu,1,exact,Ajpu,oficio
+WACHSOT,ajtzibab,1284,wachsot,1,exact,Wachsot,objeto
+AJPU,ajtzibab,1285,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1285,Ajpu.,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,1287,xib'alb'a,1,exact,Xib'alb'a,lugar
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1288,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,1289,Ajpu,1,exact,Ajpu,oficio
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1291,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+KA',ajtzibab,1291,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,1292,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,1293,K'a,1,fuzzy,Ka',objeto
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1294,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+RAJPOP_ACHIJ,ajtzibab,1296,rajpop achij,2,exact,Rajpop Achij,oficio
+AJPU,ajtzibab,1297,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1297,Ajpu,1,exact,Ajpu,oficio
+TUKUR,ajtzibab,1314,tukur,1,exact,Tukur,animal
+JURAQAN_TUKUR,ajtzibab,1315,"Juraqan Tukur,",2,exact,Juraqan Tukur,deidad
+KAQIX_TUKUR,ajtzibab,1316,"Kaqix Tukur,",2,exact,Kaqix Tukur,deidad
+JOLOM_TUKUR,ajtzibab,1316,Jolom Tukur,2,exact,Jolom Tukur,deidad
+USAMAJEL_XIB'ALB'A,ajtzibab,1317,usamajel xib'alb'a,2,exact,Usamajel Xib'alb'a,grupo de deidades
+JURAQAN_TUKUR,ajtzibab,1321,Juraqan Tukur,2,exact,Juraqan Tukur,deidad
+JUN_RAQAN,ajtzibab,1322,jun raqan,2,exact,Jun Raqan,deidad
+KAQIX_TUKUR,ajtzibab,1324,Kaqix Tukur,2,exact,Kaqix Tukur,deidad
+JOLOM_TUKUR,ajtzibab,1327,Jolom Tukur,2,exact,Jolom Tukur,deidad
+RAJPOP,ajtzibab,1332,rajpop,1,exact,Rajpop,deidad
+XIB'ALB'A,ajtzibab,1333,xib'alb'a,1,exact,Xib'alb'a,lugar
+JOM,ajtzibab,1335,jom,1,exact,Jom,lugar
+AJPU,ajtzibab,1336,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1336,Ajpu,1,exact,Ajpu,oficio
+JOM,ajtzibab,1337,jom,1,exact,Jom,lugar
+NIM_XOB'_KARCHAJ,ajtzibab,1338,Nim Xob' Karchaj,3,exact,Nim xob' Karchaj,topónimo
+TUKUR,ajtzibab,1339,tukur,1,exact,Tukur,animal
+JOM,ajtzibab,1339,jom,1,exact,Jom,lugar
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1341,"Jun Kame, Wuqub' Kame,",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+AJAL_PUJ,ajtzibab,1342,"Ajal Puj,",2,exact,Ajal Puj,deidad
+AJAL_Q'ANA,ajtzibab,1342,Ajal Q'ana',2,fuzzy,Ajal Q'ana,deidad
+XIKIRIPAT,ajtzibab,1344,"Xikiripat,",1,exact,Xikiripat,deidad
+AJAL_MES,ajtzibab,1345,"Ajal Mes,",2,exact,Ajal Mes,deidad
+AJAL_TOQ'OB,ajtzibab,1345,Ajal Toq'ob',2,fuzzy,Ajal Toq'ob,deidad
+XIK,ajtzibab,1346,Xik,1,exact,Xik,animal
+PATAN,ajtzibab,1346,Patan,1,exact,Patan,deidad
+TUKUR,ajtzibab,1347,tukur.,1,exact,Tukur,animal
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1348,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KA',ajtzibab,1371,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,1373,k'a,1,fuzzy,Ka',objeto
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1380,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,1387,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1387,Ajpu.,1,exact,Ajpu,oficio
+KA',ajtzibab,1388,K'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,1389,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1389,Ajpu,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,1391,xib'alb'a,1,exact,Xib'alb'a,lugar
+JA'_SIMAJ,ajtzibab,1398,Ja' Simaj,2,exact,Ja' Simaj,topónimo
+KA',ajtzibab,1411,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,1421,xib'alb'a.,1,exact,Xib'alb'a,lugar
+RAJAWAL_XIB'ALB'A,ajtzibab,1423,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+CHE',ajtzibab,1426,che',1,exact,Che',objeto
+XIB'ALB'A,ajtzibab,1427,xib'alb'a,1,exact,Xib'alb'a,lugar
+JUN_KAME',ajtzibab,1429,Jun Kame,2,exact,Jun Kame',deidad
+WUQUB'_KAME',ajtzibab,1430,Wuqub' Kame,2,fuzzy,Wuqub' Kame',deidad
+CHE',ajtzibab,1431,che',1,exact,Che',objeto
+KA',ajtzibab,1433,k'a,1,fuzzy,Ka',objeto
+RAJAWAL_XIB'ALB'A,ajtzibab,1434,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+AJPU,ajtzibab,1438,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1438,Ajpu,1,exact,Ajpu,oficio
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1440,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KA',ajtzibab,1440,k'a,1,fuzzy,Ka',objeto
+B'ATE,ajtzibab,1443,ib'ate,1,fuzzy,B'ate,objeto
+KA',ajtzibab,1454,K'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,1455,xib'alb'a,1,exact,Xib'alb'a,lugar
+RAJAWAL_XIB'ALB'A,ajtzibab,1459,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+KA',ajtzibab,1463,K'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,1465,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,1469,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,1473,Xib'alb'a,1,exact,Xib'alb'a,lugar
+B'AQ,ajtzibab,1475,b'aq,1,exact,B'aq,objeto
+XIB'ALB'A,ajtzibab,1476,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,1477,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1477,Ajpu,1,exact,Ajpu,oficio
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1481,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+AJPU,ajtzibab,1485,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1485,Ajpu,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,1500,xib'alb'a,1,exact,Xib'alb'a,lugar
+XUXULIM_JA,ajtzibab,1505,Xuxulim Ja,2,exact,Xuxulim Ja,lugar
+B'ALAM_JA',ajtzibab,1510,B'alam Ja,2,fuzzy,B'alam Ja',linaje
+B'ALAM,ajtzibab,1511,b'alam,1,exact,B'alam,animal
+B'ALAM,ajtzibab,1515,b'alam,1,exact,B'alam,animal
+SOTZ,ajtzibab,1517,sotz',1,fuzzy,Sotz,animal
+SOTZ,ajtzibab,1520,sotz',1,fuzzy,Sotz,animal
+CHAYIM_JA,ajtzibab,1522,Chayim Ja,2,exact,Chayim Ja,topónimo
+XIB'ALB'A,ajtzibab,1526,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,1527,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1527,Ajpu,1,exact,Ajpu,oficio
+TIJOB'AL_JA,ajtzibab,1528,tijob'al ja,2,exact,Tijob'al Ja,lugar
+AJPU,ajtzibab,1529,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1529,Ajpu,1,exact,Ajpu,oficio
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1530,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1541,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+AJPU,ajtzibab,1546,Ajpu,1,exact,Ajpu,oficio
+CHE',ajtzibab,1548,che',1,exact,Che',objeto
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1550,"Jun Kame, Wuqub' Kame.",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+CHE',ajtzibab,1551,che'.,1,exact,Che',objeto
+CHE',ajtzibab,1552,che',1,exact,Che',objeto
+AJPU,ajtzibab,1554,Ajpu,1,exact,Ajpu,oficio
+CHE',ajtzibab,1555,che'.,1,exact,Che',objeto
+TZIMA,ajtzibab,1556,tzima,1,exact,Tzima,objeto
+AJPU,ajtzibab,1557,Ajpu,1,exact,Ajpu,oficio
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1558,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+CHE',ajtzibab,1559,che',1,exact,Che',objeto
+AJPU,ajtzibab,1561,Ajpu,1,exact,Ajpu,oficio
+TZIMA,ajtzibab,1562,tzima,1,exact,Tzima,objeto
+XIB'ALB'A,ajtzibab,1563,xib'alb'a,1,exact,Xib'alb'a,lugar
+CHE',ajtzibab,1564,che',1,exact,Che',objeto
+AJPU,ajtzibab,1566,Ajpu,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,1568,xib'alb'a,1,exact,Xib'alb'a,lugar
+CHE',ajtzibab,1570,che',1,exact,Che',objeto
+XIB'ALB'A,ajtzibab,1573,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,1574,Ajpu,1,exact,Ajpu,oficio
+CHE',ajtzibab,1575,che',1,exact,Che',objeto
+TZIMA,ajtzibab,1576,tzima,1,exact,Tzima,objeto
+WA,ajtzibab,1579,wa,1,exact,Wa,objeto
+WA,ajtzibab,1580,Wa,1,exact,Wa,objeto
+CHE',ajtzibab,1586,che',1,exact,Che',objeto
+CHE',ajtzibab,1590,che',1,exact,Che',objeto
+KA',ajtzibab,1595,k'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,1597,che',1,exact,Che',objeto
+CHE',ajtzibab,1601,che',1,exact,Che',objeto
+WA,ajtzibab,1602,wa,1,exact,Wa,objeto
+CHE',ajtzibab,1602,che'.,1,exact,Che',objeto
+B'AQ,ajtzibab,1606,b'aq,1,exact,B'aq,objeto
+CHE',ajtzibab,1607,che',1,exact,Che',objeto
+B'AQ,ajtzibab,1608,b'aq,1,exact,B'aq,objeto
+CHE',ajtzibab,1609,che',1,exact,Che',objeto
+AJPU,ajtzibab,1610,Ajpu,1,exact,Ajpu,oficio
+WILA',ajtzibab,1617,wila,1,exact,Wila',topónimo
+B'AQ,ajtzibab,1618,b'aq,1,exact,B'aq,objeto
+B'AQ,ajtzibab,1620,b'aq,1,exact,B'aq,objeto
+KA',ajtzibab,1621,k'a,1,fuzzy,Ka',objeto
+B'AQ,ajtzibab,1621,b'aq,1,exact,B'aq,objeto
+B'AQ,ajtzibab,1626,b'aq,1,exact,B'aq,objeto
+B'AQ,ajtzibab,1631,b'aq,1,exact,B'aq,objeto
+AJPU,ajtzibab,1653,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1653,Ajpu.,1,exact,Ajpu,oficio
+JUN_RAQAN,ajtzibab,1656,"Jun Raqan,",2,exact,Jun Raqan,deidad
+AJPU,ajtzibab,1662,"Ajpu,",1,exact,Ajpu,oficio
+IK,ajtzibab,1664,ik',1,fuzzy,Ik,objeto
+KA',ajtzibab,1667,K'a,1,fuzzy,Ka',objeto
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1671,Jun Kame Wuqub' Kame,4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KA',ajtzibab,1682,k'a,1,fuzzy,Ka',objeto
+AJPOP,ajtzibab,1690,ajpop,1,exact,Ajpop,oficio
+TUKUR,ajtzibab,1693,tukur,1,exact,Tukur,animal
+AJPU,ajtzibab,1704,Ajpu,1,exact,Ajpu,oficio
+KA',ajtzibab,1730,k'a,1,fuzzy,Ka',objeto
+JUN_KAME'_WUQUB'_KAME',ajtzibab,1731,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KA',ajtzibab,1731,k'a,1,fuzzy,Ka',objeto
+KIK',ajtzibab,1732,kik',1,exact,Kik',objeto
+CHE',ajtzibab,1737,che',1,exact,Che',objeto
+KAQ,ajtzibab,1739,kaq,1,exact,Kaq,deidad
+CHE',ajtzibab,1739,che',1,exact,Che',objeto
+KA',ajtzibab,1741,k'a,1,fuzzy,Ka',objeto
+KAQ,ajtzibab,1744,kaq,1,exact,Kaq,deidad
+CHE',ajtzibab,1744,che',1,exact,Che',objeto
+KIK',ajtzibab,1745,kik',1,exact,Kik',objeto
+CHE',ajtzibab,1745,che',1,exact,Che',objeto
+KIK',ajtzibab,1747,kik',1,exact,Kik',objeto
+KAQ,ajtzibab,1748,kaq,1,exact,Kaq,deidad
+CHE',ajtzibab,1748,che',1,exact,Che',objeto
+KIK',ajtzibab,1749,kik',1,exact,Kik',objeto
+CH'U'J_KAQ_CHE',ajtzibab,1753,Ch'u'j kaq che',3,exact,Ch'u'j Kaq Che',objeto
+KIK',ajtzibab,1754,kik',1,exact,Kik',objeto
+KIK',ajtzibab,1755,Kik',1,exact,Kik',objeto
+TUKUR,ajtzibab,1759,tukur,1,exact,Tukur,animal
+JUN_KAME',ajtzibab,1773,Jun Kame.,2,exact,Jun Kame',deidad
+WILA',ajtzibab,1778,wila,1,exact,Wila',topónimo
+JUN_KAME',ajtzibab,1779,Jun Kame,2,exact,Jun Kame',deidad
+KIK',ajtzibab,1782,kik',1,exact,Kik',objeto
+JUN_KAME',ajtzibab,1786,Jun Kame.,2,exact,Jun Kame',deidad
+KA',ajtzibab,1787,K'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,1788,xib'alb'a,1,exact,Xib'alb'a,lugar
+KIK',ajtzibab,1792,kik'.,1,exact,Kik',objeto
+TUKUR,ajtzibab,1794,tukur,1,exact,Tukur,animal
+RAJAWAL_XIB'ALB'A,ajtzibab,1799,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1802,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1805,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,1808,"Ajpu,",1,exact,Ajpu,oficio
+IXMUKANE,ajtzibab,1809,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,1810,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,1811,lal chichu',2,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,1814,lal chichu',2,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,1816,ati't.,1,fuzzy,Ixmukane,deidad
+XIB'ALB'A,ajtzibab,1819,xib'alb'a.,1,exact,Xib'alb'a,lugar
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1821,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+IXMUKANE,ajtzibab,1824,ati't.,1,fuzzy,Ixmukane,deidad
+AJPU,ajtzibab,1827,Ajpu,1,exact,Ajpu,oficio
+WA,ajtzibab,1827,wa,1,exact,Wa,objeto
+AJPU,ajtzibab,1829,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,1829,Ajpu,1,exact,Ajpu,oficio
+IXMUKANE,ajtzibab,1834,ati't.,1,fuzzy,Ixmukane,deidad
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1835,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+SU',ajtzibab,1836,su',1,exact,Su',objeto
+B'IX,ajtzibab,1836,b'ix,1,exact,B'ix,lugar
+IXMUKANE,ajtzibab,1839,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,1840,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,1847,ati't,1,fuzzy,Ixmukane,deidad
+KA',ajtzibab,1860,k'a,1,fuzzy,Ka',objeto
+AB'IX,ajtzibab,1861,ab'ix,1,fuzzy,AB'IX,
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1862,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AB'IX,ajtzibab,1865,ab'ix.,1,fuzzy,AB'IX,
+AB'IX,ajtzibab,1866,ab'ix,1,fuzzy,AB'IX,
+CHAJAL_ECHA',ajtzibab,1876,chajal echa',2,exact,Chajal echa',grupo de deidades
+KA',ajtzibab,1876,k'a,1,fuzzy,Ka',objeto
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1878,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+TZAMIY,ajtzibab,1880,tzami'y,1,fuzzy,Tzamiy,objeto
+JAL,ajtzibab,1881,jal,1,exact,Jal,objeto
+JAL,ajtzibab,1883,jal,1,exact,Jal,objeto
+JAL,ajtzibab,1884,jal,1,exact,Jal,objeto
+IXMUKANE,ajtzibab,1891,ati't,1,fuzzy,Ixmukane,deidad
+KA',ajtzibab,1892,k'a,1,fuzzy,Ka',objeto
+IXMUKANE,ajtzibab,1893,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,1899,ati't,1,fuzzy,Ixmukane,deidad
+AB'IX,ajtzibab,1901,abix,1,exact,AB'IX,
+AB'IX,ajtzibab,1902,ab'ix,1,fuzzy,AB'IX,
+IXMUKANE,ajtzibab,1904,ati't,1,fuzzy,Ixmukane,deidad
+AJPU,ajtzibab,1911,"Ajpu,",1,exact,Ajpu,oficio
+IXMUKANE,ajtzibab,1915,ati't,1,fuzzy,Ixmukane,deidad
+AJPU,ajtzibab,1919,"Ajpu,",1,exact,Ajpu,oficio
+IXMUKANE,ajtzibab,1925,ati't,1,fuzzy,Ixmukane,deidad
+KA',ajtzibab,1926,k'a,1,fuzzy,Ka',objeto
+SANIK,ajtzibab,1926,sanik,1,exact,Sanik,animal
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1930,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+SANIK,ajtzibab,1931,sanik,1,exact,Sanik,animal
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1934,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJB'IX,ajtzibab,1939,ajb'ix,1,exact,Ajb'ix,oficio
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1940,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJB'IX,ajtzibab,1945,ajb'ix,1,exact,Ajb'ix,oficio
+AJK'OT,ajtzibab,1946,ajk'ot,1,exact,Ajk'ot,oficio
+XIB'ALB'A,ajtzibab,1951,xib'alb'a,1,exact,Xib'alb'a,lugar
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1954,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,1961,"Ajpu,",1,exact,Ajpu,oficio
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1964,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1967,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1976,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,1978,"Ajpu,",1,exact,Ajpu,oficio
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,1979,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+SU',ajtzibab,1979,su',1,exact,Su',objeto
+B'IX,ajtzibab,1979,b'ix,1,exact,B'ix,lugar
+AJPU,ajtzibab,1980,"Ajpu,",1,exact,Ajpu,oficio
+IXMUKANE,ajtzibab,1982,ati't,1,fuzzy,Ixmukane,deidad
+TZ'IKIN,ajtzibab,1984,tz'ikin,1,exact,Tz'ikin,animal
+AJPU,ajtzibab,1985,"Ajpu,",1,exact,Ajpu,oficio
+CHE',ajtzibab,1987,che',1,exact,Che',objeto
+CHE',ajtzibab,1989,che',1,exact,Che',objeto
+TZ'IKIN,ajtzibab,1993,tz'ikin,1,exact,Tz'ikin,animal
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,2000,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+CHE',ajtzibab,2012,che',1,exact,Che',objeto
+Q'ANTE',ajtzibab,2013,q'ante',1,exact,Q'ante',objeto
+TZ'IKIN,ajtzibab,2017,tz'ikin,1,exact,Tz'ikin,animal
+CHE',ajtzibab,2017,che',1,exact,Che',objeto
+TZ'IKIN,ajtzibab,2020,tz'ikin,1,exact,Tz'ikin,animal
+TZ'IKIN,ajtzibab,2021,tz'ikin,1,exact,Tz'ikin,animal
+CHE',ajtzibab,2022,che',1,exact,Che',objeto
+KA',ajtzibab,2028,K'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,2028,che',1,exact,Che',objeto
+CHE',ajtzibab,2029,che',1,exact,Che',objeto
+KA',ajtzibab,2031,k'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,2032,che',1,exact,Che',objeto
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,2033,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+CHE',ajtzibab,2034,che',1,exact,Che',objeto
+CHE',ajtzibab,2038,che',1,exact,Che',objeto
+CHE',ajtzibab,2040,che',1,exact,Che',objeto
+AJPU,ajtzibab,2041,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,2045,k'a,1,fuzzy,Ka',objeto
+K'OY,ajtzibab,2050,k'oy,1,exact,K'oy,animal
+KA',ajtzibab,2051,k'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,2051,che',1,exact,Che',objeto
+CHE',ajtzibab,2055,che',1,exact,Che',objeto
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,2056,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,2057,"Ajpu,",1,exact,Ajpu,oficio
+IXMUKANE,ajtzibab,2074,ati't,1,fuzzy,Ixmukane,deidad
+AJPU,ajtzibab,2074,"Ajpu,",1,exact,Ajpu,oficio
+WA,ajtzibab,2079,wa',1,fuzzy,Wa,objeto
+KA',ajtzibab,2083,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,2084,Ajpu,1,exact,Ajpu,oficio
+K'OY,ajtzibab,2084,K'oy,1,exact,K'oy,animal
+KA',ajtzibab,2085,K'a,1,fuzzy,Ka',objeto
+SU',ajtzibab,2089,su',1,exact,Su',objeto
+B'IX,ajtzibab,2089,b'ix,1,exact,B'ix,lugar
+AJPU,ajtzibab,2091,Ajpu,1,exact,Ajpu,oficio
+K'OY,ajtzibab,2091,K'oy,1,exact,K'oy,animal
+SU',ajtzibab,2092,su',1,exact,Su',objeto
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,2093,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+KA',ajtzibab,2096,k'a,1,fuzzy,Ka',objeto
+IXMUKANE,ajtzibab,2096,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,2097,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,2099,ati't,1,fuzzy,Ixmukane,deidad
+SU',ajtzibab,2105,su',1,exact,Su',objeto
+B'IX,ajtzibab,2105,b'ix,1,exact,B'ix,lugar
+AJPU,ajtzibab,2108,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,2109,k'a,1,fuzzy,Ka',objeto
+K'OY,ajtzibab,2116,k'oy,1,exact,K'oy,animal
+IXMUKANE,ajtzibab,2120,ati't,1,fuzzy,Ixmukane,deidad
+KA',ajtzibab,2121,k'a,1,fuzzy,Ka',objeto
+WA,ajtzibab,2123,wa',1,fuzzy,Wa,objeto
+AJPU,ajtzibab,2124,"Ajpu,",1,exact,Ajpu,oficio
+IXMUKANE,ajtzibab,2135,ati't,1,fuzzy,Ixmukane,deidad
+KA',ajtzibab,2136,k'a,1,fuzzy,Ka',objeto
+IXMUKANE,ajtzibab,2137,ati't,1,fuzzy,Ixmukane,deidad
+WA,ajtzibab,2138,wa',1,fuzzy,Wa,objeto
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,2157,"Jun B'atz', Jun Chowen",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJPU,ajtzibab,2158,"Ajpu,",1,exact,Ajpu,oficio
+AJB'IX,ajtzibab,2159,ajb'ix,1,exact,Ajb'ix,oficio
+AJTZ'IB',ajtzibab,2161,ajtz'ib',1,exact,Ajtz'ib',oficio
+AJK'OT,ajtzibab,2161,ajk'ot,1,exact,Ajk'ot,oficio
+K'OY,ajtzibab,2163,k'oy,1,exact,K'oy,animal
+JUN_B'ATZ'_JUN_CHOWEN,ajtzibab,2168,"Jun B'atz', Jun Chowen.",4,exact,Jun B'atz' Jun Chowen,grupo de deidades
+AJB'IX,ajtzibab,2171,ajb'ix,1,exact,Ajb'ix,oficio
+IXMUKANE,ajtzibab,2173,rati't,1,fuzzy,Ixmukane,deidad
+AB'IX,ajtzibab,2176,ab'ix.,1,fuzzy,AB'IX,
+AJPU,ajtzibab,2184,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,2194,K'a,1,fuzzy,Ka',objeto
+MIXKINA,ajtzibab,2196,mixkina',1,fuzzy,Mixkina,objeto
+MIXKINA,ajtzibab,2197,mixkina',1,fuzzy,Mixkina,objeto
+MIXKINA,ajtzibab,2198,mixkina',1,fuzzy,Mixkina,objeto
+CHE',ajtzibab,2199,che',1,exact,Che',objeto
+CHE',ajtzibab,2200,che',1,exact,Che',objeto
+CHE',ajtzibab,2201,che',1,exact,Che',objeto
+CHE',ajtzibab,2202,che',1,exact,Che',objeto
+MIXKINA,ajtzibab,2204,mixkina',1,fuzzy,Mixkina,objeto
+MIXKINA,ajtzibab,2206,mixkina',1,fuzzy,Mixkina,objeto
+XMUKUR,ajtzibab,2209,Xmukur,1,exact,Xmukur,animal
+AJPU,ajtzibab,2211,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,2217,k'a,1,fuzzy,Ka',objeto
+MIXKINA,ajtzibab,2217,mixkina',1,fuzzy,Mixkina,objeto
+XMUKUR,ajtzibab,2219,Xmukur,1,exact,Xmukur,animal
+KA',ajtzibab,2222,k'a,1,fuzzy,Ka',objeto
+XMUKUR,ajtzibab,2222,Xmukur,1,exact,Xmukur,animal
+MIXKINA,ajtzibab,2224,mixkina',1,fuzzy,Mixkina,objeto
+AB'IX,ajtzibab,2229,ab'ixom.,1,fuzzy,AB'IX,
+KA',ajtzibab,2234,k'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,2244,che',1,exact,Che',objeto
+KOJ,ajtzibab,2249,"koj,",1,exact,Koj,animal
+B'ALAM,ajtzibab,2249,"b'alam,",1,exact,B'alam,animal
+KEJ,ajtzibab,2249,"kej,",1,exact,Kej,animal
+UMUL,ajtzibab,2249,"umul,",1,exact,Umul,animal
+YAK,ajtzibab,2249,"yak,",1,exact,Yak,animal
+UTIW,ajtzibab,2249,"utiw,",1,exact,Utiw,animal
+AQ,ajtzibab,2249,"aq,",1,exact,Aq,animal
+SIS,ajtzibab,2249,sis,1,exact,Sis,animal
+KA',ajtzibab,2253,k'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,2254,che',1,exact,Che',objeto
+CHE',ajtzibab,2256,che',1,exact,Che',objeto
+KA',ajtzibab,2273,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,2274,k'a,1,fuzzy,Ka',objeto
+CHE',ajtzibab,2274,che',1,exact,Che',objeto
+CHE',ajtzibab,2284,che',1,exact,Che',objeto
+CHE',ajtzibab,2287,che',1,exact,Che',objeto
+KOJ,ajtzibab,2290,koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,2290,b'alam,1,exact,B'alam,animal
+KEJ,ajtzibab,2293,kej,1,exact,Kej,animal
+UMUL,ajtzibab,2293,umul,1,exact,Umul,animal
+KEJ,ajtzibab,2295,kej,1,exact,Kej,animal
+KEJ,ajtzibab,2296,kej,1,exact,Kej,animal
+UMUL,ajtzibab,2296,umul,1,exact,Umul,animal
+YAK,ajtzibab,2298,"yak,",1,exact,Yak,animal
+UTIW,ajtzibab,2298,"utiw,",1,exact,Utiw,animal
+AQ,ajtzibab,2298,"aq,",1,exact,Aq,animal
+SIS,ajtzibab,2298,sis,1,exact,Sis,animal
+AJPU,ajtzibab,2299,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,2306,k'a,1,fuzzy,Ka',objeto
+CH'O,ajtzibab,2307,ch'o,1,exact,Ch'o,animal
+KA',ajtzibab,2308,k'a,1,fuzzy,Ka',objeto
+CH'O,ajtzibab,2312,ch'o,1,exact,Ch'o,animal
+AJPU,ajtzibab,2316,"Ajpu,",1,exact,Ajpu,oficio
+CH'O,ajtzibab,2320,ch'o,1,exact,Ch'o,animal
+CH'O,ajtzibab,2323,ch'o.,1,exact,Ch'o,animal
+KA',ajtzibab,2326,k'a,1,fuzzy,Ka',objeto
+CH'O,ajtzibab,2328,ch'o,1,exact,Ch'o,animal
+KA',ajtzibab,2329,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,2332,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,2332,Ajpu,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,2333,xib'alb'a,1,exact,Xib'alb'a,lugar
+CH'O,ajtzibab,2341,ch'o,1,exact,Ch'o,animal
+KIK',ajtzibab,2343,kik',1,exact,Kik',objeto
+CH'O,ajtzibab,2344,ch'o,1,exact,Ch'o,animal
+CH'O,ajtzibab,2345,ch'o,1,exact,Ch'o,animal
+IXIM,ajtzibab,2346,"ixim,",1,exact,Ixim,objeto
+SAKIL,ajtzibab,2346,"sakil,",1,exact,Sakil,objeto
+IK,ajtzibab,2346,"ik,",1,exact,Ik,objeto
+KINAQ',ajtzibab,2346,"kinaq',",1,exact,Kinaq',objeto
+PEQ,ajtzibab,2346,"peq,",1,exact,Peq,objeto
+KAKAW,ajtzibab,2346,kakaw,1,exact,Kakaw,objeto
+CH'O,ajtzibab,2352,ch'o,1,exact,Ch'o,animal
+AJPU,ajtzibab,2352,"Ajpu,",1,exact,Ajpu,oficio
+CH'O,ajtzibab,2367,ch'o,1,exact,Ch'o,animal
+AJPU,ajtzibab,2369,"Ajpu,",1,exact,Ajpu,oficio
+CH'O,ajtzibab,2371,ch'o,1,exact,Ch'o,animal
+CH'O,ajtzibab,2376,ch'o,1,exact,Ch'o,animal
+IK,ajtzibab,2379,ik,1,exact,Ik,objeto
+KA',ajtzibab,2382,k'a,1,fuzzy,Ka',objeto
+LAQ,ajtzibab,2383,laq,1,exact,Laq,objeto
+Q'EB'AL,ajtzibab,2385,q'eb'al,1,exact,Q'eb'al,objeto
+CH'O,ajtzibab,2394,ch'o,1,exact,Ch'o,animal
+IK,ajtzibab,2394,ik,1,exact,Ik,objeto
+CH'O,ajtzibab,2395,ch'o,1,exact,Ch'o,animal
+KIK',ajtzibab,2396,kik',1,exact,Kik',objeto
+IK,ajtzibab,2397,ik,1,exact,Ik,objeto
+XA'N,ajtzibab,2398,xa'n,1,exact,Xa'n,animal
+XA'N,ajtzibab,2399,xa'n,1,exact,Xa'n,animal
+US,ajtzibab,2400,us,1,exact,Us,animal
+Q'EB'AL,ajtzibab,2401,q'eb'al,1,exact,Q'eb'al,objeto
+IXMUKANE,ajtzibab,2401,ati't,1,fuzzy,Ixmukane,deidad
+Q'EB'AL,ajtzibab,2403,q'eb'al,1,exact,Q'eb'al,objeto
+KA',ajtzibab,2409,K'a,1,fuzzy,Ka',objeto
+CH'O,ajtzibab,2409,ch'o,1,exact,Ch'o,animal
+KIK',ajtzibab,2409,kik',1,exact,Kik',objeto
+B'ATE,ajtzibab,2410,"b'ate,",1,exact,B'ate,objeto
+PACHQ'AB',ajtzibab,2410,"pachq'ab',",1,exact,Pach'q'ab',objeto
+TZ'UM,ajtzibab,2410,tz'u'm,1,fuzzy,Tz'um,objeto
+KA',ajtzibab,2412,k'a,1,fuzzy,Ka',objeto
+JOM,ajtzibab,2413,jom,1,exact,Jom,lugar
+KA',ajtzibab,2414,k'a,1,fuzzy,Ka',objeto
+Q'EB'AL,ajtzibab,2416,q'eb'al,1,exact,Q'eb'al,objeto
+KA',ajtzibab,2417,k'a,1,fuzzy,Ka',objeto
+WUB,ajtzibab,2417,wub',1,exact,Wub',objeto
+KIK',ajtzibab,2429,kik',1,exact,Kik',objeto
+JOM,ajtzibab,2431,jom,1,exact,Jom,lugar
+JOM,ajtzibab,2433,jom,1,exact,Jom,lugar
+RAJAWAL_XIB'ALB'A,ajtzibab,2434,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+AJPU,ajtzibab,2439,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,2439,Ajpu,1,exact,Ajpu,oficio
+JUN_KAME'_WUQUB'_KAME',ajtzibab,2442,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KA',ajtzibab,2456,k'a,1,fuzzy,Ka',objeto
+USAMAJEL_XIB'ALB'A,ajtzibab,2460,usamajel xib'alb'a,2,exact,Usamajel Xib'alb'a,grupo de deidades
+USAMAJEL_XIB'ALB'A,ajtzibab,2463,usamajel xib'alb'a,2,exact,Usamajel Xib'alb'a,grupo de deidades
+USAMAJEL_XIB'ALB'A,ajtzibab,2465,usamajel xib'alb'a,2,exact,Usamajel Xib'alb'a,grupo de deidades
+IXMUKANE,ajtzibab,2470,ati't,1,fuzzy,Ixmukane,deidad
+IXMUKANE,ajtzibab,2473,ati't,1,fuzzy,Ixmukane,deidad
+XIB'ALB'A,ajtzibab,2475,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,2480,k'a,1,fuzzy,Ka',objeto
+UK',ajtzibab,2480,uk',1,exact,Uk',animal
+KA',ajtzibab,2482,k'a,1,fuzzy,Ka',objeto
+CHIMALMAT,ajtzibab,2484,chimalmat,1,exact,Chimalmat,deidad
+UK',ajtzibab,2484,uk',1,exact,Uk',animal
+JOM,ajtzibab,2487,jom,1,exact,Jom,lugar
+UK',ajtzibab,2488,uk',1,exact,Uk',animal
+USAMAJEL_XIB'ALB'A,ajtzibab,2494,usamajel xib'alb'a,2,exact,Usamajel Xib'alb'a,grupo de deidades
+UK',ajtzibab,2497,uk',1,exact,Uk',animal
+CHIMALMAT,ajtzibab,2499,chimalmat,1,exact,Chimalmat,deidad
+TAMASUL,ajtzibab,2501,Tamasul,1,exact,Tamasul,animal
+UK',ajtzibab,2503,uk',1,exact,Uk',animal
+UK',ajtzibab,2506,uk',1,exact,Uk',animal
+TAMASUL,ajtzibab,2506,Tamasul,1,exact,Tamasul,animal
+UK',ajtzibab,2510,uk',1,exact,Uk',animal
+WA,ajtzibab,2513,wa,1,exact,Wa,objeto
+UK',ajtzibab,2516,uk',1,exact,Uk',animal
+KA',ajtzibab,2517,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,2521,k'a,1,fuzzy,Ka',objeto
+SAQIKAS,ajtzibab,2522,Saqikas,1,exact,Saqikas,animal
+TAMASUL,ajtzibab,2523,Tamasul,1,exact,Tamasul,animal
+SAQIKAS,ajtzibab,2524,Saqikas,1,exact,Saqikas,animal
+KUMATZ,ajtzibab,2527,kumatz,1,exact,Kumatz,animal
+KUMATZ,ajtzibab,2530,kumatz,1,exact,Kumatz,animal
+KA',ajtzibab,2532,k'a,1,fuzzy,Ka',objeto
+SAQIKAS,ajtzibab,2532,Saqikas,1,exact,Saqikas,animal
+KUMATZ,ajtzibab,2533,kumatz,1,exact,Kumatz,animal
+KUMATZ,ajtzibab,2535,kumatz,1,exact,Kumatz,animal
+KUMATZ,ajtzibab,2537,kumatz,1,exact,Kumatz,animal
+WAK,ajtzibab,2537,Wak,1,exact,Wak,animal
+KUMATZ,ajtzibab,2538,kumatz,1,exact,Kumatz,animal
+WAK,ajtzibab,2538,Wak,1,exact,Wak,animal
+KA',ajtzibab,2539,k'a,1,fuzzy,Ka',objeto
+JOM,ajtzibab,2539,jom,1,exact,Jom,lugar
+XIK,ajtzibab,2540,xik,1,exact,Xik,animal
+KUMATZ,ajtzibab,2541,kumatz,1,exact,Kumatz,animal
+WAK,ajtzibab,2542,Wak,1,exact,Wak,animal
+JOM,ajtzibab,2543,jom,1,exact,Jom,lugar
+AJPU,ajtzibab,2544,"Ajpu,",1,exact,Ajpu,oficio
+WAK,ajtzibab,2545,Wak,1,exact,Wak,animal
+WAK,ajtzibab,2546,Wak,1,exact,Wak,animal
+WAK,ajtzibab,2547,wak,1,exact,Wak,animal
+WAK,ajtzibab,2547,wak,1,exact,Wak,animal
+WAK,ajtzibab,2549,wak,1,exact,Wak,animal
+KA',ajtzibab,2553,K'a,1,fuzzy,Ka',objeto
+WAK,ajtzibab,2553,Wak,1,exact,Wak,animal
+WUB,ajtzibab,2554,wub',1,exact,Wub',objeto
+KA',ajtzibab,2557,k'a,1,fuzzy,Ka',objeto
+WAK,ajtzibab,2559,Wak,1,exact,Wak,animal
+KA',ajtzibab,2562,k'a,1,fuzzy,Ka',objeto
+WAK,ajtzibab,2563,Wak,1,exact,Wak,animal
+KA',ajtzibab,2566,k'a,1,fuzzy,Ka',objeto
+KIK',ajtzibab,2566,kik',1,exact,Kik',objeto
+WAK,ajtzibab,2567,Wak,1,exact,Wak,animal
+LOTZ_KIK',ajtzibab,2568,Lotz Kik',2,exact,Lotz kik',objeto
+WAK,ajtzibab,2570,Wak,1,exact,Wak,animal
+WAK,ajtzibab,2572,Wak,1,exact,Wak,animal
+KA',ajtzibab,2573,k'a,1,fuzzy,Ka',objeto
+KUMATZ,ajtzibab,2575,kumatz,1,exact,Kumatz,animal
+KA',ajtzibab,2582,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,2587,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,2593,k'a,1,fuzzy,Ka',objeto
+UK',ajtzibab,2596,uk',1,exact,Uk',animal
+KUMATZ,ajtzibab,2605,kumatz,1,exact,Kumatz,animal
+UK',ajtzibab,2606,uk',1,exact,Uk',animal
+XIB'ALB'A,ajtzibab,2611,xib'alb'a,1,exact,Xib'alb'a,lugar
+JUN_KAME'_WUQUB'_KAME',ajtzibab,2612,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KIK',ajtzibab,2615,"kik',",1,exact,Kik',objeto
+B'ATE,ajtzibab,2615,"b'ate,",1,exact,B'ate,objeto
+PACHQ'AB',ajtzibab,2615,"pachq'ab',",1,exact,Pach'q'ab',objeto
+TZ'UM,ajtzibab,2615,tz'u'm,1,fuzzy,Tz'um,objeto
+WA,ajtzibab,2634,wa,1,exact,Wa,objeto
+AJ,ajtzibab,2634,aj,1,exact,Aj,objeto
+AJPU,ajtzibab,2649,Ajpu,1,exact,Ajpu,oficio
+WUB,ajtzibab,2657,wub',1,exact,Wub',objeto
+XIB'ALB'A,ajtzibab,2658,xib'alb'a,1,exact,Xib'alb'a,lugar
+TZ'IKIN,ajtzibab,2661,tz'ikin,1,exact,Tz'ikin,animal
+TZ'IKIN,ajtzibab,2662,tz'ikin,1,exact,Tz'ikin,animal
+MOLAY,ajtzibab,2662,Molay,1,exact,Molay,animal
+XIB'ALB'A,ajtzibab,2664,xib'alb'a,1,exact,Xib'alb'a,lugar
+WUB,ajtzibab,2666,wub',1,exact,Wub',objeto
+XIB'ALB'A,ajtzibab,2668,xib'alb'a,1,exact,Xib'alb'a,lugar
+XA'N,ajtzibab,2671,xa'n,1,exact,Xa'n,animal
+XA'N,ajtzibab,2678,xa'n,1,exact,Xa'n,animal
+XA'N,ajtzibab,2679,xa'n,1,exact,Xa'n,animal
+CHE',ajtzibab,2681,che',1,exact,Che',objeto
+JUN_KAME',ajtzibab,2689,Jun Kame,2,exact,Jun Kame',deidad
+KA',ajtzibab,2689,k'a,1,fuzzy,Ka',objeto
+JUN_KAME',ajtzibab,2690,Jun Kame,2,exact,Jun Kame',deidad
+JUN_KAME',ajtzibab,2692,Jun Kame,2,exact,Jun Kame',deidad
+JUN_KAME',ajtzibab,2693,Jun Kame,2,exact,Jun Kame',deidad
+WUQUB'_KAME',ajtzibab,2697,Wuqub' Kame,2,fuzzy,Wuqub' Kame',deidad
+XIKIRIPAT,ajtzibab,2700,Xikiripat,1,exact,Xikiripat,deidad
+WUQUB'_KAME',ajtzibab,2701,Wuqub' Kame,2,fuzzy,Wuqub' Kame',deidad
+XIKIRIPAT,ajtzibab,2706,Xikiripat,1,exact,Xikiripat,deidad
+AJAL_PUJ,ajtzibab,2711,Ajal Puj,2,exact,Ajal Puj,deidad
+AJAL_Q'ANA,ajtzibab,2717,Ajal Q'ana',2,fuzzy,Ajal Q'ana,deidad
+AJAL_PUJ,ajtzibab,2718,Ajal Puj,2,exact,Ajal Puj,deidad
+CH'AMIYA_B'AQ,ajtzibab,2723,Ch'amiya b'aq,2,exact,Ch'amiya B'aq,deidad
+AJAL_Q'ANA,ajtzibab,2724,Ajal Q'ana',2,fuzzy,Ajal Q'ana,deidad
+CH'AMIYA_JOLOM,ajtzibab,2728,Ch'amiya Jolom,2,exact,Ch'amiya Jolom,deidad
+CH'AMIYA_B'AQ,ajtzibab,2729,Ch'amiya B'aq,2,exact,Ch'amiya B'aq,deidad
+CH'AMIYA_JOLOM,ajtzibab,2734,Ch'amiya Jolom,2,exact,Ch'amiya Jolom,deidad
+PATAN,ajtzibab,2739,Patan,1,exact,Patan,deidad
+KIK',ajtzibab,2743,Kik',1,exact,Kik',objeto
+XIK,ajtzibab,2743,Xik,1,exact,Xik,animal
+PATAN,ajtzibab,2744,Patan,1,exact,Patan,deidad
+KIK'_RIXK'AQ,ajtzibab,2749,Kik' Rixk'aq,2,exact,Kik' Rixk'aq,deidad
+KIK'_RE,ajtzibab,2750,Kik' Re,2,exact,Kik' Re,deidad
+AJPU,ajtzibab,2760,Ajpu,1,exact,Ajpu,oficio
+XA'N,ajtzibab,2761,xa'n,1,exact,Xa'n,animal
+AJPU,ajtzibab,2762,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,2763,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,2765,xib'alb'a,1,exact,Xib'alb'a,lugar
+CHE',ajtzibab,2770,che',1,exact,Che',objeto
+KA',ajtzibab,2773,k'a,1,fuzzy,Ka',objeto
+JUN_KAME',ajtzibab,2774,Jun Kame,2,exact,Jun Kame',deidad
+WUQUB'_KAME',ajtzibab,2775,"Wuqub' Kame,",2,fuzzy,Wuqub' Kame',deidad
+AJAL_PUJ,ajtzibab,2778,Ajal Puj,2,exact,Ajal Puj,deidad
+AJAL_Q'ANA,ajtzibab,2779,Ajal Q'ana',2,fuzzy,Ajal Q'ana,deidad
+XIK,ajtzibab,2782,Xik,1,exact,Xik,animal
+PATAN,ajtzibab,2783,Patan,1,exact,Patan,deidad
+KIK'_RE,ajtzibab,2784,Kik' Re,2,exact,Kik' Re,deidad
+AJPU,ajtzibab,2799,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,2804,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,2806,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,2809,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,2811,k'a,1,fuzzy,Ka',objeto
+JUN_KAME',ajtzibab,2814,Jun Kame,2,exact,Jun Kame',deidad
+JUN_KAME'_WUQUB'_KAME',ajtzibab,2848,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+XIB'ALB'A,ajtzibab,2852,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,2859,xib'alb'a,1,exact,Xib'alb'a,lugar
+WA,ajtzibab,2862,wa',1,fuzzy,Wa,objeto
+XIB'ALB'A,ajtzibab,2863,xib'alb'a.,1,exact,Xib'alb'a,lugar
+WA,ajtzibab,2864,wa',1,fuzzy,Wa,objeto
+WA,ajtzibab,2866,wa',1,fuzzy,Wa,objeto
+XIB'ALB'A,ajtzibab,2867,xib'alb'a.,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,2869,xib'alb'a,1,exact,Xib'alb'a,lugar
+JOLOM,ajtzibab,2870,jolom,1,exact,Jolom,objeto
+XIB'ALB'A,ajtzibab,2872,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,2873,Ajpu,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,2874,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,2875,Ajpu,1,exact,Ajpu,oficio
+KA',ajtzibab,2876,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,2876,xib'alb'a,1,exact,Xib'alb'a,lugar
+KIK',ajtzibab,2877,kik',1,exact,Kik',objeto
+AJPU,ajtzibab,2879,"Ajpu,",1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,2890,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,2898,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,2900,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,2904,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,2907,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,2912,xib'alb'a.,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,2920,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,2924,xib'alb'a,1,exact,Xib'alb'a,lugar
+KOTZ'I'J,ajtzibab,2925,kotz'i'j,1,exact,Kotz'i'j,objeto
+AJPU,ajtzibab,2929,"Ajpu,",1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,2929,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,2934,k'a,1,fuzzy,Ka',objeto
+CHAYIM_JA,ajtzibab,2935,chayim ja,2,exact,Chayim Ja,topónimo
+XIB'ALB'A,ajtzibab,2936,xib'alb'a,1,exact,Xib'alb'a,lugar
+KAJ,ajtzibab,2947,kaj,1,exact,Kaj,objeto
+CHAYIM_JA,ajtzibab,2948,chayim ja,2,exact,Chayim Ja,topónimo
+SANIK,ajtzibab,2949,sanik.,1,exact,Sanik,animal
+SANIK,ajtzibab,2950,sanik,1,exact,Sanik,animal
+SANIK,ajtzibab,2950,sanik,1,exact,Sanik,animal
+KOTZ'I'J,ajtzibab,2953,kotz'i'j,1,exact,Kotz'i'j,objeto
+SANIK,ajtzibab,2956,sanik,1,exact,Sanik,animal
+KOTZ'I'J,ajtzibab,2957,kotz'i'j,1,exact,Kotz'i'j,objeto
+JUN_KAME'_WUQUB'_KAME',ajtzibab,2958,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+XIB'ALB'A,ajtzibab,2959,xib'alb'a,1,exact,Xib'alb'a,lugar
+KOTZ'I'J,ajtzibab,2960,kotz'i'j,1,exact,Kotz'i'j,objeto
+CHE',ajtzibab,2967,che',1,exact,Che',objeto
+XPURPUWEQ,ajtzibab,2970,xpurpuweq,1,exact,Xpurpuweq,deidad
+XPURPUWEQ,ajtzibab,2970,xpurpuweq,1,exact,Xpurpuweq,deidad
+PUJUYU',ajtzibab,2972,Pujuyu',1,exact,Pujuyu',deidad
+PUJUYU',ajtzibab,2972,pujuyu',1,exact,Pujuyu',deidad
+PUJUYU',ajtzibab,2973,Pujuyu',1,exact,Pujuyu',deidad
+JUN_KAME'_WUQUB'_KAME',ajtzibab,2975,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+SANIK,ajtzibab,2976,sanik,1,exact,Sanik,animal
+KOTZ'I'J,ajtzibab,2978,kotz'i'j,1,exact,Kotz'i'j,objeto
+KOTZ'I'J,ajtzibab,2979,kotz'i'j,1,exact,Kotz'i'j,objeto
+CHE',ajtzibab,2979,che',1,exact,Che',objeto
+CHE',ajtzibab,2980,che',1,exact,Che',objeto
+KOTZ'I'J,ajtzibab,2981,kotz'i'j,1,exact,Kotz'i'j,objeto
+KOTZ'I'J,ajtzibab,2984,kotz'i'j,1,exact,Kotz'i'j,objeto
+KOTZ'I'J,ajtzibab,2988,kotz'i'j,1,exact,Kotz'i'j,objeto
+KA',ajtzibab,2990,k'a,1,fuzzy,Ka',objeto
+KOTZ'I'J,ajtzibab,2995,kotz'i'j,1,exact,Kotz'i'j,objeto
+KOTZ'I'J,ajtzibab,2999,kotz'i'j,1,exact,Kotz'i'j,objeto
+XIB'ALB'A,ajtzibab,3001,xib'alb'a,1,exact,Xib'alb'a,lugar
+SANIK,ajtzibab,3002,sanik,1,exact,Sanik,animal
+SANIK,ajtzibab,3003,sanik,1,exact,Sanik,animal
+XIB'ALB'A,ajtzibab,3005,xib'alb'a,1,exact,Xib'alb'a,lugar
+KOTZ'I'J,ajtzibab,3006,kotz'i'j,1,exact,Kotz'i'j,objeto
+KA',ajtzibab,3007,k'a,1,fuzzy,Ka',objeto
+KOTZ'I'J,ajtzibab,3007,kotz'i'j.,1,exact,Kotz'i'j,objeto
+KA',ajtzibab,3014,k'a,1,fuzzy,Ka',objeto
+JUN_KAME'_WUQUB'_KAME',ajtzibab,3016,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+AJPU,ajtzibab,3017,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,3022,K'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,3027,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,3040,xib'alb'a,1,exact,Xib'alb'a,lugar
+RAJAWAL_XIB'ALB'A,ajtzibab,3048,rajawal xib'alb'a.,2,exact,Rajawal Xib'alb'a,grupo de deidades
+AJPU,ajtzibab,3049,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,3050,k'a,1,fuzzy,Ka',objeto
+B'ALAM,ajtzibab,3051,b'alam,1,exact,B'alam,animal
+B'ALAM,ajtzibab,3052,b'alam,1,exact,B'alam,animal
+B'ALAM,ajtzibab,3055,b'alam,1,exact,B'alam,animal
+KA',ajtzibab,3056,k'a,1,fuzzy,Ka',objeto
+B'AQ,ajtzibab,3056,b'aq,1,exact,B'aq,objeto
+KA',ajtzibab,3057,k'a,1,fuzzy,Ka',objeto
+B'AQ,ajtzibab,3057,b'aq,1,exact,B'aq,objeto
+KA',ajtzibab,3060,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,3069,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3070,k'a,1,fuzzy,Ka',objeto
+JA_CHI_Q'AQ',ajtzibab,3071,ja chi q'aq',3,exact,Ja chi q'aq',lugar
+XIB'ALB'A,ajtzibab,3081,xib'alb'a,1,exact,Xib'alb'a,lugar
+SOTZ,ajtzibab,3083,sotz',1,fuzzy,Sotz,animal
+WUB,ajtzibab,3090,wub',1,exact,Wub',objeto
+KAJ,ajtzibab,3095,kaj,1,exact,Kaj,objeto
+SOTZ,ajtzibab,3099,sotz',1,fuzzy,Sotz,animal
+SOTZ,ajtzibab,3103,sotz',1,fuzzy,Sotz,animal
+WUB,ajtzibab,3104,wub',1,exact,Wub',objeto
+AJPU,ajtzibab,3106,Ajpu,1,exact,Ajpu,oficio
+KA',ajtzibab,3106,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,3107,k'a,1,fuzzy,Ka',objeto
+WILA',ajtzibab,3108,wila',1,exact,Wila',topónimo
+WUB,ajtzibab,3111,wub',1,exact,Wub',objeto
+KA',ajtzibab,3113,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,3114,Ajpu,1,exact,Ajpu,oficio
+AJPU,ajtzibab,3117,Ajpu,1,exact,Ajpu,oficio
+AJPU,ajtzibab,3119,Ajpu,1,exact,Ajpu,oficio
+KA',ajtzibab,3123,k'a,1,fuzzy,Ka',objeto
+JOM,ajtzibab,3128,jom,1,exact,Jom,lugar
+JUN_KAME'_WUQUB'_KAME',ajtzibab,3129,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+XIB'ALB'A,ajtzibab,3130,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,3131,Ajpu,1,exact,Ajpu,oficio
+KA',ajtzibab,3132,k'a,1,fuzzy,Ka',objeto
+SIS,ajtzibab,3132,"sis,",1,exact,Sis,animal
+AQ,ajtzibab,3132,aq,1,exact,Aq,animal
+KA',ajtzibab,3152,k'a,1,fuzzy,Ka',objeto
+Q'oq,ajtzibab,3153,q'oq',1,fuzzy,Q'oq,objeto
+AJPU,ajtzibab,3156,Ajpu,1,exact,Ajpu,oficio
+KAJ,ajtzibab,3159,kaj,1,exact,Kaj,objeto
+UK'U'X_KAJ,ajtzibab,3160,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+KAJ,ajtzibab,3167,kaj,1,exact,Kaj,objeto
+XPIYAKOK,ajtzibab,3168,ama,1,exact,Xpiyakok,deidad
+WUCH',ajtzibab,3168,wuch',1,exact,Wuch',animal
+SAQI_NIM_AQ_SIS,ajtzibab,3169,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+KA',ajtzibab,3171,k'a,1,fuzzy,Ka',objeto
+SAQI_NIM_AQ_SIS,ajtzibab,3172,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+WUCH',ajtzibab,3173,wuch',1,exact,Wuch',animal
+AJPU,ajtzibab,3178,Ajpu,1,exact,Ajpu,oficio
+KA',ajtzibab,3182,K'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,3188,k'a,1,fuzzy,Ka',objeto
+UMUL,ajtzibab,3188,umul,1,exact,Umul,animal
+JOM,ajtzibab,3189,jom,1,exact,Jom,lugar
+UMUL,ajtzibab,3191,umul,1,exact,Umul,animal
+KA',ajtzibab,3193,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,3194,k'a,1,fuzzy,Ka',objeto
+UMUL,ajtzibab,3195,umul,1,exact,Umul,animal
+KA',ajtzibab,3197,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,3200,Ajpu,1,exact,Ajpu,oficio
+JOM,ajtzibab,3201,jom,1,exact,Jom,lugar
+AJPU,ajtzibab,3206,Ajpu,1,exact,Ajpu,oficio
+JOLOM,ajtzibab,3207,jolom,1,exact,Jolom,objeto
+KIK',ajtzibab,3207,kik',1,exact,Kik',objeto
+RAJAWAL_XIB'ALB'A,ajtzibab,3211,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+KIK',ajtzibab,3211,kik',1,exact,Kik',objeto
+KIK',ajtzibab,3213,kik',1,exact,Kik',objeto
+B'ATE,ajtzibab,3213,b'ate,1,exact,B'ate,objeto
+KIK',ajtzibab,3216,kik',1,exact,Kik',objeto
+JOM,ajtzibab,3216,jom,1,exact,Jom,lugar
+UMUL,ajtzibab,3218,umul,1,exact,Umul,animal
+XIB'ALB'A,ajtzibab,3221,xib'alb'a,1,exact,Xib'alb'a,lugar
+UMUL,ajtzibab,3223,umul,1,exact,Umul,animal
+XIB'ALB'A,ajtzibab,3224,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3225,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,3225,Ajpu,1,exact,Ajpu,oficio
+Q'oq,ajtzibab,3227,q'oq',1,fuzzy,Q'oq,objeto
+JOM,ajtzibab,3227,jom,1,exact,Jom,lugar
+JOLOM,ajtzibab,3228,jolom,1,exact,Jolom,objeto
+AJPU,ajtzibab,3228,Ajpu,1,exact,Ajpu,oficio
+KIK',ajtzibab,3230,kik',1,exact,Kik',objeto
+XIB'ALB'A,ajtzibab,3231,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3232,k'a,1,fuzzy,Ka',objeto
+KIK',ajtzibab,3232,kik',1,exact,Kik',objeto
+KIK',ajtzibab,3235,kik',1,exact,Kik',objeto
+XIB'ALB'A,ajtzibab,3238,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3243,k'a,1,fuzzy,Ka',objeto
+Q'oq,ajtzibab,3243,q'oq',1,fuzzy,Q'oq,objeto
+Q'oq,ajtzibab,3244,q'oq',1,fuzzy,Q'oq,objeto
+JOM,ajtzibab,3245,jom,1,exact,Jom,lugar
+XIB'ALB'A,ajtzibab,3249,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,3250,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,3251,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,3255,"Ajpu,",1,exact,Ajpu,oficio
+WA,ajtzibab,3256,wa',1,fuzzy,Wa,objeto
+XIB'ALB'A,ajtzibab,3260,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,3262,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3263,k'a,1,fuzzy,Ka',objeto
+WA,ajtzibab,3265,wa',1,fuzzy,Wa,objeto
+XULU,ajtzibab,3265,"Xulu,",1,exact,Xulu,deidad
+PAK'AM,ajtzibab,3265,Pakam,1,fuzzy,Pak'am,deidad
+RAJAWAL_XIB'ALB'A,ajtzibab,3267,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+WA,ajtzibab,3274,wa,1,exact,Wa,objeto
+XIB'ALB'A,ajtzibab,3276,xib'alb'a,1,exact,Xib'alb'a,lugar
+WA,ajtzibab,3278,wa',1,fuzzy,Wa,objeto
+XULU,ajtzibab,3281,Xulu,1,exact,Xulu,deidad
+PAK'AM,ajtzibab,3281,Pakam,1,fuzzy,Pak'am,deidad
+CHE',ajtzibab,3288,che',1,exact,Che',objeto
+KA',ajtzibab,3298,k'a,1,fuzzy,Ka',objeto
+K'AJIM_JAL,ajtzibab,3299,k'ajim jal,2,exact,K'ajim Jal,objeto
+KA',ajtzibab,3301,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,3307,"Ajpu,",1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,3311,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3313,k'a,1,fuzzy,Ka',objeto
+JUN_KAME'_WUQUB'_KAME',ajtzibab,3314,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KA',ajtzibab,3318,k'a,1,fuzzy,Ka',objeto
+JUN_KAME',ajtzibab,3327,Jun Kame,2,exact,Jun Kame',deidad
+XIB'ALB'A,ajtzibab,3337,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3342,k'a,1,fuzzy,Ka',objeto
+XULU,ajtzibab,3342,"Xulu',",1,fuzzy,Xulu,deidad
+PAK'AM,ajtzibab,3342,Pakam,1,fuzzy,Pak'am,deidad
+XIB'ALB'A,ajtzibab,3345,xib'alb'a,1,exact,Xib'alb'a,lugar
+KAR,ajtzibab,3356,kar,1,exact,Kar,animal
+XIB'ALB'A,ajtzibab,3357,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,3363,xib'alb'a.,1,exact,Xib'alb'a,lugar
+XAJOJ_PUJUY,ajtzibab,3365,xajoj Pujuy,2,exact,Xajoj Pujuy,danza
+XAJOJ_KUX,ajtzibab,3365,xajoj Kux,2,exact,Xajoj Kux,danza
+IB'OY,ajtzibab,3366,Ib'oy,1,exact,Ib'oy,danza
+XTZUL,ajtzibab,3367,Xtzul,1,exact,Xtzul,danza
+CH'ITIK,ajtzibab,3367,Chitik,1,fuzzy,Ch'itik,danza
+XIB'ALB'A,ajtzibab,3373,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3374,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,3379,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,3382,xib'alb'a,1,exact,Xib'alb'a,lugar
+KA',ajtzibab,3383,k'a,1,fuzzy,Ka',objeto
+JUN_KAME'_WUQUB'_KAME',ajtzibab,3384,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+AJPU,ajtzibab,3415,"Ajpu,",1,exact,Ajpu,oficio
+KAQ,ajtzibab,3417,kaq,1,exact,Kaq,deidad
+KA',ajtzibab,3436,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,3456,xib'alb'a,1,exact,Xib'alb'a,lugar
+IB'OY,ajtzibab,3461,Ib'oy,1,exact,Ib'oy,danza
+TZ'I',ajtzibab,3467,tz'i',1,exact,TZ'I',objeto
+TZ'I',ajtzibab,3469,tz'i',1,exact,TZ'I',objeto
+JUN_KAME',ajtzibab,3480,Jun Kame,2,exact,Jun Kame',deidad
+JUN_WINAQ,ajtzibab,3485,jun winaq,2,exact,jun winaq,persona
+JUN_WINAQ,ajtzibab,3490,jun winaq,2,exact,jun winaq,persona
+KA',ajtzibab,3491,k'a,1,fuzzy,Ka',objeto
+JUN_WINAQ,ajtzibab,3492,jun winaq,2,exact,jun winaq,persona
+JUN_KAME'_WUQUB'_KAME',ajtzibab,3494,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KA',ajtzibab,3505,k'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,3506,Ajpu,1,exact,Ajpu,oficio
+RAJAWAL_XIB'ALB'A,ajtzibab,3512,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+JUN_KAME'_WUQUB'_KAME',ajtzibab,3522,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+KA',ajtzibab,3525,K'a,1,fuzzy,Ka',objeto
+AJPU,ajtzibab,3526,"Ajpu,",1,exact,Ajpu,oficio
+JUN_KAME'_WUQUB'_KAME',ajtzibab,3527,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+JUN_KAME'_WUQUB'_KAME',ajtzibab,3532,"Jun Kame, Wuqub' Kame",4,fuzzy,Jun Kame' Wuqub' Kame',grupo de deidades
+AJPU,ajtzibab,3533,"Ajpu,",1,exact,Ajpu,oficio
+JUN_KAME',ajtzibab,3541,Jun Kame,2,exact,Jun Kame',deidad
+RAJAWAL_XIB'ALB'A,ajtzibab,3541,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+JUN_KAME',ajtzibab,3542,Jun Kame,2,exact,Jun Kame',deidad
+WUQUB'_KAME',ajtzibab,3543,Wuqub' Kame,2,fuzzy,Wuqub' Kame',deidad
+KA',ajtzibab,3545,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,3545,xib'alb'a,1,exact,Xib'alb'a,lugar
+SANIK,ajtzibab,3563,sanik,1,exact,Sanik,animal
+RAJAWAL_XIB'ALB'A,ajtzibab,3570,rajawal xib'alb'a,2,exact,Rajawal Xib'alb'a,grupo de deidades
+KA',ajtzibab,3573,K'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,3574,xib'alb'a.,1,exact,Xib'alb'a,lugar
+WA,ajtzibab,3578,wa',1,fuzzy,Wa,objeto
+AJPU,ajtzibab,3578,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,3580,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,3580,Ajpu,1,exact,Ajpu,oficio
+KA',ajtzibab,3589,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,3590,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJPU,ajtzibab,3592,"Ajpu,",1,exact,Ajpu,oficio
+KA',ajtzibab,3595,k'a,1,fuzzy,Ka',objeto
+XIB'ALB'A,ajtzibab,3599,xib'alb'a,1,exact,Xib'alb'a,lugar
+KIK',ajtzibab,3604,kik',1,exact,Kik',objeto
+XOT,ajtzibab,3605,xot,1,exact,Xot,objeto
+ALOM,ajtzibab,3606,chuch,1,exact,Alom,deidad
+K'IM,ajtzibab,3608,k'im,1,exact,K'im,objeto
+NOJ,ajtzibab,3610,no'j,1,fuzzy,Noj,objeto
+AJMAK,ajtzibab,3611,ajmak,1,exact,Ajmak,deidad
+AJLAB'AL,ajtzibab,3611,ajlab'al,1,exact,Ajlab'al,deidad
+AJB'IS,ajtzibab,3611,ajb'is,1,exact,Ajb'is,deidad
+AJMOKEN,ajtzibab,3611,ajmoken,1,exact,Ajmoken,deidad
+XIB'ALB'A,ajtzibab,3615,xib'alb'a,1,exact,Xib'alb'a,lugar
+AJTZA,ajtzibab,3622,ajtza,1,exact,Ajtza,deidad
+AJTUKUR,ajtzibab,3622,ajtukur,1,exact,Ajtukur,deidad
+AJMUQULIK_K'U'X,ajtzibab,3624,ajmuqulik k'u'x,2,exact,Ajmuqulik K'u'x,deidad
+AJLATZAB',ajtzibab,3626,ajlatz'ab',1,fuzzy,Ajlatzab',deidad
+AJPU,ajtzibab,3630,"Ajpu,",1,exact,Ajpu,oficio
+AJ,ajtzibab,3632,aj,1,exact,Aj,objeto
+AJ,ajtzibab,3634,aj,1,exact,Aj,objeto
+KA',ajtzibab,3635,k'a,1,fuzzy,Ka',objeto
+AJ,ajtzibab,3637,aj,1,exact,Aj,objeto
+KA',ajtzibab,3638,k'a,1,fuzzy,Ka',objeto
+POM,ajtzibab,3639,pom,1,exact,Pom,objeto
+AJ,ajtzibab,3639,aj,1,exact,Aj,objeto
+AJ,ajtzibab,3642,aj,1,exact,Aj,objeto
+NIK'_AJ_JA,ajtzibab,3644,nik'aj ja,2,exact,Nik'aj Ja,lugar
+K'ASAM_AJ,ajtzibab,3646,"K'asam Aj,",2,exact,K'asam Aj,lugar
+CH'ATAM_ULEW,ajtzibab,3646,Ch'atam Ulew,2,exact,Ch'atam Ulew,lugar
+NIK'_AJ_JA,ajtzibab,3647,nik'aj ja,2,exact,Nik'aj Ja,lugar
+AJ,ajtzibab,3649,aj,1,exact,Aj,objeto
+CH'ATAM_ULEW,ajtzibab,3650,Ch'atam Ulew,2,exact,Ch'atam Ulew,lugar
+K'ASAM_AJ,ajtzibab,3650,K'asam Aj,2,exact,K'asam Aj,lugar
+AJ,ajtzibab,3651,aj.,1,exact,Aj,objeto
+K'ASAM_AJ,ajtzibab,3652,K'asam Aj,2,exact,K'asam Aj,lugar
+AJ,ajtzibab,3653,aj,1,exact,Aj,objeto
+AJPU,ajtzibab,3655,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,3658,"Ajpu,",1,exact,Ajpu,oficio
+AJPU,ajtzibab,3658,Ajpu,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,3659,xib'alb'a,1,exact,Xib'alb'a,lugar
+XIB'ALB'A,ajtzibab,3661,xib'alb'a.,1,exact,Xib'alb'a,lugar
+WA,ajtzibab,3662,Wa,1,exact,Wa,objeto
+AJPU,ajtzibab,3663,Ajpu,1,exact,Ajpu,oficio
+XIB'ALB'A,ajtzibab,3686,xib'alb'a,1,exact,Xib'alb'a,lugar
+KAJ,ajtzibab,3689,kaj,1,exact,Kaj,objeto
+IK,ajtzibab,3690,ik',1,fuzzy,Ik,objeto
+KAJ,ajtzibab,3691,kaj,1,exact,Kaj,objeto
+KAJ,ajtzibab,3692,kaj,1,exact,Kaj,objeto
+SIPAKNA,ajtzibab,3694,Sipakna,1,exact,Sipakna,deidad
+KAJ,ajtzibab,3696,kaj,1,exact,Kaj,objeto
+ALOM,ajtzibab,3701,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,3701,k'ajolom,1,exact,K'ajolom,deidad
+TZ'AQOL,ajtzibab,3702,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,3702,b'itol,1,exact,B'itol,deidad
+TEPEW_Q'UKUMATZ,ajtzibab,3703,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+Q'OL,ajtzibab,3706,q'o'l,1,fuzzy,Q'ol,objeto
+IK,ajtzibab,3722,ik',1,fuzzy,Ik,objeto
+TZ'AQOL,ajtzibab,3722,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,3722,b'itol.,1,exact,B'itol,deidad
+PAXIL,ajtzibab,3723,Paxil,1,exact,Paxil,topónimo
+K'AYALA',ajtzibab,3723,Kayala',1,fuzzy,K'ayala',topónimo
+WA,ajtzibab,3725,wa',1,fuzzy,Wa,objeto
+YAK,ajtzibab,3726,"yak,",1,exact,Yak,animal
+UTIW,ajtzibab,3726,"utiw,",1,exact,Utiw,animal
+K'EL,ajtzibab,3726,"k'el,",1,exact,K'el,animal
+JOJ,ajtzibab,3726,joj,1,exact,Joj,animal
+PAXIL,ajtzibab,3729,Paxil,1,exact,Paxil,topónimo
+PAXIL,ajtzibab,3730,Paxil,1,exact,Paxil,topónimo
+ALOM,ajtzibab,3735,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,3735,k'ajolom,1,exact,K'ajolom,deidad
+JAL,ajtzibab,3735,jal,1,exact,Jal,objeto
+PEQ,ajtzibab,3741,peq,1,exact,Peq,objeto
+TULUL,ajtzibab,3742,"tulul,",1,exact,Tulul,objeto
+K'AWEX,ajtzibab,3742,"k'awex,",1,exact,K'awex,objeto
+Q'INOM,ajtzibab,3742,"q'inom,",1,exact,Q'inom,objeto
+TAPA'L,ajtzibab,3742,"tapa'l,",1,exact,Tapa'l,objeto
+AJACHE',ajtzibab,3742,"ajache',",1,exact,Ajache',objeto
+KAB',ajtzibab,3742,kab',1,exact,Kab',objeto
+CHI_ISMACHI',ajtzibab,3743,tinamit,1,exact,Chi Ismachi',topónimo
+PAXIL,ajtzibab,3743,Paxil,1,exact,Paxil,topónimo
+K'AYALA',ajtzibab,3743,Kayala',1,fuzzy,K'ayala',topónimo
+TEPEW_Q'UKUMATZ,ajtzibab,3752,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+ALOM,ajtzibab,3752,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,3752,k'ajolom,1,exact,K'ajolom,deidad
+KA',ajtzibab,3754,k'a,1,fuzzy,Ka',objeto
+ALOM,ajtzibab,3755,chuch,1,exact,Alom,deidad
+B'ALAM_KI'TZE',ajtzibab,3763,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,3764,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,3765,Majukutaj,1,fuzzy,Majuk'utaj,persona
+ALOM,ajtzibab,3767,chuch,1,exact,Alom,deidad
+ALOM,ajtzibab,3774,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,3774,k'ajolom,1,exact,K'ajolom,deidad
+TEPEW_Q'UKUMATZ,ajtzibab,3776,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+TZ'AQOL,ajtzibab,3776,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,3776,"b'itol,",1,exact,B'itol,deidad
+ALOM,ajtzibab,3776,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,3776,"k'ajolom,",1,exact,K'ajolom,deidad
+KAJ,ajtzibab,3792,kaj,1,exact,Kaj,objeto
+KA',ajtzibab,3796,k'a,1,fuzzy,Ka',objeto
+KAJ,ajtzibab,3796,kaj,1,exact,Kaj,objeto
+CHE',ajtzibab,3800,che',1,exact,Che',objeto
+CH'O,ajtzibab,3801,cho,1,exact,Ch'o,animal
+PALO,ajtzibab,3801,palo,1,exact,Palo,lugar
+B'ALAM_KI'TZE',ajtzibab,3803,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,3804,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,3805,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+KAJ,ajtzibab,3812,kaj,1,exact,Kaj,objeto
+KA',ajtzibab,3816,k'a,1,fuzzy,Ka',objeto
+KAJ,ajtzibab,3816,kaj,1,exact,Kaj,objeto
+KA',ajtzibab,3817,k'a,1,fuzzy,Ka',objeto
+TZ'AQOL,ajtzibab,3817,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,3817,b'itol,1,exact,B'itol,deidad
+KAJ,ajtzibab,3829,kaj,1,exact,Kaj,objeto
+KAJ,ajtzibab,3837,kaj,1,exact,Kaj,objeto
+ALOM,ajtzibab,3842,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,3842,k'ajolom,1,exact,K'ajolom,deidad
+UK'U'X_KAJ,ajtzibab,3862,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+TEPEW_Q'UKUMATZ,ajtzibab,3864,Tepew Q'ukumatz,2,exact,Tepew Q'ukumatz,deidad
+ALOM,ajtzibab,3865,alom,1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,3865,k'ajolom,1,exact,K'ajolom,deidad
+XPIYAKOK,ajtzibab,3866,Xpiyakok,1,exact,Xpiyakok,deidad
+TZ'AQOL,ajtzibab,3867,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,3867,b'itol,1,exact,B'itol,deidad
+UK'U'X_KAJ,ajtzibab,3870,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+UK'U'X_KAJ_UK'U'X_ULEW,ajtzibab,3882,uk'u'x kaj uk'u'x ulew,4,exact,Uk'u'x Kaj Uk'u'x Ulew,grupo de deidades
+B'ALAM_KI'TZE',ajtzibab,3888,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,3889,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,3890,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+WA,ajtzibab,3894,wa',1,fuzzy,Wa,objeto
+B'ALAM_KI'TZE',ajtzibab,3895,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,3896,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,3897,Majukutaj,1,fuzzy,Majuk'utaj,persona
+AJ,ajtzibab,3907,aj,1,exact,Aj,objeto
+TEPEW_OLOMAN,ajtzibab,3911,"Tepew, Oloman",2,exact,Tepew Oloman,linaje
+K'OJAJ,ajtzibab,3912,"K'ojaj,",1,exact,K'ojaj,linaje
+TAMUB',ajtzibab,3916,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,3916,Ilokab',1,exact,Ilokab',linaje
+B'ALAM_KI'TZE',ajtzibab,3918,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,3920,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,3922,Majukutaj,1,fuzzy,Majuk'utaj,persona
+AJAW_K'ICHE',ajtzibab,3923,Ajaw K'iche',2,exact,Ajaw K'iche',linaje
+TAMUB',ajtzibab,3927,"Tamub',",1,exact,Tamub',linaje
+ILOKAB',ajtzibab,3927,Ilokab',1,exact,Ilokab',linaje
+RAB'INALEB',ajtzibab,3929,"Rab'inaleb',",1,exact,Rab'inaleb',linaje
+KAQCHIKELEB',ajtzibab,3929,"Kaqchikeleb',",1,exact,Kaqchikeleb',linaje
+AJ,ajtzibab,3930,Aj,1,exact,Aj,objeto
+SAQAJIB,ajtzibab,3930,Saqajib',1,fuzzy,Saqajib,linaje
+LAMAKIB',ajtzibab,3931,"Lamakib',",1,exact,Lamakib',linaje
+KUMATZ,ajtzibab,3931,"Kumatz,",1,exact,Kumatz,animal
+TUJAL_JA,ajtzibab,3932,"Tujal Ja,",2,exact,Tujal Ja,topónimo
+UCH'AB'AJA,ajtzibab,3932,Uch'ab'aja,1,exact,Uch'ab'aja,linaje
+AJ,ajtzibab,3933,Aj,1,exact,Aj,objeto
+AJ,ajtzibab,3933,Aj,1,exact,Aj,objeto
+AKUL_WINAQ,ajtzibab,3934,"Akul Winaq,",2,exact,Akul Winaq,linaje
+AJ,ajtzibab,3934,Aj,1,exact,Aj,objeto
+KANCHAJELEB',ajtzibab,3935,Kanchajeleb',1,exact,Kanchajeleb',linaje
+B'ALAM_KOLOB',ajtzibab,3936,B'alam Kolob',2,exact,B'alam Kolob',linaje
+CHI_ISMACHI',ajtzibab,3941,tinamit,1,exact,Chi Ismachi',topónimo
+KAJ,ajtzibab,3952,kaj,1,exact,Kaj,objeto
+KAJ,ajtzibab,3959,kaj.,1,exact,Kaj,objeto
+CHE',ajtzibab,3969,che',1,exact,Che',objeto
+TZ'AQOL,ajtzibab,3970,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,3970,b'itol,1,exact,B'itol,deidad
+UK'U'X_KAJ_UK'U'X_ULEW,ajtzibab,3971,uk'u'x kaj uk'u'x ulew,4,exact,Uk'u'x Kaj Uk'u'x Ulew,grupo de deidades
+KAJ,ajtzibab,3976,kaj,1,exact,Kaj,objeto
+TZ'AQOL,ajtzibab,3979,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,3979,b'itol,1,exact,B'itol,deidad
+KAJ,ajtzibab,3983,kaj,1,exact,Kaj,objeto
+UK'U'X_KAJ_UK'U'X_ULEW,ajtzibab,3984,uk'u'x kaj uk'u'x ulew,4,exact,Uk'u'x Kaj Uk'u'x Ulew,grupo de deidades
+TEPEW_Q'UKUMATZ,ajtzibab,3993,"Tepew, Q'ukumatz,",2,exact,Tepew Q'ukumatz,deidad
+WOK,ajtzibab,3993,"Wok,",1,exact,Wok,animal
+AJPU,ajtzibab,3993,"Ajpu,",1,exact,Ajpu,oficio
+ALOM,ajtzibab,3994,"alom,",1,exact,Alom,deidad
+K'AJOLOM,ajtzibab,3994,"k'ajolom,",1,exact,K'ajolom,deidad
+XPIYAKOK,ajtzibab,3994,"Xpiyakok,",1,exact,Xpiyakok,deidad
+RATI'T_Q'IJ,ajtzibab,3995,rati't q'ij,2,exact,Rati't Q'ij,deidad
+RATI'T_SAQ,ajtzibab,3995,rati't saq,2,exact,Rati't Saq,deidad
+IK'OQ'IJ,ajtzibab,4001,ik'oq'ij,1,exact,Ik'oq'ij,topónimo
+KAJ,ajtzibab,4003,kaj,1,exact,Kaj,objeto
+B'ALAM_KI'TZE',ajtzibab,4005,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4005,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4006,Majukutaj,1,fuzzy,Majuk'utaj,persona
+ALOM,ajtzibab,4011,chuch,1,exact,Alom,deidad
+YAKI,ajtzibab,4014,Yaki,1,exact,Yaki,linaje
+B'ALAM_KI'TZE',ajtzibab,4022,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4022,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4022,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+CHI_ISMACHI',ajtzibab,4023,tinamit,1,exact,Chi Ismachi',topónimo
+WA,ajtzibab,4025,wa',1,fuzzy,Wa,objeto
+B'ALAM_KI'TZE',ajtzibab,4026,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4026,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4026,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+TAMUB',ajtzibab,4027,"Tamub',",1,exact,Tamub',linaje
+ILOKAB',ajtzibab,4027,"Ilokab',",1,exact,Ilokab',linaje
+TULÁN,ajtzibab,4027,Tulan,1,exact,Tulán,topónimo
+SUYWA,ajtzibab,4027,Suywa',1,fuzzy,Suywa,topónimo
+CHI_ISMACHI',ajtzibab,4028,tinamit,1,exact,Chi Ismachi',topónimo
+TULÁN,ajtzibab,4030,Tulan,1,exact,Tulán,topónimo
+B'ALAM_KI'TZE',ajtzibab,4034,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4034,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4034,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+WA,ajtzibab,4036,wa',1,fuzzy,Wa,objeto
+TOJIL,ajtzibab,4039,Tojil,1,exact,Tojil,deidad
+B'ALAM_KI'TZE',ajtzibab,4040,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+AWILIX,ajtzibab,4041,Awilix,1,exact,Awilix,deidad
+B'ALAM_AQ'AB',ajtzibab,4042,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+JAQAWITZ,ajtzibab,4043,Jaqawitz,1,exact,Jaqawitz,deidad
+MAJUK'UTAJ,ajtzibab,4044,Majukutaj,1,fuzzy,Majuk'utaj,persona
+NIK'AQAJ_TAQ'AJ,ajtzibab,4045,Nik'aqaj Taq'aj,2,exact,Nik'aqaj Taq'aj,deidad
+TAMUB',ajtzibab,4047,Tamub',1,exact,Tamub',linaje
+TOJIL,ajtzibab,4048,Tojil,1,exact,Tojil,deidad
+TAMUB',ajtzibab,4048,Tamub',1,exact,Tamub',linaje
+TAMUB',ajtzibab,4049,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,4051,Ilokab',1,exact,Ilokab',linaje
+TOJIL,ajtzibab,4052,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4056,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4057,Tojil,1,exact,Tojil,deidad
+TAMUB',ajtzibab,4057,"Tamub',",1,exact,Tamub',linaje
+ILOKAB',ajtzibab,4057,Ilokab',1,exact,Ilokab',linaje
+TOJIL,ajtzibab,4061,"Tojil,",1,exact,Tojil,deidad
+AWILIX,ajtzibab,4061,"Awilix,",1,exact,Awilix,deidad
+JAQAWITZ,ajtzibab,4061,Jaqawitz,1,exact,Jaqawitz,deidad
+RAB'INALEB',ajtzibab,4063,"Rab'inaleb',",1,exact,Rab'inaleb',linaje
+AJ,ajtzibab,4064,Aj,1,exact,Aj,objeto
+YAKI,ajtzibab,4064,Yaki,1,exact,Yaki,linaje
+TULÁN,ajtzibab,4068,Tulan,1,exact,Tulán,topónimo
+TZ'UM,ajtzibab,4072,tz'u'm,1,fuzzy,Tz'um,objeto
+TULÁN,ajtzibab,4078,Tulan,1,exact,Tulán,topónimo
+TULÁN,ajtzibab,4080,Tulan,1,exact,Tulán,topónimo
+TOJIL,ajtzibab,4082,Tojil,1,exact,Tojil,deidad
+B'ALAM_KI'TZE',ajtzibab,4087,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4087,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+TOJIL,ajtzibab,4092,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4097,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4102,Tojil.,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4108,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,4111,k'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,4118,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4118,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+TOJIL,ajtzibab,4119,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4120,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4122,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,4123,k'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,4125,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4125,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+KA',ajtzibab,4125,k'a,1,fuzzy,Ka',objeto
+MAJUK'UTAJ,ajtzibab,4125,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+KA',ajtzibab,4126,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,4129,k'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,4130,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4130,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4130,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+B'ALAM_KI'TZE',ajtzibab,4144,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4144,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4144,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+TULÁN,ajtzibab,4151,Tulan,1,exact,Tulán,topónimo
+CHE',ajtzibab,4155,che',1,exact,Che',objeto
+JUN_WINAQ,ajtzibab,4156,jun winaq,2,exact,jun winaq,persona
+B'ALAM_KI'TZE',ajtzibab,4157,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4157,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4157,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+USAMAJEL_XIB'ALB'A,ajtzibab,4158,usamajel xib'alb'a,2,exact,Usamajel Xib'alb'a,grupo de deidades
+TZ'AQOL,ajtzibab,4161,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,4161,b'itol,1,exact,B'itol,deidad
+TOJIL,ajtzibab,4164,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4166,Tojil,1,exact,Tojil,deidad
+XIB'ALB'A,ajtzibab,4169,xib'alb'a,1,exact,Xib'alb'a,lugar
+SOTZ,ajtzibab,4171,sotz',1,fuzzy,Sotz,animal
+TZ'AQOL,ajtzibab,4172,tz'aqol,1,exact,Tz'aqol,deidad
+B'ITOL,ajtzibab,4172,b'itol,1,exact,B'itol,deidad
+XIB'ALB'A,ajtzibab,4173,xib'alb'a,1,exact,Xib'alb'a,lugar
+TOJIL,ajtzibab,4175,"Tojil,",1,exact,Tojil,deidad
+AWILIX,ajtzibab,4175,"Awilix,",1,exact,Awilix,deidad
+XIB'ALB'A,ajtzibab,4176,xib'alb'a,1,exact,Xib'alb'a,lugar
+B'ALAM_KI'TZE',ajtzibab,4186,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4186,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4186,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+KA',ajtzibab,4189,k'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,4190,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4190,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4190,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+B'ALAM_KI'TZE',ajtzibab,4207,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4207,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+TOJIL,ajtzibab,4212,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,4213,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,4215,k'a,1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,4215,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4217,Tojil,1,exact,Tojil,deidad
+B'ALAM_KI'TZE',ajtzibab,4218,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4218,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4218,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+TOJIL,ajtzibab,4223,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4226,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,4228,k'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,4233,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4233,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4233,Majukutaj,1,fuzzy,Majuk'utaj,persona
+TOJIL,ajtzibab,4234,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4239,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,4243,k'a,1,fuzzy,Ka',objeto
+CHAMALKAN,ajtzibab,4247,Chamalkan,1,exact,Chamalkan,deidad
+SOTZ,ajtzibab,4248,sotz',1,fuzzy,Sotz,animal
+TOJIL,ajtzibab,4256,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4261,Tojil,1,exact,Tojil,deidad
+B'ALAM_KI'TZE',ajtzibab,4263,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4263,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4263,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+TULÁN,ajtzibab,4264,Tulan,1,exact,Tulán,topónimo
+IK'OQ'IJ,ajtzibab,4270,Ik'oq'ij,1,exact,Ik'oq'ij,topónimo
+TULÁN,ajtzibab,4275,Tulan,1,exact,Tulán,topónimo
+KA',ajtzibab,4277,k'a,1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,4281,Tojil,1,exact,Tojil,deidad
+TULÁN,ajtzibab,4284,Tulan,1,exact,Tulán,topónimo
+WA,ajtzibab,4290,wa',1,fuzzy,Wa,objeto
+TOJIL,ajtzibab,4294,Tojil,1,exact,Tojil,deidad
+B'ALAM_KI'TZE',ajtzibab,4296,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4296,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4296,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+TULÁN,ajtzibab,4304,Tulan,1,exact,Tulán,topónimo
+TULÁN,ajtzibab,4307,Tulan,1,exact,Tulán,topónimo
+NIM_XO'L,ajtzibab,4321,Nim Xo'l,2,exact,Nim Xo'l,topónimo
+CHI_PIXAB',ajtzibab,4327,Chi Pixab',2,exact,Chi Pixab',topónimo
+WA,ajtzibab,4330,wa',1,fuzzy,Wa,objeto
+TAMUB',ajtzibab,4331,Tamub',1,exact,Tamub',linaje
+TAMUB',ajtzibab,4333,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,4334,Ilokab',1,exact,Ilokab',linaje
+ILOKAB',ajtzibab,4335,Ilokab',1,exact,Ilokab',linaje
+RAB'INALEB',ajtzibab,4342,Rab'inaleb',1,exact,Rab'inaleb',linaje
+AJ,ajtzibab,4345,Aj,1,exact,Aj,objeto
+WA,ajtzibab,4357,wa,1,exact,Wa,objeto
+PALO,ajtzibab,4362,palo,1,exact,Palo,lugar
+PALO,ajtzibab,4363,palo,1,exact,Palo,lugar
+CHOLOCHIK_AB'AJ,ajtzibab,4367,"Cholochik Ab'aj,",2,exact,Cholochik Ab'aj,lugar
+B'OQOTAJINAQ_SANAYEB',ajtzibab,4368,B'oqotajinaq Sanayeb',2,exact,B'oqotajinaq Sanayeb',lugar
+PALO,ajtzibab,4369,palo,1,exact,Palo,lugar
+CHI_PIXAB',ajtzibab,4377,Chi Pixab',2,exact,Chi Pixab',topónimo
+TOJIL,ajtzibab,4378,"Tojil,",1,exact,Tojil,deidad
+AWILIX,ajtzibab,4378,"Awilix,",1,exact,Awilix,deidad
+JAQAWITZ,ajtzibab,4378,Jaqawitz,1,exact,Jaqawitz,deidad
+B'ALAM_KI'TZE',ajtzibab,4379,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4381,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4383,Majukutaj,1,fuzzy,Majuk'utaj,persona
+CHI_PIXAB',ajtzibab,4389,Chi Pixab',2,exact,Chi Pixab',topónimo
+TOJIL,ajtzibab,4391,"Tojil,",1,exact,Tojil,deidad
+AWILIX,ajtzibab,4391,"Awilix,",1,exact,Awilix,deidad
+JAQAWITZ,ajtzibab,4391,Jaqawitz,1,exact,Jaqawitz,deidad
+B'ALAM_KI'TZE',ajtzibab,4392,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4392,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4392,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+AJLAB'AL,ajtzibab,4399,ajlab'al,1,exact,Ajlab'al,deidad
+WA,ajtzibab,4400,wa,1,exact,Wa,objeto
+KA',ajtzibab,4407,k'a,1,fuzzy,Ka',objeto
+EWAB'AL_SIWAN,ajtzibab,4409,Ewab'al Siwan,2,exact,Ewab'al Siwan,topónimo
+B'ALAM_AQ'AB',ajtzibab,4413,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+JAQAWITZ,ajtzibab,4415,Jaqawitz,1,exact,Jaqawitz,deidad
+JAQAWITZ,ajtzibab,4417,Jaqawitz,1,exact,Jaqawitz,deidad
+CHI_ISMACHI',ajtzibab,4418,tinamit,1,exact,Chi Ismachi',topónimo
+JAQAWITZ,ajtzibab,4419,Jaqawitz,1,exact,Jaqawitz,deidad
+MAJUK'UTAJ,ajtzibab,4420,Majukutaj,1,fuzzy,Majuk'utaj,persona
+JAQAWITZ,ajtzibab,4422,Jaqawitz,1,exact,Jaqawitz,deidad
+JAQAWITZ,ajtzibab,4423,Jaqawitz,1,exact,Jaqawitz,deidad
+B'ALAM_KI'TZE',ajtzibab,4424,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_KI'TZE',ajtzibab,4426,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+TOJIL,ajtzibab,4426,Tojil,1,exact,Tojil,deidad
+PA_TOJIL,ajtzibab,4427,pa Tojil,2,exact,Pa Tojil,topónimo
+EWAB'AL_SIWAN,ajtzibab,4428,ewab'al siwan,2,exact,Ewab'al Siwan,topónimo
+KUNAB'AL_TOJIL,ajtzibab,4429,kunab'al Tojil,2,exact,Kunab'al Tojil,topónimo
+KUMATZ,ajtzibab,4430,kumatz,1,exact,Kumatz,animal
+B'ALAM,ajtzibab,4431,"b'alam,",1,exact,B'alam,animal
+SOCHOJ,ajtzibab,4431,"sochoj,",1,exact,Sochoj,animal
+K'ANTI',ajtzibab,4431,k'anti',1,exact,K'anti',animal
+B'ALAM_KI'TZE',ajtzibab,4434,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4434,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4434,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+JAQAWITZ,ajtzibab,4436,Jaqawitz,1,exact,Jaqawitz,deidad
+TAMUB',ajtzibab,4437,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,4437,Ilokab',1,exact,Ilokab',linaje
+TAMUB',ajtzibab,4439,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,4441,Ilokab',1,exact,Ilokab',linaje
+ILOKAB',ajtzibab,4442,Ilokab',1,exact,Ilokab',linaje
+RAB'INALEB',ajtzibab,4444,"Rab'inaleb',",1,exact,Rab'inaleb',linaje
+AJ,ajtzibab,4444,Aj,1,exact,Aj,objeto
+IK'OQ'IJ,ajtzibab,4449,ik'oq'ij,1,exact,Ik'oq'ij,topónimo
+B'ALAM_KI'TZE',ajtzibab,4452,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4452,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4452,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+TOJIL,ajtzibab,4474,"Tojil,",1,exact,Tojil,deidad
+AWILIX,ajtzibab,4474,"Awilix,",1,exact,Awilix,deidad
+JAQAWITZ,ajtzibab,4474,Jaqawitz,1,exact,Jaqawitz,deidad
+KAB',ajtzibab,4475,kab',1,exact,Kab',objeto
+B'ALAM_KI'TZE',ajtzibab,4479,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4479,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4479,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+TULÁN,ajtzibab,4482,Tulan,1,exact,Tulán,topónimo
+SUYWA,ajtzibab,4482,Suywa,1,exact,Suywa,topónimo
+PA_TOJIL,ajtzibab,4485,"pa Tojil,",2,exact,Pa Tojil,topónimo
+PA_AWILIX,ajtzibab,4485,"pa Awilix,",2,exact,Pa Awilix,topónimo
+JAQAWITZ,ajtzibab,4485,Jaqawitz,1,exact,Jaqawitz,deidad
+IK,ajtzibab,4488,ik',1,fuzzy,Ik,objeto
+IK,ajtzibab,4489,"ik',",1,fuzzy,Ik,objeto
+B'ALAM_KI'TZE',ajtzibab,4490,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4490,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4490,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+IK'OQ'IJ,ajtzibab,4491,ik'oq'ij,1,exact,Ik'oq'ij,topónimo
+KA',ajtzibab,4495,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,4497,k'a,1,fuzzy,Ka',objeto
+MIXTAM_POM,ajtzibab,4500,Mixtam Pom,2,exact,Mixtam Pom,objeto
+B'ALAM_KI'TZE',ajtzibab,4500,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+POM,ajtzibab,4500,pom,1,exact,Pom,objeto
+KAWISTAN_POM,ajtzibab,4501,Kawistan Pom,2,exact,Kawistan Pom,objeto
+B'ALAM_AQ'AB',ajtzibab,4501,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+POM,ajtzibab,4501,pom,1,exact,Pom,objeto
+KAB'AWIL_POM,ajtzibab,4502,Kab'awil Pom,2,exact,Kab'awil Pom,objeto
+MAJUK'UTAJ,ajtzibab,4502,Majukutaj,1,fuzzy,Majuk'utaj,persona
+POM,ajtzibab,4508,pom,1,exact,Pom,objeto
+KA',ajtzibab,4509,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,4512,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,4518,k'a,1,fuzzy,Ka',objeto
+KOJ,ajtzibab,4518,koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,4518,b'alam,1,exact,B'alam,animal
+TZ'IKIN,ajtzibab,4519,tz'ikin,1,exact,Tz'ikin,animal
+K'ELETZU,ajtzibab,4519,Keletzu,1,fuzzy,K'eletzu,animal
+TAMUB',ajtzibab,4523,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,4523,Ilokab',1,exact,Ilokab',linaje
+RAB'INALEB',ajtzibab,4524,"Rab'inaleb',",1,exact,Rab'inaleb',linaje
+TUJAL_JA,ajtzibab,4525,Tujal Ja,2,exact,Tujal Ja,topónimo
+AJ,ajtzibab,4525,aj,1,exact,Aj,objeto
+TEPEW_YAKI,ajtzibab,4526,Yaki Tepew,2,exact,Yaki Tepew,linaje
+UCH'AB'AJA,ajtzibab,4526,"Uch'ab'aja,",1,exact,Uch'ab'aja,linaje
+KA',ajtzibab,4530,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,4545,K'a,1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,4545,"Tojil,",1,exact,Tojil,deidad
+AWILIX,ajtzibab,4545,"Awilix,",1,exact,Awilix,deidad
+JAQAWITZ,ajtzibab,4545,Jaqawitz,1,exact,Jaqawitz,deidad
+KOJ,ajtzibab,4546,Koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,4546,"B'alam,",1,exact,B'alam,animal
+SOCHOJ,ajtzibab,4546,Sochoj,1,exact,Sochoj,animal
+K'ANTI',ajtzibab,4546,K'anti',1,exact,K'anti',animal
+IK,ajtzibab,4548,ik',1,fuzzy,Ik,objeto
+KOJ,ajtzibab,4551,koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,4551,"b'alam,",1,exact,B'alam,animal
+SOCHOJ,ajtzibab,4551,sochoj,1,exact,Sochoj,animal
+K'ANTI',ajtzibab,4551,"kanti',",1,fuzzy,K'anti',animal
+B'ALAM_KI'TZE',ajtzibab,4555,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4555,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4555,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+JAQAWITZ,ajtzibab,4559,Jaqawitz,1,exact,Jaqawitz,deidad
+B'ALAM_KI'TZE',ajtzibab,4565,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4565,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4565,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+IK,ajtzibab,4569,ik',1,fuzzy,Ik,objeto
+KAJ,ajtzibab,4571,kaj,1,exact,Kaj,objeto
+TULÁN,ajtzibab,4578,Tulan,1,exact,Tulán,topónimo
+YAKI,ajtzibab,4583,Yaki,1,exact,Yaki,linaje
+TOJIL,ajtzibab,4584,Tojil,1,exact,Tojil,deidad
+YAKI,ajtzibab,4584,Yaki,1,exact,Yaki,linaje
+YOLKWAT_KITZALKWAT,ajtzibab,4585,Yolkwat Kitzalkwat,2,exact,Yolkwat Kitzalkwat,deidad
+TULÁN,ajtzibab,4585,Tulan,1,exact,Tulán,topónimo
+SUYWA,ajtzibab,4585,Suywa',1,fuzzy,Suywa,topónimo
+YAKI,ajtzibab,4591,Yaki,1,exact,Yaki,linaje
+TEPEW,ajtzibab,4595,Tepew,1,exact,Tepew,oficio
+JAQAWITZ,ajtzibab,4598,Jaqawitz,1,exact,Jaqawitz,deidad
+TAMUB',ajtzibab,4599,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,4599,Ilokab',1,exact,Ilokab',linaje
+TAMUB',ajtzibab,4602,Tamub',1,exact,Tamub',linaje
+TOJIL,ajtzibab,4603,Tojil,1,exact,Tojil,deidad
+RAB'INALEB',ajtzibab,4606,Rab'inaleb',1,exact,Rab'inaleb',linaje
+JUN_TOJ,ajtzibab,4608,Jun Toj,2,exact,Jun Toj,deidad
+RAB'INALEB',ajtzibab,4608,Rab'inaleb',1,exact,Rab'inaleb',linaje
+TULÁN,ajtzibab,4613,Tulan,1,exact,Tulán,topónimo
+SUYWA,ajtzibab,4613,Suywa,1,exact,Suywa,topónimo
+TULÁN,ajtzibab,4620,Tulan,1,exact,Tulán,topónimo
+TULÁN,ajtzibab,4622,Tulan,1,exact,Tulán,topónimo
+B'ALAM_KI'TZE',ajtzibab,4630,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4630,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4630,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+TOJIL,ajtzibab,4631,"Tojil,",1,exact,Tojil,deidad
+AWILIX,ajtzibab,4631,"Awilix,",1,exact,Awilix,deidad
+JAQAWITZ,ajtzibab,4631,Jaqawitz,1,exact,Jaqawitz,deidad
+WA,ajtzibab,4633,Wa',1,fuzzy,Wa,objeto
+TOJIL,ajtzibab,4634,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4635,"Tojil,",1,exact,Tojil,deidad
+TOJIL,ajtzibab,4642,Tojil,1,exact,Tojil,deidad
+Q'OL,ajtzibab,4644,q'ol,1,exact,Q'ol,objeto
+NOJ,ajtzibab,4644,noj,1,exact,Noj,objeto
+TOJIL,ajtzibab,4646,Tojil,1,exact,Tojil,deidad
+K'IM,ajtzibab,4664,k'im,1,exact,K'im,objeto
+TOROB,ajtzibab,4664,torob',1,fuzzy,Torob,objeto
+KEJ,ajtzibab,4666,kej,1,exact,Kej,animal
+TZ'IKIN,ajtzibab,4666,tz'ikin,1,exact,Tz'ikin,animal
+KEJ,ajtzibab,4669,kej,1,exact,Kej,animal
+TOJIL,ajtzibab,4674,Tojil,1,exact,Tojil,deidad
+KEJ,ajtzibab,4676,kej,1,exact,Kej,animal
+TOJIL,ajtzibab,4684,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4684,Jaqawitz,1,exact,Jaqawitz,deidad
+TZ'IKIN,ajtzibab,4688,tz'ikin,1,exact,Tz'ikin,animal
+KEJ,ajtzibab,4688,kej,1,exact,Kej,animal
+KEJ,ajtzibab,4690,kej,1,exact,Kej,animal
+KA',ajtzibab,4691,k'a,1,fuzzy,Ka',objeto
+KEJ,ajtzibab,4691,kej,1,exact,Kej,animal
+TZ'IKIN,ajtzibab,4691,tz'ikin,1,exact,Tz'ikin,animal
+TOJIL,ajtzibab,4693,"Tojil,",1,exact,Tojil,deidad
+KIK',ajtzibab,4694,kik',1,exact,Kik',objeto
+KEJ,ajtzibab,4698,kej,1,exact,Kej,animal
+PUCH_IYA,ajtzibab,4699,"puch iya,",2,exact,Puch iya,objeto
+JOLOM_OKOX,ajtzibab,4699,jolom okox,2,exact,Jolom Okox,objeto
+Q'OL,ajtzibab,4699,q'ol,1,exact,Q'ol,objeto
+KEJ,ajtzibab,4700,kej,1,exact,Kej,animal
+SITA'L,ajtzibab,4706,sita'l,1,exact,Sita'l,animal
+AQAJ,ajtzibab,4706,aqaj,1,exact,Aqaj,animal
+WA,ajtzibab,4707,wa,1,exact,Wa,objeto
+B'ALAM_KI'TZE',ajtzibab,4715,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4715,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4715,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+KA',ajtzibab,4718,k'a,1,fuzzy,Ka',objeto
+UTIW,ajtzibab,4719,utiw,1,exact,Utiw,animal
+YAK,ajtzibab,4719,yak,1,exact,Yak,animal
+KOJ,ajtzibab,4720,koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,4720,b'alam,1,exact,B'alam,animal
+UTIW,ajtzibab,4722,utiw,1,exact,Utiw,animal
+YAK,ajtzibab,4723,yak,1,exact,Yak,animal
+KOJ,ajtzibab,4724,koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,4724,b'alam,1,exact,B'alam,animal
+KOJ,ajtzibab,4729,koj,1,exact,Koj,animal
+B'ALAM,ajtzibab,4729,b'alam,1,exact,B'alam,animal
+WONON,ajtzibab,4735,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,4735,sita'l,1,exact,Sita'l,animal
+AQAJ,ajtzibab,4736,aqaj,1,exact,Aqaj,animal
+TOJIL,ajtzibab,4738,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4738,Jaqawitz,1,exact,Jaqawitz,deidad
+TOJIL,ajtzibab,4740,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4740,Jaqawitz,1,exact,Jaqawitz,deidad
+KEJ,ajtzibab,4740,"kej,",1,exact,Kej,animal
+TZ'IKIN,ajtzibab,4740,tz'ikin,1,exact,Tz'ikin,animal
+TOJIL,ajtzibab,4742,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4742,Jaqawitz,1,exact,Jaqawitz,deidad
+TOJIL,ajtzibab,4746,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4746,Jaqawitz.,1,exact,Jaqawitz,deidad
+TULÁN,ajtzibab,4756,Tulan,1,exact,Tulán,topónimo
+TZ'UM,ajtzibab,4759,tz'u'm,1,fuzzy,Tz'um,objeto
+SILISIB',ajtzibab,4759,Silisib',1,exact,Silisib',topónimo
+KIK',ajtzibab,4760,kik',1,exact,Kik',objeto
+KIK',ajtzibab,4761,kik',1,exact,Kik',objeto
+TOJIL,ajtzibab,4762,Tojil,1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4762,Jaqawitz.,1,exact,Jaqawitz,deidad
+B'ALAM_KI'TZE',ajtzibab,4764,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4764,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4764,Majukutaj,1,fuzzy,Majuk'utaj,persona
+KA',ajtzibab,4765,K'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,4769,k'a,1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,4769,"Tojil,",1,exact,Tojil,deidad
+KA',ajtzibab,4770,K'a,1,fuzzy,Ka',objeto
+KIK',ajtzibab,4770,kik',1,exact,Kik',objeto
+B'ALAM,ajtzibab,4774,b'alam,1,exact,B'alam,animal
+B'ALAM,ajtzibab,4776,b'alam,1,exact,B'alam,animal
+KA',ajtzibab,4780,k'a,1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,4781,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,4787,K'a,1,fuzzy,Ka',objeto
+KEJ,ajtzibab,4789,kej,1,exact,Kej,animal
+B'ALAM,ajtzibab,4789,b'alam,1,exact,B'alam,animal
+TOJIL,ajtzibab,4803,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4803,Jaqawitz,1,exact,Jaqawitz,deidad
+TOJIL,ajtzibab,4809,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4809,Jaqawitz,1,exact,Jaqawitz,deidad
+TOJIL,ajtzibab,4811,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4811,Jaqawitz,1,exact,Jaqawitz,deidad
+CHI_RATINIB'AL_TOJIL,ajtzibab,4818,Chi Ratinib'al Tojil,3,exact,Chi Ratinib'al Tojil,topónimo
+B'ALAM_KI'TZE',ajtzibab,4824,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4824,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4824,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+WA,ajtzibab,4825,wa',1,fuzzy,Wa,objeto
+TOJIL,ajtzibab,4827,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4827,Jaqawitz,1,exact,Jaqawitz,deidad
+KAWEQ,ajtzibab,4837,Kaweq,1,exact,Kaweq,linaje
+TOJIL,ajtzibab,4842,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4842,Jaqawitz.,1,exact,Jaqawitz,deidad
+TOJIL,ajtzibab,4843,Tojil,1,exact,Tojil,deidad
+KAWEQ,ajtzibab,4847,Kaweq,1,exact,Kaweq,linaje
+CHI_RATINIB'AL_TOJIL,ajtzibab,4853,chuchi' ya',2,fuzzy,Chi Ratinib'al Tojil,topónimo
+TOJIL,ajtzibab,4854,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4854,Jaqawitz,1,exact,Jaqawitz,deidad
+KA',ajtzibab,4897,K'a,1,fuzzy,Ka',objeto
+WA,ajtzibab,4904,wa',1,fuzzy,Wa,objeto
+IXPUCH',ajtzibab,4906,Xpuch,1,exact,Ixpuch',deidad
+IXPUCH',ajtzibab,4908,Xpuch,1,exact,Ixpuch',deidad
+CHI_RATINIB'AL_TOJIL,ajtzibab,4910,"Chi Ratinib'al Tojil,",3,exact,Chi Ratinib'al Tojil,topónimo
+JAQAWITZ,ajtzibab,4910,Jaqawitz.,1,exact,Jaqawitz,deidad
+KA',ajtzibab,4912,K'a,1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,4914,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,4920,k'a,1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,4923,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4923,Jaqawitz,1,exact,Jaqawitz,deidad
+CHI_RATINIB'AL_TOJIL,ajtzibab,4924,chuchi' ya',2,fuzzy,Chi Ratinib'al Tojil,topónimo
+TOJIL,ajtzibab,4929,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4930,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,4936,qa'a',1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,4940,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4949,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4950,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,4950,Jaqawitz,1,exact,Jaqawitz,deidad
+IXPUCH',ajtzibab,4952,Xpuch,1,exact,Ixpuch',deidad
+KA',ajtzibab,4957,k'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,4958,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4958,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4958,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+B'ALAM_KI'TZE',ajtzibab,4965,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4965,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4965,Majukutaj.,1,fuzzy,Majuk'utaj,persona
+KA',ajtzibab,4966,K'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,4967,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM,ajtzibab,4968,b'alam,1,exact,B'alam,animal
+B'ALAM_AQ'AB',ajtzibab,4970,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+WONON,ajtzibab,4973,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,4973,sita'l,1,exact,Sita'l,animal
+KA',ajtzibab,4977,k'a,1,fuzzy,Ka',objeto
+IXPUCH',ajtzibab,4978,Xpuch,1,exact,Ixpuch',deidad
+B'ALAM_KI'TZE',ajtzibab,4979,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,4979,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,4979,Majukutaj,1,fuzzy,Majuk'utaj,persona
+TOJIL,ajtzibab,4981,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,4995,Tojil,1,exact,Tojil,deidad
+IXPUCH',ajtzibab,4997,Xpuch,1,exact,Ixpuch',deidad
+B'ALAM,ajtzibab,5004,b'alam,1,exact,B'alam,animal
+WONON,ajtzibab,5006,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,5006,sita'l,1,exact,Sita'l,animal
+B'ALAM,ajtzibab,5010,b'alam,1,exact,B'alam,animal
+WONON,ajtzibab,5019,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,5019,sita'l,1,exact,Sita'l,animal
+KA',ajtzibab,5020,k'a,1,fuzzy,Ka',objeto
+WONON,ajtzibab,5020,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,5020,sita'l,1,exact,Sita'l,animal
+MAJUK'UTAJ,ajtzibab,5025,Majukutaj,1,fuzzy,Majuk'utaj,persona
+KA',ajtzibab,5026,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,5027,k'a,1,fuzzy,Ka',objeto
+IXPUCH',ajtzibab,5028,Xpuch,1,exact,Ixpuch',deidad
+TOJIL,ajtzibab,5034,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,5036,Tojil,1,exact,Tojil,deidad
+IXPUCH',ajtzibab,5036,Xpuch,1,exact,Ixpuch',deidad
+B'ALAM_KI'TZE',ajtzibab,5040,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5040,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5040,Majukutaj,1,fuzzy,Majuk'utaj,persona
+B'ALAM_KI'TZE',ajtzibab,5058,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5058,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5058,Majukutaj,1,fuzzy,Majuk'utaj,persona
+JAQAWITZ,ajtzibab,5060,Jaqawitz,1,exact,Jaqawitz,deidad
+TOJIL,ajtzibab,5076,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,5081,Tojil,1,exact,Tojil,deidad
+B'ALAM_KI'TZE',ajtzibab,5082,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5082,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+KA',ajtzibab,5087,k'a,1,fuzzy,Ka',objeto
+AJLAB'AL,ajtzibab,5087,ajlab'al,1,exact,Ajlab'al,deidad
+AJLAB'AL,ajtzibab,5091,ajlab'al,1,exact,Ajlab'al,deidad
+B'ALAM_KI'TZE',ajtzibab,5092,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5092,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+KA',ajtzibab,5092,k'a,1,fuzzy,Ka',objeto
+MAJUK'UTAJ,ajtzibab,5092,Majukutaj.,1,fuzzy,Majuk'utaj,persona
+KA',ajtzibab,5096,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,5106,k'a,1,fuzzy,Ka',objeto
+AJLAB'AL,ajtzibab,5113,ajlab'al,1,exact,Ajlab'al,deidad
+B'ALAM_KI'TZE',ajtzibab,5126,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5126,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5126,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+B'ALAM_KI'TZE',ajtzibab,5127,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5127,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5127,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+KA',ajtzibab,5131,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,5133,K'a,1,fuzzy,Ka',objeto
+YACHWACH,ajtzibab,5136,yachwach,1,exact,Yachwach,objeto
+CHE',ajtzibab,5137,che',1,exact,Che',objeto
+KA',ajtzibab,5142,k'a,1,fuzzy,Ka',objeto
+TOJIL,ajtzibab,5142,Tojil,1,exact,Tojil,deidad
+TOJIL,ajtzibab,5145,Tojil,1,exact,Tojil,deidad
+WA,ajtzibab,5148,wa',1,fuzzy,Wa,objeto
+B'ALAM_KI'TZE',ajtzibab,5150,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5150,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5150,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+WONON,ajtzibab,5151,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,5151,sita'l,1,exact,Sita'l,animal
+KA',ajtzibab,5154,k'a,1,fuzzy,Ka',objeto
+CHI_ISMACHI',ajtzibab,5156,tinamit,1,exact,Chi Ismachi',topónimo
+WONON,ajtzibab,5156,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,5156,sita'l,1,exact,Sita'l,animal
+CHE',ajtzibab,5163,che',1,exact,Che',objeto
+AJLAB'AL,ajtzibab,5174,ajlab'al,1,exact,Ajlab'al,deidad
+B'ALAM_KI'TZE',ajtzibab,5175,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5175,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5175,Majukutaj,1,fuzzy,Majuk'utaj,persona
+JAQAWITZ,ajtzibab,5177,Jaqawitz,1,exact,Jaqawitz,deidad
+WA,ajtzibab,5178,wa',1,fuzzy,Wa,objeto
+B'ALAM_KI'TZE',ajtzibab,5180,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5180,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5180,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+AJLAB'AL,ajtzibab,5183,ajlab'al,1,exact,Ajlab'al,deidad
+CHI_ISMACHI',ajtzibab,5186,tinamit,1,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5192,tinamit,1,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5201,tinamit,1,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5202,k'a,1,fuzzy,Ka',objeto
+CHI_ISMACHI',ajtzibab,5203,tinamit,1,exact,Chi Ismachi',topónimo
+WONON,ajtzibab,5204,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,5204,sita'l,1,exact,Sita'l,animal
+AJLAB'AL,ajtzibab,5207,ajlab'al,1,exact,Ajlab'al,deidad
+WONON,ajtzibab,5212,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,5212,sita'l.,1,exact,Sita'l,animal
+WONON,ajtzibab,5216,wonon,1,exact,Wonon,animal
+SITA'L,ajtzibab,5216,sita'l,1,exact,Sita'l,animal
+B'ALAM_KI'TZE',ajtzibab,5224,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5224,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+CHE',ajtzibab,5224,che',1,exact,Che',objeto
+B'ALAM_KI'TZE',ajtzibab,5239,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5239,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5239,Majukutaj.,1,fuzzy,Majuk'utaj,persona
+AJPATAN,ajtzibab,5245,ajpatan,1,exact,Ajpatan,persona
+ALOM,ajtzibab,5248,chuch,1,exact,Alom,deidad
+JAQAWITZ,ajtzibab,5250,Jaqawitz,1,exact,Jaqawitz,deidad
+JAQAWITZ,ajtzibab,5254,Jaqawitz.,1,exact,Jaqawitz,deidad
+KA',ajtzibab,5260,K'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,5265,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5265,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5265,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+WA,ajtzibab,5272,wa',1,fuzzy,Wa,objeto
+B'ALAM_KI'TZE',ajtzibab,5273,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_KI'TZE',ajtzibab,5276,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5278,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+WA,ajtzibab,5279,wa',1,fuzzy,Wa,objeto
+K'O'AKUL,ajtzibab,5280,K'o'akul,1,exact,K'o'akul,linaje
+B'ALAM_AQ'AB',ajtzibab,5281,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5283,Majukutaj,1,fuzzy,Majuk'utaj,persona
+KEJ,ajtzibab,5304,kej,1,exact,Kej,animal
+KAJ,ajtzibab,5305,kaj,1,exact,Kaj,objeto
+B'ALAM_KI'TZE',ajtzibab,5319,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+WA,ajtzibab,5320,wa',1,fuzzy,Wa,objeto
+PISOM_Q'AQ'AL,ajtzibab,5327,pisom q'aq'al,2,exact,Pisom Q'aq'al,objeto
+JAQAWITZ,ajtzibab,5335,Jaqawitz,1,exact,Jaqawitz,deidad
+B'ALAM_KI'TZE',ajtzibab,5344,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+JAQAWITZ,ajtzibab,5352,Jaqawitz,1,exact,Jaqawitz,deidad
+PISOM_Q'AQ'AL,ajtzibab,5363,Pisom Q'aq'al,2,exact,Pisom Q'aq'al,objeto
+B'ALAM_KI'TZE',ajtzibab,5370,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5370,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5370,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+PALO,ajtzibab,5371,palo,1,exact,Palo,lugar
+KA',ajtzibab,5377,K'a,1,fuzzy,Ka',objeto
+B'ALAM_KI'TZE',ajtzibab,5391,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5393,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5395,Majukutaj,1,fuzzy,Majuk'utaj,persona
+AJAW_K'ICHE',ajtzibab,5396,ajaw K'iche'.,2,exact,Ajaw K'iche',linaje
+PALO,ajtzibab,5397,palo,1,exact,Palo,lugar
+PALO,ajtzibab,5407,palo,1,exact,Palo,lugar
+WA,ajtzibab,5410,wa',1,fuzzy,Wa,objeto
+AJ,ajtzibab,5411,Aj,1,exact,Aj,objeto
+NAKXIT,ajtzibab,5413,Nakxit,1,exact,Nakxit,deidad
+AJPOP,ajtzibab,5419,ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5421,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5421,ajpop,1,exact,Ajpop,oficio
+NAKXIT,ajtzibab,5422,Nakxit,1,exact,Nakxit,deidad
+WA,ajtzibab,5423,wa',1,fuzzy,Wa,objeto
+MU'J,ajtzibab,5424,Mu'j,1,exact,Mu'j,objeto
+SUB'AQ,ajtzibab,5425,Sub'aq,1,exact,Sub'aq,objeto
+CHAMCHAM,ajtzibab,5425,Chamcham,1,exact,Chamcham,objeto
+TATIL,ajtzibab,5426,Tatil,1,exact,Tatil,objeto
+Q'ANAB'AJ,ajtzibab,5426,"Q'anab'aj,",1,exact,Q'anab'aj,objeto
+TZIKWIL_KOJ,ajtzibab,5427,Tzikwil Koj,2,exact,Tzikwil Koj,objeto
+TZIKWIL_B'ALAM,ajtzibab,5427,Tzikwil B'alam,2,exact,Tzikwil B'alam,objeto
+PICH_KEJ,ajtzibab,5428,Pich Kej,2,exact,Pich Kej,objeto
+JOLOM,ajtzibab,5428,Jolom,1,exact,Jolom,objeto
+T'OT_TATAN,ajtzibab,5429,T'ot' Tatam,2,fuzzy,T'ot' Tatan,objeto
+MAKUTAX,ajtzibab,5429,Makutax,1,exact,Makutax,objeto
+K'US_B'US,ajtzibab,5430,K'us B'us,2,exact,K'us B'us,objeto
+KAXKON,ajtzibab,5431,Kaxkon,1,exact,Kaxkon,objeto
+CHIYOM,ajtzibab,5431,"Chiyom,",1,exact,Chiyom,objeto
+ASTAPULUL,ajtzibab,5431,Astapulul,1,exact,Astapulul,objeto
+PALO,ajtzibab,5433,palo,1,exact,Palo,lugar
+TULÁN,ajtzibab,5434,Tulan,1,exact,Tulán,topónimo
+KA',ajtzibab,5438,K'a,1,fuzzy,Ka',objeto
+JAQAWITZ,ajtzibab,5439,Jaqawitz,1,exact,Jaqawitz,deidad
+TAMUB',ajtzibab,5440,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,5440,Ilokab',1,exact,Ilokab',linaje
+RAB'INALEB',ajtzibab,5445,Rab'inaleb',1,exact,Rab'inaleb',linaje
+AJ,ajtzibab,5445,Aj,1,exact,Aj,objeto
+JAQAWITZ,ajtzibab,5450,Jaqawitz,1,exact,Jaqawitz,deidad
+B'ALAM_KI'TZE',ajtzibab,5455,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,5455,"B'alam Aq'ab',",2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,5455,Majukutaj,1,fuzzy,Majuk'utaj,persona
+JAQAWITZ,ajtzibab,5468,Jaqawitz,1,exact,Jaqawitz,deidad
+CHI_ISMACHI',ajtzibab,5470,tinamit,1,exact,Chi Ismachi',topónimo
+CHI_K'IX,ajtzibab,5471,Chi K'ix,2,exact,Chi K'ix,topónimo
+CHI_ISMACHI',ajtzibab,5473,tinamit,1,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5483,tinamit.,1,exact,Chi Ismachi',topónimo
+CHI_K'IX,ajtzibab,5484,"Chi K'ix,",2,exact,Chi K'ix,topónimo
+WA,ajtzibab,5484,Wa,1,exact,Wa,objeto
+K'ULB'A,ajtzibab,5484,"K'ulb'a,",1,exact,K'ulb'a,topónimo
+KAWINAL,ajtzibab,5484,Kawinal,1,exact,Kawinal,topónimo
+CHI_ISMACHI',ajtzibab,5491,tinamit,1,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5495,k'a,1,fuzzy,Ka',objeto
+WA,ajtzibab,5497,wa,1,exact,Wa,objeto
+CHI_ISMACHI',ajtzibab,5497,tinamit,1,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5499,chi Ismachi',2,exact,Chi Ismachi',topónimo
+B'ELEJEB'_KEJ,ajtzibab,5505,B'elejeb' Kej,2,exact,B'elejeb' Kej,persona
+Q'ALEL_AJAW,ajtzibab,5505,Q'alel ajaw,2,exact,Q'alel Ajaw,linaje
+ISTAYUL,ajtzibab,5507,Istayul,1,exact,Istayul,persona
+AJPOP,ajtzibab,5507,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5507,ajpop,1,exact,Ajpop,oficio
+CHI_ISMACHI',ajtzibab,5508,chi Ismachi',2,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5509,tinamit,1,exact,Chi Ismachi',topónimo
+OXIB_RI_NIM_JA,ajtzibab,5510,oxib' ri nim ja,4,exact,Oxib' ri nim ja,linaje
+CHI_ISMACHI',ajtzibab,5510,chi Ismachi',2,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5512,K'a,1,fuzzy,Ka',objeto
+AJAW_K'ICHE',ajtzibab,5515,Ajaw K'iche',2,exact,Ajaw K'iche',linaje
+CHI_ISMACHI',ajtzibab,5518,chi Ismachi',2,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5527,k'a,1,fuzzy,Ka',objeto
+CHI_ISMACHI',ajtzibab,5530,chi Ismachi',2,exact,Chi Ismachi',topónimo
+ILOKAB',ajtzibab,5535,Ilokab',1,exact,Ilokab',linaje
+ILOKAB',ajtzibab,5536,Ilokab',1,exact,Ilokab',linaje
+ISTAYUL,ajtzibab,5539,Istayul,1,exact,Istayul,persona
+ILOKAB',ajtzibab,5540,Ilokab',1,exact,Ilokab',linaje
+ILOKAB',ajtzibab,5543,Ilokab',1,exact,Ilokab',linaje
+CHI_ISMACHI',ajtzibab,5545,tinamit,1,exact,Chi Ismachi',topónimo
+ILOKAB',ajtzibab,5554,Ilokab',1,exact,Ilokab',linaje
+CHI_ISMACHI',ajtzibab,5560,tinamit.,1,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5565,chi Ismachi',2,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5565,tinamit,1,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5572,chi Ismachi',2,exact,Chi Ismachi',topónimo
+AJAW_K'ICHE',ajtzibab,5580,Ajaw K'iche',2,exact,Ajaw K'iche',linaje
+ISTAYUL,ajtzibab,5580,Istayul,1,exact,Istayul,persona
+CHI_ISMACHI',ajtzibab,5582,chi Ismachi',2,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5582,tinamit,1,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5583,k'a,1,fuzzy,Ka',objeto
+IXTAJ_IXPUCH',ajtzibab,5589,mi'al,1,fuzzy,Ixtaj Ixpuch',grupo de deidades
+NIJA'IB',ajtzibab,5600,Nija'ib',1,exact,Nija'ib',linaje
+AJAW_K'ICHE',ajtzibab,5601,Ajaw K'iche',2,exact,Ajaw K'iche',linaje
+CHI_ISMACHI',ajtzibab,5604,chi Ismachi',2,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5606,tinamit,1,exact,Chi Ismachi',topónimo
+CHI_ISMACHI',ajtzibab,5607,chi Ismachi'.,2,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5608,K'a,1,fuzzy,Ka',objeto
+CHI_ISMACHI',ajtzibab,5609,tinamit,1,exact,Chi Ismachi',topónimo
+KAJ,ajtzibab,5610,kaj,1,exact,Kaj,objeto
+Q'UKUMATZ,ajtzibab,5612,Q'ukumatz,1,exact,Q'ukumatz,deidad
+CHI_ISMACHI',ajtzibab,5618,tinamit,1,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5621,k'a,1,fuzzy,Ka',objeto
+B'AQ,ajtzibab,5632,b'aq,1,exact,B'aq,objeto
+CHI_ISMACHI',ajtzibab,5640,tinamit,1,exact,Chi Ismachi',topónimo
+Q'UMARKAJ,ajtzibab,5640,Q'uma'rkaj,1,fuzzy,Q'umarkaj,topónimo
+CHI_ISMACHI',ajtzibab,5642,tinamit,1,exact,Chi Ismachi',topónimo
+CHI_Q'AQ',ajtzibab,5645,chi q'aq',2,exact,Chi q'aq',topónimo
+AJAW_K'ICHE',ajtzibab,5649,ajaw K'iche',2,exact,Ajaw K'iche',linaje
+WA,ajtzibab,5658,wa',1,fuzzy,Wa,objeto
+AJPOP,ajtzibab,5659,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5659,ajpop,1,exact,Ajpop,oficio
+AJTOJIL,ajtzibab,5660,ajtojil,1,exact,Ajtojil,oficio
+AJQ'UKUMATZ,ajtzibab,5660,ajq'ukumatz,1,exact,Ajq'ukumatz,oficio
+NIM_CH'OKOJ_KAWEQ,ajtzibab,5661,Nim Ch'okoj Kaweq,3,exact,Nim Ch'okoj Kaweq,oficio
+POPOL_WINAQ_CHI_T'UY,ajtzibab,5662,popol winaq chi Tuy,4,fuzzy,Popol Winaq chi T'uy,oficio
+LOLMET_KEJNAY,ajtzibab,5663,Lolmet Kejnay,2,exact,Lolmet Kejnay,oficio
+JOM,ajtzibab,5664,Jom,1,exact,Jom,lugar
+KA',ajtzibab,5668,k'a,1,fuzzy,Ka',objeto
+WA,ajtzibab,5669,wa',1,fuzzy,Wa,objeto
+WA,ajtzibab,5670,wa',1,fuzzy,Wa,objeto
+AJAW_Q'ALEL,ajtzibab,5671,Ajaw Q'alel,2,exact,Ajaw Q'alel,oficio
+AJAW_AJTZIK_WINAQ,ajtzibab,5672,Ajaw Ajtzik' Winaq,3,fuzzy,Ajaw Ajtzik Winaq,oficio
+Q'ALEL,ajtzibab,5673,Q'alel,1,exact,Q'alel,oficio
+NIM_CH'OKOJ,ajtzibab,5676,Nim Ch'okoj,2,exact,Nim Ch'okoj,oficio
+AWILIX,ajtzibab,5677,Awilix,1,exact,Awilix,deidad
+YAKOLATAM,ajtzibab,5678,Yakolatam,1,exact,Yakolatam,persona
+AJAW_K'ICHE',ajtzibab,5682,ajaw k'iche',2,exact,Ajaw K'iche',linaje
+WA,ajtzibab,5682,wa',1,fuzzy,Wa,objeto
+AJTZIK_WINAQ,ajtzibab,5684,Ajtzik' Winaq,2,fuzzy,Ajtzik Winaq,oficio
+AJAW_LOLMET,ajtzibab,5685,Ajaw Lolmet,2,exact,Ajaw Lolmet,persona
+AJAW_NIM_CH'OKOJ,ajtzibab,5686,Ajaw Nim Ch'okoj,3,exact,Ajaw Nim Ch'okoj,persona
+AJAW_JAQAWITZ,ajtzibab,5687,Ajaw Jaqawitz.,2,exact,Ajaw Jaqawitz,persona
+TZ'UTUJA,ajtzibab,5692,Tz'utuja,1,exact,Tz'utuja,linaje
+Q'ALEL_SAQIK,ajtzibab,5693,Q'alel Saqik,2,exact,Q'alel Saqik,oficio
+CHI_ISMACHI',ajtzibab,5701,tinamit,1,exact,Chi Ismachi',topónimo
+AJ,ajtzibab,5724,aj,1,exact,Aj,objeto
+AJ,ajtzibab,5724,aj,1,exact,Aj,objeto
+CHI_ISMACHI',ajtzibab,5724,tinamit,1,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5727,k'a,1,fuzzy,Ka',objeto
+KA',ajtzibab,5728,k'a,1,fuzzy,Ka',objeto
+Q'UKUMATZ,ajtzibab,5729,Q'ukumatz,1,exact,Q'ukumatz,deidad
+Q'UKUMATZ,ajtzibab,5730,Q'ukumatz,1,exact,Q'ukumatz,deidad
+KAJ,ajtzibab,5731,kaj,1,exact,Kaj,objeto
+XIB'ALB'A,ajtzibab,5732,Xib'alb'a,1,exact,Xib'alb'a,lugar
+KUMATZ,ajtzibab,5734,kumatz,1,exact,Kumatz,animal
+K'OTAL,ajtzibab,5735,kotal,1,fuzzy,K'otal,animal
+B'ALAM,ajtzibab,5737,b'alam,1,exact,B'alam,animal
+KIK'EL,ajtzibab,5738,kik'el,1,exact,Kik'el,objeto
+KIK',ajtzibab,5739,kik',1,exact,Kik',objeto
+Q'UKUMATZ,ajtzibab,5746,Q'ukumatz,1,exact,Q'ukumatz,deidad
+Q'UKUMATZ,ajtzibab,5755,Q'ukumatz,1,exact,Q'ukumatz,deidad
+AJPOP,ajtzibab,5756,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5756,ajpop,1,exact,Ajpop,oficio
+KA',ajtzibab,5760,k'a,1,fuzzy,Ka',objeto
+TEPEPUL,ajtzibab,5762,"Tepepul,",1,exact,Tepepul,persona
+ISTAYUL,ajtzibab,5762,Istayul,1,exact,Istayul,persona
+WA,ajtzibab,5767,Wa,1,exact,Wa,objeto
+CHI_ISMACHI',ajtzibab,5777,tinamit,1,exact,Chi Ismachi',topónimo
+RAB'INALEB',ajtzibab,5779,Rab'inaleb',1,exact,Rab'inaleb',linaje
+MAQ'A,ajtzibab,5779,Maq'a',1,fuzzy,Maq'a,topónimo
+SAQULEWAB',ajtzibab,5781,Saqulewab',1,exact,Saqulewab',topónimo
+RAB'INALEB',ajtzibab,5786,"Rab'inaleb',",1,exact,Rab'inaleb',linaje
+SAQULEWAB',ajtzibab,5786,Saqulewab',1,exact,Saqulewab',topónimo
+KA',ajtzibab,5788,k'a,1,fuzzy,Ka',objeto
+CHI_ISMACHI',ajtzibab,5798,tinamit,1,exact,Chi Ismachi',topónimo
+Q'OL_CHE',ajtzibab,5803,Q'ol Che',2,exact,Q'ol Che',objeto
+AJ,ajtzibab,5803,aj,1,exact,Aj,objeto
+CHI_ISMACHI',ajtzibab,5804,tinamit,1,exact,Chi Ismachi',topónimo
+PETATAYUB',ajtzibab,5810,Petatayub',1,exact,Petatayub',topónimo
+CHI_ISMACHI',ajtzibab,5819,tinamit,1,exact,Chi Ismachi',topónimo
+KA',ajtzibab,5821,K'a,1,fuzzy,Ka',objeto
+AJLAB'AL,ajtzibab,5822,ajlab'al,1,exact,Ajlab'al,deidad
+AJLAB'AL,ajtzibab,5837,ajlab'al,1,exact,Ajlab'al,deidad
+AJLAB'AL,ajtzibab,5843,ajlab'al,1,exact,Ajlab'al,deidad
+Q'ALEL,ajtzibab,5850,q'alel,1,exact,Q'alel,oficio
+CHI_ISMACHI',ajtzibab,5861,tinamit,1,exact,Chi Ismachi',topónimo
+AJ,ajtzibab,5862,aj,1,exact,Aj,objeto
+AJ,ajtzibab,5863,aj,1,exact,Aj,objeto
+CHULIMAL,ajtzibab,5863,Chulimal,1,exact,Chulimal,topónimo
+XAJB'AKYEJ,ajtzibab,5864,Xajb'akyej,1,exact,Xajb'akyej,topónimo
+AJ_KAB'RAQAN,ajtzibab,5865,aj Kab'raqan,2,exact,Aj Kab'raqan,linaje
+WAJXALAJUJ,ajtzibab,5865,Wajxalajuj,1,exact,Wajxalajuj,topónimo
+CH'ABI_Q'AQ',ajtzibab,5866,Ch'ab'iq'aq',1,exact,Ch'ab'iq'aq',topónimo
+AJPU,ajtzibab,5866,Ajpu,1,exact,Ajpu,oficio
+AJ,ajtzibab,5866,aj,1,exact,Aj,objeto
+MAQ'A,ajtzibab,5866,"Maq'a',",1,fuzzy,Maq'a,topónimo
+AJ,ajtzibab,5867,aj,1,exact,Aj,objeto
+XAYAB'AJ,ajtzibab,5867,Xayab'aj,1,exact,Xayab'aj,topónimo
+AJ,ajtzibab,5868,aj,1,exact,Aj,objeto
+SAQKABAJA,ajtzibab,5868,Saqkab'aja,1,fuzzy,Saqkabaja,topónimo
+AJ,ajtzibab,5869,aj,1,exact,Aj,objeto
+SIYAJA,ajtzibab,5869,Siyaja',1,fuzzy,Siyaja,topónimo
+AJ,ajtzibab,5870,aj,1,exact,Aj,objeto
+AJ,ajtzibab,5871,aj,1,exact,Aj,objeto
+XELAJUJ,ajtzibab,5871,Xelajuj,1,exact,Xelajuj,topónimo
+AJPOP,ajtzibab,5876,ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5877,ajpop,1,exact,Ajpop,oficio
+AJTZIK_WINAQ,ajtzibab,5878,ajtzik' winaq,2,fuzzy,Ajtzik Winaq,oficio
+Q'ALEL,ajtzibab,5878,q'alel,1,exact,Q'alel,oficio
+AJLAB'AL,ajtzibab,5880,ajlab'al,1,exact,Ajlab'al,deidad
+NIJA'IB',ajtzibab,5884,Nija'ib',1,exact,Nija'ib',linaje
+ACHAQ'_IB'OY,ajtzibab,5885,Achaq Ib'oy,2,fuzzy,Achaq' Ib'oy,persona
+AJAW_K'ICHE',ajtzibab,5886,Ajaw K'iche',2,exact,Ajaw K'iche',linaje
+AJTZIK_WINAQ,ajtzibab,5894,ajtzik' winaq,2,fuzzy,Ajtzik Winaq,oficio
+Q'ALEL,ajtzibab,5894,q'alel,1,exact,Q'alel,oficio
+KA',ajtzibab,5903,k'a,1,fuzzy,Ka',objeto
+AJPOP,ajtzibab,5905,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5905,ajpop,1,exact,Ajpop,oficio
+AJTZIK_WINAQ,ajtzibab,5906,ajtzik' winaq,2,fuzzy,Ajtzik Winaq,oficio
+Q'ALEL,ajtzibab,5906,q'alel,1,exact,Q'alel,oficio
+AJPOP,ajtzibab,5911,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5911,ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5912,ajpop,1,exact,Ajpop,oficio
+AJAW_Q'ALEL,ajtzibab,5914,ajaw q'alel,2,exact,Ajaw Q'alel,oficio
+Q'ALEL,ajtzibab,5915,q'alel,1,exact,Q'alel,oficio
+TAMUB',ajtzibab,5918,"Tamub',",1,exact,Tamub',linaje
+ILOKAB',ajtzibab,5918,Ilokab',1,exact,Ilokab',linaje
+XE'_B'ALAX,ajtzibab,5929,Xe' B'alax,2,exact,Xe' B'alax,topónimo
+CHULIMAL,ajtzibab,5932,Chulimal,1,exact,Chulimal,topónimo
+WA,ajtzibab,5933,Wa',1,fuzzy,Wa,objeto
+Q'ALEL,ajtzibab,5936,q'alel,1,exact,Q'alel,oficio
+AJPOP,ajtzibab,5937,ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5938,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5938,ajpop,1,exact,Ajpop,oficio
+AJTZIK_WINAQ,ajtzibab,5939,ajtzik' winaq,2,fuzzy,Ajtzik Winaq,oficio
+Q'ALEL,ajtzibab,5939,q'alel,1,exact,Q'alel,oficio
+Q'ALEL,ajtzibab,5940,q'alel,1,exact,Q'alel,oficio
+AJPOP,ajtzibab,5940,ajpop,1,exact,Ajpop,oficio
+NIM_CH'OKOJ,ajtzibab,5941,Nim Ch'okoj,2,exact,Nim Ch'okoj,oficio
+Q'ALEL_AJAW,ajtzibab,5942,q'alel Ajaw,2,exact,Q'alel Ajaw,linaje
+Q'ALEL,ajtzibab,5943,q'alel,1,exact,Q'alel,oficio
+RAJPOP_ACHIJ,ajtzibab,5945,rajpop achij,2,exact,Rajpop Achij,oficio
+RAJTZ'ALAM_ACHIJ,ajtzibab,5946,rajtz'alam achij,2,exact,Rajtz'alam Achij,oficio
+UTZA'M_ACHIJ,ajtzibab,5947,utza'm achij,2,exact,Utza'm Achij,oficio
+TAMUB',ajtzibab,5956,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,5956,Ilokab',1,exact,Ilokab',linaje
+Q'ALEL,ajtzibab,5959,q'alel,1,exact,Q'alel,oficio
+AJPOP,ajtzibab,5959,ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5962,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5962,ajpop,1,exact,Ajpop,oficio
+AJTZIK_WINAQ,ajtzibab,5963,ajtzik' winaq,2,fuzzy,Ajtzik Winaq,oficio
+Q'ALEL,ajtzibab,5963,q'alel,1,exact,Q'alel,oficio
+NIMA'Q_TZ'AQ_TOJIL,ajtzibab,5967,Nima'q Tz'aq Tojil,3,exact,Nima'a Tz'aq Tojil,topónimo
+TOJIL,ajtzibab,5968,Tojil,1,exact,Tojil,deidad
+AWILIX,ajtzibab,5970,Awilix,1,exact,Awilix,deidad
+JAQAWITZ,ajtzibab,5971,Jaqawitz,1,exact,Jaqawitz,deidad
+AJAW_K'ICHE',ajtzibab,5972,Ajaw K'iche',2,exact,Ajaw K'iche',linaje
+TZ'UTUJA,ajtzibab,5973,Tz'utuja,1,exact,Tz'utuja,linaje
+TOJIL,ajtzibab,5979,Tojil,1,exact,Tojil,deidad
+KA',ajtzibab,5980,k'a,1,fuzzy,Ka',objeto
+AJPOP,ajtzibab,5980,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5980,ajpop,1,exact,Ajpop,oficio
+KA',ajtzibab,5981,k'a,1,fuzzy,Ka',objeto
+AJPOP,ajtzibab,5983,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,5983,ajpop,1,exact,Ajpop,oficio
+Q'UKUMATZ,ajtzibab,5987,Q'ukumatz,1,exact,Q'ukumatz,deidad
+POPOL_WUJ,ajtzibab,5996,Popol Wuj,2,exact,Popol Wuj,objeto
+WA,ajtzibab,6004,wa',1,fuzzy,Wa,objeto
+TOJIL,ajtzibab,6010,Tojil,1,exact,Tojil,deidad
+TULUL,ajtzibab,6012,"tulul,",1,exact,Tulul,objeto
+AJACHE',ajtzibab,6012,"ajache',",1,exact,Ajache',objeto
+Q'INOM,ajtzibab,6012,q'inom,1,exact,Q'inom,objeto
+WA,ajtzibab,6013,wa,1,exact,Wa,objeto
+KAJ,ajtzibab,6031,kaj,1,exact,Kaj,objeto
+WA,ajtzibab,6032,wa',1,fuzzy,Wa,objeto
+WA,ajtzibab,6034,wa'.,1,fuzzy,Wa,objeto
+UK'U'X_KAJ,ajtzibab,6036,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+IXTAJ_IXPUCH',ajtzibab,6038,mi'al,1,fuzzy,Ixtaj Ixpuch',grupo de deidades
+Q'OL,ajtzibab,6042,q'o'l,1,fuzzy,Q'ol,objeto
+CHE',ajtzibab,6045,che',1,exact,Che',objeto
+Q'OL,ajtzibab,6059,q'o'l,1,fuzzy,Q'ol,objeto
+UK'U'X_KAJ,ajtzibab,6060,uk'u'x kaj,2,exact,Uk'u'x Kaj,deidad
+UK'U'X_ULEW,ajtzibab,6060,uk'u'x ulew,2,exact,Uk'u'x Ulew,deidad
+PISOM_Q'AQ'AL,ajtzibab,6061,pisom q'aq'al,2,exact,Pisom Q'aq'al,objeto
+TOJIL,ajtzibab,6062,"Tojil,",1,exact,Tojil,deidad
+JAQAWITZ,ajtzibab,6062,Jaqawitz,1,exact,Jaqawitz,deidad
+PAM_KAJ_UPAM_ULEW,ajtzibab,6063,pam kaj upam ulew,4,exact,"Pam Kaj, Upam Ulew",lugar
+KAJ,ajtzibab,6064,kaj,1,exact,Kaj,objeto
+KAJ,ajtzibab,6064,kaj,1,exact,Kaj,objeto
+AJPOP,ajtzibab,6079,"ajpop,",1,exact,Ajpop,oficio
+AJPOP,ajtzibab,6079,ajpop,1,exact,Ajpop,oficio
+AJTZIK_WINAQ,ajtzibab,6080,ajtzik' winaq,2,fuzzy,Ajtzik Winaq,oficio
+Q'ALEL,ajtzibab,6080,q'alel,1,exact,Q'alel,oficio
+TAMUB',ajtzibab,6087,Tamub',1,exact,Tamub',linaje
+ILOKAB',ajtzibab,6087,Ilokab',1,exact,Ilokab',linaje
+AJ,ajtzibab,6088,Aj,1,exact,Aj,objeto
+UCH'AB'AJA,ajtzibab,6089,Uch'ab'aja,1,exact,Uch'ab'aja,linaje
+Q'OL,ajtzibab,6094,q'o'l,1,fuzzy,Q'ol,objeto
+Q'UKUMATZ,ajtzibab,6107,Q'ukumatz,1,exact,Q'ukumatz,deidad
+AJPOP,ajtzibab,6109,ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,6109,ajpop,1,exact,Ajpop,oficio
+AJTZIK_WINAQ,ajtzibab,6110,ajtzik' winaq,2,fuzzy,Ajtzik Winaq,oficio
+Q'ALEL,ajtzibab,6110,q'alel,1,exact,Q'alel,oficio
+B'ALAM_KI'TZE',ajtzibab,6126,"B'alam K'itze',",2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_AQ'AB',ajtzibab,6126,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+MAJUK'UTAJ,ajtzibab,6127,"Majukutaj,",1,fuzzy,Majuk'utaj,persona
+IK,ajtzibab,6130,ik',1,fuzzy,Ik,objeto
+SAQI_NIM_AQ_SIS,ajtzibab,6135,mama',1,fuzzy,Saqi Nim Aq Sis,deidad
+CHI_ISMACHI',ajtzibab,6135,tinamit,1,exact,Chi Ismachi',topónimo
+B'ALAM_KI'TZE',ajtzibab,6141,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM_KI'TZE',ajtzibab,6142,B'alam K'itze',2,fuzzy,B'alam Ki'tze',persona
+B'ALAM,ajtzibab,6143,B'alam,1,exact,B'alam,animal
+Q'UKUMATZ,ajtzibab,6146,Q'ukumatz,1,exact,Q'ukumatz,deidad
+JAL,ajtzibab,6150,jal,1,exact,Jal,objeto
+TEPEPUL,ajtzibab,6151,Tepepul,1,exact,Tepepul,persona
+ISTAYUL_KQOCHO,ajtzibab,6151,Xtayub',1,fuzzy,Istayul (gen. 8),persona
+TEKUM,ajtzibab,6152,Tekum,1,exact,Tekum,persona
+TEPEPUL,ajtzibab,6153,Tepepul,1,exact,Tepepul,persona
+NOJ,ajtzibab,6156,Noj,1,exact,Noj,objeto
+TZ'I',ajtzibab,6158,Tz'i',1,exact,TZ'I',objeto
+DONADIU,ajtzibab,6161,Donadiu,1,exact,Donadiu,persona
+TEKUM,ajtzibab,6163,"Tekum,",1,exact,Tekum,persona
+TEPEPUL,ajtzibab,6163,Tepepul,1,exact,Tepepul,persona
+TEKUM,ajtzibab,6170,"Tekum,",1,exact,Tekum,persona
+TEPEPUL,ajtzibab,6170,Tepepul,1,exact,Tepepul,persona
+AJPOP,ajtzibab,6172,ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,6172,ajpop,1,exact,Ajpop,oficio
+WA,ajtzibab,6175,wa,1,exact,Wa,objeto
+AJPOP,ajtzibab,6177,ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,6177,ajpop,1,exact,Ajpop,oficio
+WA,ajtzibab,6180,wa,1,exact,Wa,objeto
+AJPOP,ajtzibab,6182,Ajpop,1,exact,Ajpop,oficio
+AJPOP,ajtzibab,6184,Ajpop,1,exact,Ajpop,oficio
+NIM_CH'OKOJ_KAWEQ,ajtzibab,6186,Nim Ch'okoj Kaweq,3,exact,Nim Ch'okoj Kaweq,oficio
+AJ,ajtzibab,6187,aj,1,exact,Aj,objeto
+TOJIL,ajtzibab,6187,Tojil,1,exact,Tojil,deidad
+AJ,ajtzibab,6188,aj,1,exact,Aj,objeto
+Q'UKUMATZ,ajtzibab,6188,Q'ukumatz,1,exact,Q'ukumatz,deidad
+POPOL_WINAQ_CHI_T'UY,ajtzibab,6189,Popol Winaq Chi Tuy,4,fuzzy,Popol Winaq chi T'uy,oficio
+LOLMET_KEJNAY,ajtzibab,6190,Lolmet Kejnay,2,exact,Lolmet Kejnay,oficio
+JOM,ajtzibab,6191,Jom,1,exact,Jom,lugar
+TEPEW_YAKI,ajtzibab,6193,Tepew Yaki,2,exact,Yaki Tepew,linaje
+WA,ajtzibab,6196,Wa',1,fuzzy,Wa,objeto
+B'ALAM_AQ'AB',ajtzibab,6201,B'alam Aq'ab',2,exact,B'alam Aq'ab',persona
+K'O'AKUL,ajtzibab,6202,K'o'akul,1,exact,K'o'akul,linaje
+K'OCHAJUJ,ajtzibab,6203,K'ochajuj,1,exact,K'ochajuj,linaje
+AJAW_Q'ALEL,ajtzibab,6214,Ajaw Q'alel,2,exact,Ajaw Q'alel,oficio
+AJAW_Q'ALEL,ajtzibab,6216,Ajaw Q'alel.,2,exact,Ajaw Q'alel,oficio
+AJAW_Q'ALEL,ajtzibab,6218,Ajaw Q'alel,2,exact,Ajaw Q'alel,oficio
+AJAW_AJTZIK_WINAQ,ajtzibab,6220,Ajaw Ajtzik' Winaq,3,fuzzy,Ajaw Ajtzik Winaq,oficio
+AJAW_Q'ALEL,ajtzibab,6221,Ajaw Q'alel,2,exact,Ajaw Q'alel,oficio
+NIM_CH'OKOJ_NIJA'IB',ajtzibab,6225,Nim Ch'okoj Nija'ib',3,exact,Nim Ch'okoj Nija'ib',oficio
+AJAW_AWILIX,ajtzibab,6226,Ajaw Awilix,2,exact,Ajaw Awilix,oficio
+YAKOLATAM,ajtzibab,6227,Yakolatam,1,exact,Yakolatam,persona
+AJAW_K'ICHE',ajtzibab,6234,ajaw K'iche',2,exact,Ajaw K'iche',linaje
+WA,ajtzibab,6235,wa,1,exact,Wa,objeto
+MAJUK'UTAJ,ajtzibab,6236,Majukutaj,1,fuzzy,Majuk'utaj,persona
+AJ,ajtzibab,6241,Aj,1,exact,Aj,objeto
+AJAW_K'ICHE',ajtzibab,6245,ajaw K'iche',2,exact,Ajaw K'iche',linaje
+WA,ajtzibab,6247,wa',1,fuzzy,Wa,objeto
+KAJIB'_UNIM_JA,ajtzibab,6248,kajib' unim ja.,3,exact,Kajib' unim ja,linaje
+AJTZIK_WINAQ_AJAW,ajtzibab,6249,Ajtzik' Winaq Ajaw,3,fuzzy,Ajtzik Winaq Ajaw,persona
+NIM_CH'OKOJ,ajtzibab,6253,Nim Ch'okoj,2,exact,Nim Ch'okoj,oficio
+JAQAWITZ,ajtzibab,6255,Jaqawitz,1,exact,Jaqawitz,deidad
+AJAW_K'ICHE',ajtzibab,6257,Ajaw K'iche'.,2,exact,Ajaw K'iche',linaje
+NIM_CH'OKOJ,ajtzibab,6258,Nim Ch'okoj,2,exact,Nim Ch'okoj,oficio
+NIM_CH'OKOJ,ajtzibab,6263,e alanel,2,exact,Nim Ch'okoj,oficio
+NIM_CH'OKOJ,ajtzibab,6266,Nim Ch'okoj,2,exact,Nim Ch'okoj,oficio
+NIJA'IB',ajtzibab,6266,Nija'ib',1,exact,Nija'ib',linaje
+NIM_CH'OKOJ,ajtzibab,6268,Nim Ch'okoj,2,exact,Nim Ch'okoj,oficio
+AJAW_K'ICHE',ajtzibab,6268,Ajaw K'iche',2,exact,Ajaw K'iche',linaje
+NIM_CH'OKOJ,ajtzibab,6269,Nim Ch'okoj,2,exact,Nim Ch'okoj,oficio
