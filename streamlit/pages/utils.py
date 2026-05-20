@@ -17,10 +17,14 @@ APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
 def find_token_file(src_id: str) -> str | None:
-    p = os.path.normpath(
-        os.path.join(APP_DIR, f"../../notebooks/{src_id}/{src_id}-TOKEN.csv")
-    )
-    return p if os.path.exists(p) else None
+    for template in [
+        f"../../notebooks/doc_tables/{src_id}-TOKEN.csv",
+        f"../../notebooks/{src_id}/{src_id}-TOKEN.csv",
+    ]:
+        p = os.path.normpath(os.path.join(APP_DIR, template))
+        if os.path.exists(p):
+            return p
+    return None
 
 
 @st.cache_data(show_spinner=False)
