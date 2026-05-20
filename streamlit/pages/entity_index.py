@@ -85,7 +85,7 @@ xmap = load_crossmap()
 # ── Controls ──────────────────────────────────────────────────────────────────
 
 _col_ratios = cfg["layout"]["column_ratios"]
-_c1, _c2, _c3, _c4 = st.columns(_col_ratios[:4])
+_c1, _c2, _c3, _c4, _c5 = st.columns(_col_ratios[:5])
 
 _all_types = sorted(xmap["type"].dropna().unique())
 sel_types = _c1.multiselect(
@@ -121,18 +121,89 @@ _label_to_eid  = dict(zip(_total_top["label"], _total_top["entity_id"]))
 _label_to_type = dict(zip(_total_top["label"], _total_top["type"]))
 
 n_shown = len(_total_top)
-st.caption(
-    f"**{n_shown}** entities shown · {len(_total)} pass filters"
+_labels_ordered = _total_top["label"].tolist()
+
+# Entity selector lives in the controls row
+_sel_label = _c5.selectbox(
+    "Inspect entity",
+    ["— select —"] + _labels_ordered,
+    key="ei_ent_sel",
 )
 
 if n_shown == 0:
     st.warning("No entities match the current filters.")
     st.stop()
 
+st.caption(f"**{n_shown}** entities shown · {len(_total)} pass filters")
+
+# ── Entity detail (above heatmap) ─────────────────────────────────────────────
+
+if _sel_label and _sel_label != "— select —":
+    sel_eid  = _label_to_eid[_sel_label]
+    sel_type = _label_to_type.get(_sel_label, "")
+
+    _hcol1, _hcol2 = st.columns([3, 1])
+    _hcol1.markdown(
+        f"#### {_sel_label} "
+        f"<span style='font-size:0.8em;color:gray'>({sel_type})</span>",
+        unsafe_allow_html=True,
+    )
+    _tot = int(_total[_total["entity_id"] == sel_eid]["total"].sum())
+    _hcol2.metric("Total mentions", _tot)
+
+    # Per-edition bar chart
+    _ent_xmap = xmap[xmap["entity_id"] == sel_eid].copy()
+    _ent_xmap["edition_label"] = _ent_xmap["edition"].map(EDITION_LABELS)
+    _ent_xmap = _ent_xmap.sort_values("mention_count", ascending=False)
+
+    _bar = go.Figure(go.Bar(
+        x=_ent_xmap["edition_label"],
+        y=_ent_xmap["mention_count"],
+        marker_color="#e07020",
+    ))
+    _bar.update_layout(
+        margin=dict(l=10, r=10, t=20, b=40),
+        height=220,
+        yaxis_title="mentions",
+        xaxis_tickangle=-30,
+    )
+    st.plotly_chart(_bar, use_container_width=True)
+
+    # Concordance table
+    _all_ner  = load_all_ner()
+    _ent_rows = _all_ner[_all_ner["entity_id"] == sel_eid].copy()
+    _ent_rows["edition_label"] = _ent_rows["edition"].map(EDITION_LABELS)
+
+    _summary = (
+        _ent_rows.groupby(["edition_label", "ngram", "match_type"])
+        .agg(
+            count=("ohco_path", "count"),
+            locations=("ohco_path", lambda x: ", ".join(str(v) for v in sorted(x.unique())[:5])),
+        )
+        .reset_index()
+        .sort_values(["edition_label", "count"], ascending=[True, False])
+    )
+    _summary.columns = ["Edition", "Matched ngram", "Match type", "Count", "Locations (sample)"]
+
+    st.caption("Matched ngrams across editions — location is paragraph id for K'iche', sentence id for others.")
+    st.dataframe(_summary, use_container_width=True, hide_index=True)
+
+    with st.expander("All ngram variants (combined)"):
+        _ngrams = (
+            _ent_rows.groupby(["ngram", "match_type"])["edition"]
+            .count()
+            .rename("total_count")
+            .reset_index()
+            .sort_values("total_count", ascending=False)
+        )
+        _ngrams.columns = ["Ngram", "Match type", "Count"]
+        st.dataframe(_ngrams, use_container_width=True, hide_index=True)
+
+    st.divider()
+
 # ── Heatmap ───────────────────────────────────────────────────────────────────
 
 _eids_ordered   = _total_top["entity_id"].tolist()
-_labels_ordered = _total_top["label"].tolist()
 _ed_cols    = [e for e in EDITION_ORDER if e in xmap["edition"].unique()]
 _ed_display = [EDITION_LABELS.get(e, e) for e in _ed_cols]
 
@@ -175,77 +246,3 @@ _fig_heat.update_layout(
 )
 
 st.plotly_chart(_fig_heat, use_container_width=True, key="ei_heatmap")
-
-# ── Entity selector ───────────────────────────────────────────────────────────
-
-st.divider()
-
-_sel_label = st.selectbox(
-    "Inspect entity:",
-    ["— select —"] + _labels_ordered,
-    key="ei_ent_sel",
-)
-
-if not _sel_label or _sel_label == "— select —":
-    st.stop()
-
-sel_eid  = _label_to_eid[_sel_label]
-sel_type = _label_to_type.get(_sel_label, "")
-
-
-_hcol1, _hcol2 = st.columns([3, 1])
-_hcol1.markdown(
-    f"#### {_sel_label} "
-    f"<span style='font-size:0.8em;color:gray'>({sel_type})</span>",
-    unsafe_allow_html=True,
-)
-_tot = int(_total[_total["entity_id"] == sel_eid]["total"].sum())
-_hcol2.metric("Total mentions", _tot)
-
-# Per-edition bar chart
-_ent_xmap = xmap[xmap["entity_id"] == sel_eid].copy()
-_ent_xmap["edition_label"] = _ent_xmap["edition"].map(EDITION_LABELS)
-_ent_xmap = _ent_xmap.sort_values("mention_count", ascending=False)
-
-_bar = go.Figure(go.Bar(
-    x=_ent_xmap["edition_label"],
-    y=_ent_xmap["mention_count"],
-    marker_color="#e07020",
-))
-_bar.update_layout(
-    margin=dict(l=10, r=10, t=20, b=40),
-    height=220,
-    yaxis_title="mentions",
-    xaxis_tickangle=-30,
-)
-st.plotly_chart(_bar, use_container_width=True)
-
-# Concordance table: ngram × edition → count + sample locations
-_all_ner  = load_all_ner()
-_ent_rows = _all_ner[_all_ner["entity_id"] == sel_eid].copy()
-_ent_rows["edition_label"] = _ent_rows["edition"].map(EDITION_LABELS)
-
-_summary = (
-    _ent_rows.groupby(["edition_label", "ngram", "match_type"])
-    .agg(
-        count=("ohco_path", "count"),
-        locations=("ohco_path", lambda x: ", ".join(str(v) for v in sorted(x.unique())[:5])),
-    )
-    .reset_index()
-    .sort_values(["edition_label", "count"], ascending=[True, False])
-)
-_summary.columns = ["Edition", "Matched ngram", "Match type", "Count", "Locations (sample)"]
-
-st.caption("Matched ngrams across editions — location is paragraph id for K'iche', sentence id for others.")
-st.dataframe(_summary, use_container_width=True, hide_index=True)
-
-with st.expander("All ngram variants (combined)"):
-    _ngrams = (
-        _ent_rows.groupby(["ngram", "match_type"])["edition"]
-        .count()
-        .rename("total_count")
-        .reset_index()
-        .sort_values("total_count", ascending=False)
-    )
-    _ngrams.columns = ["Ngram", "Match type", "Count"]
-    st.dataframe(_ngrams, use_container_width=True, hide_index=True)
