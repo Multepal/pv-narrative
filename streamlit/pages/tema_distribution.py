@@ -68,6 +68,9 @@ PHI_N_CHUNKS = 60  # chunk count used when PHI/THETA were computed
 TOPICS_XML_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../temas/topics.xml")
 )
+COLOP_GLOSSARY_PATH = os.path.normpath(
+    os.path.join(APP_DIR, "../../textos/colop-glossary.txt")
+)
 
 st.markdown(
     f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
@@ -117,6 +120,28 @@ def load_topic_dict() -> dict:
             "desc_short":  first_sent,
         }
     return out
+
+
+@st.cache_data(show_spinner=False)
+def load_colop_glossary() -> dict[str, str]:
+    """Load colop-glossary.txt → {normalized_key: spanish_gloss}."""
+    df = pd.read_csv(COLOP_GLOSSARY_PATH, sep="|", dtype=str).fillna("")
+    result = {}
+    for _, row in df.iterrows():
+        key = row["term"].strip().upper().replace(" ", "_")
+        result[key] = row["gloss"].strip()
+    return result
+
+
+def _lookup_colop_gloss(ana_id: str, glossary: dict[str, str]) -> str:
+    """Return Colop Spanish gloss for ana_id, or empty string. Falls back to apostrophe-stripped match."""
+    if ana_id in glossary:
+        return glossary[ana_id]
+    stripped = ana_id.replace("'", "")
+    for k, v in glossary.items():
+        if k.replace("'", "") == stripped:
+            return v
+    return ""
 
 
 @st.cache_data(show_spinner=False)
@@ -583,7 +608,8 @@ with _tab_heat:
     conc = load_concordance(int(n_chunks))
 
     _chunks = list(range(int(n_chunks)))
-    topic_dict = load_topic_dict()
+    topic_dict    = load_topic_dict()
+    colop_glossary = load_colop_glossary()
 
     # Build z (count) and customdata (hover text) matrices — rows = temas (top→bottom)
     _z, _hover = [], []
@@ -736,6 +762,10 @@ with _tab_heat:
                 st.markdown(_info["desc_html"], unsafe_allow_html=True)
         else:
             st.info(f"No entry for `{_sel_id}` in topics.xml.")
+        _colop_gloss = _lookup_colop_gloss(_sel_id, colop_glossary)
+        if _colop_gloss:
+            with st.expander("Colop definition (Spanish)"):
+                st.markdown(_colop_gloss)
 
 # ── Tab 3: Tema statistics ────────────────────────────────────────────────────
 with _tab_stats:
