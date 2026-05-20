@@ -122,8 +122,7 @@ _label_to_type = dict(zip(_total_top["label"], _total_top["type"]))
 
 n_shown = len(_total_top)
 st.caption(
-    f"**{n_shown}** entities shown · {len(_total)} pass filters · "
-    f"click a cell to inspect"
+    f"**{n_shown}** entities shown · {len(_total)} pass filters"
 )
 
 if n_shown == 0:
@@ -175,31 +174,24 @@ _fig_heat.update_layout(
     height=max(350, n_shown * 16 + 120),
 )
 
-_event = st.plotly_chart(
-    _fig_heat,
-    use_container_width=True,
-    on_select="rerun",
-    selection_mode=["points"],
-    key="ei_heatmap",
-)
+st.plotly_chart(_fig_heat, use_container_width=True, key="ei_heatmap")
 
-# ── Entity detail (driven by click) ──────────────────────────────────────────
+# ── Entity selector ───────────────────────────────────────────────────────────
 
 st.divider()
 
-# Resolve clicked entity label from the heatmap event
-_sel_label = None
-if _event and _event.selection and _event.selection.points:
-    _clicked_y = _event.selection.points[0].get("y")
-    if _clicked_y in _label_to_eid:
-        _sel_label = _clicked_y
+_sel_label = st.selectbox(
+    "Inspect entity:",
+    ["— select —"] + _labels_ordered,
+    key="ei_ent_sel",
+)
 
-if _sel_label is None:
-    st.caption("Click a cell in the heatmap above to see entity details.")
+if not _sel_label or _sel_label == "— select —":
     st.stop()
 
 sel_eid  = _label_to_eid[_sel_label]
 sel_type = _label_to_type.get(_sel_label, "")
+
 
 _hcol1, _hcol2 = st.columns([3, 1])
 _hcol1.markdown(
