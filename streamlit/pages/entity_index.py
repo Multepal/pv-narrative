@@ -6,7 +6,6 @@ produced by notebooks/ner/01-ner-pipeline.ipynb (ner_pipeline.py).
 """
 
 import os
-import json
 import yaml
 import streamlit as st
 import pandas as pd
@@ -96,13 +95,13 @@ min_mentions = _c2.slider(
     "Min total mentions", min_value=1, max_value=200, value=5, step=1
 )
 n_entities = _c3.slider(
-    "Max entities shown in heatmap", min_value=10, max_value=100, value=40, step=5
+    "Max entities shown", min_value=10, max_value=100, value=40, step=5
 )
 sort_by = _c4.selectbox(
     "Sort entities by", ["total mentions", "label A-Z", "type"], key="ei_sort"
 )
 
-# Filter crossmap
+# Filter and sort entity list
 _total = xmap.groupby(["entity_id", "label", "type"])["mention_count"].sum().reset_index()
 _total.columns = ["entity_id", "label", "type", "total"]
 
@@ -118,145 +117,143 @@ else:
     _total = _total.sort_values(["type", "label"])
 
 _total_top = _total.head(n_entities)
+_label_to_eid  = dict(zip(_total_top["label"], _total_top["entity_id"]))
+_label_to_type = dict(zip(_total_top["label"], _total_top["type"]))
 
 n_shown = len(_total_top)
 st.caption(
-    f"**{n_shown}** entities shown · {len(_total)} pass filters "
-    f"(type ∈ {{{', '.join(sel_types[:3])}{'…' if len(sel_types) > 3 else ''}}} · "
-    f"total ≥ {min_mentions})"
+    f"**{n_shown}** entities shown · {len(_total)} pass filters · "
+    f"click a cell to inspect"
 )
 
 if n_shown == 0:
     st.warning("No entities match the current filters.")
     st.stop()
 
-# ── Tabs ──────────────────────────────────────────────────────────────────────
+# ── Heatmap ───────────────────────────────────────────────────────────────────
 
-_tab_heat, _tab_index = st.tabs(["Cross-Edition Heatmap", "Entity Detail"])
+_eids_ordered   = _total_top["entity_id"].tolist()
+_labels_ordered = _total_top["label"].tolist()
+_ed_cols    = [e for e in EDITION_ORDER if e in xmap["edition"].unique()]
+_ed_display = [EDITION_LABELS.get(e, e) for e in _ed_cols]
 
-# ── Tab 1: Heatmap ────────────────────────────────────────────────────────────
+_pivot = (
+    xmap[xmap["entity_id"].isin(_eids_ordered)]
+    .pivot_table(index="entity_id", columns="edition",
+                 values="mention_count", fill_value=0)
+    .reindex(index=_eids_ordered, columns=_ed_cols, fill_value=0)
+)
 
-with _tab_heat:
-    st.caption(
-        "Mention counts per entity (rows) × edition (columns). "
-        "Sorted by total mentions descending. Hover for counts."
+_z, _hover = [], []
+for eid, lbl in zip(_eids_ordered, _labels_ordered):
+    row_z, row_h = [], []
+    for ed in _ed_cols:
+        cnt = int(_pivot.loc[eid, ed]) if eid in _pivot.index else 0
+        row_z.append(cnt)
+        row_h.append(f"<b>{lbl}</b><br>{EDITION_LABELS.get(ed, ed)}: {cnt}")
+    _z.append(row_z)
+    _hover.append(row_h)
+
+_fig_heat = go.Figure(go.Heatmap(
+    z=_z,
+    x=_ed_display,
+    y=_labels_ordered,
+    customdata=_hover,
+    hovertemplate="%{customdata}<extra></extra>",
+    colorscale="YlOrRd",
+    showscale=True,
+))
+_fig_heat.update_layout(
+    yaxis=dict(
+        autorange="reversed",
+        categoryorder="array",
+        categoryarray=_labels_ordered,
+        tickfont=dict(size=10),
+    ),
+    xaxis=dict(tickangle=-30),
+    margin=dict(l=180, r=20, t=30, b=80),
+    height=max(350, n_shown * 16 + 120),
+)
+
+_event = st.plotly_chart(
+    _fig_heat,
+    use_container_width=True,
+    on_select="rerun",
+    selection_mode=["points"],
+    key="ei_heatmap",
+)
+
+# ── Entity detail (driven by click) ──────────────────────────────────────────
+
+st.divider()
+
+# Resolve clicked entity label from the heatmap event
+_sel_label = None
+if _event and _event.selection and _event.selection.points:
+    _clicked_y = _event.selection.points[0].get("y")
+    if _clicked_y in _label_to_eid:
+        _sel_label = _clicked_y
+
+if _sel_label is None:
+    st.caption("Click a cell in the heatmap above to see entity details.")
+    st.stop()
+
+sel_eid  = _label_to_eid[_sel_label]
+sel_type = _label_to_type.get(_sel_label, "")
+
+_hcol1, _hcol2 = st.columns([3, 1])
+_hcol1.markdown(
+    f"#### {_sel_label} "
+    f"<span style='font-size:0.8em;color:gray'>({sel_type})</span>",
+    unsafe_allow_html=True,
+)
+_tot = int(_total[_total["entity_id"] == sel_eid]["total"].sum())
+_hcol2.metric("Total mentions", _tot)
+
+# Per-edition bar chart
+_ent_xmap = xmap[xmap["entity_id"] == sel_eid].copy()
+_ent_xmap["edition_label"] = _ent_xmap["edition"].map(EDITION_LABELS)
+_ent_xmap = _ent_xmap.sort_values("mention_count", ascending=False)
+
+_bar = go.Figure(go.Bar(
+    x=_ent_xmap["edition_label"],
+    y=_ent_xmap["mention_count"],
+    marker_color="#e07020",
+))
+_bar.update_layout(
+    margin=dict(l=10, r=10, t=20, b=40),
+    height=220,
+    yaxis_title="mentions",
+    xaxis_tickangle=-30,
+)
+st.plotly_chart(_bar, use_container_width=True)
+
+# Concordance table: ngram × edition → count + sample locations
+_all_ner  = load_all_ner()
+_ent_rows = _all_ner[_all_ner["entity_id"] == sel_eid].copy()
+_ent_rows["edition_label"] = _ent_rows["edition"].map(EDITION_LABELS)
+
+_summary = (
+    _ent_rows.groupby(["edition_label", "ngram", "match_type"])
+    .agg(
+        count=("ohco_path", "count"),
+        locations=("ohco_path", lambda x: ", ".join(str(v) for v in sorted(x.unique())[:5])),
     )
+    .reset_index()
+    .sort_values(["edition_label", "count"], ascending=[True, False])
+)
+_summary.columns = ["Edition", "Matched ngram", "Match type", "Count", "Locations (sample)"]
 
-    # Build heatmap matrix
-    _eids_ordered = _total_top["entity_id"].tolist()
-    _labels_ordered = _total_top["label"].tolist()
-    _ed_cols = [e for e in EDITION_ORDER if e in xmap["edition"].unique()]
-    _ed_display = [EDITION_LABELS.get(e, e) for e in _ed_cols]
+st.caption("Matched ngrams across editions — location is paragraph id for K'iche', sentence id for others.")
+st.dataframe(_summary, use_container_width=True, hide_index=True)
 
-    _pivot = (
-        xmap[xmap["entity_id"].isin(_eids_ordered)]
-        .pivot_table(index="entity_id", columns="edition",
-                     values="mention_count", fill_value=0)
-        .reindex(index=_eids_ordered, columns=_ed_cols, fill_value=0)
+with st.expander("All ngram variants (combined)"):
+    _ngrams = (
+        _ent_rows.groupby(["ngram", "match_type"])["edition"]
+        .count()
+        .rename("total_count")
+        .reset_index()
+        .sort_values("total_count", ascending=False)
     )
-
-    _z     = _pivot.values.tolist()
-    _hover = []
-    for i, (eid, lbl) in enumerate(zip(_eids_ordered, _labels_ordered)):
-        row = []
-        for j, ed in enumerate(_ed_cols):
-            cnt = _pivot.loc[eid, ed] if eid in _pivot.index else 0
-            row.append(f"<b>{lbl}</b><br>{EDITION_LABELS.get(ed, ed)}: {cnt}")
-        _hover.append(row)
-
-    _fig_heat = go.Figure(go.Heatmap(
-        z=_z,
-        x=_ed_display,
-        y=_labels_ordered,
-        customdata=_hover,
-        hovertemplate="%{customdata}<extra></extra>",
-        colorscale="YlOrRd",
-        showscale=True,
-    ))
-    _fig_heat.update_layout(
-        yaxis=dict(
-            autorange="reversed",
-            categoryorder="array",
-            categoryarray=_labels_ordered,
-            tickfont=dict(size=10),
-        ),
-        xaxis=dict(tickangle=-30),
-        margin=dict(l=180, r=20, t=30, b=80),
-        height=max(350, n_shown * 16 + 120),
-    )
-    st.plotly_chart(_fig_heat, use_container_width=True)
-
-# ── Tab 2: Entity detail ──────────────────────────────────────────────────────
-
-with _tab_index:
-    _label_options = _total_top["label"].tolist()
-    _label_to_eid  = dict(zip(_total_top["label"], _total_top["entity_id"]))
-    _label_to_type = dict(zip(_total_top["label"], _total_top["type"]))
-
-    sel_label = st.selectbox(
-        "Select entity:", ["— select —"] + _label_options, key="ei_ent_sel"
-    )
-
-    if sel_label and sel_label != "— select —":
-        sel_eid  = _label_to_eid[sel_label]
-        sel_type = _label_to_type.get(sel_label, "")
-
-        # Header row
-        _hcol1, _hcol2 = st.columns([3, 1])
-        _hcol1.markdown(
-            f"#### {sel_label} "
-            f"<span style='font-size:0.8em;color:gray'>({sel_type})</span>",
-            unsafe_allow_html=True,
-        )
-        _tot = _total[_total["entity_id"] == sel_eid]["total"].sum()
-        _hcol2.metric("Total mentions", int(_tot))
-
-        # Edition breakdown
-        _ent_xmap = xmap[xmap["entity_id"] == sel_eid].copy()
-        _ent_xmap["edition_label"] = _ent_xmap["edition"].map(EDITION_LABELS)
-        _ent_xmap = _ent_xmap.sort_values("mention_count", ascending=False)
-
-        st.caption("Mentions per edition:")
-        _bar = go.Figure(go.Bar(
-            x=_ent_xmap["edition_label"],
-            y=_ent_xmap["mention_count"],
-            marker_color="#e07020",
-        ))
-        _bar.update_layout(
-            margin=dict(l=10, r=10, t=20, b=40),
-            height=220,
-            yaxis_title="mentions",
-            xaxis_tickangle=-30,
-        )
-        st.plotly_chart(_bar, use_container_width=True)
-
-        # Per-mention table with ngram variants
-        st.divider()
-        st.caption("All mentions across editions — ngram matched, location, and match type.")
-
-        _all_ner  = load_all_ner()
-        _ent_rows = _all_ner[_all_ner["entity_id"] == sel_eid].copy()
-        _ent_rows["edition_label"] = _ent_rows["edition"].map(EDITION_LABELS)
-
-        # Summarise: ngram × edition → count + sample locations
-        _summary = (
-            _ent_rows.groupby(["edition_label", "ngram", "match_type"])
-            .agg(count=("ohco_path", "count"),
-                 locations=("ohco_path", lambda x: ", ".join(str(v) for v in sorted(x.unique())[:5])))
-            .reset_index()
-            .sort_values(["edition_label", "count"], ascending=[True, False])
-        )
-        _summary.columns = ["Edition", "Matched ngram", "Match type", "Count", "Locations (sample)"]
-
-        st.dataframe(_summary, use_container_width=True, hide_index=True)
-
-        with st.expander("Raw n-gram inventory (all editions combined)"):
-            _ngrams = (
-                _ent_rows.groupby(["ngram", "match_type"])["edition"]
-                .count()
-                .rename("total_count")
-                .reset_index()
-                .sort_values("total_count", ascending=False)
-            )
-            _ngrams.columns = ["Ngram", "Match type", "Count"]
-            st.dataframe(_ngrams, use_container_width=True, hide_index=True)
+    _ngrams.columns = ["Ngram", "Match type", "Count"]
+    st.dataframe(_ngrams, use_container_width=True, hide_index=True)
