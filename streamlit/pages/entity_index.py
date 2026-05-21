@@ -85,7 +85,7 @@ xmap = load_crossmap()
 # ── Controls ──────────────────────────────────────────────────────────────────
 
 _col_ratios = cfg["layout"]["column_ratios"]
-_c1, _c2, _c3, _c4, _c5 = st.columns(_col_ratios[:5])
+_c1, _c2, _c3, _c4 = st.columns(_col_ratios[:4])
 
 _all_types = sorted(xmap["type"].dropna().unique())
 sel_types = _c1.multiselect(
@@ -123,20 +123,69 @@ _label_to_type = dict(zip(_total_top["label"], _total_top["type"]))
 n_shown = len(_total_top)
 _labels_ordered = _total_top["label"].tolist()
 
-# Entity selector lives in the controls row
-_sel_label = _c5.selectbox(
-    "Inspect entity",
-    ["— select —"] + _labels_ordered,
-    key="ei_ent_sel",
-)
-
 if n_shown == 0:
     st.warning("No entities match the current filters.")
     st.stop()
 
 st.caption(f"**{n_shown}** entities shown · {len(_total)} pass filters")
 
-# ── Entity detail (above heatmap) ─────────────────────────────────────────────
+# ── Heatmap ───────────────────────────────────────────────────────────────────
+
+_eids_ordered = _total_top["entity_id"].tolist()
+_ed_cols      = [e for e in EDITION_ORDER if e in xmap["edition"].unique()]
+_ed_display   = [EDITION_LABELS.get(e, e) for e in _ed_cols]
+
+_pivot = (
+    xmap[xmap["entity_id"].isin(_eids_ordered)]
+    .pivot_table(index="entity_id", columns="edition",
+                 values="mention_count", fill_value=0)
+    .reindex(index=_eids_ordered, columns=_ed_cols, fill_value=0)
+)
+
+_z, _hover = [], []
+for eid, lbl in zip(_eids_ordered, _labels_ordered):
+    row_z, row_h = [], []
+    for ed in _ed_cols:
+        cnt = int(_pivot.loc[eid, ed]) if eid in _pivot.index else 0
+        row_z.append(cnt)
+        row_h.append(f"<b>{lbl}</b><br>{EDITION_LABELS.get(ed, ed)}: {cnt}")
+    _z.append(row_z)
+    _hover.append(row_h)
+
+_fig_heat = go.Figure(go.Heatmap(
+    z=_z,
+    x=_ed_display,
+    y=_labels_ordered,
+    customdata=_hover,
+    hovertemplate="%{customdata}<extra></extra>",
+    colorscale="YlOrRd",
+    showscale=True,
+))
+_fig_heat.update_layout(
+    yaxis=dict(
+        autorange="reversed",
+        categoryorder="array",
+        categoryarray=_labels_ordered,
+        tickfont=dict(size=10),
+    ),
+    xaxis=dict(tickangle=-30),
+    margin=dict(l=180, r=20, t=30, b=80),
+    height=max(350, n_shown * 16 + 120),
+)
+
+st.plotly_chart(_fig_heat, use_container_width=True, key="ei_heatmap")
+
+# ── Entity selector ───────────────────────────────────────────────────────────
+
+st.divider()
+
+_sel_label = st.selectbox(
+    "Select entity to inspect:",
+    ["— select —"] + _labels_ordered,
+    key="ei_ent_sel",
+)
+
+# ── Entity detail ─────────────────────────────────────────────────────────────
 
 if _sel_label and _sel_label != "— select —":
     sel_eid  = _label_to_eid[_sel_label]
@@ -198,51 +247,3 @@ if _sel_label and _sel_label != "— select —":
         )
         _ngrams.columns = ["Ngram", "Match type", "Count"]
         st.dataframe(_ngrams, use_container_width=True, hide_index=True)
-
-    st.divider()
-
-# ── Heatmap ───────────────────────────────────────────────────────────────────
-
-_eids_ordered   = _total_top["entity_id"].tolist()
-_ed_cols    = [e for e in EDITION_ORDER if e in xmap["edition"].unique()]
-_ed_display = [EDITION_LABELS.get(e, e) for e in _ed_cols]
-
-_pivot = (
-    xmap[xmap["entity_id"].isin(_eids_ordered)]
-    .pivot_table(index="entity_id", columns="edition",
-                 values="mention_count", fill_value=0)
-    .reindex(index=_eids_ordered, columns=_ed_cols, fill_value=0)
-)
-
-_z, _hover = [], []
-for eid, lbl in zip(_eids_ordered, _labels_ordered):
-    row_z, row_h = [], []
-    for ed in _ed_cols:
-        cnt = int(_pivot.loc[eid, ed]) if eid in _pivot.index else 0
-        row_z.append(cnt)
-        row_h.append(f"<b>{lbl}</b><br>{EDITION_LABELS.get(ed, ed)}: {cnt}")
-    _z.append(row_z)
-    _hover.append(row_h)
-
-_fig_heat = go.Figure(go.Heatmap(
-    z=_z,
-    x=_ed_display,
-    y=_labels_ordered,
-    customdata=_hover,
-    hovertemplate="%{customdata}<extra></extra>",
-    colorscale="YlOrRd",
-    showscale=True,
-))
-_fig_heat.update_layout(
-    yaxis=dict(
-        autorange="reversed",
-        categoryorder="array",
-        categoryarray=_labels_ordered,
-        tickfont=dict(size=10),
-    ),
-    xaxis=dict(tickangle=-30),
-    margin=dict(l=180, r=20, t=30, b=80),
-    height=max(350, n_shown * 16 + 120),
-)
-
-st.plotly_chart(_fig_heat, use_container_width=True, key="ei_heatmap")
