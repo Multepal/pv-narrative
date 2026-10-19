@@ -1,0 +1,223 @@
+{
+  "main": {
+    "id": "ced983bba5a3f2ec",
+    "type": "split",
+    "children": [
+      {
+        "id": "e28995b2ee56b664",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "941ff6a1e8906fe2",
+            "type": "leaf",
+            "state": {
+              "type": "empty",
+              "state": {},
+              "icon": "lucide-file",
+              "title": "New tab"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "57552c5f42c7c372",
+    "type": "split",
+    "children": [
+      {
+        "id": "d186f27fe25bc8ec",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "c6371ef22cf07f02",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical",
+                "autoReveal": false
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "9264f2e2f263f263",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "b14abfb71d6b2900",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ],
+        "currentTab": 2
+      }
+    ],
+    "direction": "horizontal",
+    "width": 243.5086555480957
+  },
+  "right": {
+    "id": "dddad551c8fb1db2",
+    "type": "split",
+    "children": [
+      {
+        "id": "a831750d3aab5a3a",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "958be97e9bbf944e",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Essay.md",
+                "collapseAll": true,
+                "extraContext": true,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Essay"
+            }
+          },
+          {
+            "id": "8269ee059312831e",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links"
+            }
+          },
+          {
+            "id": "ba65dd68528327a7",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "d8aac40541c8568e",
+            "type": "leaf",
+            "state": {
+              "type": "all-properties",
+              "state": {
+                "sortOrder": "frequency",
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-archive",
+              "title": "All properties"
+            }
+          },
+          {
+            "id": "b81cf3edbe739d9e",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Clippings/Post by @Real_RobN on X.md",
+                "followCursor": false,
+                "showSearch": false,
+                "searchQuery": ""
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Post by @Real_RobN on X"
+            }
+          },
+          {
+            "id": "ab9d5bbcc9afd491",
+            "type": "leaf",
+            "state": {
+              "type": "file-properties",
+              "state": {},
+              "icon": "lucide-info",
+              "title": "File properties"
+            }
+          }
+        ],
+        "currentTab": 5
+      }
+    ],
+    "direction": "horizontal",
+    "width": 328.5,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false,
+      "bases:Create new base": false,
+      "templater-obsidian:Templater": false
+    }
+  },
+  "active": "941ff6a1e8906fe2",
+  "lastOpenFiles": [
+    "StoryLine/The Narrative Structure of the Popol Wuj/System/manuscript-state.json",
+    "Essay.md",
+    "StoryLine/The Narrative Structure of the Popol Wuj/System/characters.json",
+    "StoryLine/The Narrative Structure of the Popol Wuj/System/stats.json",
+    "StoryLine/The Narrative Structure of the Popol Wuj/System/plotlines.json",
+    "StoryLine/The Narrative Structure of the Popol Wuj/System/board.json",
+    "StoryLine/The Narrative Structure of the Popol Wuj/System/timeline.json",
+    "StoryLine/The Narrative Structure of the Popol Wuj/System/plotgrid.json",
+    "StoryLine/The Narrative Structure of the Popol Wuj/System",
+    "StoryLine/The Narrative Structure of the Popol Wuj/Research",
+    "StoryLine/The Narrative Structure of the Popol Wuj/Archive",
+    "StoryLine/The Narrative Structure of the Popol Wuj/Notes",
+    "StoryLine/The Narrative Structure of the Popol Wuj/The Narrative Structure of the Popol Wuj.md",
+    "Operationalizing Structuralism/Index.md",
+    "Projects/PV Narrative/figures/Comparison of the four creations in Brasseur, Edmonson, and Tedlock.md",
+    "zotero-item-23363.md",
+    "stahlRunestahlbskysocialBlueskyDecember172024at2 - 45AM.md",
+    "Figures/Part and chapter divisions in various editions.md",
+    "Figures/Editions consulted.md",
+    "Figures/Comparison of the four creations in Brasseur, Edmonson, and Tedlock.md",
+    "Figures/Chapter titles in Christenson.md",
+    "Figures/Alignments of parts among editions using Christenson as baseline.md",
+    "Figures/Alignments of parts among editions.md",
+    "Figures/Topics.md",
+    "Welcome.md",
+    "Clippings/Post by @Real_RobN on X.md"
+  ]
+}

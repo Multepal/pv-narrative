@@ -486,8 +486,9 @@ ordered_temas = _m.index.tolist()
 ordered_labels = _m["label"].tolist()
 label_map = dict(zip(ordered_temas, ordered_labels))
 
-_tab_strip, _tab_heat, _tab_stats, _tab_cov = st.tabs([
-    "Strip Plot", "Presence Heatmap", "Statistics", "Coverage"
+_tab_strip, _tab_heat, _tab_stats, _tab_cov, _tab_outlier, _tab_cooc = st.tabs([
+    "Strip Plot", "Presence Heatmap", "Statistics", "Coverage",
+    "Outlier Analysis", "Co-occurrence Network"
 ])
 
 # ── Tab 1: Strip plot ─────────────────────────────────────────────────────────
@@ -579,7 +580,7 @@ with _tab_heat:
     _horiz_legend = ""
 
     if _show_hac == "HAC Clusters":
-        _vert_bounds, _ = _hac_boundaries(
+        _vert_bounds, _chunk_labels_hac = _hac_boundaries(
             TOKEN_PATH, int(n_chunks), int(_min_df_h), _max_df_h, int(_n_clust)
         )
         _hac_assign, _tema_chunk_labels = _hac_tema_assignments(
@@ -809,3 +810,462 @@ with _tab_cov:
     )
     st.dataframe(sf_sel.sort_values(["Tema", "Tokens"], ascending=[True, False]),
                  width="stretch")
+
+# ── Tab 5: Outlier Analysis ───────────────────────────────────────────────────
+with _tab_outlier:
+    st.caption(
+        "Standardized residuals for each (tema, cluster) pair. "
+        "Red = tema appears more in this cluster than expected by chance; "
+        "blue = less than expected. "
+        "Uses the same k-cluster HAC parameters as the Presence Heatmap tab."
+    )
+
+    # Map each chunk (0-indexed) to its HAC cluster (1-indexed fcluster output)
+    _chunk_to_clust = {c: int(_chunk_labels_hac[c]) for c in range(int(n_chunks))}
+
+    # Filter CAM to temas that actually appear as columns
+    _temas_in_cam = [t for t in selected_temas if t in CAM.columns]
+    if not _temas_in_cam:
+        st.warning("No annotations for the selected temas.")
+        st.stop()
+
+    # Aggregate annotation counts by cluster
+    _cam_sel = CAM[_temas_in_cam].copy()
+    _cam_sel.index = pd.Index([_chunk_to_clust.get(c, -1) for c in _cam_sel.index], name="cluster")
+    _CT = _cam_sel[_cam_sel.index >= 0].groupby(level=0).sum()
+
+    # Standardized residuals: (O − E) / sqrt(E)
+    _O = _CT.values.astype(float)
+    _row_sums = _O.sum(axis=1, keepdims=True)
+    _col_sums = _O.sum(axis=0, keepdims=True)
+    _grand = _O.sum()
+    if _grand == 0:
+        st.warning("No annotations in the selected temas.")
+        st.stop()
+    _E = (_row_sums @ _col_sums) / _grand
+    _SR = np.where(_E > 0, (_O - _E) / np.sqrt(_E), 0.0)
+    _SR_df = pd.DataFrame(_SR, index=_CT.index, columns=_CT.columns)
+    _E_df  = pd.DataFrame(_E,  index=_CT.index, columns=_CT.columns)
+
+    _threshold_ol = st.slider("Highlight threshold |r| ≥", 0.5, 5.0, 2.0, 0.5, key="ol_thresh")
+
+    # Build letter map from _chunk_labels_hac first-appearance order so cluster
+    # letters match the vertical boundary groupings in the Presence Heatmap tab.
+    _clust_ids = sorted(_CT.index.tolist())
+    _hac_arr   = np.array(_chunk_labels_hac)
+    _first_seen_ol     = {c: int(np.argmax(_hac_arr == c)) for c in _clust_ids}
+    _by_appearance_ol  = sorted(_clust_ids, key=lambda c: _first_seen_ol[c])
+    _letter_map_ol     = {c: chr(65 + i) for i, c in enumerate(_by_appearance_ol)}
+    _clust_lbls        = [_letter_map_ol[c] for c in _clust_ids]
+
+    # Tema axis — same ordering as heatmap
+    _ol_temas  = [t for t in _horiz_temas if t in _SR_df.columns]
+    _ol_labels = [label_map[t] for t in _ol_temas]
+
+    # Build z and hover matrices: rows = temas, cols = clusters
+    _z_ol, _hover_ol = [], []
+    for tid, tlabel in zip(_ol_temas, _ol_labels):
+        row_z, row_h = [], []
+        for cid, clbl in zip(_clust_ids, _clust_lbls):
+            sr  = float(_SR_df.loc[cid, tid])
+            obs = int(_CT.loc[cid, tid])
+            exp = float(_E_df.loc[cid, tid])
+            row_z.append(sr if abs(sr) >= _threshold_ol else 0.0)
+            row_h.append(
+                f"<b>{tlabel}</b> · Cluster {clbl}<br>"
+                f"Observed: {obs} · Expected: {exp:.1f}<br>"
+                f"Residual: {sr:+.2f}"
+            )
+        _z_ol.append(row_z)
+        _hover_ol.append(row_h)
+
+    fig_ol = go.Figure(go.Heatmap(
+        z=_z_ol,
+        x=_clust_lbls,
+        y=_ol_labels,
+        customdata=_hover_ol,
+        hovertemplate="%{customdata}<extra></extra>",
+        colorscale="RdBu",
+        zmid=0,
+        showscale=True,
+        colorbar=dict(title="r"),
+        hoverlabel=dict(align="left", font=dict(family="monospace", size=12)),
+        xgap=3,
+        ygap=1,
+    ))
+    _row_px_ol = max(14, 400 // max(n_selected, 1))
+    fig_ol.update_layout(
+        height=max(300, n_selected * _row_px_ol + 80),
+        margin=dict(l=200, r=80, t=20, b=40),
+        xaxis=dict(title="HAC Cluster", side="top"),
+        yaxis=dict(
+            autorange="reversed",
+            categoryorder="array",
+            categoryarray=_ol_labels,
+            tickfont=dict(size=max(8, min(12, 300 // max(n_selected, 1)))),
+        ),
+    )
+    st.plotly_chart(fig_ol, width="stretch")
+
+    # Outlier table
+    _SR_df.index.name = "cluster"
+    _melt = _SR_df.reset_index().melt(id_vars="cluster", var_name="ana_id", value_name="residual")
+    _melt["Cluster"]    = _melt["cluster"].map(_letter_map_ol)
+    _melt["Tema"]       = _melt["ana_id"].map(label_map)
+    _melt["|r|"]        = _melt["residual"].abs()
+    _extreme = (
+        _melt[_melt["|r|"] >= _threshold_ol]
+        .sort_values("|r|", ascending=False)
+        [["Tema", "Cluster", "residual", "|r|"]]
+        .rename(columns={"residual": "Residual", "|r|": "|Residual|"})
+        .assign(Residual=lambda d: d["Residual"].round(2))
+        .assign(**{"|Residual|": lambda d: d["|Residual|"].round(2)})
+        .reset_index(drop=True)
+    )
+    with st.expander(
+        f"Outlier table — {len(_extreme)} (tema, cluster) pairs with |r| ≥ {_threshold_ol}",
+        expanded=True
+    ):
+        if _extreme.empty:
+            st.info("No pairs exceed the threshold — try lowering it.")
+        else:
+            st.dataframe(_extreme, width="stretch")
+
+    # ── Tema profile ──────────────────────────────────────────────────────────
+    st.divider()
+    st.subheader("Tema Profile", anchor=False)
+    st.caption(
+        "Bars = annotation count per chunk, colored by HAC cluster. "
+        "Right panel = standardized residual per cluster. "
+        "Dashed lines at r = ±2."
+    )
+
+    from plotly.subplots import make_subplots as _make_subplots
+
+    _prof_temas   = _ol_temas if _ol_temas else list(CAM.columns)
+    _prof_default = next(
+        (i for i, t in enumerate(_prof_temas) if "XIB" in t.upper()), 0
+    )
+    _prof_sel = st.selectbox(
+        "Tema",
+        options=_prof_temas,
+        index=_prof_default,
+        format_func=lambda t: label_map.get(t, t),
+        key="ol_prof_sel",
+    )
+
+    _prof_label  = label_map.get(_prof_sel, _prof_sel)
+    _prof_counts = CAM[_prof_sel] if _prof_sel in CAM.columns else pd.Series(
+        0, index=range(int(n_chunks))
+    )
+
+    _pal_bg    = px.colors.qualitative.Pastel
+    _clust_col = {c: _pal_bg[i % len(_pal_bg)] for i, c in enumerate(_by_appearance_ol)}
+    _bar_colors = [
+        _clust_col.get(_chunk_to_clust.get(c, -1), "#cccccc")
+        for c in range(int(n_chunks))
+    ]
+    _bar_hover = [
+        f"Chunk {c} · Cluster {_letter_map_ol.get(_chunk_to_clust.get(c, -1), '?')}"
+        f"<br>{int(_prof_counts.iloc[c])} annotations"
+        for c in range(int(n_chunks))
+    ]
+
+    fig_prof = _make_subplots(
+        rows=1, cols=2,
+        column_widths=[0.72, 0.28],
+        subplot_titles=[f"{_prof_label} — annotations per chunk", "Residual per cluster"],
+    )
+
+    fig_prof.add_trace(go.Bar(
+        x=list(range(int(n_chunks))),
+        y=_prof_counts.values,
+        marker_color=_bar_colors,
+        customdata=_bar_hover,
+        hovertemplate="%{customdata}<extra></extra>",
+        showlegend=False,
+    ), row=1, col=1)
+
+    if _prof_sel in _SR_df.columns:
+        _res_vals = [float(_SR_df.loc[c, _prof_sel]) for c in _clust_ids]
+        fig_prof.add_trace(go.Bar(
+            x=_clust_lbls,
+            y=_res_vals,
+            marker_color=["crimson" if r > 0 else "steelblue" for r in _res_vals],
+            hovertemplate="Cluster %{x}<br>r = %{y:.2f}<extra></extra>",
+            showlegend=False,
+        ), row=1, col=2)
+        for _thresh_y in [2.0, -2.0]:
+            fig_prof.add_shape(
+                type="line",
+                x0=0, x1=1, xref="x2 domain",
+                y0=_thresh_y, y1=_thresh_y, yref="y2",
+                line=dict(dash="dot", color="#888", width=1),
+            )
+        fig_prof.add_shape(
+            type="line",
+            x0=0, x1=1, xref="x2 domain",
+            y0=0, y1=0, yref="y2",
+            line=dict(color="#333", width=0.8),
+        )
+
+    fig_prof.update_layout(
+        height=320,
+        margin=dict(l=40, r=20, t=50, b=40),
+        plot_bgcolor="white",
+    )
+    fig_prof.update_xaxes(title_text="Chunk", row=1, col=1, showgrid=False)
+    fig_prof.update_xaxes(title_text="Cluster", row=1, col=2)
+    fig_prof.update_yaxes(title_text="Annotations", row=1, col=1,
+                          showgrid=True, gridcolor="#eee")
+    fig_prof.update_yaxes(title_text="r", row=1, col=2, zeroline=False)
+    st.plotly_chart(fig_prof, width="stretch")
+
+    with st.expander("How outlier detection works", expanded=False):
+        st.markdown(r"""
+#### Detecting narrative outliers: temas in unexpected clusters
+
+This analysis asks a structural question: does a named entity (*tema*) appear in a
+narrative cluster **more or less often than we would expect** given its overall
+frequency in the text?
+
+---
+
+**Step 1 — Cluster the text**
+
+The K'iche' text is divided into *n* equal chunks in narrative order.
+HAC (hierarchical agglomerative clustering) then groups those chunks into *k* clusters
+based on lexical similarity: chunks that share vocabulary end up in the same cluster.
+The cluster boundaries are the vertical crimson lines in the **Presence Heatmap** tab.
+
+**Step 2 — Count observed annotations**
+
+For each (tema *t*, cluster *c*) pair, count how many `<rs>` annotations fall there.
+This is the observed count *O*:
+
+$$O_{tc} = \text{annotations of tema } t \text{ in chunks belonging to cluster } c$$
+
+**Step 3 — Compute expected counts**
+
+If annotations were distributed proportionally to cluster size, we would predict:
+
+$$E_{tc} = \frac{\text{(total annotations in cluster } c\text{)} \times \text{(total annotations of tema } t\text{)}}{\text{grand total annotations}}$$
+
+A large cluster naturally attracts more annotations just by having more text,
+so *E* adjusts for that — it is the null hypothesis of *no association* between
+tema identity and cluster membership.
+
+**Step 4 — Standardized residual**
+
+The residual measures how far the observation deviates from the expectation, scaled
+by the expected variability:
+
+$$r_{tc} = \frac{O_{tc} - E_{tc}}{\sqrt{E_{tc}}}$$
+
+This is the per-cell contribution to a Pearson chi-square test of independence.
+
+---
+
+#### Reading the residual heatmap
+
+| Color | Residual | Interpretation |
+|---|---|---|
+| **Deep red** | r ≫ 0 | Tema is *over-represented* — it clusters here more than chance predicts |
+| White | r ≈ 0 | Tema appears about as often as expected |
+| **Deep blue** | r ≪ 0 | Tema is *under-represented* — conspicuously absent from this cluster |
+
+Conventional thresholds: **\|r\| ≥ 2** is noteworthy; **\|r\| ≥ 3** is a strong outlier.
+
+#### Reading the tema profile
+
+The **Tema Profile** panel below shows one entity's annotations across all chunks
+(bar height = count, bar color = cluster membership) alongside its per-cluster
+residuals. Together they answer: *where in the narrative does this entity live, and
+in which cluster does it appear more or less than its overall distribution predicts?*
+
+---
+
+#### Interpretive caution
+
+Standardized residuals are sensitive to total count. A tema with only one or two
+annotations can produce a large residual by chance — the formula amplifies small
+deviations when *E* is near zero. Treat high-residual cells as **leads for closer
+reading**, not as definitive structural claims. The **Chunk Text Browser** in the
+Presence Heatmap tab lets you read the actual passage for any surprising (tema, chunk) pair.
+""")
+
+# ── Tab 6: Co-occurrence Network ──────────────────────────────────────────────
+with _tab_cooc:
+    import networkx as _nx
+
+    st.caption(
+        "Nodes = temas. An edge connects two temas that appear together in at least "
+        "N chunks within the selected cluster. Node color = dominant cluster. "
+        "Node size = total annotation count. Edge width = co-occurrence count."
+    )
+
+    _cc_cols = st.columns([1, 1, 1, 1])
+
+    # Cluster filter
+    _cc_clust_opts = ["All clusters"] + [
+        f"Cluster {_letter_map_ol[c]}" for c in _by_appearance_ol
+    ]
+    _cc_clust_filter = _cc_cols[0].selectbox(
+        "Cluster", _cc_clust_opts, key="cc_clust"
+    )
+    _cc_layout_choice = _cc_cols[3].selectbox(
+        "Layout", ["Spring", "Kamada-Kawai", "Circular"], key="cc_layout"
+    )
+
+    # Resolve which chunks to include
+    if _cc_clust_filter == "All clusters":
+        _cc_chunks = list(range(int(n_chunks)))
+    else:
+        _cc_letter  = _cc_clust_filter.split()[-1]
+        _cc_clust_id = next(c for c in _clust_ids if _letter_map_ol[c] == _cc_letter)
+        _cc_chunks  = [c for c in range(int(n_chunks))
+                       if _chunk_to_clust.get(c) == _cc_clust_id]
+
+    # Co-occurrence matrix: chunk-level binary presence → dot product
+    _cc_temas   = [t for t in _ol_temas if t in CAM.columns]
+    _CAM_cc     = CAM.loc[_cc_chunks, _cc_temas] if _cc_chunks else pd.DataFrame()
+    if _CAM_cc.empty or _CAM_cc.values.sum() == 0:
+        st.info("No annotations in the selected cluster — try 'All clusters'.")
+        st.stop()
+
+    _CAM_bin    = (_CAM_cc > 0).astype(int)
+    _CO         = _CAM_bin.T @ _CAM_bin   # temas × temas
+
+    # Upper-triangle values (exclude diagonal) for slider range
+    _co_vals = _CO.values[np.triu_indices(len(_cc_temas), k=1)]
+    _co_max  = int(_co_vals.max()) if len(_co_vals) else 1
+    _co_default = max(1, int(np.percentile(_co_vals[_co_vals > 0], 75))
+                      if (_co_vals > 0).any() else 1)
+
+    _cc_thresh = _cc_cols[1].slider(
+        "Min co-occurrence", 1, max(_co_max, 2), _co_default, 1, key="cc_thresh"
+    )
+    _cc_show_isolated = _cc_cols[2].checkbox("Show isolated nodes", False, key="cc_iso")
+
+    # Build graph
+    G_cc = _nx.Graph()
+    # Dominant cluster per tema (from _CT, consistent with _chunk_labels_hac)
+    _tema_dom_clust = {
+        t: int(_CT[t].idxmax()) if t in _CT.columns and _CT[t].sum() > 0 else -1
+        for t in _cc_temas
+    }
+    _n_metric_map = METRICS["n"].to_dict()
+
+    for t in _cc_temas:
+        G_cc.add_node(t,
+            label=label_map.get(t, t),
+            cluster=_tema_dom_clust.get(t, -1),
+            n=int(_n_metric_map.get(t, 1)),
+        )
+    for i, t1 in enumerate(_cc_temas):
+        for t2 in _cc_temas[i + 1:]:
+            w = int(_CO.loc[t1, t2])
+            if w >= _cc_thresh:
+                G_cc.add_edge(t1, t2, weight=w)
+
+    if not _cc_show_isolated:
+        G_cc.remove_nodes_from([n for n in list(G_cc.nodes()) if G_cc.degree(n) == 0])
+
+    if G_cc.number_of_nodes() == 0:
+        st.info("No co-occurrences at this threshold — lower the slider.")
+        st.stop()
+
+    # Layout
+    _cc_k = 2.5 / max(G_cc.number_of_nodes() ** 0.5, 1)
+    if _cc_layout_choice == "Kamada-Kawai":
+        _pos = _nx.kamada_kawai_layout(G_cc, weight="weight")
+    elif _cc_layout_choice == "Circular":
+        _pos = _nx.circular_layout(G_cc)
+    else:
+        _pos = _nx.spring_layout(G_cc, seed=42, k=_cc_k, weight="weight", iterations=60)
+
+    # Colors: one per cluster letter, matched to Pastel palette
+    _pal_net  = px.colors.qualitative.Pastel
+    _net_clust_col = {
+        c: _pal_net[i % len(_pal_net)] for i, c in enumerate(_by_appearance_ol)
+    }
+
+    # Edge traces (one per edge for variable width)
+    _cc_edge_traces = []
+    _max_w = max((G_cc[u][v]["weight"] for u, v in G_cc.edges()), default=1)
+    for u, v, data in G_cc.edges(data=True):
+        x0, y0 = _pos[u]
+        x1, y1 = _pos[v]
+        w = data["weight"]
+        _cc_edge_traces.append(go.Scatter(
+            x=[x0, x1, None], y=[y0, y1, None],
+            mode="lines",
+            line=dict(width=max(0.8, w / _max_w * 7), color="rgba(100,100,100,0.35)"),
+            hoverinfo="none",
+            showlegend=False,
+        ))
+
+    # Invisible midpoint scatter for edge hover
+    _mid_x  = [((_pos[u][0] + _pos[v][0]) / 2) for u, v in G_cc.edges()]
+    _mid_y  = [((_pos[u][1] + _pos[v][1]) / 2) for u, v in G_cc.edges()]
+    _mid_hv = [
+        f"<b>{label_map.get(u, u)}</b> × <b>{label_map.get(v, v)}</b>"
+        f"<br>Co-occurrence: {G_cc[u][v]['weight']} chunks"
+        for u, v in G_cc.edges()
+    ]
+    _cc_edge_hover = go.Scatter(
+        x=_mid_x, y=_mid_y, mode="markers",
+        marker=dict(size=10, color="rgba(0,0,0,0)"),
+        customdata=_mid_hv,
+        hovertemplate="%{customdata}<extra></extra>",
+        showlegend=False,
+    )
+
+    # Node trace
+    _cc_nodes = list(G_cc.nodes())
+    _cc_nx    = [_pos[t][0] for t in _cc_nodes]
+    _cc_ny    = [_pos[t][1] for t in _cc_nodes]
+    _cc_sizes = [max(10, min(40, G_cc.nodes[t]["n"] ** 0.55 * 4)) for t in _cc_nodes]
+    _cc_colors = [
+        _net_clust_col.get(G_cc.nodes[t]["cluster"], "#bbbbbb") for t in _cc_nodes
+    ]
+    _cc_hover = [
+        f"<b>{label_map.get(t, t)}</b><br>"
+        f"Cluster {_letter_map_ol.get(G_cc.nodes[t]['cluster'], '?')}<br>"
+        f"Total annotations: {G_cc.nodes[t]['n']}<br>"
+        f"Connections: {G_cc.degree(t)}"
+        for t in _cc_nodes
+    ]
+    _cc_node_trace = go.Scatter(
+        x=_cc_nx, y=_cc_ny,
+        mode="markers+text",
+        marker=dict(
+            size=_cc_sizes,
+            color=_cc_colors,
+            line=dict(width=1, color="white"),
+        ),
+        text=[label_map.get(t, t) for t in _cc_nodes],
+        textposition="top center",
+        textfont=dict(size=9),
+        customdata=_cc_hover,
+        hovertemplate="%{customdata}<extra></extra>",
+        showlegend=False,
+    )
+
+    fig_net = go.Figure(
+        data=_cc_edge_traces + [_cc_edge_hover, _cc_node_trace],
+        layout=go.Layout(
+            height=620,
+            margin=dict(l=20, r=20, t=20, b=20),
+            plot_bgcolor="white",
+            xaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            yaxis=dict(showgrid=False, zeroline=False, showticklabels=False),
+            hovermode="closest",
+        ),
+    )
+    st.plotly_chart(fig_net, width="stretch")
+    st.caption(
+        f"{G_cc.number_of_nodes()} nodes · {G_cc.number_of_edges()} edges · "
+        f"co-occurrence ≥ {_cc_thresh} chunks · "
+        f"{'all clusters' if _cc_clust_filter == 'All clusters' else _cc_clust_filter}"
+    )
