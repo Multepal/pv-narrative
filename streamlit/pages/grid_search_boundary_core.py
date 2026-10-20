@@ -186,6 +186,20 @@ def boundary_f1(b1: np.ndarray, b2: np.ndarray, tol: float) -> float:
     return 2 * precision * recall / (precision + recall)
 
 
+def cyclic_shift_boundary_f1(a, b, tol: float) -> np.ndarray:
+    """Boundary F1 between `a` and cyclic shifts of `b` that move it beyond the tolerance.
+
+    Chance baseline matching utils.cyclic_shift_ari. Shifts within ±tol are skipped:
+    by the F1's own definition they are not misalignments.
+    """
+    a, b = np.asarray(a), np.asarray(b)
+    n = len(b)
+    min_shift = int(np.floor(tol * n)) + 1
+    ba = get_boundaries(a)
+    return np.array([boundary_f1(ba, get_boundaries(np.roll(b, s)), tol)
+                     for s in range(min_shift, n - min_shift + 1)])
+
+
 def mean_pairwise_boundary_f1(label_arrays, tol: float) -> float:
     n = len(label_arrays)
     if n < 2:

@@ -149,6 +149,11 @@ controls:
     max: 20
     default: 6
     step: 1
+  boundary_tol_chunks:  # cross-edition boundary F1: boundaries match within ± this many chunks
+    min: 0
+    max: 3
+    default: 1
+    step: 1
   n_top_words:
     min: 3
     max: 15
