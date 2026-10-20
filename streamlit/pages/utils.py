@@ -9,8 +9,9 @@ import numpy as np
 import pandas as pd
 import plotly.graph_objects as go
 import streamlit as st
-from scipy.cluster.hierarchy import dendrogram as scipy_dendrogram
-from scipy.spatial.distance import hamming
+from scipy.cluster.hierarchy import dendrogram as scipy_dendrogram, linkage, fcluster
+from scipy.spatial.distance import hamming, pdist
+from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.metrics import adjusted_rand_score
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -105,6 +106,34 @@ def load_chunk_doc_texts(src_id: str, n_chunks: int) -> list[str]:
 def threshold_for_k(Z, k: int, n: int) -> float:
     k = max(2, min(k, n - 1))
     return float((Z[n - k - 1, 2] + Z[n - k, 2]) / 2)
+
+
+@st.cache_data(show_spinner="Running linkage…")
+def run_tfidf_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)):
+    """Ward HAC on Euclidean distances between L2-normalized TF-IDF chunk vectors."""
+    chunks_list = make_chunks(src_id, token_path, n_chunks)
+    if len(chunks_list) < 3:
+        return None
+    try:
+        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+                              strip_accents=None, norm="l2", ngram_range=ngram_range)
+        X = vec.fit_transform(chunks_list)
+    except ValueError:
+        return None
+    tfidf_dense = X.toarray()
+    Z = linkage(pdist(tfidf_dense, metric='euclidean'), method='ward')
+    return {
+        'tfidf_dense': tfidf_dense,
+        'words': vec.get_feature_names_out(),
+        'Z': Z,
+        'chunks_list': chunks_list,
+        'n_chunks': len(chunks_list),
+    }
+
+
+def hac_labels(Z, k: int, n: int) -> np.ndarray:
+    """Flat cluster labels from cutting linkage Z at k clusters."""
+    return fcluster(Z, threshold_for_k(Z, k, n), criterion='distance')
 
 
 def cluster_string(labels) -> str:

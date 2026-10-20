@@ -11,11 +11,10 @@ import plotly.express as px
 import plotly.graph_objects as go
 from wordcloud import WordCloud
 from matplotlib.colors import LinearSegmentedColormap
-from sklearn.feature_extraction.text import TfidfVectorizer
-from scipy.spatial.distance import pdist
-from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.cluster.hierarchy import fcluster
 from toc import render_toc
-from utils import find_token_file, load_tokens, threshold_for_k, make_cluster_table, build_dendrogram_figure
+from utils import (find_token_file, load_tokens, threshold_for_k, make_cluster_table,
+                   build_dendrogram_figure, run_tfidf_linkage)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -29,39 +28,6 @@ st.markdown(
     f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
     unsafe_allow_html=True,
 )
-
-
-@st.cache_data(show_spinner="Running linkage…")
-def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)):
-    TOKEN = load_tokens(src_id, token_path)
-    token_reset = TOKEN.reset_index()
-    token_reset["chunk_num"] = pd.cut(
-        token_reset.index, n_chunks, labels=list(range(n_chunks))
-    )
-    chunks_s = (
-        token_reset.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-    )
-    chunks_list = chunks_s.tolist()
-    if len(chunks_list) < 3:
-        return None
-    try:
-        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
-                              strip_accents=None, norm="l2", ngram_range=ngram_range)
-        X = vec.fit_transform(chunks_list)
-    except ValueError:
-        return None
-    tfidf_dense = X.toarray()
-    words = vec.get_feature_names_out()
-    dist_condensed = pdist(tfidf_dense, metric='euclidean')
-    Z = linkage(dist_condensed, method='ward')
-    return {
-        'tfidf_dense': tfidf_dense,
-        'words': words,
-        'Z': Z,
-        'chunks_list': chunks_list,
-        'n_chunks': len(chunks_list),
-    }
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
@@ -109,7 +75,7 @@ if token_path is None:
     st.stop()
 
 # ── Run linkage ───────────────────────────────────────────────────────────────
-result = run_linkage(src_id, token_path, n_chunks, min_df, max_df, (ngram_min, ngram_max))
+result = run_tfidf_linkage(src_id, token_path, n_chunks, min_df, max_df, (ngram_min, ngram_max))
 
 if result is None:
     st.warning("Clustering couldn't run — try adjusting n_chunks, min_df, or max_df.")

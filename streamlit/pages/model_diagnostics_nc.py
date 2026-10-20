@@ -13,9 +13,11 @@ from wordcloud import WordCloud
 from plotly.subplots import make_subplots
 from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
+from sklearn.metrics import adjusted_rand_score
 from sklearn.metrics.pairwise import cosine_distances
 from toc import render_toc
-from utils import find_token_file, load_tokens, make_chunks, wrap_text
+from utils import (find_token_file, load_tokens, make_chunks, wrap_text,
+                   run_tfidf_linkage, hac_labels, cluster_string)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -176,11 +178,60 @@ def render_heatmap(THETA, PHI, chunks_list, key="heatmap"):
     )
 
 
+def render_topic_cluster_table(THETA, PHI, Z, k, key="xtab"):
+    """Cross-tabulate each chunk's dominant topic against its HAC cluster at the same k."""
+    n = len(THETA)
+    clusters = hac_labels(Z, k, n)
+    topics = THETA.idxmax(axis=1).to_numpy()
+
+    # Clusters lettered by first appearance (as on the clustering pages);
+    # topics in first-appearance order (as in the heatmap).
+    _c_order = list(dict.fromkeys(clusters))
+    _letter = {c: chr(65 + i) for i, c in enumerate(_c_order)}
+    _t_order = list(dict.fromkeys(topics)) + [t for t in range(THETA.shape[1]) if t not in set(topics)]
+
+    xtab = (pd.crosstab(pd.Series([_letter[c] for c in clusters], name="cluster"),
+                        pd.Series(topics, name="topic"))
+              .reindex(index=[_letter[c] for c in _c_order], columns=_t_order, fill_value=0))
+
+    _v = cfg["visualization"]
+    _topic_words = [", ".join(list(PHI[t].keys())[:_v["hover_top_words"]]) for t in _t_order]
+    fig = px.imshow(
+        xtab.values,
+        x=[f"T{t}" for t in _t_order], y=list(xtab.index),
+        text_auto=True, aspect="auto", color_continuous_scale="Blues",
+        labels=dict(x="Dominant topic", y="HAC cluster", color="Chunks"),
+    )
+    fig.update_traces(
+        customdata=np.tile(np.array(_topic_words, dtype=object), (len(xtab.index), 1)),
+        hovertemplate=("<b>Cluster %{y} · %{x}</b><br>%{z} chunks<br>"
+                       "<i>%{customdata}</i><extra></extra>"),
+    )
+    fig.update_layout(height=len(xtab.index) * 40 + 80, margin=dict(l=60, r=20, t=20, b=40),
+                      coloraxis_showscale=False)
+    fig.update_xaxes(side="top")
+    st.plotly_chart(fig, width='stretch', key=key)
+
+    st.caption(
+        f"Chunk counts. Rows = HAC clusters (TF-IDF, Ward, k = {k}); columns = each chunk's "
+        f"highest-weight topic. **ARI = {adjusted_rand_score(clusters, topics):.3f}** "
+        "(1 = identical partitions, ≈ 0 = chance)."
+    )
+    st.markdown(
+        f"HAC sequence: `{cluster_string(clusters)}`  \n"
+        f"Topic sequence: `{cluster_string(topics)}`"
+    )
+    st.caption("Letters are assigned by first appearance within each sequence, "
+               "so compare the patterns of change, not the letters themselves.")
+
+
 # ── Controls ──────────────────────────────────────────────────────────────────
 st.title("Topic Modeling (n-chunks) — Popol Wuj")
 render_toc([
     ("Coherence & Independence", "coherence-chart"),
+    ("HAC Merge Heights",        "hac-scree"),
     ("Topic Heatmap",            "heatmap"),
+    ("Topics vs. HAC Clusters",  "topic-cluster"),
     ("Topic Word Clouds",        "word-clouds"),
 ])
 
@@ -221,6 +272,20 @@ if st.session_state.get("_diag_nc_params_key") != _params_key:
     st.session_state["_diag_nc_params_key"] = _params_key
     st.session_state["selected_nc_k"] = None
 
+# Two charts can set k. Bumping the nonce re-keys both so a stale selection on one
+# chart can't override a newer click on the other.
+st.session_state.setdefault("_diag_nc_sel_nonce", 0)
+_sel_nonce = st.session_state["_diag_nc_sel_nonce"]
+
+
+def _apply_k_click(event):
+    if event.selection.points:
+        _clicked_k = int(event.selection.points[0]["x"])
+        if _clicked_k != st.session_state.get("selected_nc_k"):
+            st.session_state["selected_nc_k"] = _clicked_k
+            st.session_state["_diag_nc_sel_nonce"] += 1
+            st.rerun()
+
 # ── Phase 1: coherence + independence ─────────────────────────────────────────
 elbow_df = run_elbow(src_id, token_path, n_chunks, min_df, max_df,
                      _c["n_topics"]["max"], model_type, (ngram_min, ngram_max))
@@ -257,21 +322,58 @@ if elbow_df is not None:
     fig_coh.update_layout(height=380, margin=_m,
                           legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
     _coh_event = st.plotly_chart(fig_coh, width='stretch',
-                                 key=f"nc_coh_{_params_key}", on_select="rerun")
-    if _coh_event.selection.points:
-        _clicked_k = int(_coh_event.selection.points[0]["x"])
-        if _clicked_k != st.session_state.get("selected_nc_k"):
-            st.session_state["selected_nc_k"] = _clicked_k
-            st.rerun()
-    if elbow_df is not None:
-        _peak_k = int(elbow_df.loc[elbow_df["coherence"].idxmax(), "n_topics"])
-        st.caption(f"→ k = {_peak_k} (coherence peak)")
-    if _selected_k is not None:
-        st.success(f"k = {_selected_k} selected — heatmap below ↓")
-    else:
-        st.info("Click a point on the curve to select k.")
+                                 key=f"nc_coh_{_params_key}_{_sel_nonce}", on_select="rerun")
+    _apply_k_click(_coh_event)
+    _peak_k = int(elbow_df.loc[elbow_df["coherence"].idxmax(), "n_topics"])
+    st.caption(f"→ k = {_peak_k} (coherence peak)")
 else:
     st.warning("Elbow analysis could not run — try adjusting n_chunks, min_df, or max_df.")
+
+# ── Phase 1b: HAC merge heights (k from structure) ────────────────────────────
+hac = run_tfidf_linkage(src_id, token_path, n_chunks, min_df, max_df, (ngram_min, ngram_max))
+
+st.subheader("HAC Merge Heights (TF-IDF, Ward)", anchor="hac-scree")
+st.caption(
+    "Same scree as the Clustering (TF-IDF) page, computed on these chunks and vocabulary settings. "
+    "Look for the elbow. **Click a point to select k.**"
+)
+if hac is not None:
+    _Z, _n_hac = hac["Z"], hac["n_chunks"]
+    _k_vals = list(range(2, min(_c["n_clusters"]["max"], _n_hac - 1) + 1))
+    fig_hac = go.Figure(go.Scatter(
+        x=_k_vals, y=[float(_Z[_n_hac - k, 2]) for k in _k_vals],
+        mode="lines+markers", line=dict(color="#00CC96"), marker=dict(size=7),
+        showlegend=False,
+    ))
+    if _selected_k is not None:
+        fig_hac.add_vline(x=_selected_k, line_dash="dash", line_color="gray", line_width=2,
+                          annotation_text=f"k = {_selected_k}", annotation_position="top right")
+    fig_hac.update_layout(
+        height=300, margin=_m, plot_bgcolor="white",
+        xaxis=dict(title="Number of clusters (k)", dtick=1, showgrid=False, zeroline=False),
+        yaxis=dict(title="Ward merge distance", showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+    )
+    _hac_event = st.plotly_chart(fig_hac, width='stretch',
+                                 key=f"nc_hac_{_params_key}_{_sel_nonce}", on_select="rerun")
+    _apply_k_click(_hac_event)
+    if model_type == "LDA":
+        st.caption("HAC always runs on TF-IDF vectors; LDA is fit on raw counts of the same chunks.")
+else:
+    st.warning("HAC couldn't run — try adjusting n_chunks, min_df, or max_df.")
+
+with st.expander("Why choose k from HAC?"):
+    st.markdown(
+        "NMF and LDA take k as a parameter; they don't discover it. HAC does: its merge heights "
+        "show where the chunks stop forming tight groups. Choosing k from the HAC elbow makes the "
+        "topic model answer to the same structure the clustering pages find, and the comparison "
+        "table below shows how far the two agree. The coherence curve is a separate criterion "
+        "internal to the topic model; where the two point to the same k, that is evidence for it."
+    )
+
+if _selected_k is not None:
+    st.success(f"k = {_selected_k} selected — heatmap below ↓")
+else:
+    st.info("Click a point on either curve to select k.")
 
 # ── Phase 2: heatmap + word clouds ────────────────────────────────────────────
 _selected_k = st.session_state.get("selected_nc_k")
@@ -309,6 +411,16 @@ if _selected_k is not None:
     else:
         st.caption(f"{len(chunks_list)} chunks · {THETA.shape[0]} × {THETA.shape[1]}")
         render_heatmap(THETA, PHI, chunks_list, key=f"nc_heat_{_selected_k}")
+
+        st.divider()
+        st.subheader("Topics vs. HAC Clusters", anchor="topic-cluster")
+        _hac_h = run_tfidf_linkage(src_id, token_path, _h_n_chunks, _h_min_df, _h_max_df,
+                                   (int(_h_ngram_min), int(_h_ngram_max)))
+        if _hac_h is None or _hac_h["n_chunks"] != len(THETA):
+            st.warning("HAC couldn't run on these chunks — try adjusting parameters.")
+        else:
+            render_topic_cluster_table(THETA, PHI, _hac_h["Z"], _selected_k,
+                                       key=f"nc_xtab_{_selected_k}")
 
         st.divider()
         st.subheader("Topic Word Clouds", anchor="word-clouds")
