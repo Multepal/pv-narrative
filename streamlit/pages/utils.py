@@ -269,6 +269,18 @@ def pairwise_hamming_matrix(strings: list[str]) -> np.ndarray:
     return mat
 
 
+def cyclic_shift_ari(a, b) -> np.ndarray:
+    """ARI between `a` and every non-zero cyclic shift of `b`.
+
+    Null model for agreement between narrative segmentations: rotating `b` keeps
+    its run lengths and label proportions but breaks its positional alignment
+    with `a`. Contiguous block structure alone yields ARI well above 0, so this
+    is a fairer chance baseline than the permutation null behind ARI ≈ 0.
+    """
+    a, b = np.asarray(a), np.asarray(b)
+    return np.array([adjusted_rand_score(a, np.roll(b, s)) for s in range(1, len(b))])
+
+
 def pairwise_ari_matrix(label_arrays: list) -> np.ndarray:
     n = len(label_arrays)
     mat = np.ones((n, n))

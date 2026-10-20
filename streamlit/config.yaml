@@ -107,6 +107,9 @@ languages:
   spa: Spanish
   eng: English
 
+# Language of the original text; editions in other languages are translations.
+source_lang: quc
+
 controls:
   default_source: ajtzibab
   chunk_pct:

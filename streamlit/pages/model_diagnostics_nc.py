@@ -17,7 +17,7 @@ from sklearn.metrics import adjusted_rand_score
 from sklearn.metrics.pairwise import cosine_distances
 from toc import render_toc
 from utils import (find_token_file, load_tokens, make_chunks, wrap_text,
-                   run_tfidf_linkage, hac_labels, cluster_string)
+                   run_tfidf_linkage, hac_labels, cluster_string, cyclic_shift_ari)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -212,10 +212,12 @@ def render_topic_cluster_table(THETA, PHI, Z, k, key="xtab"):
     fig.update_xaxes(side="top")
     st.plotly_chart(fig, width='stretch', key=key)
 
+    _null = cyclic_shift_ari(clusters, topics)
     st.caption(
         f"Chunk counts. Rows = HAC clusters (TF-IDF, Ward, k = {k}); columns = each chunk's "
         f"highest-weight topic. **ARI = {adjusted_rand_score(clusters, topics):.3f}** "
-        "(1 = identical partitions, ≈ 0 = chance)."
+        f"(1 = identical partitions). Chance, from cyclically shifting the topic sequence: "
+        f"mean {_null.mean():.3f}, 95th percentile {np.percentile(_null, 95):.3f}."
     )
     st.markdown(
         f"HAC sequence: `{cluster_string(clusters)}`  \n"
