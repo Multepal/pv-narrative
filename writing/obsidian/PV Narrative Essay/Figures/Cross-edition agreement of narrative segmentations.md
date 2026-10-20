@@ -60,6 +60,39 @@ Fix the setting and state it in the caption. Use the app defaults (33 chunks, mi
 - **Boundary tolerance is fixed in chunks.** It isn't scaled by k as on Grid Search (Boundary). That page's τ = α/2(k−1) assumes k−1 boundaries, but recurring clusters produce more (about 7 at k = 6, 15 at k = 12). The k-scaled windows then overlap, and even misaligned sequences score near 1: chance-level F1 is about 0.94 at k = 6 and 0.97 at k = 12. **Open issue:** this may distort the "optimal k*" chosen by Grid Search (Boundary).
 - **Alignment caveat:** chunks are aligned by token position, and translations expand and contract unevenly. Boundary F1 absorbs drift within the tolerance. ARI doesn't, so its cross-language scores are conservative.
 
+## Relation to the grid search pages
+
+All three pages compute the same statistic: cluster every edition with the same preprocessing, then average agreement over the 28 edition pairs. The **grid searches choose** k and the parameters. The **comparison page checks** the choice.
+
+| | Cross-Edition Comparison | Grid Search (ARI) | Grid Search (Boundary) |
+|---|---|---|---|
+| Job | Check one setting in detail | Choose parameters and k | Choose parameters and k (used in the plan) |
+| Search | Vary one parameter, hold the rest fixed | n_chunks × max_df grid, k = 2–20 | Same grid, plus Ensemble mode across 4 methods |
+| Metric | ARI and boundary F1 (±chunks) | ARI | Boundary F1, τ = α/2(k−1) |
+| Chance baseline | yes | no | no |
+| Language split | yes | no | no |
+
+### Problems on the selection side
+
+1. **Choosing by raw scores favors small k.** k\* is the k with the highest raw mean agreement, but chance agreement isn't flat across k.
+   - At the default setting, raw ARI at k = 2 is 1.000 for every pair, against a chance 95th percentile of 0.77.
+   - Boundary F1 chance sits at about 0.87–1.0 across most of the range.
+
+   **Fix:** choose k by excess over chance (observed − chance 95th percentile, or a z-score against the rotation baseline). At the default setting this measure finds k = 6 on both metrics.
+2. **Choosing and checking with the same statistic is circular.** Reporting agreement at the k\* it was chosen to maximize inflates the result.
+
+   **Fix:** a held-out design. Choose k and the parameters on **K'iche' ↔ K'iche'** pairs only. Check them on **K'iche' ↔ translation** pairs, which played no part in the choice. The translations share almost no vocabulary with the original, so agreement above chance there is the strongest evidence the structure belongs to the narrative. It also answers the "tuned until it agreed" objection.
+3. **Duplicated code.** Each page has its own copy of the clustering code, so improvements (chance baseline, tolerance, language split) don't carry across pages.
+
+### Plan
+
+1. Move the clustering code into one shared module (`grid_search_boundary_core`).
+2. Change the grid searches to choose k by excess over chance, with an option to choose on K'iche' ↔ K'iche' pairs only. Switch Grid Search (Boundary) to the chunk-based tolerance.
+3. Have the comparison page report the held-out K'iche' ↔ translation scores at the chosen k; these become Table 1.
+
+> [!important] Re-check k = 6
+> Step 2 changes how the main k is chosen. Confirm k\* still comes out at 6 before relying on it in the essay.
+
 ## Next step
 
 Write a script (e.g. `notebooks/ensemble/agreement_table.py`) that reuses the app's functions. It should run all four methods at the fixed setting and compute means, ranges, empirical p-values and the Ximénez-dropped variant. It should write a CSV plus a Markdown/LaTeX table into `writing/`, so the table regenerates when the pipeline changes.
