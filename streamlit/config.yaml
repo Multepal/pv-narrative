@@ -12,12 +12,12 @@ pages:
   - path: pages/chunk_clustering_sim.py
     title: Clustering (Cosine-Sim)
     icon: "🔗"
-  - path: pages/model_diagnostics_nc.py
-    title: Topics (NMF)
-    icon: "⚙️"
   - path: pages/pca_lsa.py
     title: Clustering (LSA)
     icon: "🔬"
+  - path: pages/model_diagnostics_nc.py
+    title: Topics (NMF/LDA)
+    icon: "⚙️"
   # ── Cross-edition comparison ──────────────────────────────────────────────
   - path: pages/cluster_comparison.py
     title: Cross-Edition Comparison
