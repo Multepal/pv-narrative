@@ -6,7 +6,7 @@ and chapter boundaries, revealing where an analyst has interpretive "play"
 when mapping clusters to narrative divisions.
 
 Two horizontal bands share a proportional x-axis (token position):
-  Top:    33 chunks coloured by cluster A–F
+  Top:    n_chunks chunks (config reporting setting) coloured by cluster A–F
   Bottom: 87 chapters coloured by their per-chapter cluster composition
           (split rectangles for chapters that straddle a cluster boundary)
 
@@ -131,10 +131,11 @@ st.caption(
 )
 
 with st.sidebar:
-    n_chunks = st.number_input("Chunks", 10, 60, 33, 1)
-    k        = st.number_input("k clusters", 2, 12, 6, 1)
-    min_df   = st.number_input("min_df", 1, 20, 5, 1)
-    max_df   = st.number_input("max_df", 0.1, 1.0, 0.5, 0.05)
+    _ctl     = cfg["controls"]
+    n_chunks = st.number_input("Chunks", 10, 60, _ctl["n_chunks"]["default"], 1)
+    k        = st.number_input("k clusters", 2, 12, _ctl["n_clusters"]["default"], 1)
+    min_df   = st.number_input("min_df", 1, 20, _ctl["min_df"]["default"], 1)
+    max_df   = st.number_input("max_df", 0.1, 1.0, _ctl["max_df"]["default"], 0.05)
     st.divider()
     st.markdown(
         "**Dashed lines** — your proposed boundaries  \n"
@@ -301,7 +302,7 @@ fig.add_annotation(x=-0.01, y=0.48, xref="paper", yref="y",
 st.plotly_chart(fig, width="stretch")
 
 st.caption(
-    "Top band = 33-chunk HAC cluster sequence · "
+    f"Top band = {n_chunks}-chunk HAC cluster sequence · "
     "Bottom band = per-chapter cluster composition (split bars = chapters straddling a boundary) · "
     "**Dashed** = your proposed division start · **Solid** = majority-vote model boundary · "
     "Hover over bottom band for chapter details."

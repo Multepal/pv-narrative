@@ -10,7 +10,7 @@ source: "notebooks/ensemble/agreement_table.py → writing/tables/cross_edition_
 Do independent editions and translations of the Popol Wuj segment into the same narrative structure? The tables answer three questions: does agreement beat chance, does it survive translation, and does it hold across methods?
 
 > [!info] Regenerating
-> Tables 1 and 1a are written by `python notebooks/ensemble/agreement_table.py` (project env), which uses the Streamlit app's own pipeline. Rerun it after any pipeline change and paste the new `writing/tables/cross_edition_agreement.md` here. Regenerated 2026-10-21 after fixing the tokenizer (whole K'iche' words; see Method notes).
+> Tables 1 and 1a are written by `python notebooks/ensemble/agreement_table.py` (project env), which uses the Streamlit app's own pipeline. Rerun it after any pipeline change and paste the new `writing/tables/cross_edition_agreement.md` here. Regenerated 2026-10-21 after fixing the tokenizer (whole K'iche' words; see Method notes) and setting n_chunks to the stability rule's 32 (Table S1).
 
 ## Table 1
 
@@ -18,29 +18,29 @@ Do independent editions and translations of the Popol Wuj segment into the same 
 
 | Method | ARI: K'iche' ↔ K'iche' (10 pairs) | chance | ARI: K'iche' ↔ translation (15 pairs) | chance | F1: K'iche' ↔ K'iche' (10 pairs) | chance | F1: K'iche' ↔ translation (15 pairs) | chance |
 |---|---|---|---|---|---|---|---|---|
-| TF-IDF → Ward | 0.81 (0.71–0.94) | 0.42 | 0.78 (0.62–1.00) | 0.42 | 0.94 (0.86–1.00) | 0.75 | 0.94 (0.86–1.00) | 0.80 |
-| LSA → Ward | 0.83 (0.71–0.95) | 0.48 | 0.80 (0.69–1.00) | 0.46 | 0.97 (0.86–1.00) | 0.86 | 0.94 (0.86–1.00) | 0.80 |
-| Cosine-Sim → Ward | 0.80 (0.66–0.92) | 0.44 | 0.70 (0.49–0.88) | 0.43 | 0.97 (0.86–1.00) | 0.80 | 0.94 (0.83–1.00) | 0.79 |
-| NMF → argmax | 0.94 (0.84–1.00) | 0.44 | 0.80 (0.69–0.87) | 0.47 | 1.00 (1.00–1.00) | 0.80 | 1.00 (1.00–1.00) | 0.80 |
+| TF-IDF → Ward | 0.86 (0.73–1.00) | 0.43 | 0.78 (0.55–0.93) | 0.44 | 0.96 (0.89–1.00) | 0.82 | 0.95 (0.86–1.00) | 0.83 |
+| LSA → Ward | 0.88 (0.77–1.00) | 0.46 | 0.74 (0.64–0.85) | 0.47 | 1.00 (1.00–1.00) | 0.80 | 1.00 (1.00–1.00) | 0.78 |
+| Cosine-Sim → Ward | 0.86 (0.73–1.00) | 0.43 | 0.76 (0.64–0.86) | 0.46 | 0.96 (0.89–1.00) | 0.82 | 0.97 (0.89–1.00) | 0.80 |
+| NMF → argmax | 0.88 (0.77–1.00) | 0.46 | 0.75 (0.61–0.92) | 0.43 | 1.00 (1.00–1.00) | 0.80 | 0.95 (0.80–1.00) | 0.82 |
 
-*Mean pairwise agreement (range across pairs) between editions' segmentations at k = 6, 33 equal-token chunks, min_df = 5, max_df = 0.5, n-grams 1–1. ARI = adjusted Rand index; F1 = boundary F1 with ±1-chunk tolerance. Chance = 95th percentile of scores after cyclically shifting one sequence of each pair, pooled within each pair group. Every mean exceeds its chance value; empirical p ≤ 0.006 throughout (pairs share editions, so p is descriptive).*
+*Mean pairwise agreement (range across pairs) between editions' segmentations at k = 6, 32 equal-token chunks, min_df = 5, max_df = 0.5, n-grams 1–1. ARI = adjusted Rand index; F1 = boundary F1 with ±1-chunk tolerance. Chance = 95th percentile of scores after cyclically shifting one sequence of each pair, pooled within each pair group. Every mean exceeds its chance value; empirical p ≤ 0.003 throughout (pairs share editions, so p is descriptive).*
 
 **Table 1a.** Sensitivity: without Christenson's Ximénez
 
 | Method | ARI: K'iche' ↔ K'iche' (6 pairs) | chance | ARI: K'iche' ↔ translation (12 pairs) | chance | F1: K'iche' ↔ K'iche' (6 pairs) | chance | F1: K'iche' ↔ translation (12 pairs) | chance |
 |---|---|---|---|---|---|---|---|---|
-| TF-IDF → Ward | 0.81 (0.71–0.92) | 0.42 | 0.81 (0.66–1.00) | 0.44 | 0.95 (0.86–1.00) | 0.79 | 0.96 (0.86–1.00) | 0.80 |
-| LSA → Ward | 0.83 (0.71–0.95) | 0.47 | 0.80 (0.69–1.00) | 0.45 | 0.98 (0.86–1.00) | 0.81 | 0.96 (0.86–1.00) | 0.80 |
-| Cosine-Sim → Ward | 0.83 (0.77–0.92) | 0.42 | 0.73 (0.56–0.88) | 0.42 | 0.98 (0.87–1.00) | 0.80 | 0.96 (0.87–1.00) | 0.79 |
-| NMF → argmax | 0.92 (0.84–1.00) | 0.44 | 0.80 (0.69–0.87) | 0.47 | 1.00 (1.00–1.00) | 0.80 | 1.00 (1.00–1.00) | 0.80 |
+| TF-IDF → Ward | 0.82 (0.73–0.92) | 0.42 | 0.77 (0.55–0.93) | 0.44 | 0.95 (0.89–1.00) | 0.82 | 0.95 (0.86–1.00) | 0.84 |
+| LSA → Ward | 0.84 (0.77–0.92) | 0.42 | 0.75 (0.64–0.85) | 0.47 | 1.00 (1.00–1.00) | 0.80 | 1.00 (1.00–1.00) | 0.78 |
+| Cosine-Sim → Ward | 0.82 (0.73–0.92) | 0.42 | 0.75 (0.64–0.86) | 0.44 | 0.95 (0.89–1.00) | 0.82 | 0.97 (0.89–1.00) | 0.82 |
+| NMF → argmax | 0.88 (0.77–1.00) | 0.40 | 0.74 (0.61–0.85) | 0.43 | 1.00 (1.00–1.00) | 0.80 | 0.94 (0.80–1.00) | 0.82 |
 
 *Same setting. Christenson's Ximénez is close to the same text as Ximénez; dropping it tests whether near-duplicate transcriptions inflate K'iche' ↔ K'iche' agreement.*
 
 ### Reading the tables
 
-- **Every method beats chance on both metrics, within K'iche' and across translation.** ARI is about 0.27–0.50 above chance; boundary F1 about 0.11–0.20 above (its chance level is high because F1 with tolerance is forgiving).
+- **Every method beats chance on both metrics, within K'iche' and across translation.** ARI is about 0.27–0.43 above chance; boundary F1 about 0.13–0.22 above (its chance level is high because F1 with tolerance is forgiving).
 - **The near-duplicate transcriptions don't drive the result.** Dropping Christenson's Ximénez changes no mean by more than 0.05.
-- **NMF boundaries agree perfectly within ±1 chunk.** All 8 editions place their seven boundaries near chunks 2, 6, 8–9, 13–14, 18–19, 20 and 28–29, and every edition, Spanish and English included, reads **A B C D C A E F**.
+- **NMF boundaries agree within ±1 chunk across the K'iche' editions** (F1 = 1.00): seven boundaries near chunks 2–3, 6, 8–9, 12–13, 18, 19–20 and 27–28. Seven of the 8 editions, English included, read **A B C D C A E F**; Recinos adds a B (A B C D B C A E F).
 
 ## Choosing k (Table 2, to draft)
 
@@ -60,7 +60,7 @@ Chosen on all pairs, k\* is 6 for TF-IDF, LSA and Cosine-Sim on both metrics. Va
 
 ## Choosing n_chunks (Table S1)
 
-n_chunks is a choice of resolution. Cross-edition agreement can't choose it: excess over chance isn't comparable across n_chunks, because the chance baseline falls as chunks get fewer. It is chosen instead by **stability**: at each n, every edition's k = 6 partition is compared token by token with its partitions at n ± 10%. Stability rises until about 32 chunks and then plateaus. The rule takes the **plateau onset**, the coarsest stable resolution (stability-based model selection: Ben-Hur, Elisseeff & Guyon 2002; Lange, Roth, Braun & Buhmann 2004). It never uses the editors, so the editorial test stays independent. k is chosen first; that order is harmless because k\* = 6 at every n. The original 33 was chosen by eye from the scree and dendrogram; the rule puts the onset at 32, so the visual choice sat at the start of the plateau.
+n_chunks is a choice of resolution. Cross-edition agreement can't choose it: excess over chance isn't comparable across n_chunks, because the chance baseline falls as chunks get fewer. It is chosen instead by **stability**: at each n, every edition's k = 6 partition is compared token by token with its partitions at n ± 10%. Stability rises until about 32 chunks and then plateaus. The rule takes the **plateau onset**, the coarsest stable resolution (stability-based model selection: Ben-Hur, Elisseeff & Guyon 2002; Lange, Roth, Braun & Buhmann 2004). It never uses the editors, so the editorial test stays independent. k is chosen first; that order is harmless because k\* = 6 at every n. The original 33 was chosen by eye from the scree and dendrogram; the rule puts the onset at 32, so the visual choice sat at the start of the plateau. **Results are now reported at the rule's 32.**
 
 Regenerate with `python notebooks/ensemble/resolution_table.py`.
 
@@ -73,17 +73,17 @@ Regenerate with `python notebooks/ensemble/resolution_table.py`.
 | 25 | 1,172 | 0.719 | 6 | +0.30 | A B C D C A E F | 4 of 7 | 3 of 7 | ✓·✓· |
 | 30 | 977 | 0.753 | 6 | +0.29 | A B C D C A E F | 4 of 7 | 6 of 7 | ✓✓✓· |
 | **32** | 916 | 0.757 ▮ | 6 | +0.28 | A B C D C A E F | 4 of 7 | 4 of 7 | ✓·✓✓ |
-| **33** | 888 | 0.757 ▮ | 6 | +0.30 | A B C D C A E F | 4 of 7 | 6 of 7 | ✓✓✓✓ |
+| 33 | 888 | 0.757 ▮ | 6 | +0.30 | A B C D C A E F | 4 of 7 | 6 of 7 | ✓✓✓✓ |
 | 35 | 837 | 0.767 ▮ | 6 | +0.25 | A B C D C D A E F | 4 of 7 | 6 of 7 | ✓✓✓· |
 | 38 | 771 | 0.776 ▮ | 6 | +0.29 | A B C D C A E F | 4 of 7 | 4 of 7 | ✓·✓✓ |
 | 40 | 733 | 0.773 ▮ | 6 | +0.29 | A B C D C A E F | 4 of 7 | 5 of 7 | ✓✓·✓ |
 | 45 | 651 | 0.759 ▮ | 6 | +0.26 | A B C D C A E F E F | 2 of 7 | 3 of 7 | ✓·✓· |
 | 50 | 586 | 0.761 ▮ | 6 | +0.27 | A B C D C D A E F | 6 of 7 | 3 of 7 | ✓✓·· |
 
-*TF-IDF → Ward, min_df = 5; k* and held-out excess averaged over max_df 0.30–0.70; sequence and editorial agreement for Christenson's K'iche' text at max_df = 0.5. Stability = token-level ARI between the k = 6 partition at n and at n ± 10%, mean over the 8 editions, smoothed; ▮ = on the stability plateau (32–50). The rule sets n_chunks at the plateau onset (**32**); results are reported at **33**. Editors beaten = editors whose part divisions the segmentation matches above chance (boundary F1; ±1 chunk, or exact chapters).*
+*TF-IDF → Ward, min_df = 5; k* and held-out excess averaged over max_df 0.30–0.70; sequence and editorial agreement for Christenson's K'iche' text at max_df = 0.5. Stability = token-level ARI between the k = 6 partition at n and at n ± 10%, mean over the 8 editions, smoothed; ▮ = on the stability plateau (32–50). The rule sets n_chunks at the plateau onset (**32**); results are reported at **32**. Editors beaten = editors whose part divisions the segmentation matches above chance (boundary F1; ±1 chunk, or exact chapters).*
 
 - **Invariant across the plateau:** k\* = 6, held-out agreement above chance, 4 of 7 editors beaten at chunk level (32–40), and the sequence A B C D C A E F (an extra D at 35 and 50; a repeated E F at 45).
-- **Sensitive:** the chapter-level prediction. 4–6 of 7 editors across 32–40; 6 of 7 with all four shared part starts exact only at 33. Report the band, not the best point. At the rule's own value (32) it is 4 of 7.
+- **Sensitive:** the chapter-level prediction. 4–6 of 7 editors across 32–40; 4 of 7 at the reporting value (32). The best point, 6 of 7 with all four shared part starts exact, is at 33 only and is not used, since 33 was chosen by eye. Report the band.
 
 ## Method notes
 
@@ -109,4 +109,4 @@ Regenerate with `python notebooks/ensemble/resolution_table.py`.
 - [ ] Decide whether to discuss the coarse (k = 2–3) primary divisions in the essay
 - [x] Tokenizer fixed and tables regenerated (2026-10-21)
 - [x] n_chunks chosen by stability (plateau onset 32; Table S1)
-- [ ] Decide the reporting n_chunks: 33 (current) or the rule's 32
+- [x] Reporting n_chunks set to the rule's 32 (2026-10-21)

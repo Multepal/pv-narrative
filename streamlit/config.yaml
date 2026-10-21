@@ -181,7 +181,8 @@ controls:
   n_chunks:
     min: 5
     max: 100
-    default: 33
+    default: 32   # reporting setting: onset of the stability plateau (Choose k → Resolution);
+                  # was 33, chosen by eye from the scree and dendrogram
     step: 1
   n_clusters:
     min: 2
