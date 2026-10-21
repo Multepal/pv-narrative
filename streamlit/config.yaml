@@ -19,6 +19,9 @@ pages:
     - path: pages/cluster_comparison.py
       title: Cross-Edition Comparison
       icon: "📊"
+    - path: pages/chunk_clustering_sim.py
+      title: Robustness (Cosine-Sim Clustering)
+      icon: "🔗"
   "4 · Interpret the Classes":
     - path: pages/pca_lsa.py
       title: Relations (PCA / LSA)
@@ -33,10 +36,6 @@ pages:
     - path: pages/episode_boundaries.py
       title: Episode Boundaries
       icon: "📍"
-  "Robustness":
-    - path: pages/chunk_clustering_sim.py
-      title: Clustering (Cosine-Sim)
-      icon: "🔗"
   "Text Reader & Structural Analysis":
     - path: pages/christenson_reader.py
       title: Christenson Text Reader
@@ -152,7 +151,7 @@ controls:
   n_clusters:
     min: 2
     max: 20
-    default: 6
+    default: 6    # reporting k: k* from Choose k (ARI Grid Search), stable across methods and the grid
     step: 1
   boundary_tol_chunks:  # cross-edition boundary F1: boundaries match within ± this many chunks
     min: 0

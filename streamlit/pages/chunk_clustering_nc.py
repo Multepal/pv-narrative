@@ -14,7 +14,7 @@ from matplotlib.colors import LinearSegmentedColormap
 from scipy.cluster.hierarchy import fcluster
 from toc import render_toc
 from utils import (find_token_file, load_tokens, threshold_for_k, make_cluster_table,
-                   build_dendrogram_figure, run_tfidf_linkage)
+                   build_dendrogram_figure, run_tfidf_linkage, tfidf_settings, TFIDF_HANDOFF_KEY)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -44,6 +44,10 @@ _col_ratios = cfg["layout"]["column_ratios"]
 cols = st.columns(_col_ratios[:4])  # source | n_chunks | min_df+max_df | ngram min+max
 
 _c = cfg["controls"]
+# Defaults: the reporting setting in config, or this session's handoff from Choose k.
+_set, _from_choose_k = tfidf_settings(_c)
+K_STAR = _set["k"]
+
 src_id = cols[0].selectbox(
     "Source", src_ids, index=src_ids.index(_c["default_source"]),
     format_func=lambda x: f"{SOURCES_META[x]['label']} ({LANG_LABELS[SOURCES_META[x]['lang']]})")
@@ -51,20 +55,28 @@ src_id = cols[0].selectbox(
 _early_token_path = find_token_file(src_id)
 _n_tokens_early = len(load_tokens(src_id, _early_token_path)) if _early_token_path else None
 
-n_chunks = cols[1].number_input("n_chunks", min_value=_c["n_chunks"]["min"], max_value=_c["n_chunks"]["max"], value=_c["n_chunks"]["default"], step=_c["n_chunks"]["step"])
+n_chunks = cols[1].number_input("n_chunks", min_value=_c["n_chunks"]["min"], max_value=_c["n_chunks"]["max"], value=int(_set["n_chunks"]), step=_c["n_chunks"]["step"])
 
-min_df = cols[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], _c["min_df"]["default"], step=_c["min_df"]["step"])
-max_df = cols[2].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], _c["max_df"]["default"], step=_c["max_df"]["step"], format="%.2f")
+min_df = cols[2].number_input("min_df", _c["min_df"]["min"], _c["min_df"]["max"], int(_set["min_df"]), step=_c["min_df"]["step"])
+max_df = cols[2].number_input("max_df", _c["max_df"]["min"], _c["max_df"]["max"], float(_set["max_df"]), step=_c["max_df"]["step"], format="%.2f")
 
 _ng = _c["ngram_range"]
-ngram_min = cols[3].number_input("ngram min", _ng["min_n"], _ng["max_n"], _ng["default_min"], step=1)
-ngram_max = cols[3].number_input("ngram max", _ng["min_n"], _ng["max_n"], _ng["default_max"], step=1)
+ngram_min = cols[3].number_input("ngram min", _ng["min_n"], _ng["max_n"], int(_set["ngram_min"]), step=1)
+ngram_max = cols[3].number_input("ngram max", _ng["min_n"], _ng["max_n"], int(_set["ngram_max"]), step=1)
 ngram_max = max(ngram_max, ngram_min)
 
 n_top_words = _c["n_top_words"]["default"]
 
 if _n_tokens_early:
     st.caption(f"n_chunks = {n_chunks} · approx. {int(_n_tokens_early / n_chunks):,} tokens per chunk")
+
+if _from_choose_k:
+    _b1, _b2 = st.columns([5, 1])
+    _b1.info(f"Settings from **Choose k**: n_chunks = {_set['n_chunks']}, max_df = {_set['max_df']:.2f}, "
+             f"k* = {K_STAR} ({_set['source']}).")
+    if _b2.button("Reset to defaults", key="nc_reset_handoff"):
+        del st.session_state[TFIDF_HANDOFF_KEY]
+        st.rerun()
 
 st.divider()
 
@@ -94,14 +106,16 @@ _z_max = float(Z[:, 2].max())
 # ── Session state: reset k when linkage params change ────────────────────────
 if st.session_state.get("_cluster_nc_linkage_key") != _linkage_key:
     st.session_state["_cluster_nc_linkage_key"] = _linkage_key
-    st.session_state["cluster_nc_k"] = cfg["controls"]["n_clusters"]["default"]
-_selected_k = st.session_state.get("cluster_nc_k", cfg["controls"]["n_clusters"]["default"])
+    st.session_state["cluster_nc_k"] = K_STAR
+_selected_k = st.session_state.get("cluster_nc_k", K_STAR)
 
 # ── Section 1: Scree plot ─────────────────────────────────────────────────────
 st.subheader("Merge Height Scree Plot", anchor="scree-plot")
 st.caption(
-    "Ward merge distance required to reduce k clusters to k−1. "
-    "Look for the elbow where the line flattens. **Click a point to select k.**"
+    "Ward merge distance required to reduce k clusters to k−1. The green line marks **k\***, "
+    "chosen by cross-edition agreement on the Choose k page; the dendrogram is cut there by "
+    "default. The elbow is this edition's own view: where it agrees with k\*, that supports "
+    "the choice. **Click a point to try another k.**"
 )
 
 _max_k_scree = min(cfg["controls"]["n_clusters"]["max"], n_chunks - 1)
@@ -116,9 +130,14 @@ fig_scree = go.Figure(go.Scatter(
     showlegend=False,
 ))
 fig_scree.add_vline(
-    x=_selected_k, line_dash="dash", line_color="crimson", line_width=1.5,
-    annotation_text=f"k = {_selected_k}", annotation_position="top right",
+    x=K_STAR, line_color="#00CC96", line_width=3, opacity=0.6,
+    annotation_text=f"k* = {K_STAR}", annotation_position="top left",
 )
+if _selected_k != K_STAR:
+    fig_scree.add_vline(
+        x=_selected_k, line_dash="dash", line_color="crimson", line_width=1.5,
+        annotation_text=f"k = {_selected_k}", annotation_position="top right",
+    )
 fig_scree.update_layout(
     height=320,
     margin=dict(l=60, r=30, t=20, b=50),
@@ -132,7 +151,10 @@ if _scree_event.selection.points:
     if _clicked_k != st.session_state.get("cluster_nc_k"):
         st.session_state["cluster_nc_k"] = _clicked_k
         st.rerun()
-st.success(f"k = {_selected_k} selected — dendrogram below ↓")
+if _selected_k == K_STAR:
+    st.success(f"k = {_selected_k} (k*) — dendrogram below ↓")
+else:
+    st.warning(f"k = {_selected_k} selected (k* = {K_STAR}) — dendrogram below ↓")
 
 # ── Section 2: Dendrogram ─────────────────────────────────────────────────────
 threshold  = threshold_for_k(Z, _selected_k, n_chunks)

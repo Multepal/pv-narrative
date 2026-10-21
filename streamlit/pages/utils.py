@@ -16,6 +16,25 @@ from sklearn.metrics import adjusted_rand_score
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
+TFIDF_HANDOFF_KEY = "tfidf_settings_from_choose_k"
+TFIDF_PAGE        = "pages/chunk_clustering_nc.py"
+
+
+def tfidf_settings(controls: dict) -> tuple[dict, bool]:
+    """Settings for Clustering (TF-IDF): the config's reporting setting, overridden for this
+    session by a handoff from Choose k. Returns (settings, from_choose_k)."""
+    handoff = st.session_state.get(TFIDF_HANDOFF_KEY)
+    if handoff:
+        return handoff, True
+    return {
+        "n_chunks":  controls["n_chunks"]["default"],
+        "min_df":    controls["min_df"]["default"],
+        "max_df":    controls["max_df"]["default"],
+        "ngram_min": controls["ngram_range"]["default_min"],
+        "ngram_max": controls["ngram_range"]["default_max"],
+        "k":         controls["n_clusters"]["default"],
+    }, False
+
 
 def find_token_file(src_id: str) -> str | None:
     for template in [

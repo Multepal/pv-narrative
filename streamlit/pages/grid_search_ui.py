@@ -14,7 +14,8 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 import streamlit as st
-from grid_search_boundary_core import agreement_curve
+from grid_search_boundary_core import agreement_curve, FIXED_MIN_DF, FIXED_NGRAM
+from utils import TFIDF_HANDOFF_KEY, TFIDF_PAGE
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -123,8 +124,24 @@ def render_validation(row, metric, k_star):
     st.caption(f"Translations played no part in choosing k or the parameters. Agreement is {verdict}.")
 
 
-def render_selection_results(df, sel, metric, k_label):
+def render_handoff(best, k_star, method, sel):
+    """Button that opens Clustering (TF-IDF) with the chosen setting and k* for this session."""
+    label = (f"Open in Clustering (TF-IDF) — n_chunks = {int(best['n_chunks'])}, "
+             f"max_df = {best['max_df']:.2f}, k = {k_star}")
+    if st.button(label, key="handoff_to_tfidf", type="primary"):
+        st.session_state[TFIDF_HANDOFF_KEY] = {
+            "n_chunks": int(best["n_chunks"]), "min_df": FIXED_MIN_DF, "max_df": float(best["max_df"]),
+            "ngram_min": FIXED_NGRAM[0], "ngram_max": FIXED_NGRAM[1], "k": int(k_star),
+            "source": f"{method} grid, {SELECTION_LABELS[sel]}",
+        }
+        st.switch_page(TFIDF_PAGE)
+    st.caption("Carries these settings to the clustering page for this session. The reporting "
+               "setting used for Table 1 stays in config (`controls` defaults).")
+
+
+def render_selection_results(df, sel, metric, k_label, handoff_method=None):
     """Agreement curves, k* distribution, best parameters, validation and summary tables.
+    With handoff_method, adds a button that opens Clustering (TF-IDF) with the chosen setting.
     Anchors: agreement-chart, k-distribution, best-params, summary. Returns (k*, best row)."""
     m      = METRIC_NAME[metric]
     ex     = f"{sel}_excess"
@@ -199,6 +216,8 @@ def render_selection_results(df, sel, metric, k_label):
                help=f"Observed {best[f'{sel}_obs']:.3f} vs. chance {best[f'{sel}_p95']:.3f}")
     if sel == "within":
         render_validation(best, metric, k_star)
+    if handoff_method:
+        render_handoff(best, k_star, handoff_method, sel)
 
     at_k = df[df["k"] == k_star]
     pivot = at_k.pivot(index="n_chunks", columns="max_df", values=ex)
