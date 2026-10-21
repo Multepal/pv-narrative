@@ -199,10 +199,9 @@ def boundary_f1(b1: np.ndarray, b2: np.ndarray, tol: float) -> float:
         return 1.0
     if len(b1) == 0 or len(b2) == 0:
         return 0.0
-    matched_1 = sum(any(abs(b - c) <= tol for c in b2) for b in b1)
-    matched_2 = sum(any(abs(c - b) <= tol for b in b1) for c in b2)
-    precision = matched_1 / len(b1)
-    recall    = matched_2 / len(b2)
+    close     = np.abs(np.subtract.outer(np.asarray(b1), np.asarray(b2))) <= tol
+    precision = close.any(axis=1).mean()
+    recall    = close.any(axis=0).mean()
     if precision + recall == 0:
         return 0.0
     return 2 * precision * recall / (precision + recall)
@@ -261,16 +260,20 @@ def pairwise_summary(label_arrays, langs, score, null):
     }
 
 
+def metric_fns(metric, tol=None):
+    """(score, null) functions on two label arrays for metric 'ARI' or 'F1' (boundary F1 at tol)."""
+    if metric == "ARI":
+        return adjusted_rand_score, cyclic_shift_ari
+    return (lambda a, b: boundary_f1(get_boundaries(a), get_boundaries(b), tol),
+            lambda a, b: cyclic_shift_boundary_f1(a, b, tol))
+
+
 def ari_summary(label_arrays, langs):
-    return pairwise_summary(label_arrays, langs, adjusted_rand_score, cyclic_shift_ari)
+    return pairwise_summary(label_arrays, langs, *metric_fns("ARI"))
 
 
 def f1_summary(label_arrays, langs, tol):
-    return pairwise_summary(
-        label_arrays, langs,
-        lambda a, b: boundary_f1(get_boundaries(a), get_boundaries(b), tol),
-        lambda a, b: cyclic_shift_boundary_f1(a, b, tol),
-    )
+    return pairwise_summary(label_arrays, langs, *metric_fns("F1", tol))
 
 
 def boundary_tol(n_chunks, tol_chunks):
@@ -291,3 +294,63 @@ def pairwise_f1_matrix(label_arrays, tol):
         for j in range(i + 1, len(bs)):
             mat[i, j] = mat[j, i] = boundary_f1(bs[i], bs[j], tol)
     return mat
+
+
+# ── Selection by excess over chance (grid searches) ───────────────────────────
+
+PAIR_GROUPS = ("within", "cross", "all")
+
+
+def pair_group(lang_a, lang_b):
+    """'within' (both in the source language), 'cross' (source ↔ translation), or None."""
+    return {2: "within", 1: "cross"}.get((lang_a == SOURCE_LANG) + (lang_b == SOURCE_LANG))
+
+
+def agreement_by_group(label_arrays, langs, metric, tol_chunks=0):
+    """Observed mean, chance 95th percentile and excess (observed − chance) per pair group.
+
+    Each group's chance baseline pools the cyclic-shift scores of that group's own pairs,
+    so a group is judged against what its own sequences would score when misaligned.
+    """
+    score, null = metric_fns(metric, boundary_tol(len(label_arrays[0]), tol_chunks))
+    obs  = {g: [] for g in PAIR_GROUPS}
+    pool = {g: [] for g in PAIR_GROUPS}
+    for i in range(len(label_arrays)):
+        for j in range(i + 1, len(label_arrays)):
+            a, b = label_arrays[i], label_arrays[j]
+            s, nl = score(a, b), null(a, b)
+            for g in ("all", pair_group(langs[i], langs[j])):
+                if g:
+                    obs[g].append(s)
+                    pool[g].extend(nl)
+    out = {}
+    for g in PAIR_GROUPS:
+        o = float(np.mean(obs[g])) if obs[g] else float("nan")
+        p = float(np.percentile(pool[g], 95)) if pool[g] else float("nan")
+        out.update({f"{g}_obs": o, f"{g}_p95": p, f"{g}_excess": o - p})
+    return out
+
+
+@st.cache_data(show_spinner=False)
+def agreement_curve(method, n_chunks, max_df, metric, tol_chunks, k_vals,
+                    min_df=FIXED_MIN_DF, ngram_range=FIXED_NGRAM):
+    """agreement_by_group at each k in k_vals (a tuple) for one parameter combination.
+    Returns a list of row dicts. Skips k values with fewer than two modeled editions, and k
+    above n_chunks / min_chunks_per_cluster: there partitions approach one chunk per cluster
+    (threshold_for_k also caps k at n_chunks − 1), and agreement becomes trivial."""
+    rows = []
+    max_k = n_chunks // _cfg["controls"]["min_chunks_per_cluster"]
+    for k in (k for k in k_vals if k <= max_k):
+        labels, langs = [], []
+        for src_id, meta in _cfg["sources"].items():
+            tp = find_token_file(src_id)
+            if tp is None:
+                continue
+            la = cluster_labels(method, src_id, tp, n_chunks, min_df, max_df, k, ngram_range)
+            if la is not None:
+                labels.append(np.asarray(la))
+                langs.append(meta["lang"])
+        if len(labels) >= 2:
+            rows.append({"k": k, "n_editions": len(labels),
+                         **agreement_by_group(labels, langs, metric, tol_chunks)})
+    return rows

@@ -277,8 +277,24 @@ def cyclic_shift_ari(a, b) -> np.ndarray:
     with `a`. Contiguous block structure alone yields ARI well above 0, so this
     is a fairer chance baseline than the permutation null behind ARI ≈ 0.
     """
-    a, b = np.asarray(a), np.asarray(b)
-    return np.array([adjusted_rand_score(a, np.roll(b, s)) for s in range(1, len(b))])
+    # Vectorized over all shifts: one contingency table per shift via a single bincount.
+    # Rotation preserves both label distributions, so the marginal terms are constant.
+    a = np.unique(np.asarray(a), return_inverse=True)[1]
+    b = np.unique(np.asarray(b), return_inverse=True)[1]
+    n, ka, kb = len(a), a.max() + 1, b.max() + 1
+    shifts = np.arange(1, n)
+    B = b[(np.arange(n)[None, :] - shifts[:, None]) % n]      # row s-1 = np.roll(b, s)
+    cells = ((np.arange(n - 1)[:, None] * ka + a[None, :]) * kb + B).ravel()
+    cont = np.bincount(cells, minlength=(n - 1) * ka * kb).reshape(n - 1, ka * kb)
+    comb2 = lambda x: x * (x - 1) / 2.0
+    sum_ij   = comb2(cont).sum(axis=1)
+    sum_a    = comb2(np.bincount(a)).sum()
+    sum_b    = comb2(np.bincount(b)).sum()
+    expected = sum_a * sum_b / comb2(n)
+    denom    = (sum_a + sum_b) / 2.0 - expected
+    if denom == 0:          # sklearn's special case: trivial partitions agree perfectly
+        return np.ones(n - 1)
+    return (sum_ij - expected) / denom
 
 
 def pairwise_ari_matrix(label_arrays: list) -> np.ndarray:

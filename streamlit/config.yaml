@@ -154,6 +154,13 @@ controls:
     max: 3
     default: 1
     step: 1
+  k_selection_pairs:    # grid searches choose k on these pairs: within (translations held out) | all
+    default: within
+  min_chunks_per_cluster: 3   # grid searches skip k > n_chunks / this; near-singleton partitions
+                              # agree trivially (k* = 6 is stable for values 2–4)
+  k_selection_min: 3          # grid searches choose k* among k >= this. k = 2 measures only the
+                              # primary division (a real peak for boundary F1); it is still plotted
+                              # and listed among the local peaks
   n_top_words:
     min: 3
     max: 15
