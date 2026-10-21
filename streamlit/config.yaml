@@ -36,6 +36,9 @@ pages:
     - path: pages/episode_boundaries.py
       title: Episode Boundaries
       icon: "📍"
+    - path: pages/division_validation.py
+      title: Division Validation
+      icon: "✅"
   "Text Reader & Structural Analysis":
     - path: pages/christenson_reader.py
       title: Christenson Text Reader
@@ -113,6 +116,35 @@ languages:
 
 # Language of the original text; editions in other languages are translations.
 source_lang: quc
+
+# Narrative divisions as Christenson chapter numbers (the chapter where each division starts;
+# chapter 1 = start of text). Used by Division Validation.
+divisions:
+  # Editions whose DOCMAP carries Christenson's chapter numbers (chap_num): positions are exact.
+  # Other editions are compared by relative position against Christenson's K'iche' text.
+  chapter_editions: [christenson, christenson_english_prose]
+  # The project's own 8 interpretive divisions (also hard-coded in Narrative Play and
+  # Chapter Topics). Not independent of the models.
+  author:
+    - {label: "First Creation",        chap: 1}
+    - {label: "7 Macaw",               chap: 9}
+    - {label: "Father",                chap: 15}
+    - {label: "Mother",                chap: 19}
+    - {label: "Two Boys Defeat Death", chap: 22}
+    - {label: "Second Creation",       chap: 41}
+    - {label: "Religion",              chap: 48}
+    - {label: "Politics",              chap: 65}
+  # Part starts by edition, from the Obsidian note "Alignments of parts among editions".
+  # Independent of this project: the external test. (Brasseur and Recinos part IV at 57 is
+  # marked * in the note.)
+  editors:
+    "Brasseur 1861": [1, 15, 41, 57]
+    "Recinos 1947":  [2, 15, 41, 57]    # preamble not included in parts
+    "Edmonson 1971": [1, 9, 15, 41]
+    "Tedlock 1985":  [1, 10, 15, 41, 65]
+    "Colop 2011":    [1, 9, 15, 41, 65]
+    "Bazzett 2018":  [1, 9, 15, 41]
+    "Sotelo 2018":   [1, 22, 41, 57]
 
 controls:
   default_source: ajtzibab
