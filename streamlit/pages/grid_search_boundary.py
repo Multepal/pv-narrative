@@ -27,7 +27,7 @@ from grid_search_boundary_core import (
     FIXED_MIN_DF, N_COMPONENTS,
 )
 from grid_search_ui import (K_VALS, SELECTION_LABELS, run_grid, choose_k, selection_control,
-                            render_selection_results, render_validation)
+                            render_selection_results)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -452,7 +452,7 @@ else:
     render_toc([
         ("Boundary F1 Excess vs. k", "agreement-chart"),
         ("Optimal k Distribution",   "k-distribution"),
-        ("Best Parameters",          "best-params"),
+        ("k* and Robustness",        "best-params"),
         ("Summary",                  "summary"),
     ])
     df_curves = run_grid(method, combos, "F1", tol_chunks)
@@ -460,4 +460,4 @@ else:
         st.warning("No combinations produced valid results. Try adjusting the grid.")
         st.stop()
     render_selection_results(df_curves, sel, "F1",
-                             "k (topics)" if method == "NMF" else "k (clusters)")
+                             "k (topics)" if method == "NMF" else "k (clusters)", method, tol_chunks)

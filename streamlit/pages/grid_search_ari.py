@@ -47,7 +47,7 @@ st.title("Parameter Grid Search — ARI")
 render_toc([
     ("ARI Excess vs. k",       "agreement-chart"),
     ("Optimal k Distribution", "k-distribution"),
-    ("Best Parameters",        "best-params"),
+    ("k* and Robustness",      "best-params"),
     ("Summary",                "summary"),
 ])
 st.caption(
@@ -90,4 +90,4 @@ if df_curves.empty:
     st.warning("No combinations produced valid results. Try adjusting the grid.")
     st.stop()
 
-render_selection_results(df_curves, sel, "ARI", k_label, handoff_method=method)
+render_selection_results(df_curves, sel, "ARI", k_label, method, handoff=True)

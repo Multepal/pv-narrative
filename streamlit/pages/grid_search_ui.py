@@ -102,18 +102,19 @@ def local_peaks(df, sel):
             if (i == 0 or vals[i] > vals[i - 1]) and (i == len(vals) - 1 or vals[i] > vals[i + 1])]
 
 
-def _bar(df, x, y, y_label, dtick=None):
-    fig = px.bar(df, x=x, y=y, labels={x: x, y: y_label})
-    fig.update_layout(height=240, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
-                      xaxis=dict(dtick=dtick, showgrid=False, zeroline=False),
-                      yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False))
-    return fig
+def reporting_setting():
+    """The config's reporting setting (the `controls` defaults used for Tables 1 and 3)."""
+    return {
+        "n_chunks":  _c["n_chunks"]["default"], "min_df": _c["min_df"]["default"],
+        "max_df":    _c["max_df"]["default"],
+        "ngram_min": _c["ngram_range"]["default_min"], "ngram_max": _c["ngram_range"]["default_max"],
+    }
 
 
-def render_validation(row, metric, k_star):
-    """Held-out score: source ↔ translation agreement at k* for the chosen combination."""
+def render_validation(row, metric, k_star, where):
+    """Held-out score: source ↔ translation agreement at k*."""
     m = METRIC_NAME[metric]
-    st.markdown(f"**Held-out validation — {_src} ↔ translation {m} at k = {k_star}**")
+    st.markdown(f"**Held-out validation — {_src} ↔ translation {m} at k = {k_star}, {where}**")
     _v1, _v2, _v3 = st.columns(3)
     _v1.metric("Observed", f"{row['cross_obs']:.3f}")
     _v2.metric("Chance 95th pct", f"{row['cross_p95']:.3f}")
@@ -121,28 +122,29 @@ def render_validation(row, metric, k_star):
     verdict = ("above chance — the structure chosen on the original carries over to the translations"
                if row["cross_excess"] > 0 else
                "not above chance — the chosen structure does not carry over to the translations")
-    st.caption(f"Translations played no part in choosing k or the parameters. Agreement is {verdict}.")
+    st.caption(f"Translations played no part in choosing k. Agreement is {verdict}.")
 
 
-def render_handoff(best, k_star, method, sel):
-    """Button that opens Clustering (TF-IDF) with the chosen setting and k* for this session."""
-    label = (f"Open in Clustering (TF-IDF) — n_chunks = {int(best['n_chunks'])}, "
-             f"max_df = {best['max_df']:.2f}, k = {k_star}")
+def render_handoff(k_star, method, sel):
+    """Button that opens Clustering (TF-IDF) at the reporting setting with k* for this session."""
+    rep = reporting_setting()
+    label = (f"Open in Clustering (TF-IDF) — reporting setting (n_chunks = {rep['n_chunks']}, "
+             f"max_df = {rep['max_df']:.2f}), k = {k_star}")
     if st.button(label, key="handoff_to_tfidf", type="primary"):
         st.session_state[TFIDF_HANDOFF_KEY] = {
-            "n_chunks": int(best["n_chunks"]), "min_df": FIXED_MIN_DF, "max_df": float(best["max_df"]),
-            "ngram_min": FIXED_NGRAM[0], "ngram_max": FIXED_NGRAM[1], "k": int(k_star),
-            "source": f"{method} grid, {SELECTION_LABELS[sel]}",
+            **rep, "k": int(k_star), "source": f"k* from the {method} grid, {SELECTION_LABELS[sel]}",
         }
         st.switch_page(TFIDF_PAGE)
-    st.caption("Carries these settings to the clustering page for this session. The reporting "
-               "setting used for Table 1 stays in config (`controls` defaults).")
+    st.caption("Carries k* to the clustering page at the reporting setting from config. The grid "
+               "chooses k; n_chunks is a choice of resolution that agreement can't optimize "
+               "(see *Robustness across the grid*).")
 
 
-def render_selection_results(df, sel, metric, k_label, handoff_method=None):
-    """Agreement curves, k* distribution, best parameters, validation and summary tables.
-    With handoff_method, adds a button that opens Clustering (TF-IDF) with the chosen setting.
-    Anchors: agreement-chart, k-distribution, best-params, summary. Returns (k*, best row)."""
+def render_selection_results(df, sel, metric, k_label, method, tol_chunks=0, handoff=False):
+    """Agreement curves, k* distribution, k* with its robustness across the grid, held-out
+    validation, and summary tables. With handoff, adds a button that opens Clustering (TF-IDF)
+    at the reporting setting with k*. Anchors: agreement-chart, k-distribution, best-params,
+    summary. Returns k*."""
     m      = METRIC_NAME[metric]
     ex     = f"{sel}_excess"
     sel_lb = SELECTION_LABELS[sel]
@@ -202,35 +204,81 @@ def render_selection_results(df, sel, metric, k_label, handoff_method=None):
                           yaxis=dict(showgrid=True, gridcolor="#EEEEEE", zeroline=False))
     st.plotly_chart(fig_bar, width="stretch")
 
-    # ── Best parameters ────────────────────────────────────────────────────────
+    # ── k* and its robustness ──────────────────────────────────────────────────
     st.divider()
-    st.subheader("Best Parameters", anchor="best-params")
-    k_star, best = choose_k(df, sel)
-    st.caption(f"k* = the k with the highest mean excess across combinations; best combination "
-               f"= highest excess at k*. Selection pairs: {sel_lb}.")
-    _c1, _c2, _c3, _c4 = st.columns(4)
-    _c1.metric("Best n_chunks", int(best["n_chunks"]))
-    _c2.metric("Best max_df", f"{best['max_df']:.2f}")
-    _c3.metric("Optimal k*", k_star)
-    _c4.metric(f"Excess at k*", f"{best[ex]:+.3f}",
-               help=f"Observed {best[f'{sel}_obs']:.3f} vs. chance {best[f'{sel}_p95']:.3f}")
-    if sel == "within":
-        render_validation(best, metric, k_star)
-    if handoff_method:
-        render_handoff(best, k_star, handoff_method, sel)
-
+    st.subheader("k* and Its Robustness Across the Grid", anchor="best-params")
+    k_star, _ = choose_k(df, sel)
     at_k = df[df["k"] == k_star]
+    rep = reporting_setting()
+    rep_rows = [r for r in agreement_curve(method, rep["n_chunks"], rep["max_df"], metric, tol_chunks,
+                                           K_VALS, min_df=rep["min_df"],
+                                           ngram_range=(rep["ngram_min"], rep["ngram_max"]))
+                if r["k"] == k_star]
+    st.caption(
+        f"k* = the k with the highest mean excess across all {df['combo_label'].nunique()} "
+        f"combinations (selection pairs: {sel_lb}). The grid chooses **k**, not n_chunks or max_df: "
+        "see the note below the robustness table."
+    )
+    _c1, _c2, _c3, _c4 = st.columns(4)
+    _c1.metric("Optimal k*", k_star)
+    _c2.metric("Mean excess at k*", f"{at_k[ex].mean():+.3f}",
+               help=f"Across the grid. Observed {at_k[f'{sel}_obs'].mean():.3f} vs. chance "
+                    f"{at_k[f'{sel}_p95'].mean():.3f}")
+    _c3.metric("Combinations with k* = this k", f"{int((per_combo['k'] == k_star).sum())} of {len(per_combo)}")
+    if rep_rows:
+        _c4.metric(f"Excess at reporting setting", f"{rep_rows[0][ex]:+.3f}",
+                   help=f"n_chunks = {rep['n_chunks']}, max_df = {rep['max_df']:.2f} (config defaults)")
+    if sel == "within":
+        if rep_rows:
+            render_validation(rep_rows[0], metric, k_star,
+                              f"reporting setting (n_chunks = {rep['n_chunks']}, max_df = {rep['max_df']:.2f})")
+        st.caption(f"Across the whole grid, held-out excess at k = {k_star}: mean "
+                   f"{at_k['cross_excess'].mean():+.3f}, above chance in "
+                   f"{int((at_k['cross_excess'] > 0).sum())} of {len(at_k)} combinations.")
+    if handoff:
+        render_handoff(k_star, method, sel)
+
     pivot = at_k.pivot(index="n_chunks", columns="max_df", values=ex)
     fig_heat = px.imshow(pivot, labels=dict(x="max_df", y="n_chunks", color=f"Excess at k={k_star}"),
                          color_continuous_scale=_v["colorscale_ari"], aspect="auto", text_auto=".3f")
     fig_heat.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
     st.plotly_chart(fig_heat, width="stretch")
 
-    _col_nc, _col_mdf = st.columns(2)
-    _col_nc.plotly_chart(_bar(at_k.groupby("n_chunks")[ex].mean().reset_index(), "n_chunks", ex,
-                              f"Mean excess at k={k_star}", dtick=5), width="stretch")
-    _col_mdf.plotly_chart(_bar(at_k.groupby("max_df")[ex].mean().reset_index(), "max_df", ex,
-                               f"Mean excess at k={k_star}"), width="stretch")
+    # Robustness by n_chunks: observed, chance and excess (mean ± SD across max_df)
+    st.markdown(f"**Robustness across the grid at k = {k_star}**")
+    rob = (at_k.groupby("n_chunks")
+               .agg(observed=(f"{sel}_obs", "mean"), chance=(f"{sel}_p95", "mean"),
+                    excess=(ex, "mean"), excess_sd=(ex, "std"), excess_min=(ex, "min"),
+                    excess_max=(ex, "max"))
+               .reset_index())
+    rob["k* here"] = [f"{int((per_combo[per_combo['n_chunks'] == n]['k'] == k_star).sum())} of "
+                      f"{int((per_combo['n_chunks'] == n).sum())}" for n in rob["n_chunks"]]
+    fig_rob = go.Figure()
+    fig_rob.add_trace(go.Scatter(x=rob["n_chunks"], y=rob["observed"], mode="lines+markers",
+                                 name=f"Observed {m}", line=dict(color="#1f77b4", width=2)))
+    fig_rob.add_trace(go.Scatter(x=rob["n_chunks"], y=rob["chance"], mode="lines+markers",
+                                 name="Chance (95th pct)", line=dict(color="gray", width=2, dash="dot")))
+    fig_rob.add_trace(go.Scatter(x=rob["n_chunks"], y=rob["excess"], mode="lines+markers",
+                                 name="Excess (± SD across max_df)", line=dict(color="#EF553B", width=2),
+                                 error_y=dict(type="data", array=rob["excess_sd"].fillna(0), visible=True)))
+    fig_rob.update_layout(height=320, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
+                          xaxis=dict(title="n_chunks", dtick=5, showgrid=False, zeroline=False),
+                          yaxis=dict(title=m, showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+                          legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
+    st.plotly_chart(fig_rob, width="stretch")
+    st.dataframe(rob.rename(columns={"n_chunks": "n_chunks", "observed": f"{m} observed",
+                                     "chance": "Chance 95th pct", "excess": "Excess (mean)",
+                                     "excess_sd": "Excess SD", "excess_min": "Excess min",
+                                     "excess_max": "Excess max"}).round(3),
+                 width="stretch", hide_index=True)
+    st.caption(
+        "**Excess isn't comparable across n_chunks.** The chance baseline falls as chunks get "
+        "fewer (fewer rotations, coarser sequences), so small n_chunks can show a higher excess "
+        "without higher agreement. Use excess to compare k at a fixed n_chunks, which is how k* "
+        "is chosen; read this table for whether k* and its agreement hold across resolutions, and "
+        "prefer settings where agreement is high *and* steady (low SD). The highest single cell "
+        "in the grid is usually the luckiest, not the best."
+    )
 
     # ── Tables ─────────────────────────────────────────────────────────────────
     cols = {f"{sel}_obs": f"{m} observed", f"{sel}_p95": "Chance 95th pct", ex: "Excess"}
@@ -238,16 +286,16 @@ def render_selection_results(df, sel, metric, k_label, handoff_method=None):
         cols.update({"cross_obs": f"Held-out {m}", "cross_p95": "Held-out chance",
                      "cross_excess": "Held-out excess"})
 
-    st.subheader("Best Parameters by k")
-    st.caption(f"For each k, the (n_chunks, max_df) combination with the highest {m} excess.")
-    best_by_k = df.loc[df.groupby("k")[ex].idxmax()].sort_values("k")
-    st.dataframe(best_by_k[["k", "n_chunks", "max_df", *cols]].rename(columns=cols).round(4),
-                 width="stretch", hide_index=True)
+    st.subheader("Agreement by k (mean across the grid)")
+    by_k = df.groupby("k")[list(cols)].mean().reset_index()
+    by_k.insert(len(by_k.columns), "Excess SD", df.groupby("k")[ex].std().to_numpy())
+    st.dataframe(by_k.rename(columns=cols).round(4), width="stretch", hide_index=True)
 
     st.divider()
-    st.subheader(f"Summary — Sorted by Maximum {m} Excess", anchor="summary")
-    st.caption("Each combination at its own best k (k*).")
+    st.subheader(f"Summary — Every Combination at Its Own k*", anchor="summary")
+    st.caption("Raw detail, sorted by excess. Single cells are noisy; compare with the robustness "
+               "view above before reading anything into the top rows.")
     summary = per_combo.rename(columns={"k": "k*"}).sort_values(ex, ascending=False)
     st.dataframe(summary[["combo_label", "n_chunks", "max_df", "k*", *cols]].rename(columns=cols)
                  .round(4), width="stretch", hide_index=True)
-    return k_star, best
+    return k_star
