@@ -42,19 +42,26 @@ Do independent editions and translations of the Popol Wuj segment into the same 
 - **The near-duplicate transcriptions don't drive the result.** Dropping Christenson's Ximénez changes no mean by more than 0.05.
 - **NMF boundaries agree within ±1 chunk across the K'iche' editions** (F1 = 1.00): seven boundaries near chunks 2–3, 6, 8–9, 12–13, 18, 19–20 and 27–28. Seven of the 8 editions, English included, read **A B C D C A E F**; Recinos adds a B (A B C D B C A E F).
 
-## Choosing k (Table 2, to draft)
+## Choosing k (Table 2)
 
-k = 6 comes from the grid search pages, which choose k by **excess over chance** (observed − chance 95th percentile) on **K'iche' ↔ K'iche' pairs only**, holding the translations out. Settings: n_chunks 10–40 (ARI) or 15–40 (boundary F1), max_df 0.30–0.70, min_df 5, k ≥ 3, k ≤ n_chunks / 3.
+k = 6 comes from the grid search pages, which choose k by **excess over chance** on **K'iche' ↔ K'iche' pairs only**, holding the translations out. Regenerate with `python notebooks/ensemble/kselection_table.py` (NMF makes the first run take several minutes).
 
-| Grid search | Methods | k\* | Held-out K'iche' ↔ translation excess at k\* |
-|---|---|---|---|
-| ARI | TF-IDF, LSA, Cosine-Sim, NMF | 6, 6, 6, 6 | +0.43, +0.36, +0.38, +0.49 |
-| Boundary F1 (±1), single method | TF-IDF, LSA, Cosine-Sim | 6, 6, **3** | +0.28, +0.24, +0.46 |
-| Boundary F1 (±1), Ensemble (recommended: 40 chunks, max_df 0.55) | TF-IDF, LSA, Cosine-Sim, NMF | 6, 6, **3**, **3** | +0.26, +0.24, +0.55, +0.25 |
+**Table 2.** Choosing k by cross-edition agreement, translations held out
 
-Chosen on all pairs, k\* is 6 for TF-IDF, LSA and Cosine-Sim on both metrics. Values read from the app on 2026-10-21 after the tokenizer fix (not yet scripted). If this becomes a published table, extend `agreement_table.py` to produce it.
+| Metric | Method | k* (K'iche' pairs) | Combinations choosing it | Mean excess at k* | Held-out excess (n = 32) | Held-out excess (grid mean) | k* (all pairs) |
+|---|---|---|---|---|---|---|---|
+| ARI | TF-IDF | **6** | 28 of 58 | +0.37 | +0.33 | +0.30 | 6 |
+| ARI | LSA | **6** | 29 of 58 | +0.39 | +0.27 | +0.32 | 6 |
+| ARI | Cosine-Sim | **6** | 20 of 58 | +0.38 | +0.30 | +0.31 | 6 |
+| ARI | NMF | **6** | 32 of 58 | +0.42 | +0.32 | +0.33 | 6 |
+| Boundary F1 (±1) | TF-IDF | **6** | 12 of 53 | +0.13 | +0.12 | +0.10 | 6 |
+| Boundary F1 (±1) | LSA | **6** | 8 of 53 | +0.14 | +0.22 | +0.12 | 6 |
+| Boundary F1 (±1) | Cosine-Sim | **3** | 24 of 53 | +0.14 | +0.07 | +0.03 | 6 |
+| Boundary F1 (±1) | NMF | **3** | 24 of 53 | +0.15 | +0.03 | +0.07 | 6 |
 
-- **ARI chooses k; boundary F1 measures the divisions.** ARI (agreement on the *classes*) gives k\* = 6 for all four methods. Boundary F1 (agreement on the *breaks*) gives 6 for TF-IDF and LSA but 3 for Cosine-Sim and NMF: with whole-word tokens there is a strong coarse three-part division, and for TF-IDF and LSA k = 6 beats k = 3 only narrowly (mean excess +0.13 vs +0.12). Since k counts paradigmatic classes, ARI is the right selector; the k = 3 boundary peak is a finding about the text's coarse divisions.
+*k\* = the k ≥ 3 with the highest mean excess over chance (observed − 95th percentile of cyclic-shift scores) across the grid: n_chunks 10–40 (ARI) or 15–40 (boundary F1), max_df 0.30–0.70, min_df = 5, k ≤ n_chunks / 3. Chosen on K'iche' ↔ K'iche' pairs; held-out excess is K'iche' ↔ translation agreement at k\*, at the reporting setting (n_chunks = 32, max_df = 0.5) and averaged over the grid. ARI, which measures agreement on the classes, chooses k; boundary F1 measures agreement on the breaks. ARI k\* is 6, 6, 6, 6 for TF-IDF, LSA, Cosine-Sim, NMF.*
+
+- **ARI chooses k; boundary F1 measures the divisions.** ARI (agreement on the *classes*) gives k\* = 6 for all four methods, with held-out excess +0.27 to +0.33. Boundary F1 (agreement on the *breaks*) gives 6 for TF-IDF and LSA but 3 for Cosine-Sim and NMF. That k = 3 peak is **unstable**: its excess varies three times as much across the grid as k = 6's (SD ≈ 0.24 vs 0.09), and at the reporting setting it is at or below chance (Cosine-Sim +0.007, NMF −0.08 on K'iche' pairs). k\* = 6 also holds on all pairs for every method and metric. Since k counts paradigmatic classes, ARI is the right selector.
 - **Boundary F1 also peaks at the coarsest levels (k = 2 or 3).** Editions agree strongly on where the main division falls. That is a real result about the text's primary breaks, worth a sentence in the essay, but a different question from the episode structure, so k\* is chosen among k ≥ 3.
 - **At high k, boundary excess falls to about zero** (e.g. −0.00 at k = 11 for TF-IDF).
 
@@ -105,7 +112,7 @@ Regenerate with `python notebooks/ensemble/resolution_table.py`.
 - [x] Grid searches choose k by excess over chance, K'iche'-only selection with held-out translations
 - [x] Comparison page reports per-group agreement, range, chance and p at the chosen setting
 - [x] Table 1 and 1a generated by script
-- [ ] Script Table 2 (grid k\* and held-out scores) if it is published
+- [x] Table 2 (grid k\* and held-out scores) generated by script
 - [ ] Decide whether to discuss the coarse (k = 2–3) primary divisions in the essay
 - [x] Tokenizer fixed and tables regenerated (2026-10-21)
 - [x] n_chunks chosen by stability (plateau onset 32; Table S1)

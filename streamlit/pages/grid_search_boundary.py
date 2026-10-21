@@ -9,7 +9,7 @@ Methods:
   TF-IDF / LSA / Cosine-Sim — k swept cheaply post-linkage
   NMF                        — full fit per (combo, k); cached but slow first run
   KLD Resonance              — boundaries from novelty/transience peaks (no k; no chance baseline)
-  Ensemble                   — runs all four methods; adds consensus + sharpness analysis
+  Ensemble                   — runs all four methods; k*, robustness and held-out score by method
 """
 
 import os
@@ -22,11 +22,13 @@ import plotly.graph_objects as go
 import plotly.express as px
 from toc import render_toc
 from grid_search_boundary_core import (
+    agreement_curve,
     find_token_file,
     run_resonance_boundaries, resonance_boundaries_at_pct, mean_pairwise_f1_from_positions,
     FIXED_MIN_DF, N_COMPONENTS,
 )
-from grid_search_ui import (K_VALS, SELECTION_LABELS, run_grid, choose_k, selection_control,
+from grid_search_ui import (K_VALS, K_MIN, SELECTION_LABELS, run_grid, choose_k, selection_control,
+                            reporting_setting,
                             render_selection_results)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
@@ -45,7 +47,7 @@ METHOD_LABELS = {
     "Cosine-Sim":     "TF-IDF → cosine-similarity matrix → Ward HAC",
     "NMF":            "TF-IDF → NMF (full fit per k)",
     "KLD Resonance":  "KLD Resonance — novelty/transience peaks across editions",
-    "Ensemble":       "Ensemble — all four HAC/NMF methods, consensus + sharpness",
+    "Ensemble":       "Ensemble — all four HAC/NMF methods, k* and robustness by method",
 }
 
 METHOD_COLORS = {
@@ -173,10 +175,9 @@ if method == "Ensemble":
     k_star = {m: choose_k(df, sel)[0] for m, df in dfs.items()}
 
     render_toc([
-        ("Excess Curves by Method", "mean-curves"),
-        ("Consensus Score",         "consensus"),
-        ("Peak Sharpness",          "sharpness"),
-        ("Recommended Parameters",  "recommendation"),
+        ("Excess Curves by Method",    "mean-curves"),
+        ("k* by Method",               "k-by-method"),
+        ("Robustness Across the Grid", "robustness"),
     ])
 
     # ── Excess curves by method ────────────────────────────────────────────────
@@ -208,108 +209,61 @@ if method == "Ensemble":
     st.plotly_chart(fig_curves, width="stretch")
     st.caption("  ·  ".join(f"**{m}**: k*={k_star[m]}" for m in dfs))
 
-    # ── Consensus score ────────────────────────────────────────────────────────
+    # ── k* by method ───────────────────────────────────────────────────────────
     st.divider()
-    st.subheader("Consensus Score", anchor="consensus")
+    st.subheader("k* by Method", anchor="k-by-method")
     st.caption(
-        "For each method, combinations are ranked by excess at that method's k* "
-        "(rank 1 = highest). **Consensus score** = 1 − (mean rank − 1) / (N − 1), "
-        "so 1.0 means top-ranked by every method."
+        "Each method's k* (highest mean excess across the grid), how many parameter combinations "
+        "choose it independently, and its excess at the reporting setting from config. The grid "
+        "chooses k, not a single best combination: the top cell is usually the luckiest."
     )
-    at_kstar = {
-        m: df[df["k"] == k_star[m]].set_index("combo_label")[["n_chunks", "max_df", ex]]
-        for m, df in dfs.items()
-    }
-    merged = at_kstar[next(iter(dfs))][["n_chunks", "max_df"]].copy()
-    for m, sl in at_kstar.items():
-        merged[m] = sl[ex]
-    merged = merged.dropna().reset_index()
-    rank_cols = []
-    for m in dfs:
-        merged[f"rank_{m}"] = merged[m].rank(ascending=False, method="average")
-        rank_cols.append(f"rank_{m}")
-    merged["mean_rank"]       = merged[rank_cols].mean(axis=1)
-    merged["consensus_score"] = 1 - (merged["mean_rank"] - 1) / max(len(merged) - 1, 1)
-
-    pivot_con = merged.pivot(index="n_chunks", columns="max_df", values="consensus_score")
-    fig_con   = px.imshow(pivot_con,
-                          labels=dict(x="max_df", y="n_chunks", color="Consensus score"),
-                          color_continuous_scale=_v["colorscale_boundary"], zmin=0, zmax=1,
-                          aspect="auto", text_auto=".2f")
-    fig_con.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
-    st.plotly_chart(fig_con, width="stretch")
-    st.dataframe(
-        merged[["combo_label", "n_chunks", "max_df", *dfs, "consensus_score"]]
-        .sort_values("consensus_score", ascending=False).reset_index(drop=True)
-        .rename(columns={"consensus_score": "Consensus"}).round(4),
-        width="stretch", hide_index=True,
-    )
-
-    # ── Peak sharpness ─────────────────────────────────────────────────────────
-    st.divider()
-    st.subheader("Peak Sharpness", anchor="sharpness")
-    st.caption(
-        "Sharpness = excess(k*) − mean excess over all k, for each method, averaged across methods. "
-        "**Near zero** = flat curve; **positive** = a genuine peak at k*."
-    )
-    sharp = pd.concat([
-        (df[df["k"] == k_star[m]].set_index("combo_label")[ex]
-         - df.groupby("combo_label")[ex].mean()).rename(m)
-        for m, df in dfs.items()
-    ], axis=1).dropna()
-    sharp["mean_sharpness"] = sharp.mean(axis=1)
-    sharp = sharp.join(merged.set_index("combo_label")[["n_chunks", "max_df"]])
-    pivot_sharp = sharp.pivot(index="n_chunks", columns="max_df", values="mean_sharpness")
-    fig_sharp = px.imshow(pivot_sharp,
-                          labels=dict(x="max_df", y="n_chunks", color="Mean sharpness"),
-                          color_continuous_scale=_v["colorscale_ari"], aspect="auto", text_auto=".3f")
-    fig_sharp.update_layout(height=300, margin=dict(l=60, r=30, t=30, b=50))
-    st.plotly_chart(fig_sharp, width="stretch")
-
-    # ── Recommendation ─────────────────────────────────────────────────────────
-    st.divider()
-    st.subheader("Recommended Parameters", anchor="recommendation")
-    st.caption("Best combination by joint score: 0.6 × consensus + 0.4 × normalized sharpness.")
-    joint      = merged[["combo_label", "n_chunks", "max_df", "consensus_score"]].set_index("combo_label")
-    sharp_norm = sharp["mean_sharpness"]
-    s_min, s_max = sharp_norm.min(), sharp_norm.max()
-    if s_max > s_min:
-        sharp_norm = (sharp_norm - s_min) / (s_max - s_min)
-    joint["sharpness"]   = sharp_norm
-    joint["joint_score"] = 0.6 * joint["consensus_score"] + 0.4 * joint["sharpness"].fillna(0)
-    joint = joint.dropna(subset=["joint_score"]).sort_values("joint_score", ascending=False)
-
-    best_label = joint.index[0]
-    best_row   = joint.iloc[0]
-    _c1, _c2, _c3, _c4 = st.columns(4)
-    _c1.metric("Best n_chunks",    int(best_row["n_chunks"]))
-    _c2.metric("Best max_df",      f"{best_row['max_df']:.2f}")
-    _c3.metric("Consensus score",  f"{best_row['consensus_score']:.3f}")
-    _c4.metric("Sharpness (norm)", f"{best_row['sharpness']:.3f}")
-    st.caption("  ·  ".join(f"{m}: k*={k_star[m]}" for m in dfs))
-
+    rep = reporting_setting()
+    rows = []
+    for m, df in dfs.items():
+        elig = df[df["k"] >= K_MIN]
+        per_combo = elig.loc[elig.groupby("combo_label")[ex].idxmax()]
+        at_k = df[df["k"] == k_star[m]]
+        rep_row = next((r for r in agreement_curve(m, rep["n_chunks"], rep["max_df"], "F1", tol_chunks,
+                                                   K_VALS, min_df=rep["min_df"],
+                                                   ngram_range=(rep["ngram_min"], rep["ngram_max"]))
+                        if r["k"] == k_star[m]), None)
+        row = {"Method": m, "k*": k_star[m], "Mean excess at k*": at_k[ex].mean(),
+               "Excess SD": at_k[ex].std(),
+               "Combinations choosing k*": f"{int((per_combo['k'] == k_star[m]).sum())} of {len(per_combo)}",
+               f"Excess at reporting setting (n = {rep['n_chunks']})": rep_row[ex] if rep_row else np.nan}
+        if sel == "within":
+            row["Held-out excess at reporting setting"] = rep_row["cross_excess"] if rep_row else np.nan
+            row["Held-out excess, grid mean"] = at_k["cross_excess"].mean()
+        rows.append(row)
+    st.dataframe(pd.DataFrame(rows).round(3), width="stretch", hide_index=True)
     if sel == "within":
-        st.markdown("**Held-out validation at the recommended combination**")
-        val = pd.DataFrame([
-            {"Method": m, "k*": k_star[m],
-             **df[(df["combo_label"] == best_label) & (df["k"] == k_star[m])]
-               [["cross_obs", "cross_p95", "cross_excess"]].iloc[0].to_dict()}
-            for m, df in dfs.items()
-            if not df[(df["combo_label"] == best_label) & (df["k"] == k_star[m])].empty
-        ]).rename(columns={"cross_obs": "Held-out F1", "cross_p95": "Chance 95th pct",
-                           "cross_excess": "Excess"})
-        st.dataframe(val.round(4), width="stretch", hide_index=True)
-        st.caption("K'iche' ↔ translation boundary F1 at each method's k*. Translations played no "
-                   "part in choosing k or the parameters; positive excess means the structure "
-                   "carries over to them.")
+        st.caption(f"Held-out = {SELECTION_LABELS['within'].split(' only')[0]} ↔ translation boundary F1 "
+                   "excess. Translations played no part in choosing k.")
 
-    st.dataframe(
-        joint.reset_index()[["combo_label", "n_chunks", "max_df", "consensus_score",
-                              "sharpness", "joint_score"]]
-        .rename(columns={"consensus_score": "Consensus", "joint_score": "Joint score"})
-        .round(4),
-        width="stretch", hide_index=True,
+    # ── Robustness by method ───────────────────────────────────────────────────
+    st.divider()
+    st.subheader("Robustness Across the Grid", anchor="robustness")
+    st.caption(
+        "Excess at each method's k*, by n_chunks (mean ± SD across max_df). Excess isn't "
+        "comparable across n_chunks — chance falls as chunks get fewer — so read this for whether "
+        "agreement holds across resolutions, not for a best n. n_chunks is chosen by stability "
+        "(Choose k → Resolution)."
     )
+    fig_rob = go.Figure()
+    for m, df in dfs.items():
+        g = df[df["k"] == k_star[m]].groupby("n_chunks")[ex].agg(["mean", "std"]).reset_index()
+        fig_rob.add_trace(go.Scatter(
+            x=g["n_chunks"], y=g["mean"], mode="lines+markers", name=f"{m} (k* = {k_star[m]})",
+            line=dict(color=METHOD_COLORS.get(m, "#888"), width=2),
+            error_y=dict(type="data", array=g["std"].fillna(0), visible=True, thickness=1),
+        ))
+    fig_rob.add_hline(y=0, line_color="gray", line_width=1, line_dash="dot")
+    fig_rob.update_layout(height=340, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
+                          xaxis=dict(title="n_chunks", dtick=5, showgrid=False, zeroline=False),
+                          yaxis=dict(title="Boundary F1 − chance", showgrid=True, gridcolor="#EEEEEE",
+                                     zeroline=False),
+                          legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
+    st.plotly_chart(fig_rob, width="stretch")
 
 elif method == "KLD Resonance":
     # ── KLD Resonance ──────────────────────────────────────────────────────────

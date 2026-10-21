@@ -22,24 +22,14 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-from utils import tfidf_vectorizer
-from scipy.cluster.hierarchy import linkage, fcluster
-from divisions import author_divisions
+from utils import find_token_file, load_tokens
+from grid_search_boundary_core import cluster_labels
+from divisions import author_divisions, chapter_titles, DIV_CFG, DOC_TABLES
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
     cfg = yaml.safe_load(_f)
-
-TOKEN_PATH = os.path.normpath(
-    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-TOKEN.csv")
-)
-DOCMAP_PATH = os.path.normpath(
-    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-DOCMAP.csv")
-)
-CHAP_PATH = os.path.normpath(
-    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-CHAP-with-text.csv")
-)
 
 # Cluster colours (assigned by first appearance in narrative)
 CLUSTER_COLORS = ["#4babc9", "#e06c4b", "#8e6bbf", "#6b9bd2", "#5aab6b", "#c9a84c"]
@@ -47,34 +37,46 @@ CLUSTER_COLORS = ["#4babc9", "#e06c4b", "#8e6bbf", "#6b9bd2", "#5aab6b", "#c9a84
 # User-proposed divisions (Roman numeral, label, first chapter of this division), from config
 USER_DIVISIONS = [(rom, label, chap) for rom, label, chap, _ in author_divisions()]
 
-# Model majority-vote divisions (first chapter of each division)
-MODEL_DIVISIONS = [
-    ("I",    "First Creation",             1),
-    ("II",   "7 Macaw",                    8),
-    ("III",  "Father",                    15),
-    ("IV",   "Mother",                    21),
-    ("V",    "Two Boys Defeat Death",      25),
-    ("VI",   "Second Creation",           39),
-    ("VII",  "Religion",                  48),
-    ("VIII", "Politics",                  65),
-]
+def chunk_transitions(TOKEN, chunk_df, chap_titles):
+    """Every chunk-level cluster transition, located in the chapter that contains it: how the
+    chapter's tokens split across the boundary, which side the majority vote puts the chapter
+    on, and the division start (chapter) that vote implies."""
+    rows = []
+    prev = None
+    for chunk_id, row in chunk_df.iterrows():
+        if prev is not None and row["cluster"] != prev["cluster"]:
+            first_tok = int(TOKEN.index[TOKEN["chunk_num"] == chunk_id].min())
+            chap = int(TOKEN.loc[first_tok, "chap_num"])
+            in_chap = TOKEN[TOKEN["chap_num"] == chap]
+            before = int((in_chap.index < first_tok).sum())
+            pct_before = round(100 * before / len(in_chap))
+            model_start = chap + 1 if pct_before >= 50 else chap
+            rows.append({
+                "transition": f"{prev['cluster']}→{row['cluster']}", "chapter": chap,
+                "title": chap_titles.get(chap, ""), "pct_before": pct_before,
+                "pct_after": 100 - pct_before, "before": prev["cluster"], "after": row["cluster"],
+                "model_start": model_start,
+            })
+        prev = row
+    return rows
+
+
+SRC_ID = DIV_CFG["chapter_editions"][0]      # Christenson's K'iche' text (Christenson chapters)
 
 
 @st.cache_data(show_spinner="Computing cluster assignments…")
 def compute_data(n_chunks: int, k: int, min_df: int, max_df: float):
-    TOKEN = pd.read_csv(TOKEN_PATH)
-    DOCMAP = pd.read_csv(DOCMAP_PATH)[["doc_id", "chap_num"]].drop_duplicates("doc_id")
+    """Chunk clusters from the app's pipeline (TF-IDF → Ward, cut at k, as on Clustering
+    (TF-IDF)), mapped onto Christenson's chapters."""
+    tp = find_token_file(SRC_ID)
+    TOKEN = load_tokens(SRC_ID, tp).reset_index()
+    DOCMAP = pd.read_csv(os.path.join(DOC_TABLES, f"{SRC_ID}-DOCMAP.csv"))[["doc_id", "chap_num"]]
     TOKEN = TOKEN.merge(DOCMAP, on="doc_id", how="left")
-    CHAP  = pd.read_csv(CHAP_PATH)[["chap_num", "chap_title"]]
+    CHAP = pd.DataFrame({"chap_num": sorted(TOKEN["chap_num"].dropna().unique().astype(int))})
+    CHAP["chap_title"] = CHAP["chap_num"].map(chapter_titles())
 
     TOKEN["chunk_num"] = pd.cut(TOKEN.index, n_chunks, labels=range(n_chunks)).astype(int)
-    chunk_texts = (
-        TOKEN.groupby("chunk_num")["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-        .reindex(range(n_chunks), fill_value="")
-    )
-    X = tfidf_vectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunk_texts).toarray()
-    raw_labels = fcluster(linkage(X, method="ward"), k, criterion="maxclust")
+    raw_labels = np.asarray(cluster_labels("TF-IDF", SRC_ID, tp, n_chunks, min_df, max_df, k, (1, 1)))
 
     seen, letter_map = [], {}
     for l in raw_labels:
@@ -149,6 +151,9 @@ with st.sidebar:
 )
 
 chap_titles = dict(zip(CHAP["chap_num"], CHAP["chap_title"]))
+TRANSITIONS = chunk_transitions(TOKEN, chunk_df, chap_titles)
+# Majority-vote model divisions: each straddling chapter goes to the side holding most of it
+MODEL_DIVISIONS = [(None, None, 1)] + [(None, None, t["model_start"]) for t in TRANSITIONS]
 all_clusters = sorted(set(letter_map.values()))
 color_map = {cl: CLUSTER_COLORS[i % len(CLUSTER_COLORS)] for i, cl in enumerate(all_clusters)}
 
@@ -311,42 +316,37 @@ st.caption(
 # ── Play detail table ─────────────────────────────────────────────────────────
 st.subheader("The Play at Each Transition", anchor=False)
 
-play_data = []
-transitions = [
-    ("A→B", 8,  "The Fall of the Effigies of Carved Wood",  9,  91, "A", "B", "I → II"),
-    ("B→C", 14, "The Defeat of Cabracan",                  94,   6, "B", "C", "II → III"),
-    ("C→D", 20, "The Ascent of Lady Blood from Xibalba",   64,  36, "C", "D", "III → IV"),
-    ("D→C", 24, "Hunahpu and Xbalanque in the Maizefield", 86,  14, "D", "C", "IV → V"),
-    ("C→A", 39, "The Miraculous Maize of H&X",             15,  85, "C", "A", "V → VI"),
-    ("A→E", 47, "The Creation of the Mothers",             55,  45, "A", "E", "VI → VII"),
-    ("E→F", 64, "The Deaths of the Four Progenitors",      93,   7, "E", "F", "VII → VIII"),
-]
+def _division_label(chap):
+    """User-division transition nearest a model division start, e.g. "III → IV"."""
+    starts = USER_DIVISIONS[1:]
+    i = min(range(len(starts)), key=lambda j: abs(starts[j][2] - chap))
+    return f"{USER_DIVISIONS[i][0]} → {starts[i][0]}"
+
 
 rows = []
-for trans, chap, title, pct_before, pct_after, cl_before, cl_after, boundary in play_data if play_data else transitions:
-    user_div = next((r for r, l, c in USER_DIVISIONS[1:] if c == chap + 1), None)
-    model_div = next((r for r, l, c in MODEL_DIVISIONS[1:] if c == chap), None)
-    majority = cl_before if pct_before >= 50 else cl_after
-    side = f"keep in ←{cl_before}" if pct_before >= 50 else f"move to →{cl_after}"
+for t in TRANSITIONS:
     rows.append({
-        "Transition": trans,
-        "Ch.": chap,
-        "Title": title,
-        f"% {cl_before}": f"{pct_before}%",
-        f"% {cl_after}": f"{pct_after}%",
-        "Majority": majority,
-        "Boundary": boundary,
-        "Ambiguous": "⚠" if abs(pct_before - pct_after) < 30 else "",
+        "Transition": t["transition"],
+        "Ch.": t["chapter"],
+        "Title": t["title"],
+        "% before": f"{t['pct_before']}% {t['before']}",
+        "% after": f"{t['pct_after']}% {t['after']}",
+        "Majority": t["before"] if t["pct_before"] >= 50 else t["after"],
+        "Model division starts": t["model_start"],
+        "Nearest author boundary": _division_label(t["model_start"]),
+        "Ambiguous": "⚠" if abs(t["pct_before"] - t["pct_after"]) < 30 else "",
     })
 
-st.dataframe(pd.DataFrame(rows).set_index("Transition"), width="stretch")
+st.dataframe(pd.DataFrame(rows), width="stretch", hide_index=True)
+_ambiguous = [f"ch. {t['chapter']} (*{t['title']}*, {t['pct_before']} / {t['pct_after']})"
+              for t in TRANSITIONS if abs(t["pct_before"] - t["pct_after"]) < 30]
 
 with st.expander("Interpretation", expanded=False):
-    st.markdown("""
+    st.markdown(f"""
 Each row is a chapter that straddles a cluster transition — it has tokens in two adjacent
 cluster zones.  **% before / % after** show how the chapter's text is distributed across
-the boundary.  A high majority (> 80%) means the placement is essentially forced; the only
-genuinely ambiguous case is ch. 47 (*The Creation of the Mothers*, 55 / 45).
+the boundary.  A high majority (> 80%) means the placement is essentially forced; a split
+within 30 points of even is ambiguous{(': ' + '; '.join(_ambiguous)) if _ambiguous else ' (none at this setting)'}.
 
 The **play** — the gap between dashed and solid division lines on the chart — is the set of
 chapters where your interpretive judgement overrides the strict majority vote.  These are
