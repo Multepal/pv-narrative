@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Notes/Organization of Argument.md",
+                "file": "Essay.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Organization of Argument"
+              "title": "Essay"
             }
           }
         ]
@@ -83,7 +83,7 @@
       }
     ],
     "direction": "horizontal",
-    "width": 243.5086555480957
+    "width": 285.2952766418457
   },
   "right": {
     "id": "dddad551c8fb1db2",
@@ -199,10 +199,10 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "c6371ef22cf07f02",
+  "active": "941ff6a1e8906fe2",
   "lastOpenFiles": [
+    "Notes/Organization of Streamlit Pages.md",
     "Essay.md",
-    "Notes/Organization of Argument.md",
     "Notes",
     "Figures/Topics.md",
     "Figures/Part and chapter divisions in various editions.md",

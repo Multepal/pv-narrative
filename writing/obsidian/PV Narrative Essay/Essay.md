@@ -1,6 +1,16 @@
 ---
 cssclasses:
 ---
+Argument
+1. Operationalizing Structuralism
+2. Method
+	1. TFIDF + HAC
+	2. Choosing optimal k over hyperparameters
+	3. Testing
+	4. Exploring the Paradigmatic Axis
+	5. Exploring the Syntagmatic Axis
+
+
 
 ![[Editions consulted]]
 
