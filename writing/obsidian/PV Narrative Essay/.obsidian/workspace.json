@@ -11,10 +11,14 @@
             "id": "941ff6a1e8906fe2",
             "type": "leaf",
             "state": {
-              "type": "empty",
-              "state": {},
+              "type": "markdown",
+              "state": {
+                "file": "Notes/Organization of Argument.md",
+                "mode": "source",
+                "source": false
+              },
               "icon": "lucide-file",
-              "title": "New tab"
+              "title": "Organization of Argument"
             }
           }
         ]
@@ -37,7 +41,9 @@
               "type": "file-explorer",
               "state": {
                 "sortOrder": "alphabetical",
-                "autoReveal": false
+                "autoReveal": false,
+                "showSearch": false,
+                "searchQuery": ""
               },
               "icon": "lucide-folder-closed",
               "title": "Files"
@@ -65,13 +71,15 @@
             "type": "leaf",
             "state": {
               "type": "bookmarks",
-              "state": {},
+              "state": {
+                "showSearch": false,
+                "searchQuery": ""
+              },
               "icon": "lucide-bookmark",
               "title": "Bookmarks"
             }
           }
-        ],
-        "currentTab": 2
+        ]
       }
     ],
     "direction": "horizontal",
@@ -191,10 +199,22 @@
       "templater-obsidian:Templater": false
     }
   },
-  "active": "941ff6a1e8906fe2",
+  "active": "c6371ef22cf07f02",
   "lastOpenFiles": [
-    "StoryLine/The Narrative Structure of the Popol Wuj/System/manuscript-state.json",
     "Essay.md",
+    "Notes/Organization of Argument.md",
+    "Notes",
+    "Figures/Topics.md",
+    "Figures/Part and chapter divisions in various editions.md",
+    "Figures/Editions consulted.md",
+    "Figures/Cross-edition agreement of narrative segmentations.md",
+    "Figures/Comparison of the four creations in Brasseur, Edmonson, and Tedlock.md",
+    "Figures/Chapter titles in Christenson.md",
+    "Figures/Alignments of parts among editions using Christenson as baseline.md",
+    "Figures/Alignments of parts among editions.md",
+    "StoryLine/The Narrative Structure of the Popol Wuj/The Narrative Structure of the Popol Wuj.md",
+    "Operationalizing Structuralism/Index.md",
+    "StoryLine/The Narrative Structure of the Popol Wuj/System/manuscript-state.json",
     "StoryLine/The Narrative Structure of the Popol Wuj/System/characters.json",
     "StoryLine/The Narrative Structure of the Popol Wuj/System/stats.json",
     "StoryLine/The Narrative Structure of the Popol Wuj/System/plotlines.json",
@@ -203,20 +223,9 @@
     "StoryLine/The Narrative Structure of the Popol Wuj/System/plotgrid.json",
     "StoryLine/The Narrative Structure of the Popol Wuj/System",
     "StoryLine/The Narrative Structure of the Popol Wuj/Research",
-    "StoryLine/The Narrative Structure of the Popol Wuj/Archive",
-    "StoryLine/The Narrative Structure of the Popol Wuj/Notes",
-    "StoryLine/The Narrative Structure of the Popol Wuj/The Narrative Structure of the Popol Wuj.md",
-    "Operationalizing Structuralism/Index.md",
     "Projects/PV Narrative/figures/Comparison of the four creations in Brasseur, Edmonson, and Tedlock.md",
     "zotero-item-23363.md",
     "stahlRunestahlbskysocialBlueskyDecember172024at2 - 45AM.md",
-    "Figures/Part and chapter divisions in various editions.md",
-    "Figures/Editions consulted.md",
-    "Figures/Comparison of the four creations in Brasseur, Edmonson, and Tedlock.md",
-    "Figures/Chapter titles in Christenson.md",
-    "Figures/Alignments of parts among editions using Christenson as baseline.md",
-    "Figures/Alignments of parts among editions.md",
-    "Figures/Topics.md",
     "Welcome.md",
     "Clippings/Post by @Real_RobN on X.md"
   ]
