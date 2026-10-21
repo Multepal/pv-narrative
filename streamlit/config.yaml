@@ -126,17 +126,17 @@ divisions:
   # Editions whose DOCMAP carries Christenson's chapter numbers (chap_num): positions are exact.
   # Other editions are compared by relative position against Christenson's K'iche' text.
   chapter_editions: [christenson, christenson_english_prose]
-  # The project's own 8 interpretive divisions (also hard-coded in Narrative Play and
-  # Chapter Topics). Not independent of the models.
+  # The project's own 8 interpretive divisions, used by the Text Reader, Narrative Play,
+  # Chapter Topics and Editors' Divisions. Not independent of the models.
   author:
-    - {label: "First Creation",        chap: 1}
-    - {label: "7 Macaw",               chap: 9}
-    - {label: "Father",                chap: 15}
-    - {label: "Mother",                chap: 19}
-    - {label: "Two Boys Defeat Death", chap: 22}
-    - {label: "Second Creation",       chap: 41}
-    - {label: "Religion",              chap: 48}
-    - {label: "Politics",              chap: 65}
+    - {label: "First Creation",        chap: 1,  title: "First Creation"}
+    - {label: "7 Macaw",               chap: 9,  title: "7 Macaw"}
+    - {label: "Father",                chap: 15, title: "About the Two Boys' Father"}
+    - {label: "Mother",                chap: 19, title: "About the Two Boys' Mother"}
+    - {label: "Two Boys Defeat Death", chap: 22, title: "The Two Boys Defeat Death"}
+    - {label: "Second Creation",       chap: 41, title: "The Second Creation"}
+    - {label: "Religion",              chap: 48, title: "Religion"}
+    - {label: "Politics",              chap: 65, title: "Politics"}
   # Part starts by edition, from the Obsidian note "Alignments of parts among editions".
   # Independent of this project: the external test. (Brasseur and Recinos part IV at 57 is
   # marked * in the note.)

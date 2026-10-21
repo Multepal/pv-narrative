@@ -17,6 +17,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.decomposition import NMF
 from grid_search_boundary_core import get_boundaries, cluster_labels
 from utils import find_token_file, load_tokens, make_chunks
 
@@ -28,8 +29,15 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 DIV_CFG          = _cfg["divisions"]
 CHAPTER_EDITIONS = set(DIV_CFG["chapter_editions"])
 PROJECTION_SRC   = "christenson"
+ROMAN            = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII", "IX", "X", "XI", "XII"]
 DOC_TABLES       = os.path.normpath(os.path.join(APP_DIR, "../../notebooks/doc_tables"))
 CHAP_MOD_PATH    = os.path.normpath(os.path.join(APP_DIR, "../../notebooks/christenson/christenson-CHAP_MOD.csv"))
+
+
+def author_divisions() -> list[tuple]:
+    """The author's divisions from config as (roman numeral, short label, first chapter, title)."""
+    return [(ROMAN[i], d["label"], d["chap"], d.get("title", d["label"]))
+            for i, d in enumerate(DIV_CFG["author"])]
 
 
 @st.cache_data(show_spinner=False)
@@ -174,28 +182,57 @@ def consensus_boundaries(starts: dict) -> pd.DataFrame:
 
 # ── Chapter resolution: predicting divisions for units the model never saw ────
 
+def _chunk_and_chapter_tfidf(src_id, n_chunks, min_df, max_df, ngram_range):
+    """TF-IDF of the edition's chunks (fit) and of its Christenson chapters (transform with
+    the chunk vocabulary and IDF). Returns (vectorizer, X_chunks, X_chapters, chapter numbers)."""
+    tp = find_token_file(src_id)
+    vec = TfidfVectorizer(lowercase=True, min_df=min_df, max_df=max_df, strip_accents=None,
+                          norm="l2", ngram_range=ngram_range)
+    X = vec.fit_transform(make_chunks(src_id, tp, n_chunks))
+    docmap = pd.read_csv(os.path.join(DOC_TABLES, f"{src_id}-DOCMAP.csv"))[["doc_id", "chap_num"]]
+    tokens = load_tokens(src_id, tp).reset_index().merge(docmap, on="doc_id")
+    docs = tokens.groupby("chap_num")["term_str"].apply(lambda x: " ".join(x.dropna()))
+    return vec, X, vec.transform(docs.tolist()), docs.index.to_numpy()
+
+
+@st.cache_data(show_spinner="Projecting chapters onto the topic model…")
+def chapter_topic_shares(src_id, n_chunks, min_df, max_df, k, ngram_range=(1, 1)):
+    """The app's NMF (same vectorizer, k and seed as cluster_labels("NMF")) fit on the
+    edition's chunks, with every Christenson chapter projected onto it (nmf.transform).
+    Returns (chapter numbers, shares as topics × chapters with columns summing to 1,
+    top terms per topic)."""
+    vec, X, C, chapters = _chunk_and_chapter_tfidf(src_id, n_chunks, min_df, max_df, ngram_range)
+    nmf = NMF(n_components=k, init="nndsvda", max_iter=_cfg["model"]["nmf_max_iter"],
+              random_state=_cfg["model"]["random_state"]).fit(X)
+    W = nmf.transform(C).T                                    # topics × chapters
+    shares = W / np.where(W.sum(axis=0) == 0, 1, W.sum(axis=0))
+    words = vec.get_feature_names_out()
+    top_terms = [[words[j] for j in row.argsort()[::-1][:5]] for row in nmf.components_]
+    return chapters, shares, top_terms
+
+
 @st.cache_data(show_spinner="Assigning chapters to classes…")
 def chapter_labels(method, src_id, n_chunks, min_df, max_df, k, ngram_range=(1, 1)):
     """Predict a class for every Christenson chapter of src_id. The model is fit on the
-    edition's chunks as usual; each chapter is then vectorized with the chunk model's
-    vocabulary and IDF and assigned to the nearest class centroid (cosine). Chapters are
-    never part of the fit, so this is an out-of-sample prediction.
+    edition's chunks as usual and chapters are never part of the fit, so this is an
+    out-of-sample prediction. HAC methods: each chapter goes to the nearest class centroid
+    (cosine) in the chunk model's TF-IDF space. NMF: each chapter's dominant topic after
+    projection (the same projection as the Chapter Topics page).
     Returns (chapter numbers, labels), or None."""
+    if method == "NMF":
+        chapters, shares, _ = chapter_topic_shares(src_id, n_chunks, min_df, max_df, k, ngram_range)
+        return chapters, shares.argmax(axis=0)
     tp = find_token_file(src_id)
     la = cluster_labels(method, src_id, tp, n_chunks, min_df, max_df, k, ngram_range)
     if la is None:
         return None
     la = np.asarray(la)
-    vec = TfidfVectorizer(lowercase=True, min_df=min_df, max_df=max_df, strip_accents=None,
-                          norm="l2", ngram_range=ngram_range)
-    X = vec.fit_transform(make_chunks(src_id, tp, n_chunks)).toarray()
-    docmap = pd.read_csv(os.path.join(DOC_TABLES, f"{src_id}-DOCMAP.csv"))[["doc_id", "chap_num"]]
-    tokens = load_tokens(src_id, tp).reset_index().merge(docmap, on="doc_id")
-    docs = tokens.groupby("chap_num")["term_str"].apply(lambda x: " ".join(x.dropna()))
+    _, X, C, chapters = _chunk_and_chapter_tfidf(src_id, n_chunks, min_df, max_df, ngram_range)
+    X, C = X.toarray(), C.toarray()
     classes = np.unique(la)
     cents = np.array([X[la == c].mean(axis=0) for c in classes])
     cents /= np.linalg.norm(cents, axis=1, keepdims=True)
-    return docs.index.to_numpy(), classes[np.argmax(vec.transform(docs.tolist()).toarray() @ cents.T, axis=1)]
+    return chapters, classes[np.argmax(C @ cents.T, axis=1)]
 
 
 def chapter_grid_positions(chaps, chapters) -> np.ndarray:

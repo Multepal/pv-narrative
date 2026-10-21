@@ -24,6 +24,7 @@ import numpy as np
 import plotly.graph_objects as go
 from sklearn.feature_extraction.text import TfidfVectorizer
 from scipy.cluster.hierarchy import linkage, fcluster
+from divisions import author_divisions
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -43,17 +44,8 @@ CHAP_PATH = os.path.normpath(
 # Cluster colours (assigned by first appearance in narrative)
 CLUSTER_COLORS = ["#4babc9", "#e06c4b", "#8e6bbf", "#6b9bd2", "#5aab6b", "#c9a84c"]
 
-# User-proposed divisions (Roman numeral, label, first chapter of this division)
-USER_DIVISIONS = [
-    ("I",    "First Creation",             1),
-    ("II",   "7 Macaw",                    9),
-    ("III",  "Father",                    15),
-    ("IV",   "Mother",                    19),
-    ("V",    "Two Boys Defeat Death",      22),
-    ("VI",   "Second Creation",           41),
-    ("VII",  "Religion",                  48),
-    ("VIII", "Politics",                  65),
-]
+# User-proposed divisions (Roman numeral, label, first chapter of this division), from config
+USER_DIVISIONS = [(rom, label, chap) for rom, label, chap, _ in author_divisions()]
 
 # Model majority-vote divisions (first chapter of each division)
 MODEL_DIVISIONS = [

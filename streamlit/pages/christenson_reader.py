@@ -10,6 +10,7 @@ import os
 import yaml
 import streamlit as st
 import pandas as pd
+from divisions import author_divisions
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -20,17 +21,13 @@ CHAP_MOD_PATH = os.path.normpath(
     os.path.join(APP_DIR, "../../notebooks/christenson/christenson-CHAP_MOD.csv")
 )
 
-ROMAN = ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"]
-
+# The author's 8 interpretive divisions, from config (divisions.author)
+_AUTHOR = author_divisions()
+ROMAN = [rom for rom, _, _, _ in _AUTHOR]
 DIVISIONS = [
-    {"label": "First Creation",                "chap_start": 1,  "chap_end": 8},
-    {"label": "7 Macaw",                       "chap_start": 9,  "chap_end": 14},
-    {"label": "About the Two Boys' Father",    "chap_start": 15, "chap_end": 18},
-    {"label": "About the Two Boys' Mother",    "chap_start": 19, "chap_end": 21},
-    {"label": "The Two Boys Defeat Death",     "chap_start": 22, "chap_end": 40},
-    {"label": "The Second Creation",           "chap_start": 41, "chap_end": 47},
-    {"label": "Religion",                      "chap_start": 48, "chap_end": 64},
-    {"label": "Politics",                      "chap_start": 65, "chap_end": 87},
+    {"label": title, "chap_start": chap,
+     "chap_end": (_AUTHOR[i + 1][2] - 1) if i + 1 < len(_AUTHOR) else 87}
+    for i, (_, _, chap, title) in enumerate(_AUTHOR)
 ]
 
 CLUSTER_COLORS = {

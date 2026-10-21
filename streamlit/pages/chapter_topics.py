@@ -1,17 +1,12 @@
 """
-Chapter Topics — NMF topic model applied directly to Christenson chapters.
+Chapter Topics — the app's NMF topic model applied to Christenson's chapters.
 
-Applies the trained PHI matrix (topics × vocabulary) to each chapter as a
-document, bypassing the chunk/chapter alignment problem.  Produces a
-topics × chapters heatmap showing the activation of each NMF topic across
-the narrative at chapter resolution.
-
-Approach (from notebooks/ensemble/ensemble.ipynb, "Test model on K'iche' DOCs"):
-  1. Build chapter-level term-count matrix B (vocab × chapters)
-     restricted to PHI's vocabulary.
-  2. Compute L2-normalised TF-IDF of B.
-  3. Project: C = PHI @ TFIDF  →  topics × chapters activation matrix.
-  4. Column-normalise C so each chapter's activations sum to 1.
+The topic model is the one used throughout the app: TF-IDF → NMF at the reporting setting
+(or Choose k's handoff), fit on the edition's chunks with the configured seed. Each of
+Christenson's chapters, which the model never saw, is projected onto it (nmf.transform) and
+its topic weights normalized to shares. Produces a topics × chapters heatmap, per-chapter
+entropy and dominance, and the dominant topic per chapter, alongside the TF-IDF class each
+chapter is assigned to (the predictor scored on the Editors' Divisions page).
 """
 
 import os
@@ -21,79 +16,19 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 from scipy.stats import entropy as scipy_entropy
+from utils import tfidf_settings, cluster_string
+from divisions import author_divisions, chapter_topic_shares, chapter_labels, chapter_titles, DIV_CFG
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
 with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
     cfg = yaml.safe_load(_f)
 
-TOKEN_PATH = os.path.normpath(
-    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-TOKEN.csv")
-)
-DOCMAP_PATH = os.path.normpath(
-    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-DOCMAP.csv")
-)
-PHI_PATH = os.path.normpath(
-    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-PHI.csv")
-)
-TOPIC_PATH = os.path.normpath(
-    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-TOPIC.csv")
-)
-CHAP_PATH = os.path.normpath(
-    os.path.join(APP_DIR, "../../notebooks/christenson/christenson-CHAP-with-text.csv")
-)
+SOURCES_META = cfg["sources"]
+LANG_LABELS  = cfg["languages"]
 
-# User-proposed divisions (Roman numeral, label, first chapter)
-USER_DIVISIONS = [
-    ("I",    "First Creation",          1),
-    ("II",   "7 Macaw",                 9),
-    ("III",  "Father",                 15),
-    ("IV",   "Mother",                 19),
-    ("V",    "Two Boys Defeat Death",  22),
-    ("VI",   "Second Creation",        41),
-    ("VII",  "Religion",               48),
-    ("VIII", "Politics",               65),
-]
-
-
-@st.cache_data(show_spinner="Applying topic model to chapters…")
-def compute_chapter_topics() -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
-    TOKEN = pd.read_csv(TOKEN_PATH)
-    DOCMAP = pd.read_csv(DOCMAP_PATH)[["doc_id", "chap_num"]].drop_duplicates("doc_id")
-    TOKEN = TOKEN.merge(DOCMAP, on="doc_id", how="left")
-    PHI   = pd.read_csv(PHI_PATH, index_col=0)
-    TOPIC = pd.read_csv(TOPIC_PATH)
-    CHAP  = pd.read_csv(CHAP_PATH)[["chap_num", "chap_title"]]
-
-    phi_vocab = PHI.columns.tolist()
-
-    # Chapter-level term counts, restricted to PHI vocabulary
-    tok_filtered = TOKEN[TOKEN["term_str"].isin(phi_vocab)]
-    B = (
-        tok_filtered.groupby(["chap_num", "term_str"])
-        .size()
-        .unstack(fill_value=0)
-        .reindex(columns=phi_vocab, fill_value=0)
-    )   # shape: chapters × vocab
-
-    # TF-IDF (same formula as TestModel.compute_tfidf)
-    TF  = B  # chapters × vocab
-    DF  = (TF > 0).sum(axis=0)
-    IDF = np.log2((len(TF) + 1) / (DF + 1) + 1)
-    TFIDF = TF * IDF
-
-    # L2 normalise row-wise
-    l2 = np.sqrt((TFIDF ** 2).sum(axis=1)).replace(0, 1)
-    TFIDF_norm = TFIDF.div(l2, axis=0)   # chapters × vocab
-
-    # Project: C = PHI @ TFIDF.T  →  topics × chapters
-    C = PHI.values @ TFIDF_norm.T.values   # (n_topics, n_chapters)
-    C_df = pd.DataFrame(C, index=PHI.index, columns=B.index)
-
-    # Column-normalise: each chapter's scores sum to 1
-    C_norm = C_df.div(C_df.sum(axis=0).replace(0, 1), axis=1)
-
-    return C_norm, TOPIC, CHAP
+# The author's divisions (Roman numeral, label, first chapter), from config
+USER_DIVISIONS = [(rom, label, chap) for rom, label, chap, _ in author_divisions()]
 
 
 # ── Page ──────────────────────────────────────────────────────────────────────
@@ -104,28 +39,45 @@ st.markdown(
 
 st.title("Chapter Topics — NMF Applied at Chapter Resolution")
 st.caption(
-    "The trained NMF topic model (PHI) is applied directly to each of Christenson's 87 "
-    "chapters as documents, with no chunking.  Each column sums to 1 — the heatmap shows "
-    "topic activation share per chapter."
+    "The app's NMF topic model, fit on chunks, is applied to each of Christenson's chapters as "
+    "documents it never saw. Each column sums to 1 — the heatmap shows topic share per chapter."
+)
+
+_editions = DIV_CFG["chapter_editions"]
+src_id = st.selectbox(
+    "Edition", _editions,
+    format_func=lambda x: f"{SOURCES_META[x]['label']} ({LANG_LABELS[SOURCES_META[x]['lang']]})")
+_set, _from_choose_k = tfidf_settings(cfg["controls"])
+n_chunks, k = int(_set["n_chunks"]), int(_set["k"])
+min_df, max_df = int(_set["min_df"]), float(_set["max_df"])
+ngram = (int(_set["ngram_min"]), int(_set["ngram_max"]))
+st.caption(
+    f"Setting: n_chunks = {n_chunks}, min_df = {min_df}, max_df = {max_df:.2f}, k = {k} · "
+    f"{'from Choose k (this session)' if _from_choose_k else 'reporting setting from config'}."
 )
 
 with st.expander("How this works", expanded=False):
-    st.markdown("""
-Normally the NMF model is fitted on 60 text *chunks* (fixed-size windows) and the
-resulting THETA matrix gives topic proportions per chunk.  Here we bypass the
-chunk/chapter alignment problem by applying the *vocabulary weights* (PHI, topics × vocab)
-directly to chapters:
+    st.markdown(f"""
+The NMF model is the one used throughout the app: chunk TF-IDF (n_chunks = {n_chunks},
+min_df = {min_df}, max_df = {max_df:.2f}) factorized into k = {k} topics with the configured
+random seed — the same fit as the NMF option on the grid search and validation pages.
 
-1. Build a chapter-level TF-IDF matrix using only PHI's 500-word vocabulary.
-2. Project each chapter's TF-IDF vector through PHI: `C = PHI @ TFIDF.T`.
-3. Column-normalise so each chapter's topic activations sum to 1.
+1. Each chapter is vectorized with the chunk model's vocabulary and IDF.
+2. The fitted NMF projects it onto the topics (`nmf.transform`): chapters are never part of
+   the fit, so this is an out-of-sample prediction.
+3. Each chapter's topic weights are normalized to shares that sum to 1.
 
-This is the approach used in `notebooks/ensemble/ensemble.ipynb` ("Test model on K'iche' DOCs").
-The result is a topics × chapters matrix that reveals dominant topics at chapter resolution,
-without any chunk boundary artefacts.
+The dominant topic per chapter is the NMF chapter prediction scored on the **Editors'
+Divisions** page; the table at the bottom also shows the TF-IDF class each chapter is
+assigned to (nearest class centroid), the primary predictor there.
 """)
 
-C_norm, TOPIC, CHAP = compute_chapter_topics()
+chapters, _shares, _top_terms = chapter_topic_shares(src_id, n_chunks, min_df, max_df, k, ngram)
+C_norm = pd.DataFrame(_shares, index=list(range(k)), columns=list(chapters))
+TOPIC  = pd.DataFrame({"topic_id": list(range(k)), "gloss": [t[0] for t in _top_terms],
+                       "top_terms": [", ".join(t) for t in _top_terms]})
+CHAP   = pd.DataFrame({"chap_num": list(chapters)})
+CHAP["chap_title"] = CHAP["chap_num"].map(chapter_titles())
 
 topic_labels = dict(zip(TOPIC["topic_id"].astype(int), TOPIC["gloss"]))
 chap_titles  = dict(zip(CHAP["chap_num"], CHAP["chap_title"]))
@@ -222,7 +174,7 @@ fig.update_layout(
 st.plotly_chart(fig, width="stretch")
 
 st.caption(
-    "Rows = NMF topics · Columns = chapters 1–87 · "
+    "Rows = NMF topics · Columns = chapters · "
     "Colour = normalised topic activation (per-chapter shares sum to 1) · "
     "Dashed white lines = your proposed division starts."
 )
@@ -325,13 +277,13 @@ fig_ent.update_layout(
     yaxis=dict(
         title="Shannon entropy (nats)",
         showgrid=True, gridcolor="#eee", zeroline=False,
-        range=[1.3, H_max * 1.08],
+        range=[max(0.0, float(H.min()) - 0.1), H_max * 1.08],
         side="left",
     ),
     yaxis2=dict(
         title="Dominance (max topic share)",
         overlaying="y", side="right",
-        range=[0, 0.65],
+        range=[0, min(1.0, float(dom_score.max()) * 1.1)],
         showgrid=False,
     ),
     legend=dict(orientation="h", yanchor="bottom", y=1.01, x=0),
@@ -368,17 +320,22 @@ dom = C_norm.idxmax(axis=0).rename("dominant_topic")
 dom_label = dom.map(lambda t: topic_labels.get(t, f"T{t}"))
 dom_score = C_norm.max(axis=0).rename("score")
 
+_tf_chaps, _tf_labels = chapter_labels("TF-IDF", src_id, n_chunks, min_df, max_df, k, ngram)
+_tf_letters = dict(zip(_tf_chaps, cluster_string(_tf_labels)))
+
 summary = pd.DataFrame({
     "chapter":       all_chaps,
     "title":         [chap_titles.get(c, "") for c in all_chaps],
     "dominant_topic": dom.values,
     "topic_gloss":   dom_label.values,
     "score":         dom_score.round(3).values,
+    "tfidf_class":   [_tf_letters.get(c, "") for c in all_chaps],
 }).set_index("chapter")
 
 # Find where dominant topic changes — these are the model's "natural" chapter boundaries
 summary["new_topic"] = summary["dominant_topic"] != summary["dominant_topic"].shift()
 boundaries = summary[summary["new_topic"] & (summary.index > 1)].index.tolist()
-st.caption(f"Topic changes at chapters: {boundaries}")
+st.caption(f"Topic changes at chapters: {boundaries}. TF-IDF class sequence (nearest class "
+           f"centroid): {cluster_string(_tf_labels)}")
 
 st.dataframe(summary.drop(columns="new_topic"), width="stretch")
