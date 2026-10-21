@@ -5,60 +5,65 @@ app:
   layout: wide
 
 pages:
-  # ── Single-edition analysis ───────────────────────────────────────────────
-  - path: pages/chunk_clustering_nc.py
-    title: Clustering (TF-IDF)
-    icon: "🔗"
-  - path: pages/chunk_clustering_sim.py
-    title: Clustering (Cosine-Sim)
-    icon: "🔗"
-  - path: pages/pca_lsa.py
-    title: Clustering (LSA)
-    icon: "🔬"
-  - path: pages/model_diagnostics_nc.py
-    title: Topics (NMF/LDA)
-    icon: "⚙️"
-  # ── Cross-edition comparison ──────────────────────────────────────────────
-  - path: pages/cluster_comparison.py
-    title: Cross-Edition Comparison
-    icon: "📊"
-  # ── Parameter optimization ────────────────────────────────────────────────
-  - path: pages/grid_search_ari.py
-    title: Grid Search (ARI)
-    icon: "🔍"
-  - path: pages/grid_search_boundary.py
-    title: Grid Search (Boundary)
-    icon: "🔍"
-  # ── Text reader & structural analysis ───────────────────────────────────
-  - path: pages/christenson_reader.py
-    title: Christenson Text Reader
-    icon: "📖"
-  - path: pages/narrative_play.py
-    title: Narrative Play
-    icon: "🎯"
-  - path: pages/chapter_topics.py
-    title: Chapter Topics
-    icon: "📐"
-  # ── Temporal / spectral analysis ──────────────────────────────────────────
-  - path: pages/dct_analysis.py
-    title: Narrative DCT
-    icon: "〰️"
-  - path: pages/narrative_transitions.py
-    title: Narrative Transitions
-    icon: "🔀"
-  - path: pages/episode_boundaries.py
-    title: Episode Boundaries
-    icon: "📍"
-  - path: pages/tema_distribution.py
-    title: Tema Distribution
-    icon: "🧩"
-  - path: pages/annotation_coverage.py
-    title: Annotation Coverage
-    icon: "🔎"
-  - path: pages/entity_index.py
-    title: Entity Index
-    icon: "🗂️"
-  # ── Legacy (chunk-% variants, superseded by n-chunks) ─────────────────────
+  # Sidebar sections follow the argument: model → choose k → test → interpret the
+  # classes (structure) → locate the divisions (event). Remaining pages follow.
+  "1 · Model":
+    - path: pages/chunk_clustering_nc.py
+      title: Clustering (TF-IDF)
+      icon: "🔗"
+  "2 · Choose k":
+    - path: pages/grid_search_ari.py
+      title: Choose k (ARI Grid Search)
+      icon: "🔍"
+  "3 · Test":
+    - path: pages/cluster_comparison.py
+      title: Cross-Edition Comparison
+      icon: "📊"
+  "4 · Interpret the Classes":
+    - path: pages/pca_lsa.py
+      title: Relations (PCA / LSA)
+      icon: "🔬"
+    - path: pages/model_diagnostics_nc.py
+      title: Content (NMF Topics)
+      icon: "⚙️"
+  "5 · Divisions":
+    - path: pages/grid_search_boundary.py
+      title: Boundary Agreement (Grid Search)
+      icon: "🔍"
+    - path: pages/episode_boundaries.py
+      title: Episode Boundaries
+      icon: "📍"
+  "Robustness":
+    - path: pages/chunk_clustering_sim.py
+      title: Clustering (Cosine-Sim)
+      icon: "🔗"
+  "Text Reader & Structural Analysis":
+    - path: pages/christenson_reader.py
+      title: Christenson Text Reader
+      icon: "📖"
+    - path: pages/narrative_play.py
+      title: Narrative Play
+      icon: "🎯"
+    - path: pages/chapter_topics.py
+      title: Chapter Topics
+      icon: "📐"
+  "Temporal & Thematic Analysis":
+    - path: pages/dct_analysis.py
+      title: Narrative DCT
+      icon: "〰️"
+    - path: pages/narrative_transitions.py
+      title: Narrative Transitions
+      icon: "🔀"
+    - path: pages/tema_distribution.py
+      title: Tema Distribution
+      icon: "🧩"
+    - path: pages/annotation_coverage.py
+      title: Annotation Coverage
+      icon: "🔎"
+    - path: pages/entity_index.py
+      title: Entity Index
+      icon: "🗂️"
+  # ── Legacy (chunk-% variants, superseded by n-chunks; not shown) ─────────
   # - path: pages/chunk_clustering.py
   #   title: Clustering (TF-IDF, chunk %)
   #   icon: "🔗"

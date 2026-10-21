@@ -248,7 +248,7 @@ def metric_fns(metric, tol=None):
 def boundary_tol(n_chunks, tol_chunks):
     """Tolerance in normalized position for matching within ±tol_chunks chunks.
 
-    Fixed in chunks rather than scaled by k (as on Grid Search (Boundary)) because
+    Fixed in chunks rather than scaled by k (the old τ = α / 2(k−1)) because
     recurring clusters yield more than k−1 boundaries, so k-scaled windows overlap
     and F1 saturates even for misaligned sequences. The half-chunk margin keeps the
     float comparison in boundary_f1 exact (0 = boundaries must coincide).

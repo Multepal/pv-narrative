@@ -23,8 +23,8 @@ st.markdown(
 with open(os.path.join(APP_DIR, "style.css")) as _f:
     st.markdown(f"<style>{_f.read()}</style>", unsafe_allow_html=True)
 
-pg = st.navigation([
-    st.Page(p["path"], title=p["title"], icon=p["icon"])
-    for p in cfg["pages"]
-])
+pg = st.navigation({
+    section: [st.Page(p["path"], title=p["title"], icon=p["icon"]) for p in pages]
+    for section, pages in cfg["pages"].items()
+})
 pg.run()

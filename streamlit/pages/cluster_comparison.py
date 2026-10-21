@@ -51,7 +51,7 @@ METHOD_CAPTIONS = {
         "via `pd.cut`. Select a parameter to sweep; all others stay fixed."
     ),
     "LSA": (
-        f"TF-IDF → centered PCA (n_components={N_COMPONENTS}, as on the PCA / LSA page) → Ward HAC. "
+        f"TF-IDF → centered PCA (n_components={N_COMPONENTS}, as on Relations (PCA / LSA)) → Ward HAC. "
         "Latent-semantic projection before clustering reduces noise and vocabulary mismatch."
     ),
     "Cosine-Sim": (
@@ -298,7 +298,7 @@ with st.expander("How the chance baselines work"):
 st.divider()
 st.subheader("Agreement at One Setting", anchor="pairwise-matrices")
 st.caption(
-    f"Select a sweep value. With k chosen on {_src_lbl} transcriptions (see the grid search pages), "
+    f"Select a sweep value. With k chosen on {_src_lbl} transcriptions (see Choose k (ARI Grid Search)), "
     f"the **{_src_lbl} ↔ translation** rows are a held-out test: the translations played no part "
     "in the choice."
 )
