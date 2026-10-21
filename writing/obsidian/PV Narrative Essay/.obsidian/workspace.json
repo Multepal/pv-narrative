@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "Essay.md",
+                "file": "Notes/Organization of Streamlit Pages.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "Essay"
+              "title": "Organization of Streamlit Pages"
             }
           }
         ]
@@ -201,8 +201,9 @@
   },
   "active": "941ff6a1e8906fe2",
   "lastOpenFiles": [
-    "Notes/Organization of Streamlit Pages.md",
+    "Notes/Suggested Reorg.md",
     "Essay.md",
+    "Notes/Organization of Streamlit Pages.md",
     "Notes",
     "Figures/Topics.md",
     "Figures/Part and chapter divisions in various editions.md",
