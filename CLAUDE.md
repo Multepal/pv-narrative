@@ -35,13 +35,13 @@ Build and run all code in Python using the Conda environment `pv-narrative`.
 Run Streamlit from the root of the project like so:
 
 ``` bash
-streamlit run notebooks/streamlit_app.py
+streamlit run streamlit/app.py
 ```
 
 Install dependencies first if needed (but the environment should already have them):
 
 ``` bash
-pip install -r notebooks/requirements.txt
+pip install -r streamlit/requirements.txt
 ```
 
 ## Data Pipeline
