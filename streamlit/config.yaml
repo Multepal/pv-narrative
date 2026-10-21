@@ -193,6 +193,13 @@ controls:
     max: 3
     default: 1
     step: 1
+  chapter_tol:          # Editors' Divisions, chapter resolution: ± chapters
+    min: 0
+    max: 2
+    default: 0
+    step: 1
+  resonance_window:     # Editors' Divisions: chunks on each side for novelty/transience
+    default: 3          # (Barron et al. 2018); peaks are stable for w = 2–4
   k_selection_pairs:    # grid searches choose k on these pairs: within (translations held out) | all
     default: within
   min_chunks_per_cluster: 3   # grid searches skip k > n_chunks / this; near-singleton partitions

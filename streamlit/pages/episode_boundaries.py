@@ -2,7 +2,7 @@
 Episode Boundaries — KLD-based novelty, transience, and resonance.
 
 Implements the Novelty / Transience / Resonance framework from:
-  Jurafsky et al. (2018) PNAS 115(10) doi:10.1073/pnas.1717729115
+  Barron, Huang, Spang & DeDeo (2018) PNAS 115(18):4607–4612 doi:10.1073/pnas.1717729115
 
 Each chunk is treated as a probability distribution over vocabulary
 (normalized raw TF + Laplace smoothing). KL-divergence between
