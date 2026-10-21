@@ -202,6 +202,13 @@ controls:
     default: 3          # (Barron et al. 2018); peaks are stable for w = 2–4
   k_selection_pairs:    # grid searches choose k on these pairs: within (translations held out) | all
     default: within
+  resolution:           # Choose k → Resolution: n_chunks by stability of the k* partition
+    n_min: 18           # k* = 6 needs n >= 3k (min_chunks_per_cluster)
+    n_max: 50
+    neighborhood: 0.10  # compare each n with n ± 10% (relative, so large n isn't favored)
+    smooth: 5           # centered rolling mean over n
+    plateau_tol: 0.02   # plateau = contiguous run within this of the smoothed maximum
+    token_step: 20      # token sample for token-level ARI between resolutions
   min_chunks_per_cluster: 3   # grid searches skip k > n_chunks / this; near-singleton partitions
                               # agree trivially (k* = 6 is stable for values 2–4)
   k_selection_min: 3          # grid searches choose k* among k >= this. k = 2 measures only the

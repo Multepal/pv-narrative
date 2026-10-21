@@ -16,6 +16,7 @@ import plotly.graph_objects as go
 import streamlit as st
 from grid_search_boundary_core import agreement_curve, FIXED_MIN_DF, FIXED_NGRAM
 from utils import TFIDF_HANDOFF_KEY, TFIDF_PAGE
+from resolution import resolution_stability, stability_plateau, RES
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -140,11 +141,81 @@ def render_handoff(k_star, method, sel):
                "(see *Robustness across the grid*).")
 
 
-def render_selection_results(df, sel, metric, k_label, method, tol_chunks=0, handoff=False):
+RESOLUTION_EXPANDER_TEXT = r"""
+**Why not choose n_chunks by agreement?** Excess over chance isn't comparable across n_chunks:
+the chance baseline falls as chunks get fewer, so small n can look better without agreeing
+more. Agreement chooses **k** at each fixed n — and k\* doesn't depend on n.
+
+**Stability instead.** At each n, every edition's k\* segmentation (TF-IDF → Ward, the primary
+method) is compared token by token with its segmentations at nearby resolutions, n ± 10%
+(relative, so large n isn't favored). Where small changes of resolution reorganize the
+partition, n is too coarse to have settled; on the plateau, they don't. The rule takes the
+**onset of the plateau**: the coarsest stable resolution, since larger chunks give more
+reliable vocabulary profiles and more chunks past the onset add no stability. Stability
+compares the model only with itself and never uses the editors, so the editorial test stays
+independent (stability-based model selection: Ben-Hur, Elisseeff & Guyon 2002; Lange, Roth,
+Braun & Buhmann 2004).
+
+**Order.** Stability depends on k, so k is chosen first. That order is harmless here because
+k\* is the same at every n on the grid.
+"""
+
+
+def render_resolution(k_star):
+    """Stability of the k* partition across n_chunks (TF-IDF), its plateau, and where the
+    reporting setting falls. Anchor: resolution."""
+    st.divider()
+    st.subheader("Resolution: Choosing n_chunks", anchor="resolution")
+    rep = reporting_setting()
+    stab = resolution_stability("TF-IDF", int(k_star), rep["min_df"], rep["max_df"],
+                                (rep["ngram_min"], rep["ngram_max"]))
+    onset, end = stability_plateau(stab)
+    n_rep = rep["n_chunks"]
+    st.caption(
+        f"Token-level ARI between each edition's k = {k_star} partition at n and at n ± "
+        f"{int(RES['neighborhood'] * 100)}% (TF-IDF → Ward; mean and least stable edition). "
+        "Shaded: the stability plateau. **Recommended n_chunks = its onset**, the coarsest "
+        "stable resolution."
+    )
+    _sm = dict(zip(stab["n_chunks"], stab["smoothed"]))
+    _r1, _r2, _r3 = st.columns(3)
+    _r1.metric("Plateau onset (recommended)", onset)
+    _r2.metric("Plateau", f"{onset}–{end}")
+    _r3.metric(f"Reporting setting (n = {n_rep})",
+               "on the plateau" if onset <= n_rep <= end else "off the plateau",
+               help=(f"Smoothed stability {_sm[n_rep]:.3f} vs. {_sm[onset]:.3f} at the onset"
+                     if n_rep in _sm else "Outside the measured range"))
+    fig = go.Figure()
+    fig.add_vrect(x0=onset - 0.5, x1=end + 0.5, fillcolor="#00CC96", opacity=0.10, line_width=0,
+                  annotation_text="plateau", annotation_position="top left")
+    fig.add_trace(go.Scatter(x=stab["n_chunks"], y=stab["stability"], mode="lines+markers",
+                             name="Mean over editions", line=dict(color="#1f77b4", width=1.5),
+                             marker=dict(size=5)))
+    fig.add_trace(go.Scatter(x=stab["n_chunks"], y=stab["smoothed"], mode="lines",
+                             name=f"Smoothed ({RES['smooth']})", line=dict(color="#1f77b4", width=3)))
+    fig.add_trace(go.Scatter(x=stab["n_chunks"], y=stab["stability_min"], mode="lines",
+                             name="Least stable edition", line=dict(color="gray", width=1, dash="dot")))
+    fig.add_vline(x=onset, line_color="#00CC96", line_width=2,
+                  annotation_text=f"onset {onset}", annotation_position="bottom right")
+    if n_rep != onset:
+        fig.add_vline(x=n_rep, line_color="crimson", line_dash="dash", line_width=1.5,
+                      annotation_text=f"reporting {n_rep}", annotation_position="top right")
+    fig.update_layout(height=340, margin=dict(l=60, r=30, t=10, b=50), plot_bgcolor="white",
+                      xaxis=dict(title="n_chunks", dtick=2, showgrid=False, zeroline=False),
+                      yaxis=dict(title="Stability (ARI across resolutions)", showgrid=True,
+                                 gridcolor="#EEEEEE", zeroline=False),
+                      legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0))
+    st.plotly_chart(fig, width="stretch")
+    with st.expander("Why stability chooses the resolution"):
+        st.markdown(RESOLUTION_EXPANDER_TEXT)
+
+
+def render_selection_results(df, sel, metric, k_label, method, tol_chunks=0, handoff=False,
+                             resolution=False):
     """Agreement curves, k* distribution, k* with its robustness across the grid, held-out
     validation, and summary tables. With handoff, adds a button that opens Clustering (TF-IDF)
-    at the reporting setting with k*. Anchors: agreement-chart, k-distribution, best-params,
-    summary. Returns k*."""
+    at the reporting setting with k*; with resolution, adds the n_chunks stability section.
+    Anchors: agreement-chart, k-distribution, best-params, summary (resolution). Returns k*."""
     m      = METRIC_NAME[metric]
     ex     = f"{sel}_excess"
     sel_lb = SELECTION_LABELS[sel]
@@ -279,6 +350,9 @@ def render_selection_results(df, sel, metric, k_label, method, tol_chunks=0, han
         "prefer settings where agreement is high *and* steady (low SD). The highest single cell "
         "in the grid is usually the luckiest, not the best."
     )
+
+    if resolution:
+        render_resolution(k_star)
 
     # ── Tables ─────────────────────────────────────────────────────────────────
     cols = {f"{sel}_obs": f"{m} observed", f"{sel}_p95": "Chance 95th pct", ex: "Excess"}

@@ -58,6 +58,33 @@ Chosen on all pairs, k\* is 6 for TF-IDF, LSA and Cosine-Sim on both metrics. Va
 - **Boundary F1 also peaks at the coarsest levels (k = 2 or 3).** Editions agree strongly on where the main division falls. That is a real result about the text's primary breaks, worth a sentence in the essay, but a different question from the episode structure, so k\* is chosen among k ≥ 3.
 - **At high k, boundary excess falls to about zero** (e.g. −0.00 at k = 11 for TF-IDF).
 
+## Choosing n_chunks (Table S1)
+
+n_chunks is a choice of resolution. Cross-edition agreement can't choose it: excess over chance isn't comparable across n_chunks, because the chance baseline falls as chunks get fewer. It is chosen instead by **stability**: at each n, every edition's k = 6 partition is compared token by token with its partitions at n ± 10%. Stability rises until about 32 chunks and then plateaus. The rule takes the **plateau onset**, the coarsest stable resolution (stability-based model selection: Ben-Hur, Elisseeff & Guyon 2002; Lange, Roth, Braun & Buhmann 2004). It never uses the editors, so the editorial test stays independent. k is chosen first; that order is harmless because k\* = 6 at every n. The original 33 was chosen by eye from the scree and dendrogram; the rule puts the onset at 32, so the visual choice sat at the start of the plateau.
+
+Regenerate with `python notebooks/ensemble/resolution_table.py`.
+
+**Table S1.** Sensitivity of the main results to resolution (n_chunks)
+
+| n_chunks | Tokens/chunk | Stability | k* (ARI) | Held-out excess (k = 6) | Sequence (k = 6) | Editors beaten (chunks) | Editors beaten (chapters) | Exact at ch. 9/15/41/65 |
+|---|---|---|---|---|---|---|---|---|
+| 18 | 1,628 | 0.694 | 6 | +0.38 | A B C D C A E F | 2 of 7 | 3 of 7 | ✓✓·✓ |
+| 20 | 1,466 | 0.707 | 6 | +0.37 | A B C D C A E F | 4 of 7 | 0 of 7 | ✓··· |
+| 25 | 1,172 | 0.719 | 6 | +0.30 | A B C D C A E F | 4 of 7 | 3 of 7 | ✓·✓· |
+| 30 | 977 | 0.753 | 6 | +0.29 | A B C D C A E F | 4 of 7 | 6 of 7 | ✓✓✓· |
+| **32** | 916 | 0.757 ▮ | 6 | +0.28 | A B C D C A E F | 4 of 7 | 4 of 7 | ✓·✓✓ |
+| **33** | 888 | 0.757 ▮ | 6 | +0.30 | A B C D C A E F | 4 of 7 | 6 of 7 | ✓✓✓✓ |
+| 35 | 837 | 0.767 ▮ | 6 | +0.25 | A B C D C D A E F | 4 of 7 | 6 of 7 | ✓✓✓· |
+| 38 | 771 | 0.776 ▮ | 6 | +0.29 | A B C D C A E F | 4 of 7 | 4 of 7 | ✓·✓✓ |
+| 40 | 733 | 0.773 ▮ | 6 | +0.29 | A B C D C A E F | 4 of 7 | 5 of 7 | ✓✓·✓ |
+| 45 | 651 | 0.759 ▮ | 6 | +0.26 | A B C D C A E F E F | 2 of 7 | 3 of 7 | ✓·✓· |
+| 50 | 586 | 0.761 ▮ | 6 | +0.27 | A B C D C D A E F | 6 of 7 | 3 of 7 | ✓✓·· |
+
+*TF-IDF → Ward, min_df = 5; k* and held-out excess averaged over max_df 0.30–0.70; sequence and editorial agreement for Christenson's K'iche' text at max_df = 0.5. Stability = token-level ARI between the k = 6 partition at n and at n ± 10%, mean over the 8 editions, smoothed; ▮ = on the stability plateau (32–50). The rule sets n_chunks at the plateau onset (**32**); results are reported at **33**. Editors beaten = editors whose part divisions the segmentation matches above chance (boundary F1; ±1 chunk, or exact chapters).*
+
+- **Invariant across the plateau:** k\* = 6, held-out agreement above chance, 4 of 7 editors beaten at chunk level (32–40), and the sequence A B C D C A E F (an extra D at 35 and 50; a repeated E F at 45).
+- **Sensitive:** the chapter-level prediction. 4–6 of 7 editors across 32–40; 6 of 7 with all four shared part starts exact only at 33. Report the band, not the best point. At the rule's own value (32) it is 4 of 7.
+
 ## Method notes
 
 - **Chance baseline:** for each pair of editions, one cluster sequence is rotated by every offset and the score recomputed. This keeps each edition's block structure and label proportions and breaks only the alignment. Each pair group is compared with its own pairs' rotated scores.
@@ -81,3 +108,5 @@ Chosen on all pairs, k\* is 6 for TF-IDF, LSA and Cosine-Sim on both metrics. Va
 - [ ] Script Table 2 (grid k\* and held-out scores) if it is published
 - [ ] Decide whether to discuss the coarse (k = 2–3) primary divisions in the essay
 - [x] Tokenizer fixed and tables regenerated (2026-10-21)
+- [x] n_chunks chosen by stability (plateau onset 32; Table S1)
+- [ ] Decide the reporting n_chunks: 33 (current) or the rule's 32
