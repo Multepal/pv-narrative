@@ -235,45 +235,12 @@ def mean_pairwise_boundary_f1(label_arrays, tol: float) -> float:
 
 # ── Cross-edition agreement ───────────────────────────────────────────────────
 
-def pairwise_summary(label_arrays, langs, score, null):
-    """Mean pairwise `score` overall, within the source language, and source ↔ translation,
-    plus a chance baseline from `null` (an array of scores per pair) pooled over all pairs."""
-    within, cross, every, pooled = [], [], [], []
-    for i in range(len(label_arrays)):
-        for j in range(i + 1, len(label_arrays)):
-            a, b = label_arrays[i], label_arrays[j]
-            s = score(a, b)
-            every.append(s)
-            n_src = (langs[i] == SOURCE_LANG) + (langs[j] == SOURCE_LANG)
-            if n_src == 2:
-                within.append(s)
-            elif n_src == 1:
-                cross.append(s)
-            pooled.extend(null(a, b))
-    _mean = lambda xs: float(np.mean(xs)) if len(xs) else float("nan")
-    return {
-        "all":       _mean(every),
-        "within":    _mean(within),
-        "cross":     _mean(cross),
-        "null_mean": _mean(pooled),
-        "null_p95":  float(np.percentile(pooled, 95)) if len(pooled) else float("nan"),
-    }
-
-
 def metric_fns(metric, tol=None):
     """(score, null) functions on two label arrays for metric 'ARI' or 'F1' (boundary F1 at tol)."""
     if metric == "ARI":
         return adjusted_rand_score, cyclic_shift_ari
     return (lambda a, b: boundary_f1(get_boundaries(a), get_boundaries(b), tol),
             lambda a, b: cyclic_shift_boundary_f1(a, b, tol))
-
-
-def ari_summary(label_arrays, langs):
-    return pairwise_summary(label_arrays, langs, *metric_fns("ARI"))
-
-
-def f1_summary(label_arrays, langs, tol):
-    return pairwise_summary(label_arrays, langs, *metric_fns("F1", tol))
 
 
 def boundary_tol(n_chunks, tol_chunks):
@@ -307,10 +274,14 @@ def pair_group(lang_a, lang_b):
 
 
 def agreement_by_group(label_arrays, langs, metric, tol_chunks=0):
-    """Observed mean, chance 95th percentile and excess (observed − chance) per pair group.
+    """Per pair group ('within', 'cross', 'all'): mean observed score (`obs`), its range
+    across pairs (`min`, `max`), number of pairs (`n`), chance mean and 95th percentile
+    (`null_mean`, `p95`), excess over chance (`excess` = obs − p95), and the empirical
+    p-value of the mean against the chance scores (`p`).
 
     Each group's chance baseline pools the cyclic-shift scores of that group's own pairs,
     so a group is judged against what its own sequences would score when misaligned.
+    Pairs share editions, so p is descriptive rather than a formal test.
     """
     score, null = metric_fns(metric, boundary_tol(len(label_arrays[0]), tol_chunks))
     obs  = {g: [] for g in PAIR_GROUPS}
@@ -323,11 +294,21 @@ def agreement_by_group(label_arrays, langs, metric, tol_chunks=0):
                 if g:
                     obs[g].append(s)
                     pool[g].extend(nl)
-    out = {}
+    nan, out = float("nan"), {}
     for g in PAIR_GROUPS:
-        o = float(np.mean(obs[g])) if obs[g] else float("nan")
-        p = float(np.percentile(pool[g], 95)) if pool[g] else float("nan")
-        out.update({f"{g}_obs": o, f"{g}_p95": p, f"{g}_excess": o - p})
+        o, nl = np.asarray(obs[g]), np.asarray(pool[g])
+        mean = float(o.mean()) if o.size else nan
+        p95  = float(np.percentile(nl, 95)) if nl.size else nan
+        out.update({
+            f"{g}_obs":       mean,
+            f"{g}_min":       float(o.min()) if o.size else nan,
+            f"{g}_max":       float(o.max()) if o.size else nan,
+            f"{g}_n":         int(o.size),
+            f"{g}_null_mean": float(nl.mean()) if nl.size else nan,
+            f"{g}_p95":       p95,
+            f"{g}_excess":    mean - p95,
+            f"{g}_p":         float((np.sum(nl >= mean) + 1) / (nl.size + 1)) if nl.size else nan,
+        })
     return out
 
 

@@ -22,7 +22,7 @@ from toc import render_toc
 from utils import (find_token_file, load_tokens, cluster_string,
                    pairwise_hamming_matrix, pairwise_ari_matrix)
 from grid_search_boundary_core import (N_COMPONENTS, SOURCE_LANG, cluster_labels,
-                                       ari_summary, f1_summary, boundary_tol, pairwise_f1_matrix)
+                                       agreement_by_group, boundary_tol, pairwise_f1_matrix)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -74,33 +74,50 @@ HOLDOUT_DEFS = {
 
 
 def render_agreement_chart(df, prefix, x_col, x_label, y_title, key):
-    """Within / cross / all-pairs agreement lines over a shaded chance band."""
+    """Within / cross / all-pairs agreement in excess of each group's own chance baseline."""
     _src = LANG_LABELS[SOURCE_LANG]
     series = [
-        ("null_p95",  "Chance (95th pct)", dict(mode="lines", line=dict(width=0), fill="tozeroy",
-                                                fillcolor="rgba(150,150,150,0.2)")),
-        ("null_mean", "Chance (mean)",     dict(mode="lines", line=dict(color="gray", width=1, dash="dot"))),
-        ("all",       "All pairs",         dict(mode="lines", line=dict(color="gray", width=1.5, dash="dash"))),
-        ("within",    f"{_src} ↔ {_src}",  dict(mode="lines+markers", line=dict(color="#1f77b4", width=2),
-                                                marker=dict(size=6))),
-        ("cross",     f"{_src} ↔ translation", dict(mode="lines+markers", line=dict(color="#EF553B", width=2),
-                                                    marker=dict(size=6))),
+        ("all",    "All pairs",              dict(mode="lines", line=dict(color="gray", width=1.5, dash="dash"))),
+        ("within", f"{_src} ↔ {_src}",       dict(mode="lines+markers", line=dict(color="#1f77b4", width=2),
+                                                  marker=dict(size=6))),
+        ("cross",  f"{_src} ↔ translation",  dict(mode="lines+markers", line=dict(color="#EF553B", width=2),
+                                                  marker=dict(size=6))),
     ]
     fig = go.Figure()
-    for col, name, style in series:
+    for g, name, style in series:
         fig.add_trace(go.Scatter(
-            x=df[x_col], y=df[f"{prefix}_{col}"], name=name,
-            hovertemplate=f"{x_label}=%{{x}}<br>{name}=%{{y:.3f}}<extra></extra>",
+            x=df[x_col], y=df[f"{prefix}_{g}_excess"], name=name,
+            customdata=df[[f"{prefix}_{g}_obs", f"{prefix}_{g}_p95"]].values,
+            hovertemplate=(f"{x_label}=%{{x}}<br>{name}<br>excess=%{{y:+.3f}}<br>"
+                           "observed=%{customdata[0]:.3f} · chance=%{customdata[1]:.3f}<extra></extra>"),
             **style,
         ))
+    fig.add_hline(y=0, line_color="gray", line_width=1, line_dash="dot",
+                  annotation_text="chance (95th pct)", annotation_position="bottom right")
     fig.update_layout(
         height=360, margin=dict(l=60, r=30, t=20, b=50), plot_bgcolor="white",
         xaxis=dict(title=x_label, showgrid=False, zeroline=False),
-        yaxis=dict(title=y_title, range=[-0.05, 1.05],
-                   showgrid=True, gridcolor="#EEEEEE", zeroline=False),
+        yaxis=dict(title=y_title, showgrid=True, gridcolor="#EEEEEE", zeroline=False),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, x=0),
     )
     st.plotly_chart(fig, width="stretch", key=key)
+
+
+def agreement_table(row, tol_chunks):
+    """One row per (metric, pair group) at a single sweep value: the publishable summary."""
+    _src = LANG_LABELS[SOURCE_LANG]
+    groups = {"within": f"{_src} ↔ {_src}", "cross": f"{_src} ↔ translation", "all": "All pairs"}
+    metrics = {"ari": "ARI", "f1": f"Boundary F1 (± {tol_chunks})"}
+    return pd.DataFrame([{
+        "Metric":          metrics[m],
+        "Pairs":           groups[g],
+        "n":               int(row[f"{m}_{g}_n"]),
+        "Mean":            row[f"{m}_{g}_obs"],
+        "Range":           f"{row[f'{m}_{g}_min']:.2f}–{row[f'{m}_{g}_max']:.2f}",
+        "Chance 95th pct": row[f"{m}_{g}_p95"],
+        "Excess":          row[f"{m}_{g}_excess"],
+        "p":               row[f"{m}_{g}_p"],
+    } for m in metrics for g in groups])
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
@@ -108,7 +125,7 @@ st.title("Cross-Edition Cluster Comparison")
 render_toc([
     ("Cluster Agreement (ARI)",    "agreement-chart"),
     ("Boundary Agreement (F1)",    "boundary-chart"),
-    ("Pairwise Agreement Matrices", "pairwise-matrices"),
+    ("Agreement at One Setting",   "pairwise-matrices"),
 ])
 
 _c         = cfg["controls"]
@@ -197,7 +214,7 @@ for step_i, val in enumerate(sweep_vals):
 
     summary_rows.append({holdout_param: val,
                          **{f"ari_{key}": v for key, v in
-                            ari_summary(edition_label_arrays, edition_langs).items()}})
+                            agreement_by_group(edition_label_arrays, edition_langs, "ARI").items()}})
 
 progress.empty()
 
@@ -214,20 +231,20 @@ _src_lbl = LANG_LABELS[SOURCE_LANG]
 
 st.subheader(f"Cluster Agreement (ARI) vs. {x_label}", anchor="agreement-chart")
 st.caption(
-    f"Mean pairwise ARI between editions' cluster sequences. **{_src_lbl} ↔ {_src_lbl}** compares "
-    f"transcriptions of the original; **{_src_lbl} ↔ translation** compares the original with "
-    "Spanish and English versions, which share almost no vocabulary with it. "
-    "The gray band is chance: agreement below its upper edge is no better than misaligned sequences."
+    f"Mean pairwise ARI in excess of chance. **{_src_lbl} ↔ {_src_lbl}** compares transcriptions "
+    f"of the original; **{_src_lbl} ↔ translation** compares the original with Spanish and English "
+    "versions, which share almost no vocabulary with it. Each group is measured against its own "
+    "chance baseline (95th percentile); above 0 = agreement beyond chance. Hover for raw values."
 )
-render_agreement_chart(df_summary, "ari", holdout_param, x_label, "Mean pairwise ARI", key="ari_chart")
+render_agreement_chart(df_summary, "ari", holdout_param, x_label, "ARI − chance", key="ari_chart")
 
 st.subheader(f"Boundary Agreement (F1) vs. {x_label}", anchor="boundary-chart")
 st.caption(
-    "Mean pairwise F1 between the positions where each edition's cluster label changes. Two "
-    "boundaries match if they lie within the tolerance of each other, so a boundary one chunk "
-    "off — common when translations expand or contract a passage — still counts as agreement. "
-    "ARI would count it as disagreement. At high k, boundaries fall every chunk or two and any "
-    "tolerance matches almost everything; the chance band shows where that happens."
+    "Mean pairwise F1 between the positions where each edition's cluster label changes, in excess "
+    "of chance. Two boundaries match if they lie within the tolerance of each other, so a boundary "
+    "one chunk off — common when translations expand or contract a passage — still counts as "
+    "agreement. ARI would count it as disagreement. At high k, boundaries fall every chunk or two "
+    "and any tolerance matches almost everything; the excess falls to 0 there."
 )
 _tc = _c["boundary_tol_chunks"]
 tol_chunks = st.slider("Boundary tolerance (± chunks)", _tc["min"], _tc["max"], _tc["default"],
@@ -235,23 +252,21 @@ tol_chunks = st.slider("Boundary tolerance (± chunks)", _tc["min"], _tc["max"],
 
 f1_rows = []
 for val, grp in df_all.groupby(holdout_param, sort=False):
-    _tol = boundary_tol(len(grp["labels"].iloc[0]), tol_chunks)
     f1_rows.append({holdout_param: val,
                     **{f"f1_{key}": v for key, v in
-                       f1_summary([np.array(l) for l in grp["labels"]], grp["lang_code"].tolist(),
-                                  _tol).items()}})
+                       agreement_by_group([np.array(l) for l in grp["labels"]],
+                                          grp["lang_code"].tolist(), "F1", tol_chunks).items()}})
 df_summary = df_summary.merge(pd.DataFrame(f1_rows), on=holdout_param, how="left")
-render_agreement_chart(df_summary, "f1", holdout_param, x_label, "Mean pairwise boundary F1",
+render_agreement_chart(df_summary, "f1", holdout_param, x_label, "Boundary F1 − chance",
                        key="f1_chart")
 
 _table_cols = {holdout_param: x_label}
 for prefix, metric in [("ari", "ARI"), ("f1", "F1")]:
-    _table_cols.update({
-        f"{prefix}_within":    f"{metric} {_src_lbl} ↔ {_src_lbl}",
-        f"{prefix}_cross":     f"{metric} {_src_lbl} ↔ translation",
-        f"{prefix}_all":       f"{metric} all pairs",
-        f"{prefix}_null_p95":  f"{metric} chance 95th pct",
-    })
+    for g, g_lbl in [("within", f"{_src_lbl} ↔ {_src_lbl}"), ("cross", f"{_src_lbl} ↔ translation")]:
+        _table_cols.update({
+            f"{prefix}_{g}_obs":    f"{metric} {g_lbl}",
+            f"{prefix}_{g}_excess": f"{metric} {g_lbl} excess",
+        })
 st.dataframe(df_summary[list(_table_cols)].rename(columns=_table_cols).round(4),
              width="stretch", hide_index=True)
 
@@ -262,30 +277,35 @@ with st.expander("How the chance baselines work"):
         "just by being contiguous, so unrelated sequences can score well above 0.\n\n"
         "The baselines keep each edition's sequence intact and only break the alignment: for "
         "every pair of editions, one sequence is rotated by every possible offset and the score "
-        "recomputed. The band's upper edge is the 95th percentile of those scores, pooled over "
-        "all pairs. Agreement above it means editions put their blocks in the *same places*, "
-        "not merely that both are blocky.\n\n"
+        "recomputed. Each group of pairs is compared with the 95th percentile of its own pairs' "
+        "rotated scores; **excess** is the observed mean minus that value. Excess above 0 means "
+        "editions put their blocks in the *same places*, not merely that both are blocky. "
+        "**p** is the share of rotated scores at or above the observed mean; pairs share "
+        "editions, so treat it as descriptive.\n\n"
         "For ARI, every offset from 1 to n−1 chunks is used. For boundary F1, offsets within the "
         "tolerance are skipped, since the F1 by definition treats those as matches.\n\n"
-        "The boundary tolerance is fixed in chunks rather than scaled by k as on Grid Search "
-        "(Boundary). That page's τ = α/2(k−1) assumes k−1 boundaries, but recurring clusters "
-        "produce more (about 7 at k = 6, 15 at k = 12), so k-scaled windows overlap and even "
-        "misaligned sequences score near 1.\n\n"
+        "The boundary tolerance is fixed in chunks rather than scaled by k. A k-scaled "
+        "τ = α/2(k−1) assumes k−1 boundaries, but recurring clusters produce more (about 7 at "
+        "k = 6, 15 at k = 12), so k-scaled windows overlap and even misaligned sequences score "
+        "near 1.\n\n"
         "Caveats: the two Ximénez transcriptions are close to the same text, which lifts "
         f"{_src_lbl} ↔ {_src_lbl} agreement. Chunks are aligned by token position, and "
         "translations expand and contract unevenly. Boundary F1 absorbs drift within the tolerance; "
         "ARI does not, so its cross-language scores are conservative."
     )
 
-# ── Pairwise matrices ──────────────────────────────────────────────────────────
+# ── Agreement at one setting + pairwise matrices ───────────────────────────────
 st.divider()
-st.subheader("Pairwise Agreement Matrices", anchor="pairwise-matrices")
+st.subheader("Agreement at One Setting", anchor="pairwise-matrices")
 st.caption(
-    "Select a sweep value to inspect how each pair of editions compares. "
-    "Both scores: 1 = identical; compare with the chance values shown below each matrix."
+    f"Select a sweep value. With k chosen on {_src_lbl} transcriptions (see the grid search pages), "
+    f"the **{_src_lbl} ↔ translation** rows are a held-out test: the translations played no part "
+    "in the choice."
 )
 
-sel_val = st.selectbox(x_label, sweep_vals, index=len(sweep_vals) - 1)
+_current = {"k": k, "n_chunks": n_chunks, "min_df": min_df, "max_df": max_df, "ngram_max": ngram_max}
+_default_idx = int(np.argmin([abs(float(v) - float(_current[holdout_param])) for v in sweep_vals]))
+sel_val = st.selectbox(x_label, sweep_vals, index=_default_idx)
 
 if HOLDOUT_DEFS[holdout_param]["dtype"] == float:
     df_sel = df_all[np.isclose(df_all[holdout_param].astype(float), float(sel_val))]
@@ -293,6 +313,13 @@ if HOLDOUT_DEFS[holdout_param]["dtype"] == float:
 else:
     df_sel = df_all[df_all[holdout_param] == sel_val]
     sum_sel = df_summary[df_summary[holdout_param] == sel_val]
+
+if not sum_sel.empty:
+    _tbl = agreement_table(sum_sel.iloc[0], tol_chunks)
+    st.dataframe(_tbl.round({"Mean": 3, "Chance 95th pct": 3, "Excess": 3, "p": 4}),
+                 width="stretch", hide_index=True)
+    st.download_button("↓ Download table (CSV)", data=_tbl.to_csv(index=False),
+                       file_name=f"agreement_{method}_{holdout_param}_{sel_val}.csv", mime="text/csv")
 
 if len(df_sel) >= 2:
     edition_labels = [f"{e} ({l})" for e, l in zip(df_sel["edition"], df_sel["lang"])]
@@ -306,6 +333,8 @@ if len(df_sel) >= 2:
     _h      = max(300, len(edition_labels) * 50 + 100)
     _margin = dict(l=20, r=20, t=40, b=20)
     _s      = sum_sel.iloc[0] if not sum_sel.empty else None
+    _chance = lambda m: (f"Chance 95th pct: {_src_lbl} ↔ {_src_lbl} {_s[f'{m}_within_p95']:.3f}, "
+                         f"{_src_lbl} ↔ translation {_s[f'{m}_cross_p95']:.3f}.")
     col_left, col_right = st.columns(2)
 
     with col_left:
@@ -316,7 +345,7 @@ if len(df_sel) >= 2:
         fig_ari.update_traces(textfont_size=11)
         st.plotly_chart(fig_ari, width="stretch")
         if _s is not None:
-            st.caption(f"Chance: mean {_s['ari_null_mean']:.3f}, 95th percentile {_s['ari_null_p95']:.3f}.")
+            st.caption(_chance("ari"))
 
     with col_right:
         st.markdown(f"**Boundary F1** (± {tol_chunks} chunk{'s' if tol_chunks != 1 else ''})")
@@ -326,7 +355,7 @@ if len(df_sel) >= 2:
         fig_f1.update_traces(textfont_size=11)
         st.plotly_chart(fig_f1, width="stretch")
         if _s is not None:
-            st.caption(f"Chance: mean {_s['f1_null_mean']:.3f}, 95th percentile {_s['f1_null_p95']:.3f}.")
+            st.caption(_chance("f1"))
 
     with st.expander("Hamming distance matrix (label-order sensitive)"):
         st.caption(
