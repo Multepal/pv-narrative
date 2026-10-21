@@ -1,5 +1,5 @@
 """
-Division Validation — do the model's narrative boundaries fall where editors divide the text?
+Editors' Divisions — do the model's narrative boundaries fall where editors divide the text?
 
 Scores the boundaries of the chosen segmentation (cluster label changes between chunks)
 against independent editorial part divisions (Brasseur, Recinos, Edmonson, Tedlock, Colop,
@@ -151,7 +151,7 @@ def score_table(labels, refs):
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
-st.title("Division Validation — Popol Wuj")
+st.title("Editors' Divisions — Popol Wuj")
 render_toc([
     ("Timeline",                "timeline"),
     ("Scores",                  "scores"),

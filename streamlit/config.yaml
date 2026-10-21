@@ -5,8 +5,9 @@ app:
   layout: wide
 
 pages:
-  # Sidebar sections follow the argument: model → choose k → test → interpret the
-  # classes (structure) → locate the divisions (event). Remaining pages follow.
+  # Sidebar sections follow the argument: model → choose k → test, then the two axes of
+  # Lévi-Strauss's reading — paradigmatic (structure) and syntagmatic (event), each with an
+  # external check (temas; editors' divisions) — then prediction, then supporting resources.
   "1 · Model":
     - path: pages/chunk_clustering_nc.py
       title: Clustering (TF-IDF)
@@ -22,14 +23,18 @@ pages:
     - path: pages/chunk_clustering_sim.py
       title: Robustness (Cosine-Sim Clustering)
       icon: "🔗"
-  "4 · Interpret the Classes":
+  "4 · Paradigmatic Axis":
     - path: pages/pca_lsa.py
       title: Relations (PCA / LSA)
       icon: "🔬"
     - path: pages/model_diagnostics_nc.py
       title: Content (NMF Topics)
       icon: "⚙️"
-  "5 · Divisions":
+    - path: pages/tema_distribution.py
+      title: Temas (Thematic Check)
+      icon: "🧩"
+  "5 · Syntagmatic Axis":
+    # Segmentation: where the cuts fall, checked against the editors
     - path: pages/grid_search_boundary.py
       title: Boundary Agreement (Grid Search)
       icon: "🔍"
@@ -37,28 +42,26 @@ pages:
       title: Episode Boundaries
       icon: "📍"
     - path: pages/division_validation.py
-      title: Division Validation
+      title: Editors' Divisions
       icon: "✅"
-  "Text Reader & Structural Analysis":
-    - path: pages/christenson_reader.py
-      title: Christenson Text Reader
-      icon: "📖"
     - path: pages/narrative_play.py
       title: Narrative Play
       icon: "🎯"
-    - path: pages/chapter_topics.py
-      title: Chapter Topics
-      icon: "📐"
-  "Temporal & Thematic Analysis":
-    - path: pages/dct_analysis.py
-      title: Narrative DCT
-      icon: "〰️"
+    # Sequence: what follows what, and how classes recur
     - path: pages/narrative_transitions.py
       title: Narrative Transitions
       icon: "🔀"
-    - path: pages/tema_distribution.py
-      title: Tema Distribution
-      icon: "🧩"
+    - path: pages/dct_analysis.py
+      title: Narrative DCT
+      icon: "〰️"
+  "6 · Prediction":
+    - path: pages/chapter_topics.py
+      title: Chapter Topics
+      icon: "📐"
+    - path: pages/christenson_reader.py
+      title: Christenson Text Reader
+      icon: "📖"
+  "Resources":
     - path: pages/annotation_coverage.py
       title: Annotation Coverage
       icon: "🔎"
@@ -118,7 +121,7 @@ languages:
 source_lang: quc
 
 # Narrative divisions as Christenson chapter numbers (the chapter where each division starts;
-# chapter 1 = start of text). Used by Division Validation.
+# chapter 1 = start of text). Used by Editors' Divisions.
 divisions:
   # Editions whose DOCMAP carries Christenson's chapter numbers (chap_num): positions are exact.
   # Other editions are compared by relative position against Christenson's K'iche' text.
