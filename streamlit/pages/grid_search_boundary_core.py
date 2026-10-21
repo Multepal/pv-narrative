@@ -96,7 +96,7 @@ def run_nmf_labels(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=
     if len(chunks_list) < k or X.shape[1] < k:
         return None
     try:
-        THETA = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER).fit_transform(X)
+        THETA = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER, random_state=_cfg["model"]["random_state"]).fit_transform(X)
     except Exception:
         return None
     return np.argmax(THETA, axis=1)

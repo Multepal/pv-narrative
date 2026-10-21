@@ -65,7 +65,7 @@ def run_nmf(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1))
     if X.shape[1] < k:
         return None
     try:
-        model = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER)
+        model = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER, random_state=cfg["model"]["random_state"])
         THETA = model.fit_transform(X)
     except Exception:
         return None

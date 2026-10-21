@@ -104,7 +104,7 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
     except ValueError:
         return None, None, None, None, len(TOKEN)
 
-    nmf = NMF(n_components=n_topics, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"])
+    nmf = NMF(n_components=n_topics, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"], random_state=cfg["model"]["random_state"])
     THETA = pd.DataFrame(nmf.fit_transform(X))
     THETA.index.name, THETA.columns.name = "chunk_id", "topic_id"
 

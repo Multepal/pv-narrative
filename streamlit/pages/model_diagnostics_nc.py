@@ -72,7 +72,7 @@ def run_elbow(src_id, token_path, n_chunks, min_df, max_df, max_topics, model_ty
     rows = []
     for n in range(2, max_topics + 1):
         if model_type == "NMF":
-            m = NMF(n_components=n, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"])
+            m = NMF(n_components=n, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"], random_state=cfg["model"]["random_state"])
             m.fit(X)
         else:
             m = LatentDirichletAllocation(n_components=n, random_state=42, max_iter=20)
@@ -99,7 +99,7 @@ def run_model(src_id, token_path, n_chunks, min_df, max_df, n_topics, model_type
             vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                                   strip_accents=None, norm="l2", ngram_range=ngram_range)
             X = vec.fit_transform(chunks_list)
-            model = NMF(n_components=n_topics, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"])
+            model = NMF(n_components=n_topics, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"], random_state=cfg["model"]["random_state"])
         else:
             vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                                   strip_accents=None, ngram_range=ngram_range)
