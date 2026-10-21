@@ -16,7 +16,7 @@ import yaml
 import numpy as np
 import pandas as pd
 import streamlit as st
-from sklearn.feature_extraction.text import TfidfVectorizer
+from utils import tfidf_vectorizer
 from sklearn.decomposition import NMF
 from grid_search_boundary_core import get_boundaries, cluster_labels
 from utils import find_token_file, load_tokens, make_chunks
@@ -186,7 +186,7 @@ def _chunk_and_chapter_tfidf(src_id, n_chunks, min_df, max_df, ngram_range):
     """TF-IDF of the edition's chunks (fit) and of its Christenson chapters (transform with
     the chunk vocabulary and IDF). Returns (vectorizer, X_chunks, X_chapters, chapter numbers)."""
     tp = find_token_file(src_id)
-    vec = TfidfVectorizer(lowercase=True, min_df=min_df, max_df=max_df, strip_accents=None,
+    vec = tfidf_vectorizer(lowercase=True, min_df=min_df, max_df=max_df, strip_accents=None,
                           norm="l2", ngram_range=ngram_range)
     X = vec.fit_transform(make_chunks(src_id, tp, n_chunks))
     docmap = pd.read_csv(os.path.join(DOC_TABLES, f"{src_id}-DOCMAP.csv"))[["doc_id", "chap_num"]]

@@ -22,7 +22,7 @@ import streamlit as st
 import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
-from sklearn.feature_extraction.text import TfidfVectorizer
+from utils import tfidf_vectorizer
 from scipy.cluster.hierarchy import linkage, fcluster
 from divisions import author_divisions
 
@@ -73,7 +73,7 @@ def compute_data(n_chunks: int, k: int, min_df: int, max_df: float):
         .apply(lambda x: " ".join(x.dropna()))
         .reindex(range(n_chunks), fill_value="")
     )
-    X = TfidfVectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunk_texts).toarray()
+    X = tfidf_vectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunk_texts).toarray()
     raw_labels = fcluster(linkage(X, method="ward"), k, criterion="maxclust")
 
     seen, letter_map = [], {}

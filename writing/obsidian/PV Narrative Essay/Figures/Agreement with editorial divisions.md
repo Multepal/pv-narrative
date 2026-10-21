@@ -1,6 +1,6 @@
 ---
 created: 2026-10-21
-status: provisional (tokenization)
+status: tables generated (fixed tokenizer, 2026-10-21)
 source: "notebooks/ensemble/division_table.py → writing/tables/editors_divisions.{csv,md}"
 ---
 
@@ -8,8 +8,8 @@ source: "notebooks/ensemble/division_table.py → writing/tables/editors_divisio
 
 Do the text's narrative boundaries fall where editors divide it? Two independent detectors, class changes (the syntagm as a sequence of paradigmatic classes) and resonance peaks (breaks in lexical continuity), plus an out-of-sample chapter-level prediction, are scored against seven editors' part divisions. The editors' divisions are independent of the models; the author's divisions are not.
 
-> [!warning] Provisional: tokenization
-> These numbers come from a pipeline whose TF-IDF tokenizer splits K'iche' words at the glottal-stop apostrophe and drops one-letter tokens (found 2026-10-21; about 40% of tokens in Christenson's and Colop's orthography). Regenerate with `python notebooks/ensemble/division_table.py` after the tokenizer is fixed, and paste `writing/tables/editors_divisions.md` here.
+> [!info] Regenerating
+> Tables 3 and 3a are written by `python notebooks/ensemble/division_table.py` (project env), using the Streamlit app's own pipeline. Rerun after any pipeline change and paste `writing/tables/editors_divisions.md` here. Regenerated 2026-10-21 after the tokenizer fix (whole K'iche' words).
 
 **Table 3.** Agreement with editorial divisions (Christenson's K'iche' text, k = 6)
 
@@ -17,14 +17,14 @@ Do the text's narrative boundaries fall where editors divide it? Two independent
 |---|---|---|---|---|
 | Brasseur 1861 (15, 41, 57) | 0.52 (0.58) | 0.40 (0.60) | **0.27** (0.13) | 0.67 |
 | Recinos 1947 (2, 15, 41, 57) | 0.46 (0.57) | 0.36 (0.65) | **0.25** (0.24) | 0.50 |
-| Edmonson 1971 (9, 15, 41) | **0.73** (0.55) | **0.60** (0.52) | **0.40** (0.12) | 1.00 |
+| Edmonson 1971 (9, 15, 41) | **0.73** (0.55) | **0.60** (0.52) | **0.40** (0.13) | 1.00 |
 | Tedlock 1985 (10, 15, 41, 65) | **0.83** (0.67) | **0.73** (0.65) | **0.38** (0.24) | 0.75 |
-| Colop 2011 (9, 15, 41, 65) | **0.83** (0.66) | **0.73** (0.65) | **0.50** (0.12) | 1.00 |
-| Bazzett 2018 (9, 15, 41) | **0.73** (0.55) | **0.60** (0.52) | **0.40** (0.12) | 1.00 |
+| Colop 2011 (9, 15, 41, 65) | **0.83** (0.66) | **0.73** (0.65) | **0.50** (0.21) | 1.00 |
+| Bazzett 2018 (9, 15, 41) | **0.73** (0.55) | **0.60** (0.52) | **0.40** (0.13) | 1.00 |
 | Sotelo 2018 (22, 41, 57) | 0.52 (0.61) | 0.40 (0.60) | 0.13 (0.13) | 0.33 |
-| Author's 8 divisions (9, 15, 19, 22, 41, 48, 65) † | **0.92** (0.73) | **0.78** (0.75) | **0.42** (0.21) | 0.57 |
+| Author's 8 divisions (9, 15, 19, 22, 41, 48, 65) † | **0.92** (0.73) | **0.78** (0.75) | **0.42** (0.28) | 0.57 |
 
-*Boundary F1 (chance 95th percentile) against each edition's part starts, given as Christenson chapters, in Christenson's K'iche' text. TF-IDF → Ward, k = 6, 33 chunks, min_df = 5, max_df = 0.5. Chunk-level detectors match within ±1 chunk (nearest chunk edge); chapter classes are each chapter's nearest class centroid (out of sample), matched within ±0 chapters. Resonance peaks use window 3 and the same boundary budget as the class changes. Bold = above chance. Editors above chance: chunk class changes 4 of 7, resonance 4 of 7, chapter classes 6 of 7. Predicted chapter divisions: 9, 15, 16, 21, 26, 41, 43, 44, 47, 53, 54, 65. Editors agree with each other at mean F1 0.64; chunk class changes agree with them at 0.66. † Not independent of the models.*
+*Boundary F1 (chance 95th percentile) against each edition's part starts, given as Christenson chapters, in Christenson's K'iche' text. TF-IDF → Ward, k = 6, 33 chunks, min_df = 5, max_df = 0.5. Chunk-level detectors match within ±1 chunk (nearest chunk edge); chapter classes are each chapter's nearest class centroid (out of sample), matched within ±0 chapters. Resonance peaks use window 3 and the same boundary budget as the class changes. Bold = above chance. Editors above chance: chunk class changes 4 of 7, resonance 4 of 7, chapter classes 6 of 7. Predicted chapter divisions: 9, 15, 21, 26, 40, 41, 43, 44, 47, 53, 54, 65. Editors agree with each other at mean F1 0.64; chunk class changes agree with them at 0.66. † Not independent of the models.*
 
 **Table 3a.** Division starts recognized by editors or the author, and which predictors mark them
 
@@ -43,7 +43,7 @@ Do the text's narrative boundaries fall where editors divide it? Two independent
 
 ## Reading the tables
 
-- **At chapter resolution the model predicts editorial divisions to the exact chapter.** Out-of-sample chapter classes change at chapters 9, 15, 41 and 65: every part start of Edmonson, Colop and Bazzett, and all but one of Tedlock's (10). They beat chance against 6 of 7 editors.
+- **At chapter resolution the model predicts editorial divisions to the exact chapter.** Among the out-of-sample chapter-class changes are chapters 9, 15, 41 and 65: every part start of Edmonson, Colop and Bazzett, and all but one of Tedlock's (10). They beat chance against 6 of 7 editors.
 - **Two independent detectors find the same divisions at chunk level.** Class changes and resonance peaks each beat chance against the same 4 editors. Class changes are the more robust: the same 4 in every edition, while resonance varies from 0 to 4.
 - **No detector marks chapter 57** ("Offerings Are Made to the Gods"), where Brasseur, Recinos and Sotelo start Part IV. The language of the text supports the division at 65 ("The Sons of the Progenitors Journey to Tulan"), as in Tedlock and Colop. The editors who divide at 57 are dividing on other grounds.
 - **The model stands among the editors** (mean F1 0.66) about as well as they stand among each other (0.64).

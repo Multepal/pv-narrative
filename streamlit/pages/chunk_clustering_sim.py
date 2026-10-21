@@ -16,7 +16,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from wordcloud import WordCloud
 from matplotlib.colors import LinearSegmentedColormap
-from sklearn.feature_extraction.text import TfidfVectorizer
+from utils import tfidf_vectorizer
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
@@ -51,7 +51,7 @@ def run_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1, 1)
     if len(chunks_list) < 3:
         return None
     try:
-        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+        vec = tfidf_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                               strip_accents=None, norm="l2", ngram_range=ngram_range)
         X = vec.fit_transform(chunks_list)
     except ValueError:

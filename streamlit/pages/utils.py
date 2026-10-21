@@ -11,10 +11,25 @@ import plotly.graph_objects as go
 import streamlit as st
 from scipy.cluster.hierarchy import dendrogram as scipy_dendrogram, linkage, fcluster
 from scipy.spatial.distance import hamming, pdist
-from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
 from sklearn.metrics import adjusted_rand_score
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
+
+with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
+    TOKEN_PATTERN = yaml.safe_load(_f)["model"]["token_pattern"]
+
+
+def tfidf_vectorizer(**kwargs) -> TfidfVectorizer:
+    """TfidfVectorizer that keeps the parser's tokens whole (see model.token_pattern in config).
+    Every vectorizer in the app is built here, so tokenization can't drift between pages."""
+    return TfidfVectorizer(token_pattern=TOKEN_PATTERN, **kwargs)
+
+
+def count_vectorizer(**kwargs) -> CountVectorizer:
+    """CountVectorizer counterpart of tfidf_vectorizer."""
+    return CountVectorizer(token_pattern=TOKEN_PATTERN, **kwargs)
+
 
 TFIDF_HANDOFF_KEY = "tfidf_settings_from_choose_k"
 TFIDF_PAGE        = "pages/chunk_clustering_nc.py"
@@ -134,7 +149,7 @@ def run_tfidf_linkage(src_id, token_path, n_chunks, min_df, max_df, ngram_range=
     if len(chunks_list) < 3:
         return None
     try:
-        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+        vec = tfidf_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                               strip_accents=None, norm="l2", ngram_range=ngram_range)
         X = vec.fit_transform(chunks_list)
     except ValueError:

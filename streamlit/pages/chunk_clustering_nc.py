@@ -112,9 +112,9 @@ _selected_k = st.session_state.get("cluster_nc_k", K_STAR)
 # ── Section 1: Scree plot ─────────────────────────────────────────────────────
 st.subheader("Merge Height Scree Plot", anchor="scree-plot")
 st.caption(
-    "Ward merge distance required to reduce k clusters to k−1. The green line marks **k\***, "
+    "Ward merge distance required to reduce k clusters to k−1. The green line marks **k\\***, "
     "chosen by cross-edition agreement on the Choose k page; the dendrogram is cut there by "
-    "default. The elbow is this edition's own view: where it agrees with k\*, that supports "
+    "default. The elbow is this edition's own view: where it agrees with k\\*, that supports "
     "the choice. **Click a point to try another k.**"
 )
 

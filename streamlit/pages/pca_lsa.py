@@ -10,7 +10,7 @@ import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
 from wordcloud import WordCloud
-from sklearn.feature_extraction.text import TfidfVectorizer
+from utils import tfidf_vectorizer
 from sklearn.decomposition import PCA
 from scipy.spatial.distance import pdist
 from scipy.spatial import ConvexHull
@@ -34,7 +34,7 @@ def run_lsa(src_id, token_path, n_chunks, min_df, max_df, n_components, ngram_ra
     if len(chunks_list) < 3:
         return None
     try:
-        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+        vec = tfidf_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                               strip_accents=None, norm="l2", ngram_range=ngram_range)
         X = vec.fit_transform(chunks_list)
     except ValueError:

@@ -10,7 +10,7 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from sklearn.feature_extraction.text import TfidfVectorizer
+from utils import tfidf_vectorizer
 from sklearn.decomposition import NMF
 from toc import render_toc
 from utils import (find_token_file, load_tokens, cluster_string,
@@ -55,7 +55,7 @@ def run_nmf(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1))
     if len(chunks_list) < max(3, k):
         return None
     try:
-        vec = TfidfVectorizer(
+        vec = tfidf_vectorizer(
             lowercase=True, max_df=max_df, min_df=min_df,
             strip_accents=None, norm="l2", ngram_range=ngram_range,
         )

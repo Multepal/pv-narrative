@@ -21,7 +21,7 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-from sklearn.feature_extraction.text import TfidfVectorizer
+from utils import tfidf_vectorizer
 from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
 from utils import find_token_file, load_tokens, load_chunk_doc_texts
@@ -323,7 +323,7 @@ def _chunk_texts(token_path, n_chunks):
 @st.cache_data(show_spinner=False)
 def _resonance_boundaries(token_path, n_chunks, min_df, max_df, window, pct):
     chunks = _chunk_texts(token_path, n_chunks)
-    X = TfidfVectorizer(norm=None, min_df=min_df, max_df=max_df).fit_transform(chunks).toarray().astype(float)
+    X = tfidf_vectorizer(norm=None, min_df=min_df, max_df=max_df).fit_transform(chunks).toarray().astype(float)
     X += 1e-9
     P = X / X.sum(axis=1, keepdims=True)
     n = len(P)
@@ -341,7 +341,7 @@ def _resonance_boundaries(token_path, n_chunks, min_df, max_df, window, pct):
 @st.cache_data(show_spinner=False)
 def _hac_boundaries(token_path, n_chunks, min_df, max_df, n_clusters):
     chunks = _chunk_texts(token_path, n_chunks)
-    X = TfidfVectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunks).toarray()
+    X = tfidf_vectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunks).toarray()
     labels = fcluster(linkage(X, method="ward"), n_clusters, criterion="maxclust")
     bounds = [j for j in range(1, n_chunks) if labels[j] != labels[j - 1]]
     return bounds, labels
@@ -382,7 +382,7 @@ def _hac_tema_assignments(token_path, tema_token_path, min_df, max_df, n_cluster
     Temas with no annotations at that granularity get label -1.
     """
     chunks = _chunk_texts(token_path, PHI_N_CHUNKS)
-    X = TfidfVectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunks).toarray()
+    X = tfidf_vectorizer(norm="l2", min_df=min_df, max_df=max_df).fit_transform(chunks).toarray()
     chunk_labels = fcluster(linkage(X, method="ward"), n_clusters, criterion="maxclust")
 
     TOKEN = pd.read_csv(token_path).merge(

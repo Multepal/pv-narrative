@@ -11,7 +11,7 @@ import plotly.express as px
 import plotly.graph_objects as go
 from wordcloud import WordCloud
 from plotly.subplots import make_subplots
-from sklearn.feature_extraction.text import TfidfVectorizer, CountVectorizer
+from utils import tfidf_vectorizer, count_vectorizer
 from sklearn.decomposition import NMF, LatentDirichletAllocation
 from sklearn.metrics import adjusted_rand_score
 from sklearn.metrics.pairwise import cosine_distances
@@ -56,10 +56,10 @@ def run_elbow(src_id, token_path, n_chunks, min_df, max_df, max_topics, model_ty
         return None
     try:
         if model_type == "NMF":
-            vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+            vec = tfidf_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                                   strip_accents=None, norm="l2", ngram_range=ngram_range)
         else:
-            vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+            vec = count_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                                   strip_accents=None, ngram_range=ngram_range)
         X = vec.fit_transform(chunks_list)
     except ValueError:
@@ -96,12 +96,12 @@ def run_model(src_id, token_path, n_chunks, min_df, max_df, n_topics, model_type
         return None, None, None
     try:
         if model_type == "NMF":
-            vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+            vec = tfidf_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                                   strip_accents=None, norm="l2", ngram_range=ngram_range)
             X = vec.fit_transform(chunks_list)
             model = NMF(n_components=n_topics, init="nndsvda", max_iter=cfg["model"]["nmf_max_iter"], random_state=cfg["model"]["random_state"])
         else:
-            vec = CountVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+            vec = count_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                                   strip_accents=None, ngram_range=ngram_range)
             X = vec.fit_transform(chunks_list)
             model = LatentDirichletAllocation(n_components=n_topics, random_state=42, max_iter=20)

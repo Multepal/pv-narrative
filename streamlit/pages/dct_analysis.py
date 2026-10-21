@@ -20,7 +20,7 @@ import plotly.graph_objects as go
 import plotly.express as px
 from plotly.subplots import make_subplots
 from scipy.fft import dct, idct
-from sklearn.feature_extraction.text import TfidfVectorizer
+from utils import tfidf_vectorizer
 from sklearn.decomposition import TruncatedSVD, NMF
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
@@ -46,7 +46,7 @@ def _tfidf_matrix(chunks_list, min_df, max_df):
     if len(chunks_list) < 3:
         return None
     try:
-        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+        vec = tfidf_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                               strip_accents=None, norm="l2")
         return vec.fit_transform(chunks_list)
     except ValueError:

@@ -9,7 +9,7 @@ from wordcloud import WordCloud
 import pandas as pd
 import numpy as np
 import plotly.express as px
-from sklearn.feature_extraction.text import TfidfVectorizer
+from utils import tfidf_vectorizer
 from sklearn.decomposition import NMF
 from sklearn.preprocessing import MinMaxScaler
 from scipy.spatial import distance
@@ -52,7 +52,7 @@ def compute_vocab_stats(src_id, token_path, chunk_size, overlap_int):
     n_chunks = len(chunks)
     if n_chunks < 2:
         return None
-    vec = TfidfVectorizer(lowercase=True, max_df=1.0, min_df=1, strip_accents=None)
+    vec = tfidf_vectorizer(lowercase=True, max_df=1.0, min_df=1, strip_accents=None)
     try:
         X = vec.fit_transform(chunks)
     except ValueError:
@@ -98,7 +98,7 @@ def run_model(src_id, token_path, chunk_size, overlap_int, min_df, max_df, n_top
         return None, None, None, None, len(TOKEN)
 
     try:
-        vec = TfidfVectorizer(lowercase=True, max_df=max_df, min_df=min_df,
+        vec = tfidf_vectorizer(lowercase=True, max_df=max_df, min_df=min_df,
                               strip_accents=None, norm="l2")
         X = vec.fit_transform(chunks_list)
     except ValueError:
