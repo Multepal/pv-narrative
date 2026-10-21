@@ -18,15 +18,11 @@ import pandas as pd
 import numpy as np
 import plotly.express as px
 import plotly.graph_objects as go
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD, NMF
-from scipy.spatial.distance import pdist
-from scipy.cluster.hierarchy import linkage, fcluster
 from toc import render_toc
-from sklearn.metrics import adjusted_rand_score
-from utils import (find_token_file, load_tokens, threshold_for_k, cluster_string,
-                   pairwise_hamming_matrix, pairwise_ari_matrix, cyclic_shift_ari)
-from grid_search_boundary_core import get_boundaries, boundary_f1, cyclic_shift_boundary_f1
+from utils import (find_token_file, load_tokens, cluster_string,
+                   pairwise_hamming_matrix, pairwise_ari_matrix)
+from grid_search_boundary_core import (N_COMPONENTS, SOURCE_LANG, cluster_labels,
+                                       ari_summary, f1_summary, boundary_tol, pairwise_f1_matrix)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -35,10 +31,7 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 
 SOURCES_META = cfg["sources"]
 LANG_LABELS  = cfg["languages"]
-SOURCE_LANG  = cfg["source_lang"]
 _v           = cfg["visualization"]
-NMF_MAX_ITER = cfg["model"]["nmf_max_iter"]
-N_COMPONENTS = 10
 
 st.markdown(
     f"<style>.block-container{{max-width:{cfg['layout']['max_width_px']}px !important;}}</style>",
@@ -78,125 +71,6 @@ HOLDOUT_DEFS = {
     "max_df":    {"dtype": float, "vals": [round(v, 2) for v in np.arange(0.20, 0.95, 0.10)]},
     "ngram_max": {"dtype": int,   "vals": list(range(1, 5))},
 }
-
-
-@st.cache_data(show_spinner=False)
-def run_hac(src_id, token_path, n_chunks, min_df, max_df, method, ngram_range=(1, 1)):
-    TOKEN = load_tokens(src_id, token_path)
-    tr = TOKEN.reset_index()
-    tr["chunk_num"] = pd.cut(tr.index, n_chunks, labels=list(range(n_chunks)))
-    chunks_list = (
-        tr.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-        .tolist()
-    )
-    if len(chunks_list) < 3:
-        return None
-    try:
-        vec = TfidfVectorizer(
-            lowercase=True, max_df=max_df, min_df=min_df,
-            strip_accents=None, norm="l2", ngram_range=ngram_range,
-        )
-        X = vec.fit_transform(chunks_list)
-    except ValueError:
-        return None
-    if method == "LSA":
-        n_comp = min(N_COMPONENTS, X.shape[0] - 1, X.shape[1] - 1)
-        if n_comp < 2:
-            return None
-        mat = TruncatedSVD(n_components=n_comp, random_state=42).fit_transform(X)
-    elif method == "Cosine-Sim":
-        mat = (X @ X.T).toarray()
-    else:
-        mat = X.toarray()
-    Z = linkage(pdist(mat, metric="euclidean"), method="ward")
-    return {"Z": Z, "n_chunks": len(chunks_list)}
-
-
-@st.cache_data(show_spinner=False)
-def run_nmf_labels(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1)):
-    TOKEN = load_tokens(src_id, token_path)
-    tr = TOKEN.reset_index()
-    tr["chunk_num"] = pd.cut(tr.index, n_chunks, labels=list(range(n_chunks)))
-    chunks_list = (
-        tr.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-        .tolist()
-    )
-    if len(chunks_list) < max(3, k):
-        return None
-    try:
-        vec = TfidfVectorizer(
-            lowercase=True, max_df=max_df, min_df=min_df,
-            strip_accents=None, norm="l2", ngram_range=ngram_range,
-        )
-        X = vec.fit_transform(chunks_list)
-    except ValueError:
-        return None
-    if X.shape[1] < k:
-        return None
-    try:
-        THETA = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER).fit_transform(X)
-    except Exception:
-        return None
-    return {"labels": np.argmax(THETA, axis=1), "n_chunks": len(chunks_list)}
-
-
-def pairwise_summary(label_arrays, langs, score, null):
-    """Mean pairwise `score` overall, within the source language, and source ↔ translation,
-    plus a chance baseline from `null` (an array of scores per pair) pooled over all pairs."""
-    within, cross, every, pooled = [], [], [], []
-    for i in range(len(label_arrays)):
-        for j in range(i + 1, len(label_arrays)):
-            a, b = label_arrays[i], label_arrays[j]
-            s = score(a, b)
-            every.append(s)
-            n_src = (langs[i] == SOURCE_LANG) + (langs[j] == SOURCE_LANG)
-            if n_src == 2:
-                within.append(s)
-            elif n_src == 1:
-                cross.append(s)
-            pooled.extend(null(a, b))
-    _mean = lambda xs: float(np.mean(xs)) if len(xs) else float("nan")
-    return {
-        "all":       _mean(every),
-        "within":    _mean(within),
-        "cross":     _mean(cross),
-        "null_mean": _mean(pooled),
-        "null_p95":  float(np.percentile(pooled, 95)) if len(pooled) else float("nan"),
-    }
-
-
-def ari_summary(label_arrays, langs):
-    return pairwise_summary(label_arrays, langs, adjusted_rand_score, cyclic_shift_ari)
-
-
-def f1_summary(label_arrays, langs, tol):
-    return pairwise_summary(
-        label_arrays, langs,
-        lambda a, b: boundary_f1(get_boundaries(a), get_boundaries(b), tol),
-        lambda a, b: cyclic_shift_boundary_f1(a, b, tol),
-    )
-
-
-def boundary_tol(n_chunks, tol_chunks):
-    """Tolerance in normalized position for matching within ±tol_chunks chunks.
-
-    Fixed in chunks rather than scaled by k (as on Grid Search (Boundary)) because
-    recurring clusters yield more than k−1 boundaries, so k-scaled windows overlap
-    and F1 saturates even for misaligned sequences. The half-chunk margin keeps the
-    float comparison in boundary_f1 exact (0 = boundaries must coincide).
-    """
-    return (tol_chunks + 0.5) / n_chunks
-
-
-def pairwise_f1_matrix(label_arrays, tol):
-    bs  = [get_boundaries(np.asarray(la)) for la in label_arrays]
-    mat = np.ones((len(bs), len(bs)))
-    for i in range(len(bs)):
-        for j in range(i + 1, len(bs)):
-            mat[i, j] = mat[j, i] = boundary_f1(bs[i], bs[j], tol)
-    return mat
 
 
 def render_agreement_chart(df, prefix, x_col, x_label, y_title, key):
@@ -303,20 +177,10 @@ for step_i, val in enumerate(sweep_vals):
         if token_path is None:
             continue
         TOKEN = load_tokens(src_id, token_path)
-        if method == "NMF":
-            result = run_nmf_labels(src_id, token_path, p_n_chunks, p_min_df, p_max_df,
-                                    p_k, (int(ngram_min), p_ngram_max))
-            if result is None:
-                continue
-            labels = result["labels"]
-        else:
-            result = run_hac(src_id, token_path, p_n_chunks, p_min_df, p_max_df,
-                             method, (int(ngram_min), p_ngram_max))
-            if result is None:
-                continue
-            Z      = result["Z"]
-            n_act  = result["n_chunks"]
-            labels = fcluster(Z, threshold_for_k(Z, p_k, n_act), criterion="distance")
+        labels = cluster_labels(method, src_id, token_path, p_n_chunks, p_min_df, p_max_df,
+                                p_k, (int(ngram_min), p_ngram_max))
+        if labels is None:
+            continue
         cstr = cluster_string(labels)
         edition_label_arrays.append(labels)
         edition_langs.append(meta["lang"])

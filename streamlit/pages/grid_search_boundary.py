@@ -22,7 +22,7 @@ from scipy.cluster.hierarchy import fcluster
 from toc import render_toc
 from grid_search_boundary_core import (
     find_token_file,
-    run_linkage_tfidf, run_linkage_lsa, run_linkage_sim, run_nmf_labels,
+    HAC_RUN_FNS, run_nmf_labels,
     run_resonance_boundaries, resonance_boundaries_at_pct, mean_pairwise_f1_from_positions,
     threshold_for_k, mean_pairwise_boundary_f1,
     FIXED_MIN_DF, FIXED_NGRAM, N_COMPONENTS,
@@ -36,12 +36,6 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 SOURCES_META = cfg["sources"]
 _v           = cfg["visualization"]
 K_VALS       = list(range(2, 21))
-
-HAC_RUN_FNS = {
-    "TF-IDF":     run_linkage_tfidf,
-    "LSA":        run_linkage_lsa,
-    "Cosine-Sim": run_linkage_sim,
-}
 
 METHOD_LABELS = {
     "TF-IDF":         "TF-IDF → Ward HAC",
@@ -299,7 +293,7 @@ if method == "Ensemble":
         .sort_values("consensus_score", ascending=False)
         .reset_index(drop=True)
         .rename(columns={"consensus_score": "Consensus"}),
-        use_container_width=True, hide_index=True,
+        width="stretch", hide_index=True,
     )
 
     # ── Peak sharpness ─────────────────────────────────────────────────────────
@@ -360,7 +354,7 @@ if method == "Ensemble":
                               "sharpness", "joint_score"]]
         .rename(columns={"consensus_score": "Consensus", "joint_score": "Joint score"})
         .round(4),
-        use_container_width=True, hide_index=True,
+        width="stretch", hide_index=True,
     )
 
 elif method == "KLD Resonance":
@@ -491,7 +485,7 @@ elif method == "KLD Resonance":
     st.divider()
     st.subheader("Summary — Sorted by Maximum Boundary F1", anchor="summary")
     st.caption("Most concordant parameter combinations first. k_eff = mean detected boundaries + 1.")
-    st.dataframe(df_summary, use_container_width=True, hide_index=True)
+    st.dataframe(df_summary, width="stretch", hide_index=True)
 
 else:
     # ── Single method ──────────────────────────────────────────────────────────
@@ -669,10 +663,10 @@ else:
         [["k", "n_chunks", "max_df", "mean_f1"]].sort_values("k").reset_index(drop=True)
         .rename(columns={"mean_f1": "Boundary F1"})
     )
-    st.dataframe(_best_by_k, use_container_width=True, hide_index=True)
+    st.dataframe(_best_by_k, width="stretch", hide_index=True)
 
     # ── Summary ────────────────────────────────────────────────────────────────
     st.divider()
     st.subheader("Summary — Sorted by Maximum Boundary F1", anchor="summary")
     st.caption("Most concordant parameter combinations first.")
-    st.dataframe(df_summary, use_container_width=True, hide_index=True)
+    st.dataframe(df_summary, width="stretch", hide_index=True)

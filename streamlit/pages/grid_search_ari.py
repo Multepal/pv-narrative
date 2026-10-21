@@ -15,12 +15,11 @@ import pandas as pd
 import numpy as np
 import plotly.graph_objects as go
 import plotly.express as px
-from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD, NMF
-from scipy.spatial.distance import pdist
-from scipy.cluster.hierarchy import linkage, fcluster
+from scipy.cluster.hierarchy import fcluster
 from toc import render_toc
-from utils import find_token_file, load_tokens, threshold_for_k, mean_pairwise_ari
+from utils import find_token_file, threshold_for_k, mean_pairwise_ari
+from grid_search_boundary_core import (HAC_RUN_FNS, run_nmf_labels,
+                                       FIXED_MIN_DF, FIXED_NGRAM, N_COMPONENTS)
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -30,10 +29,6 @@ with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
 SOURCES_META  = cfg["sources"]
 _v            = cfg["visualization"]
 K_VALS        = list(range(2, 21))
-NMF_MAX_ITER  = cfg["model"]["nmf_max_iter"]
-N_COMPONENTS  = 10
-FIXED_MIN_DF  = 5
-FIXED_NGRAM   = (1, 1)
 
 METHOD_LABELS = {
     "TF-IDF":     "TF-IDF → Ward HAC",
@@ -46,68 +41,6 @@ METHOD_K_LABEL = {
     "TF-IDF": "k (clusters)", "LSA": "k (clusters)",
     "Cosine-Sim": "k (clusters)", "NMF": "k (topics)",
 }
-
-
-@st.cache_data(show_spinner=False)
-def run_hac_grid(src_id, token_path, n_chunks, min_df, max_df, method, ngram_range=(1, 1)):
-    TOKEN = load_tokens(src_id, token_path)
-    tr = TOKEN.reset_index()
-    tr["chunk_num"] = pd.cut(tr.index, n_chunks, labels=list(range(n_chunks)))
-    chunks_list = (
-        tr.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-        .tolist()
-    )
-    if len(chunks_list) < 3:
-        return None
-    try:
-        vec = TfidfVectorizer(
-            lowercase=True, max_df=max_df, min_df=min_df,
-            strip_accents=None, norm="l2", ngram_range=ngram_range,
-        )
-        X = vec.fit_transform(chunks_list)
-    except ValueError:
-        return None
-    if method == "LSA":
-        n_comp = min(N_COMPONENTS, X.shape[0] - 1, X.shape[1] - 1)
-        if n_comp < 2:
-            return None
-        mat = TruncatedSVD(n_components=n_comp, random_state=42).fit_transform(X)
-    elif method == "Cosine-Sim":
-        mat = (X @ X.T).toarray()
-    else:
-        mat = X.toarray()
-    Z = linkage(pdist(mat, metric="euclidean"), method="ward")
-    return {"Z": Z, "n_chunks": len(chunks_list)}
-
-
-@st.cache_data(show_spinner=False)
-def run_nmf_grid(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1)):
-    TOKEN = load_tokens(src_id, token_path)
-    tr = TOKEN.reset_index()
-    tr["chunk_num"] = pd.cut(tr.index, n_chunks, labels=list(range(n_chunks)))
-    chunks_list = (
-        tr.groupby("chunk_num", observed=True)["term_str"]
-        .apply(lambda x: " ".join(x.dropna()))
-        .tolist()
-    )
-    if len(chunks_list) < max(3, k):
-        return None
-    try:
-        vec = TfidfVectorizer(
-            lowercase=True, max_df=max_df, min_df=min_df,
-            strip_accents=None, norm="l2", ngram_range=ngram_range,
-        )
-        X = vec.fit_transform(chunks_list)
-    except ValueError:
-        return None
-    if X.shape[1] < k:
-        return None
-    try:
-        THETA = NMF(n_components=k, init="nndsvda", max_iter=NMF_MAX_ITER).fit_transform(X)
-    except Exception:
-        return None
-    return np.argmax(THETA, axis=1)
 
 
 # ── Controls ──────────────────────────────────────────────────────────────────
@@ -176,7 +109,7 @@ if method == "NMF":
                 tp = token_files[src_id]
                 if tp is None:
                     continue
-                labels = run_nmf_grid(src_id, tp, nc, FIXED_MIN_DF, mxdf, k, FIXED_NGRAM)
+                labels = run_nmf_labels(src_id, tp, nc, FIXED_MIN_DF, mxdf, k, FIXED_NGRAM)
                 if labels is not None:
                     label_arrays.append(labels)
             if len(label_arrays) < 2:
@@ -199,7 +132,7 @@ else:
             tp = token_files[src_id]
             if tp is None:
                 continue
-            result = run_hac_grid(src_id, tp, nc, FIXED_MIN_DF, mxdf, method, FIXED_NGRAM)
+            result = HAC_RUN_FNS[method](src_id, tp, nc, FIXED_MIN_DF, mxdf, FIXED_NGRAM)
             if result is not None:
                 linkage_cache[src_id] = result
         if len(linkage_cache) < 2:
@@ -344,10 +277,10 @@ _best_by_k = (
     .sort_values("k").reset_index(drop=True)
     .rename(columns={"mean_ari": "ARI"})
 )
-st.dataframe(_best_by_k, use_container_width=True, hide_index=True)
+st.dataframe(_best_by_k, width="stretch", hide_index=True)
 
 # ── Summary ────────────────────────────────────────────────────────────────────
 st.divider()
 st.subheader("Summary — Sorted by Maximum ARI", anchor="summary")
 st.caption("Most coherent parameter combinations first (higher ARI = more agreement across editions).")
-st.dataframe(df_summary, use_container_width=True, hide_index=True)
+st.dataframe(df_summary, width="stretch", hide_index=True)

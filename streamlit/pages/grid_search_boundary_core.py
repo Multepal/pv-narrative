@@ -1,5 +1,6 @@
 """
-Shared pipeline functions for all boundary concordance grid search pages.
+Shared pipeline and agreement functions for the cross-edition pages: the grid
+searches (ARI, boundary concordance) and Cross-Edition Comparison.
 
 All @st.cache_data functions are defined here so that Streamlit's process-level
 cache is shared: visiting any individual method page warms the cache for the
@@ -14,8 +15,9 @@ import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
 from sklearn.decomposition import TruncatedSVD, NMF
 from scipy.spatial.distance import pdist
-from scipy.cluster.hierarchy import linkage
-from utils import find_token_file, load_tokens, threshold_for_k
+from scipy.cluster.hierarchy import linkage, fcluster
+from sklearn.metrics import adjusted_rand_score
+from utils import find_token_file, load_tokens, threshold_for_k, cyclic_shift_ari
 
 APP_DIR = os.path.dirname(os.path.abspath(__file__))
 
@@ -26,6 +28,7 @@ N_COMPONENTS = 10
 FIXED_MIN_DF = 5
 FIXED_NGRAM  = (1, 1)
 NMF_MAX_ITER = _cfg["model"]["nmf_max_iter"]
+SOURCE_LANG  = _cfg["source_lang"]
 
 
 def _vectorize(src_id, token_path, n_chunks, min_df, max_df, ngram_range):
@@ -97,6 +100,25 @@ def run_nmf_labels(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=
     except Exception:
         return None
     return np.argmax(THETA, axis=1)
+
+
+HAC_RUN_FNS = {
+    "TF-IDF":     run_linkage_tfidf,
+    "LSA":        run_linkage_lsa,
+    "Cosine-Sim": run_linkage_sim,
+}
+
+
+def cluster_labels(method, src_id, token_path, n_chunks, min_df, max_df, k, ngram_range=(1, 1)):
+    """Per-chunk labels for one edition: a HAC method cut at k clusters, or NMF argmax over k topics.
+    Returns None if the edition can't be modeled with these parameters."""
+    if method == "NMF":
+        return run_nmf_labels(src_id, token_path, n_chunks, min_df, max_df, k, ngram_range)
+    result = HAC_RUN_FNS[method](src_id, token_path, n_chunks, min_df, max_df, ngram_range)
+    if result is None:
+        return None
+    Z = result["Z"]
+    return fcluster(Z, threshold_for_k(Z, k, result["n_chunks"]), criterion="distance")
 
 
 @st.cache_data(show_spinner=False)
@@ -210,3 +232,62 @@ def mean_pairwise_boundary_f1(label_arrays, tol: float) -> float:
         for i in range(n) for j in range(i + 1, n)
     ]
     return float(np.mean(scores))
+
+
+# ── Cross-edition agreement ───────────────────────────────────────────────────
+
+def pairwise_summary(label_arrays, langs, score, null):
+    """Mean pairwise `score` overall, within the source language, and source ↔ translation,
+    plus a chance baseline from `null` (an array of scores per pair) pooled over all pairs."""
+    within, cross, every, pooled = [], [], [], []
+    for i in range(len(label_arrays)):
+        for j in range(i + 1, len(label_arrays)):
+            a, b = label_arrays[i], label_arrays[j]
+            s = score(a, b)
+            every.append(s)
+            n_src = (langs[i] == SOURCE_LANG) + (langs[j] == SOURCE_LANG)
+            if n_src == 2:
+                within.append(s)
+            elif n_src == 1:
+                cross.append(s)
+            pooled.extend(null(a, b))
+    _mean = lambda xs: float(np.mean(xs)) if len(xs) else float("nan")
+    return {
+        "all":       _mean(every),
+        "within":    _mean(within),
+        "cross":     _mean(cross),
+        "null_mean": _mean(pooled),
+        "null_p95":  float(np.percentile(pooled, 95)) if len(pooled) else float("nan"),
+    }
+
+
+def ari_summary(label_arrays, langs):
+    return pairwise_summary(label_arrays, langs, adjusted_rand_score, cyclic_shift_ari)
+
+
+def f1_summary(label_arrays, langs, tol):
+    return pairwise_summary(
+        label_arrays, langs,
+        lambda a, b: boundary_f1(get_boundaries(a), get_boundaries(b), tol),
+        lambda a, b: cyclic_shift_boundary_f1(a, b, tol),
+    )
+
+
+def boundary_tol(n_chunks, tol_chunks):
+    """Tolerance in normalized position for matching within ±tol_chunks chunks.
+
+    Fixed in chunks rather than scaled by k (as on Grid Search (Boundary)) because
+    recurring clusters yield more than k−1 boundaries, so k-scaled windows overlap
+    and F1 saturates even for misaligned sequences. The half-chunk margin keeps the
+    float comparison in boundary_f1 exact (0 = boundaries must coincide).
+    """
+    return (tol_chunks + 0.5) / n_chunks
+
+
+def pairwise_f1_matrix(label_arrays, tol):
+    bs  = [get_boundaries(np.asarray(la)) for la in label_arrays]
+    mat = np.ones((len(bs), len(bs)))
+    for i in range(len(bs)):
+        for j in range(i + 1, len(bs)):
+            mat[i, j] = mat[j, i] = boundary_f1(bs[i], bs[j], tol)
+    return mat
