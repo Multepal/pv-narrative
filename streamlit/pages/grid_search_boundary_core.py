@@ -13,7 +13,7 @@ import numpy as np
 import pandas as pd
 import streamlit as st
 from sklearn.feature_extraction.text import TfidfVectorizer
-from sklearn.decomposition import TruncatedSVD, NMF
+from sklearn.decomposition import PCA, NMF
 from scipy.spatial.distance import pdist
 from scipy.cluster.hierarchy import linkage, fcluster
 from sklearn.metrics import adjusted_rand_score
@@ -24,7 +24,7 @@ APP_DIR = os.path.dirname(os.path.abspath(__file__))
 with open(os.path.join(APP_DIR, "../config.yaml"), encoding="utf-8") as _f:
     _cfg = yaml.safe_load(_f)
 
-N_COMPONENTS = 10
+N_COMPONENTS = _cfg["controls"]["lsa_n_components"]["default"]   # same as the PCA / LSA page
 FIXED_MIN_DF = 5
 FIXED_NGRAM  = (1, 1)
 NMF_MAX_ITER = _cfg["model"]["nmf_max_iter"]
@@ -61,11 +61,13 @@ def run_linkage_lsa(src_id, token_path, n_chunks, min_df, max_df, ngram_range=(1
     X, chunks_list = _vectorize(src_id, token_path, n_chunks, min_df, max_df, ngram_range)
     if X is None:
         return None
+    # Centered PCA, as on the PCA / LSA page: uncentered SVD's first component mostly
+    # tracks overall term weight rather than any contrast between chunks.
     n_comp = min(N_COMPONENTS, X.shape[0] - 1, X.shape[1] - 1)
     if n_comp < 2:
         return None
-    X_svd = TruncatedSVD(n_components=n_comp, random_state=42).fit_transform(X)
-    Z = linkage(pdist(X_svd, metric="euclidean"), method="ward")
+    scores = PCA(n_components=n_comp, whiten=False, random_state=42).fit_transform(X.toarray())
+    Z = linkage(pdist(scores, metric="euclidean"), method="ward")
     return {"Z": Z, "n_chunks": len(chunks_list)}
 
 

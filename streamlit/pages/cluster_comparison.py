@@ -6,7 +6,7 @@ source-language and source ↔ translation pairs.
 
 Method selector chooses the vectorization / clustering backend:
   TF-IDF     — TF-IDF matrix → Ward HAC
-  LSA        — TF-IDF → TruncatedSVD (n=10) → Ward HAC
+  LSA        — TF-IDF → centered PCA (n from config) → Ward HAC
   Cosine-Sim — TF-IDF → cosine-similarity matrix → Ward HAC
   NMF        — TF-IDF → NMF → argmax(THETA) labels (k is a model parameter)
 """
@@ -40,7 +40,7 @@ st.markdown(
 
 METHOD_LABELS = {
     "TF-IDF":     "TF-IDF → Ward HAC",
-    "LSA":        f"TF-IDF → LSA (SVD, n={N_COMPONENTS}) → Ward HAC",
+    "LSA":        f"TF-IDF → PCA/LSA (centered, n={N_COMPONENTS}) → Ward HAC",
     "Cosine-Sim": "TF-IDF → cosine-similarity matrix → Ward HAC",
     "NMF":        "TF-IDF → NMF → argmax(THETA)",
 }
@@ -51,7 +51,7 @@ METHOD_CAPTIONS = {
         "via `pd.cut`. Select a parameter to sweep; all others stay fixed."
     ),
     "LSA": (
-        f"TF-IDF → TruncatedSVD (n_components={N_COMPONENTS}) → Ward HAC. "
+        f"TF-IDF → centered PCA (n_components={N_COMPONENTS}, as on the PCA / LSA page) → Ward HAC. "
         "Latent-semantic projection before clustering reduces noise and vocabulary mismatch."
     ),
     "Cosine-Sim": (

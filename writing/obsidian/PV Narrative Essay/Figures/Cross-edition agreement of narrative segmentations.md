@@ -10,7 +10,7 @@ source: "notebooks/ensemble/agreement_table.py → writing/tables/cross_edition_
 Do independent editions and translations of the Popol Wuj segment into the same narrative structure? The tables answer three questions: does agreement beat chance, does it survive translation, and does it hold across methods?
 
 > [!info] Regenerating
-> Tables 1 and 1a are written by `python notebooks/ensemble/agreement_table.py` (project env), which uses the Streamlit app's own pipeline. Rerun it after any pipeline change and paste the new `writing/tables/cross_edition_agreement.md` here. Generated 2026-10-20.
+> Tables 1 and 1a are written by `python notebooks/ensemble/agreement_table.py` (project env), which uses the Streamlit app's own pipeline. Rerun it after any pipeline change and paste the new `writing/tables/cross_edition_agreement.md` here. Regenerated 2026-10-21 (LSA now uses centered PCA, as on the PCA / LSA page).
 
 ## Table 1
 
@@ -19,18 +19,18 @@ Do independent editions and translations of the Popol Wuj segment into the same 
 | Method | ARI: K'iche' ↔ K'iche' (10 pairs) | chance | ARI: K'iche' ↔ translation (15 pairs) | chance | F1: K'iche' ↔ K'iche' (10 pairs) | chance | F1: K'iche' ↔ translation (15 pairs) | chance |
 |---|---|---|---|---|---|---|---|---|
 | TF-IDF → Ward | 0.82 (0.73–1.00) | 0.42 | 0.76 (0.62–1.00) | 0.41 | 0.97 (0.87–1.00) | 0.75 | 0.95 (0.87–1.00) | 0.80 |
-| LSA → Ward | 0.83 (0.71–0.94) | 0.44 | 0.75 (0.58–0.92) | 0.44 | 0.92 (0.86–1.00) | 0.82 | 0.92 (0.82–1.00) | 0.80 |
+| LSA → Ward | 0.89 (0.78–1.00) | 0.49 | 0.79 (0.66–0.88) | 0.45 | 1.00 (1.00–1.00) | 0.80 | 0.92 (0.71–1.00) | 0.76 |
 | Cosine-Sim → Ward | 0.79 (0.66–0.92) | 0.45 | 0.78 (0.56–1.00) | 0.45 | 0.91 (0.86–1.00) | 0.79 | 0.94 (0.86–1.00) | 0.80 |
 | NMF → argmax | 0.92 (0.84–1.00) | 0.48 | 0.80 (0.70–0.87) | 0.48 | 1.00 (1.00–1.00) | 0.80 | 1.00 (1.00–1.00) | 0.80 |
 
-*Mean pairwise agreement (range across pairs) between editions' segmentations at k = 6, 33 equal-token chunks, min_df = 5, max_df = 0.5, n-grams 1–1. ARI = adjusted Rand index; F1 = boundary F1 with ±1-chunk tolerance. Chance = 95th percentile of scores after cyclically shifting one sequence of each pair, pooled within each pair group. Every mean exceeds its chance value; empirical p ≤ 0.016 throughout (pairs share editions, so p is descriptive).*
+*Mean pairwise agreement (range across pairs) between editions' segmentations at k = 6, 33 equal-token chunks, min_df = 5, max_df = 0.5, n-grams 1–1. ARI = adjusted Rand index; F1 = boundary F1 with ±1-chunk tolerance. Chance = 95th percentile of scores after cyclically shifting one sequence of each pair, pooled within each pair group. Every mean exceeds its chance value; empirical p ≤ 0.003 throughout (pairs share editions, so p is descriptive).*
 
 **Table 1a.** Sensitivity: without Christenson's Ximénez
 
 | Method | ARI: K'iche' ↔ K'iche' (6 pairs) | chance | ARI: K'iche' ↔ translation (12 pairs) | chance | F1: K'iche' ↔ K'iche' (6 pairs) | chance | F1: K'iche' ↔ translation (12 pairs) | chance |
 |---|---|---|---|---|---|---|---|---|
 | TF-IDF → Ward | 0.82 (0.77–1.00) | 0.41 | 0.78 (0.66–1.00) | 0.42 | 0.98 (0.87–1.00) | 0.75 | 0.97 (0.87–1.00) | 0.80 |
-| LSA → Ward | 0.83 (0.71–0.94) | 0.47 | 0.74 (0.58–0.92) | 0.44 | 0.93 (0.86–1.00) | 0.80 | 0.91 (0.82–1.00) | 0.78 |
+| LSA → Ward | 0.92 (0.84–1.00) | 0.49 | 0.79 (0.66–0.88) | 0.45 | 1.00 (1.00–1.00) | 0.80 | 0.95 (0.86–1.00) | 0.73 |
 | Cosine-Sim → Ward | 0.84 (0.72–0.92) | 0.44 | 0.82 (0.61–1.00) | 0.45 | 0.93 (0.86–1.00) | 0.78 | 0.96 (0.86–1.00) | 0.80 |
 | NMF → argmax | 0.91 (0.84–1.00) | 0.46 | 0.79 (0.70–0.87) | 0.48 | 1.00 (1.00–1.00) | 0.80 | 1.00 (1.00–1.00) | 0.80 |
 
@@ -48,11 +48,11 @@ k = 6 comes from the grid search pages, which choose k by **excess over chance**
 
 | Grid search | Methods | k\* | Held-out K'iche' ↔ translation excess at k\* |
 |---|---|---|---|
-| ARI | TF-IDF, LSA, Cosine-Sim | 6, 6, 6 | +0.48, +0.38, +0.51 |
-| Boundary F1 (±1), single method | TF-IDF, LSA, Cosine-Sim | 6, 6, 6 | +0.26, +0.18, +0.18 |
-| Boundary F1 (±1), Ensemble | TF-IDF, LSA, Cosine-Sim, NMF | 6, 6, 6, 6 | +0.28, +0.19, +0.27, +0.26 |
+| ARI | TF-IDF, LSA, Cosine-Sim | 6, 6, 6 | +0.48, +0.47, +0.51 |
+| Boundary F1 (±1), single method | TF-IDF, LSA, Cosine-Sim | 6, 6, 6 | +0.26, +0.27, +0.18 |
+| Boundary F1 (±1), Ensemble (recommended: 40 chunks, max_df 0.50) | TF-IDF, LSA, Cosine-Sim, NMF | 6, 6, 6, 6 | +0.26, +0.25, +0.22, +0.28 |
 
-k\* is also 6 when chosen on all pairs. These values were read from the app on 2026-10-20 (not yet scripted). If this becomes a published table, extend `agreement_table.py` to produce it.
+k\* is also 6 when chosen on all pairs. These values were read from the app on 2026-10-20, LSA and Ensemble rows updated 2026-10-21 after switching the grid searches to centered PCA (not yet scripted). If this becomes a published table, extend `agreement_table.py` to produce it.
 
 - **Two peaks in boundary F1: k = 2 and k = 6.** At k = 2 all editions agree on where the single main division falls (F1 ≈ 1.0 against chance ≈ 0.67). That is a real result about the text's primary break, worth a sentence in the essay, but it is a different question from the episode structure, so k\* is chosen among k ≥ 3.
 - **From about k = 8 up, boundary agreement is no better than chance.**

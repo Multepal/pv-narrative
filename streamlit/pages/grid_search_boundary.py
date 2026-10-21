@@ -41,7 +41,7 @@ ENSEMBLE_METHODS = ["TF-IDF", "LSA", "Cosine-Sim", "NMF"]
 
 METHOD_LABELS = {
     "TF-IDF":         "TF-IDF → Ward HAC",
-    "LSA":            f"TF-IDF → LSA (SVD, n={N_COMPONENTS}) → Ward HAC",
+    "LSA":            f"TF-IDF → PCA/LSA (centered, n={N_COMPONENTS}) → Ward HAC",
     "Cosine-Sim":     "TF-IDF → cosine-similarity matrix → Ward HAC",
     "NMF":            "TF-IDF → NMF (full fit per k)",
     "KLD Resonance":  "KLD Resonance — novelty/transience peaks across editions",
